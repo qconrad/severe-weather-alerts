@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SevereWeatherAlerts</string>
+    <string name="default_title">Winter Storm Watch</string>
 </resources>
