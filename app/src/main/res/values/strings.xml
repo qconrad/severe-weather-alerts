@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">SevereWeatherAlerts</string>
-    <string name="default_title">Winter Storm Watch</string>
-    <string name="instruction">Recommended Actions</string>
+    <string name="app_name">Severe Weather Alerts</string>
+    <string name="title_placeholder">Event Title</string>
+    <string name="instruction_label">Recommended Actions</string>
+    <string name="small_headline_placeholder">SMALL HEADLINE</string>
+    <string name="description_placeholder">Description</string>
+    <string name="large_headline_placeholder">Large Headline</string>
+    <string name="instruction_placeholder">Instruction</string>
+    <string name="future_time_placeholder">Future Time</string>
+    <string name="cancel_time_placeholder">Cancel Time</string>
+    <string name="past_time_placeholder">Past Time</string>
 </resources>

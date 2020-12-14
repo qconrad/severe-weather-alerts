@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/instruction_label"
     xmlns:tools="http://schemas.android.com/tools"
+    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textColor="#fff"
     android:textSize="20sp"
     android:textStyle="bold"
-    android:text="@string/instruction"
+    android:text="@string/instruction_label"
     tools:showIn="@layout/activity_alert_viewer" />

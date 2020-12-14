@@ -12,7 +12,7 @@ public class Alert {
   private String instruction;
   private Type type;
   private Date sentTime;
-  private Date beginTime;
+  private Date startTime;
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
@@ -43,8 +43,8 @@ public class Alert {
   public Date getSentTime() { return sentTime; }
   public void setSentTime(Date sentTime) { this.sentTime = sentTime; }
 
-  public Date getStartTime() { return beginTime; }
-  public void setStartTime(Date beginTime) { this.beginTime = beginTime; }
+  public Date getStartTime() { return startTime; }
+  public void setStartTime(Date startTime) { this.startTime = startTime; }
 
   public Date getEndTime() { return endTime; }
   public void setEndTime(Date endTime) { this.endTime = endTime; }
@@ -55,5 +55,9 @@ public class Alert {
   public boolean isLikelyLastUpdate() {
     if (expectedUpdateTime == null) return true;
     return expectedUpdateTime.getTime() >= endTime.getTime();
+  }
+
+  public boolean isBeforeStart(Date date) {
+    return date.getTime() < startTime.getTime();
   }
 }

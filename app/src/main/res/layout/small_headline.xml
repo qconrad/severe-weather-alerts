@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/small_headline"
+    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:textStyle="bold"
-    android:text="WINTER STORM WATCH IN EFFECT FROM 3 PM FRIDAY UNTIL 4 AM SUNDAY"
+    android:text="@string/small_headline_placeholder"
     tools:showIn="@layout/activity_alert_viewer" />

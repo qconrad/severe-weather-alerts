@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/large_headline_box"
+    android:visibility="gone"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp"
     android:layout_width="match_parent"
@@ -8,12 +10,13 @@
     tools:showIn="@layout/activity_alert_viewer">
 
     <TextView
+        android:id="@+id/large_headline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="#fff"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="Major Winter Storm Likely This Weekend into Early Next Week" />
+        android:text="@string/large_headline_placeholder" />
 
 </LinearLayout>
