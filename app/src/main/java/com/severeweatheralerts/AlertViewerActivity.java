@@ -2,8 +2,10 @@ package com.severeweatheralerts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,18 +23,52 @@ public class AlertViewerActivity extends AppCompatActivity {
     setContentView(R.layout.activity_alert_viewer);
 
     makeStatusBarTransparent();
+    getAlertFromExtras();
     populateUIWithAlertData();
+  }
+
+  private void getAlertFromExtras() {
+    Bundle bundle = getIntent().getExtras();
+    if (bundle != null) {
+      int locIndex = bundle.getInt("locIndex");
+      int alertIndex = bundle.getInt("alertIndex");
+      al = LocationsDao.getLocationList().get(locIndex).getAlerts().get(alertIndex);
+    }
   }
 
   private void populateUIWithAlertData() {
     if (validAlert()) {
+      removeNullMessage();
       setTitle();
       setTimes();
       setLargeHeadline();
       setSmallHeadline();
       setDescription();
       setInstruction();
+      setTitleCardColor();
+      setBackgroundColor();
     }
+  }
+
+  private void removeNullMessage() {
+    TextView notFoundMsg = (TextView) findViewById(R.id.not_found_message);
+    notFoundMsg.setVisibility(View.GONE);
+  }
+
+  private void setBackgroundColor() {
+    View titleCard = findViewById(R.id.alert_viewer);
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xFF616261,0xFF131313});
+    titleCard.setBackground(gd);
+  }
+
+  private void setTitleCardColor() {
+    View titleCard = findViewById(R.id.title_card);
+    titleCard.setVisibility(View.VISIBLE);
+    float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
+    GradientDrawable gd = new GradientDrawable();
+    gd.setCornerRadius(fiftyDP);
+    gd.setColor(0xFF00CC00);
+    titleCard.setBackground(gd);
   }
 
   private void setTimes() {

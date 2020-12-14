@@ -2,15 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/alert_viewer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
     tools:context=".AlertViewerActivity">
 
+    <TextView
+        android:paddingHorizontal="30dp"
+        android:id="@+id/not_found_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/alert_not_found_error_message"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+        app:layout_constraintStart_toStartOf="@+id/scrollView2"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+
     <ScrollView
-        android:paddingHorizontal="15dp"
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,46 +32,48 @@
             android:orientation="vertical">
 
             <include
+                android:id="@+id/title_card"
+                layout="@layout/title_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                layout="@layout/title_card"/>
+                android:visibility="gone" />
 
             <include
+                layout="@layout/time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/time"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/large_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/large_headline"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/small_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/small_headline"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/description"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/instruction_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                layout="@layout/instruction_label"/>
+                android:layout_marginTop="10dp" />
 
             <include
+                layout="@layout/instruction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                layout="@layout/instruction"/>
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
 
