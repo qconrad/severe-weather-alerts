@@ -8,7 +8,7 @@
     tools:context=".AlertViewerActivity">
 
     <ScrollView
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,11 +20,54 @@
             <!-- Title Card -->
             <include
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 layout="@layout/title_card"/>
 
+            <!-- Time -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                layout="@layout/time"/>
+
+            <!-- Large Headline -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                layout="@layout/large_headline"/>
+
+            <!-- Small Headline -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                layout="@layout/small_headline"/>
+
+            <!-- Description Headline -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                layout="@layout/description"/>
+
+            <!-- Instruction Title -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                layout="@layout/instruction_title"/>
+
+            <!-- Instruction -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                layout="@layout/instruction"/>
+
         </LinearLayout>
+
     </ScrollView>
 
 
