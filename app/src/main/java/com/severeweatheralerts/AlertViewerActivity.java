@@ -51,13 +51,13 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void removeNullMessage() {
-    TextView notFoundMsg = (TextView) findViewById(R.id.not_found_message);
+    TextView notFoundMsg = findViewById(R.id.not_found_message);
     notFoundMsg.setVisibility(View.GONE);
   }
 
   private void setBackgroundColor() {
     View titleCard = findViewById(R.id.alert_viewer);
-    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xFF616261,0xFF131313});
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xFF550000,0xFF050000});
     titleCard.setBackground(gd);
   }
 
@@ -67,7 +67,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(fiftyDP);
-    gd.setColor(0xFF00CC00);
+    gd.setColor(0xFF770000);
     titleCard.setBackground(gd);
   }
 
