@@ -123,7 +123,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void setTitle() {
-    TextView title = findViewById(R.id.title);
+    TextView title = findViewById(R.id.card_title);
     title.setText(al.getName());
   }
 

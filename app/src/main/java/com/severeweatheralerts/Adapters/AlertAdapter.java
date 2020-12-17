@@ -94,7 +94,7 @@ public class AlertAdapter {
     al.setType(new TypeAdapter(ua.getType()).adaptType());
   }
 
-  public ArrayList<Alert> getAlerts() {
+  public ArrayList<Alert> getAdaptedAlerts() {
     return alerts;
   }
 }

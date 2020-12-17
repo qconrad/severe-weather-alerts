@@ -16,7 +16,7 @@ public class LocationAlertPopulator {
   }
 
   private static ArrayList<Alert> convertDataToAlerts(String alertData) {
-    return new AlertAdapter(new AlertParser(alertData).getParsedAlerts()).getAlerts();
+    return new AlertAdapter(new AlertParser(alertData).getParsedAlerts()).getAdaptedAlerts();
   }
 
   private static String getAlertData() throws IOException {
@@ -24,7 +24,7 @@ public class LocationAlertPopulator {
   }
 
   private static InputStream fetchData() throws IOException {
-    return (InputStream) new DataFetchService("https://api.weather.gov/alerts").fetchData();
+    return (InputStream) new DataFetchService("https://api.weather.gov/alerts?status=actual").fetchData();
   }
 
   private static String inputStreamToString(InputStream inputStream) throws IOException {

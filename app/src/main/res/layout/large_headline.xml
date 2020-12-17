@@ -16,7 +16,7 @@
         android:gravity="center"
         android:textColor="#fff"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:text="@string/large_headline_placeholder" />
 
 </LinearLayout>

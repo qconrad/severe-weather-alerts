@@ -16,7 +16,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("Winter Storm Warning", aa.getAlerts().get(0).getName());
+    assertEquals("Winter Storm Warning", aa.getAdaptedAlerts().get(0).getName());
   }
 
   @Test
@@ -28,7 +28,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     String expectedParse = "* WHAT...Lake effect snow and strong winds expected. Total snow accumulations of 2 to 5 inches across Porter County and northeast Jasper County. North winds gusting as high as 45 mph along the Lake Michigan shoreline and to 40 mph inland through this afternoon.\n\n* WHERE...Porter and Jasper Counties.\n\n* WHEN...Through 6 AM CST Tuesday.\n\n* IMPACTS...Lake effect snow can produce rapidly changing conditions, including sharp reductions in visibility, over short distances. Plan on slippery road conditions, especially under any heavier lake effect snow bands. Additionally, the strong north winds will result in difficult travel for high profile vehicles on west to east oriented roads. The hazardous conditions due to snow and wind will likely impact the interstate 80, 90 and 94 corridors through northwest Indiana, developing this morning and persisting through early Tuesday morning.";
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(expectedParse, aa.getAlerts().get(0).getDescription());
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
 
   @Test
@@ -38,7 +38,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Severity.MINOR, aa.getAlerts().get(0).getSeverity());
+    assertEquals(Alert.Severity.MINOR, aa.getAdaptedAlerts().get(0).getSeverity());
   }
 
   @Test
@@ -48,7 +48,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Severity.MODERATE, aa.getAlerts().get(0).getSeverity());
+    assertEquals(Alert.Severity.MODERATE, aa.getAdaptedAlerts().get(0).getSeverity());
   }
 
   @Test
@@ -58,7 +58,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Severity.SEVERE, aa.getAlerts().get(0).getSeverity());
+    assertEquals(Alert.Severity.SEVERE, aa.getAdaptedAlerts().get(0).getSeverity());
   }
 
   @Test
@@ -68,7 +68,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Severity.EXTREME, aa.getAlerts().get(0).getSeverity());
+    assertEquals(Alert.Severity.EXTREME, aa.getAdaptedAlerts().get(0).getSeverity());
   }
 
   @Test
@@ -78,7 +78,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Severity.UNKNOWN, aa.getAlerts().get(0).getSeverity());
+    assertEquals(Alert.Severity.UNKNOWN, aa.getAdaptedAlerts().get(0).getSeverity());
   }
 
   @Test
@@ -88,7 +88,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -99,7 +99,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(headline, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(headline, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -111,7 +111,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "SMALL CRAFT ADVISORY NOW IN EFFECT UNTIL 10 PM EST THIS EVENING\n\nSMALL CRAFT ADVISORY REMAINS IN EFFECT FROM 9 AM TO 6 PM EST TUESDAY\n\nGALE WARNING IS CANCELLED";
-    assertEquals(expected, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -122,7 +122,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getSmallHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -134,7 +134,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "Light Snow and Strong Winds Return to Northeast and East Central NM";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -146,7 +146,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "A Strong Thunderstorm Will Affect Central Litchfield County";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -158,7 +158,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "A Line of Downpours With Gusty Winds Will Affect Northern Berkshire, Northeastern Columbia, Southern Washington, Eastern Rensselaer, Bennington and Western Windham Counties";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -170,7 +170,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "Forecast flooding increased from Minor to Moderate severity and increased in duration until late tonight";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -182,7 +182,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "Heavy Rain in Eastern Massachusetts and Eastern Rhode Island May Cause Localized Street Flooding Early This Evening";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -193,7 +193,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -206,7 +206,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("Winter Weather Advisory Issued for 4 Northeast Alabama Counties", aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals("Winter Weather Advisory Issued for 4 Northeast Alabama Counties", aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -219,7 +219,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("Additional Snowfall Accumulation Expected Tonight", aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals("Additional Snowfall Accumulation Expected Tonight", aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -232,7 +232,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(nwsHeadline, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(nwsHeadline, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -245,7 +245,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    String actualDesc = aa.getAlerts().get(0).getDescription();
+    String actualDesc = aa.getAdaptedAlerts().get(0).getDescription();
     assertFalse("Description contains headline that should have been removed. Actual Description: \n" + actualDesc, actualDesc.contains("...WINTER WEATHER ADVISORY ISSUED FOR 4 NORTHEAST ALABAMA COUNTIES..."));
   }
 
@@ -260,7 +260,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "Scattered light snow showers have started to cause a few slick spots on roads in some higher elevations of Blount, St. Clair, Etowah, and Cherokee Counties.\n\n* WHAT...Light snow showers causing some slick spots on roads.\n\n* WHERE...Blount, Etowah, Cherokee and St. Clair Counties.\n\n* WHEN...Until midnight CST tonight.\n\n* IMPACTS...The hazardous conditions could impact the evening commute.";
-    assertEquals(expected, aa.getAlerts().get(0).getDescription());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getDescription());
   }
 
   @Test
@@ -271,7 +271,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     String expectedParse = "The National Weather Service in Mount Holly NJ has issued a\n\n* Severe Thunderstorm Warning for...\nNorthwestern Cumberland County in southern New Jersey...\nSalem County in southern New Jersey...\nCentral Camden County in southern New Jersey...\nGloucester County in southern New Jersey...\n\n* Until 530 PM EST.\n\n* At 448 PM EST, a severe thunderstorm was located over Newport Meadows, or 8 miles west of Bridgeton, moving northeast at 50 mph.\n\nHAZARD...60 mph wind gusts.\n\nSOURCE...Radar indicated.\n\nIMPACT...Damage to roofs, siding, trees, and power lines is possible.\n\n* Locations impacted include...\nCamden, Vineland, Bridgeton, Gloucester City, Deptford, Glassboro, Lindenwold, Bellmawr, Woodbury, Pitman, Clayton, Berlin, Magnolia, Westville, Woodstown, Alloway, Woodbury Heights, Quinton, Brooklawn and Chesilhurst.\n\nThis includes the following highways...\nNew Jersey Turnpike near exit 3.\nInterstate 76 in New Jersey between mile markers 0 and 1.\nInterstate 295 in New Jersey between mile markers 24 and 31.\nInterstate 676 in New Jersey near mile marker 0.\nAtlantic City Expressway between mile markers 32 and 44.";
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(expectedParse, aa.getAlerts().get(0).getDescription());
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
 
   @Test
@@ -282,7 +282,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     String expectedParse = "Protecting yourself from immediate threats to life and safety shall take priority.  Whenever possible, as long as it does not cause greater harm, all COVID-19 protective action guidance should be followed.\n\nA Tornado Watch remains in effect until 700 PM EST for southern New Jersey.\n\nFor your protection move to an interior room on the lowest floor of a building.";
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(expectedParse, aa.getAlerts().get(0).getInstruction());
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getInstruction());
   }
 
   @Test
@@ -293,7 +293,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "Snow Reducing Visibility Will Affect Central Stillwater, Wheatland, North Central Golden Valley, Sweet Grass and Central Park Counties";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -304,7 +304,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "A Few Snow Flurries Possible This Evening Across the Northern Upstate and the Foothills and Western Piedmont of North Carolina";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -315,7 +315,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "The Storm Is Coming";
-    assertEquals(expected, aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -325,7 +325,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Type.POST, aa.getAlerts().get(0).getType());
+    assertEquals(Alert.Type.POST, aa.getAdaptedAlerts().get(0).getType());
   }
 
   @Test
@@ -335,7 +335,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Type.UPDATE, aa.getAlerts().get(0).getType());
+    assertEquals(Alert.Type.UPDATE, aa.getAdaptedAlerts().get(0).getType());
   }
 
   @Test
@@ -345,7 +345,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(Alert.Type.CANCEL, aa.getAlerts().get(0).getType());
+    assertEquals(Alert.Type.CANCEL, aa.getAdaptedAlerts().get(0).getType());
   }
 
   @Test
@@ -356,7 +356,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getInstruction());
+    assertNull(aa.getAdaptedAlerts().get(0).getInstruction());
   }
 
   @Test
@@ -367,7 +367,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(headline, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(headline, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -377,7 +377,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -387,7 +387,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606387920000L, aa.getAlerts().get(0).getSentTime().getTime());
+    assertEquals(1606387920000L, aa.getAdaptedAlerts().get(0).getSentTime().getTime());
   }
 
   @Test
@@ -397,7 +397,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606387920000L, aa.getAlerts().get(0).getStartTime().getTime());
+    assertEquals(1606387920000L, aa.getAdaptedAlerts().get(0).getStartTime().getTime());
   }
 
   @Test
@@ -407,7 +407,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606391520000L, aa.getAlerts().get(0).getEndTime().getTime());
+    assertEquals(1606391520000L, aa.getAdaptedAlerts().get(0).getEndTime().getTime());
   }
 
   @Test
@@ -417,7 +417,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606395120000L, aa.getAlerts().get(0).getEndTime().getTime());
+    assertEquals(1606395120000L, aa.getAdaptedAlerts().get(0).getEndTime().getTime());
   }
   // TODO: check and make sure till time isn't set
 
@@ -429,7 +429,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606387920000L, aa.getAlerts().get(0).getExpectedUpdateTime().getTime());
+    assertEquals(1606387920000L, aa.getAdaptedAlerts().get(0).getExpectedUpdateTime().getTime());
   }
 
   @Test
@@ -440,7 +440,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(1606395120000L, aa.getAlerts().get(0).getEndTime().getTime());
+    assertEquals(1606395120000L, aa.getAdaptedAlerts().get(0).getEndTime().getTime());
   }
 
   @Test
@@ -450,7 +450,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getExpectedUpdateTime());
+    assertNull(aa.getAdaptedAlerts().get(0).getExpectedUpdateTime());
   }
 
   @Test
@@ -461,7 +461,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertTrue(aa.getAlerts().get(0).isLikelyLastUpdate());
+    assertTrue(aa.getAdaptedAlerts().get(0).isLikelyLastUpdate());
   }
 
   @Test
@@ -472,7 +472,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertFalse(aa.getAlerts().get(0).isLikelyLastUpdate());
+    assertFalse(aa.getAdaptedAlerts().get(0).isLikelyLastUpdate());
   }
 
   @Test
@@ -484,7 +484,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -496,7 +496,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("WINTER WEATHER ADVISORY IS CANCELLED", aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals("WINTER WEATHER ADVISORY IS CANCELLED", aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -507,7 +507,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("Snow Ending but Strong Winds with Blowing Snow Still Possible Today\n\nProlonged, Dangerous Cold and Wind Chills this Week", aa.getAlerts().get(0).getLargeHeadline());
+    assertEquals("Snow Ending but Strong Winds with Blowing Snow Still Possible Today\n\nProlonged, Dangerous Cold and Wind Chills this Week", aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -518,7 +518,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("WINTER STORM WARNING REMAINS IN EFFECT UNTIL NOON CST TODAY\n\nWIND CHILL ADVISORY IN EFFECT FROM 6 PM THIS EVENING TO 6 AM CST TUESDAY\n\nWIND CHILL WARNING IN EFFECT FROM 6 AM TUESDAY TO NOON CST THURSDAY", aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals("WINTER STORM WARNING REMAINS IN EFFECT UNTIL NOON CST TODAY\n\nWIND CHILL ADVISORY IN EFFECT FROM 6 PM THIS EVENING TO 6 AM CST TUESDAY\n\nWIND CHILL WARNING IN EFFECT FROM 6 AM TUESDAY TO NOON CST THURSDAY", aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -531,8 +531,8 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     String headline1 = "Snow Ending but Strong Winds with Blowing Snow Still Possible Today";
     String headline2 = "Prolonged, Dangerous Cold and Wind Chills this Week";
-    assertFalse("The first headline is still in the description.\nHeadline:\n" + headline1 + "\nDescription:\n" + aa.getAlerts().get(0).getDescription(), aa.getAlerts().get(0).getDescription().contains(headline1));
-    assertFalse("The second headline is still in the description.\nHeadline:\n" + headline2 + "\nDescription:\n" + aa.getAlerts().get(0).getDescription(), aa.getAlerts().get(0).getDescription().contains(headline2));
+    assertFalse("The first headline is still in the description.\nHeadline:\n" + headline1 + "\nDescription:\n" + aa.getAdaptedAlerts().get(0).getDescription(), aa.getAdaptedAlerts().get(0).getDescription().contains(headline1));
+    assertFalse("The second headline is still in the description.\nHeadline:\n" + headline2 + "\nDescription:\n" + aa.getAdaptedAlerts().get(0).getDescription(), aa.getAdaptedAlerts().get(0).getDescription().contains(headline2));
   }
 
   @Test
@@ -543,7 +543,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals("Light snow will continue\n\n* WHAT...Light snow", aa.getAlerts().get(0).getDescription());
+    assertEquals("Light snow will continue\n\n* WHAT...Light snow", aa.getAdaptedAlerts().get(0).getDescription());
   }
 
   @Test
@@ -553,7 +553,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -564,7 +564,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertEquals(headline, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(headline, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -576,7 +576,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "HEAVY FREEZING SPRAY WARNING TONIGHT AND FRIDAY\n\nSMALL CRAFT ADVISORY FRIDAY";
-    assertEquals(expected, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -587,7 +587,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -599,7 +599,7 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     String expected = "SIGNIFICANT WEATHER ADVISORY FOR NORTHEASTERN WILL, EASTERN DUPAGE, COOK, WEST CENTRAL PORTER AND LAKE COUNTIES UNTIL 145 AM";
-    assertEquals(expected, aa.getAlerts().get(0).getSmallHeadline());
+    assertEquals(expected, aa.getAdaptedAlerts().get(0).getSmallHeadline());
   }
 
   @Test
@@ -610,7 +610,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertNull(aa.getAlerts().get(0).getLargeHeadline());
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
   @Test
@@ -620,6 +620,6 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
-    assertTrue(aa.getAlerts().get(0).isLikelyLastUpdate());
+    assertTrue(aa.getAdaptedAlerts().get(0).isLikelyLastUpdate());
   }
 }

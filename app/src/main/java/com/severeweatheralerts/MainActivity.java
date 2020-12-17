@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
 
@@ -25,6 +27,19 @@ public class MainActivity extends AppCompatActivity {
     startActivity(alertIntent);
   }
 
+  private void populateAlertList() {
+    RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(LocationsDao.getLocation(0).getAlerts());
+    alertRecyclerViewAdapter.setClickListener(new AlertCardClickedListener() {
+      @Override
+      public void onAlertCardClicked(int position) {
+        displayFullAlert(0, position);
+      }
+    });
+    recyclerView.setAdapter(alertRecyclerViewAdapter);
+  }
+
   private class AsyncRefresh extends AsyncTask<Void, Void, Void> {
     Location location = new Location();
     @Override
@@ -37,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostExecute(Void result) {
       LocationsDao.addLocation(location);
-      displayFullAlert(0, 0);
+      populateAlertList();
     }
   }
 }
