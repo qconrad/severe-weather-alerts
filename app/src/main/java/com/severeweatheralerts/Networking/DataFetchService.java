@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Networking;
 
 import java.io.IOException;
 import java.net.URL;

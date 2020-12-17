@@ -8,9 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.AlertListRecyclerView.AlertCardClickedListener;
+import com.severeweatheralerts.AlertListRecyclerView.AlertRecyclerViewAdapter;
+
 import java.io.IOException;
 
-import static com.severeweatheralerts.LocationAlertPopulator.populateLocationWithAlertsForThatLocation;
+import static com.severeweatheralerts.Networking.LocationAlertPopulator.populateLocationWithAlertsForThatLocation;
 
 public class MainActivity extends AppCompatActivity {
   @Override
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     startActivity(alertIntent);
   }
 
-  private void populateAlertList() {
+  private void populateRecyclerView() {
     RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(LocationsDao.getLocation(0).getAlerts());
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostExecute(Void result) {
       LocationsDao.addLocation(location);
-      populateAlertList();
+      populateRecyclerView();
     }
   }
 }

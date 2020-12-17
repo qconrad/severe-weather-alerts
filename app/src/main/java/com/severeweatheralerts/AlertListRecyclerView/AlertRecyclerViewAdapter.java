@@ -1,16 +1,18 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.AlertListRecyclerView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.R;
 
 import java.util.List;
 
-public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecyclerViewAdapter.AlertHolder> {
+public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHolder> {
   private List<Alert> alertItemList;
   private AlertCardClickedListener clickListener;
 
@@ -22,22 +24,22 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
     this.alertItemList = alertItemList;
   }
 
+  @NonNull
   @Override
-  public AlertHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public AlertCardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View alertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.title_card, parent, false);
-    return new AlertHolder(alertView);
+    return new AlertCardHolder(alertView);
   }
 
   @Override
-  public void onBindViewHolder(final AlertHolder holder, final int position) {
+  public void onBindViewHolder(final AlertCardHolder holder, final int position) {
     holder.title.setText(alertItemList.get(position).getName());
 //    holder.alertIcon.setImageResource(alertItemList.get(position).getIcon());
 
     holder.card.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (clickListener != null)
-          clickListener.onAlertCardClicked(position);
+        if (clickListener != null) clickListener.onAlertCardClicked(position);
       }
     });
   }
@@ -45,18 +47,5 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertRecycler
   @Override
   public int getItemCount() {
     return alertItemList.size();
-  }
-
-  public static class AlertHolder extends RecyclerView.ViewHolder {
-    LinearLayout card;
-    TextView title;
-    //ImageView icon;
-
-    public AlertHolder(View view) {
-      super(view);
-      card = view.findViewById(R.id.card_background);
-      title = view.findViewById(R.id.card_title);
-      //icon = view.findViewById(R.id.card_icon);
-    }
   }
 }

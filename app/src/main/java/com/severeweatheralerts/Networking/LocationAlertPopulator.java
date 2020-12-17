@@ -1,7 +1,9 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Networking;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
+import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.JSONParsing.AlertParser;
+import com.severeweatheralerts.Location;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
