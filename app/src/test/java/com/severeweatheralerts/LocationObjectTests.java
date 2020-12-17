@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 public class LocationObjectTests {
@@ -26,5 +28,16 @@ public class LocationObjectTests {
     loc.addAlert(makeAlert());
     int size = loc.getAlerts().size();
     assertEquals(1, size);
+  }
+
+  @Test
+  public void setAlert_twoAlertsAreAdded_TwoAlertsReturned() {
+    Location loc = makeLocation();
+    ArrayList<Alert> alertList = new ArrayList<>();
+    alertList.add(new Alert());
+    alertList.add(new Alert());
+    loc.setAlerts(alertList);
+    int size = loc.getAlerts().size();
+    assertEquals(2, size);
   }
 }

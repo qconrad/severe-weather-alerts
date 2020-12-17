@@ -15,4 +15,8 @@ public class Location {
   public void addAlert(Alert alert) {
     alerts.add(alert);
   }
+
+  public void setAlerts(ArrayList<Alert> alertList) {
+    this.alerts = alertList;
+  }
 }
