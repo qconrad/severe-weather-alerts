@@ -622,4 +622,16 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertTrue(aa.getAdaptedAlerts().get(0).isLikelyLastUpdate());
   }
+
+  @Test
+  public void adaptAlerts_OneWinterWeatherAdvisoryIsAdded_HeadlineFromDescriptionIsLargeHeadline() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Winter Weather Advisory");
+    pa.setDescription("...Several Inches of Snow and Some Freezing Rain Expected mid to\nlate Tuesday afternoon through Early Wednesday Morning...\n\n* WHAT...Snow, at times heavy in the early evening,\ntransitioning to mixed precipitation including freezing rain.\nTotal snow and sleet accumulations of 1 to 5 inches, highest\nfrom Interstate 88 and north. Ice accumulations of up to one\nto two tenths of an inch are possible away from the Lake\nMichigan shore and just inland.\n\n");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    String expectedParse = "Several Inches of Snow and Some Freezing Rain Expected mid to late Tuesday afternoon through Early Wednesday Morning";
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getLargeHeadline());
+  }
 }

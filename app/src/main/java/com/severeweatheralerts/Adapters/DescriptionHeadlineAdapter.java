@@ -19,7 +19,18 @@ public class DescriptionHeadlineAdapter {
   }
 
   private String combineAndPrettyUpDescHeadlines(ArrayList<String> headlineList) {
-    return toTitleCase(removePeriodsAndTrim(combineAllHeadlines(headlineList)));
+    cleanUpHeadLines(headlineList);
+    return combineAllHeadlines(headlineList);
+  }
+
+  private void cleanUpHeadLines(ArrayList<String> headlineList) {
+    for (int i = 0; i < headlineList.size(); i++) {
+      headlineList.set(i, toTitleCase(removePeriodsAndNewLinesFromText(headlineList.get(i))));
+    }
+  }
+
+  private String removePeriodsAndNewLinesFromText(String text) {
+    return text.trim().replace("\n", " ").replaceAll("\\.", "");
   }
 
   private boolean noMatches(ArrayList<String> headlineDescMatches) {
@@ -27,17 +38,13 @@ public class DescriptionHeadlineAdapter {
   }
 
   private ArrayList<String> matchHeadlines(String text) {
-    return match("\\.\\.\\..*\\.\\.\\.\\n", text);
+    return match("\\.\\.\\.(\n|.)*?\\.\\.\\.\\n\\n", text);
   }
 
   private String combineAllHeadlines(ArrayList<String> headlineList) {
     StringBuilder largeHeadline = new StringBuilder();
     for (int i = 0; i < headlineList.size(); i++)
-      largeHeadline.append(headlineList.get(i)).append("\n");
-    return largeHeadline.toString();
-  }
-
-  private String removePeriodsAndTrim(String text) {
-    return text.replaceAll("\\.", "").trim();
+      largeHeadline.append(headlineList.get(i)).append("\n\n");
+    return largeHeadline.toString().trim();
   }
 }
