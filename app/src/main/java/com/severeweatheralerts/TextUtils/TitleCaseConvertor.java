@@ -24,6 +24,7 @@ public class TitleCaseConvertor {
   }
 
   private static String capatalizeFirstLetter(String word) {
+    if (word.equals("")) return word;
     char[] chars = word.toCharArray();
     chars[0] = Character.toUpperCase(chars[0]);
     return String.valueOf(chars);

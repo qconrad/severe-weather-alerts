@@ -634,4 +634,14 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
+
+  @Test
+  public void adaptAlerts_TwoSpacesInTitleCase_DoesNotCrash() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Winter Weather Advisory");
+    pa.setNwsHeadline("THE FLOOD WARNING  CONTINUES FOR THE FOLLOWING RIVERS IN TEXAS");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    new AlertAdapter(alerts);
+  }
 }
