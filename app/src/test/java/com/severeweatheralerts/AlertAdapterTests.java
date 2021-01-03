@@ -636,7 +636,7 @@ public class AlertAdapterTests {
   }
 
   @Test
-  public void adaptAlerts_TwoSpacesInTitleCase_DoesNotCrash() {
+  public void adaptAlerts_TwoSpacesInHeadline_DoesNotCrashDueToEmptyWordSplitInTitleCaseConverter() {
     UnadaptedAlert pa = new UnadaptedAlert();
     pa.setName("Winter Weather Advisory");
     pa.setNwsHeadline("THE FLOOD WARNING  CONTINUES FOR THE FOLLOWING RIVERS IN TEXAS");

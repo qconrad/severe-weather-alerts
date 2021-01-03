@@ -1,11 +1,17 @@
 package com.severeweatheralerts.AlertListRecyclerView;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.AutoSizeableTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.R;
@@ -34,6 +40,14 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
   @Override
   public void onBindViewHolder(final AlertCardHolder holder, final int position) {
     holder.title.setText(alertItemList.get(position).getName());
+
+    //float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
+    //GradientDrawable gd = new GradientDrawable();
+    //gd.setCornerRadius(fiftyDP);
+    //gd.setColor(0xFF770000);
+//
+    //holder.card.setBackground(gd);
+
 //    holder.alertIcon.setImageResource(alertItemList.get(position).getIcon());
 
     holder.card.setOnClickListener(new View.OnClickListener() {

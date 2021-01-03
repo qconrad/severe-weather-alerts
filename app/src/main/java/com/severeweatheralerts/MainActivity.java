@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
     new AsyncRefresh().execute();
   }
 
-  private void displayFullAlert(int locationIndex, int alertIndex) {
+  private void displayFullAlert(int alertIndex) {
     Intent alertIntent = new Intent(MainActivity.this, AlertViewerActivity.class);
-    alertIntent.putExtra("locIndex", locationIndex);
+    alertIntent.putExtra("locIndex", 0);
     alertIntent.putExtra("alertIndex", alertIndex);
     startActivity(alertIntent);
   }
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     alertRecyclerViewAdapter.setClickListener(new AlertCardClickedListener() {
       @Override
       public void onAlertCardClicked(int position) {
-        displayFullAlert(0, position);
+        displayFullAlert(position);
       }
     });
     recyclerView.setAdapter(alertRecyclerViewAdapter);
