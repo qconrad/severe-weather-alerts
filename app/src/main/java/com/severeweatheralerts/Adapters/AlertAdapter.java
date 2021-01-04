@@ -1,7 +1,10 @@
 package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.AlertFactory;
 import com.severeweatheralerts.UnadaptedAlert;
+import com.severeweatheralerts.WinterStormWarning;
+import com.severeweatheralerts.WinterWeatherAdvisory;
 
 import java.util.ArrayList;
 
@@ -18,10 +21,14 @@ public class AlertAdapter {
 
   private void adaptAlerts() {
     for (int i = 0; i < unadaptedAlerts.size(); i++) {
-      Alert al = new Alert();
+      Alert al = generateObject(unadaptedAlerts.get(i).getName());
       adaptAlert(unadaptedAlerts.get(i), al);
       alerts.add(al);
     }
+  }
+
+  private Alert generateObject(String name) {
+    return new AlertFactory().getAlert(name);
   }
 
   private void adaptAlert(UnadaptedAlert ua, Alert al) {

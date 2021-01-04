@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 
 public class AlertAdapterTests {
@@ -643,5 +644,25 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     new AlertAdapter(alerts);
+  }
+
+  @Test
+  public void adaptAlerts_WinterStormWarningIsGiven_IsOfTypeWinterStormWawrning() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Winter Storm Warning");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertThat(aa.getAdaptedAlerts().get(0), instanceOf(WinterStormWarning.class));
+  }
+
+  @Test
+  public void adaptAlerts_WinterWeatherAdvisoryIsGiven_IsOfTypeWinterWeatherAdvisory() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Winter Weather Advisory");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertThat(aa.getAdaptedAlerts().get(0), instanceOf(WinterWeatherAdvisory.class));
   }
 }
