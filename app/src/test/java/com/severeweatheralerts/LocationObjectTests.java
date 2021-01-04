@@ -12,7 +12,7 @@ public class LocationObjectTests {
   }
 
   private Alert makeAlert() {
-    return new Alert();
+    return new DefaultAlert();
   }
 
   @Test
@@ -34,8 +34,8 @@ public class LocationObjectTests {
   public void setAlert_twoAlertsAreAdded_TwoAlertsReturned() {
     Location loc = makeLocation();
     ArrayList<Alert> alertList = new ArrayList<>();
-    alertList.add(new Alert());
-    alertList.add(new Alert());
+    alertList.add(makeAlert());
+    alertList.add(makeAlert());
     loc.setAlerts(alertList);
     int size = loc.getAlerts().size();
     assertEquals(2, size);

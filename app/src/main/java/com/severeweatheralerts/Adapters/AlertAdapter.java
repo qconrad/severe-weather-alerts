@@ -3,8 +3,6 @@ package com.severeweatheralerts.Adapters;
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.AlertFactory;
 import com.severeweatheralerts.UnadaptedAlert;
-import com.severeweatheralerts.WinterStormWarning;
-import com.severeweatheralerts.WinterWeatherAdvisory;
 
 import java.util.ArrayList;
 

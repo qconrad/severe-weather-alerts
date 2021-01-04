@@ -67,7 +67,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(fiftyDP);
-    gd.setColor(0xFF770000);
+    gd.setColor(al.getColor());
     titleCard.setBackground(gd);
   }
 

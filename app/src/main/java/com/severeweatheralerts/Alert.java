@@ -2,7 +2,7 @@ package com.severeweatheralerts;
 
 import java.util.Date;
 
-public class Alert {
+public abstract class Alert {
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
@@ -18,6 +18,8 @@ public class Alert {
   private Severity severity;
 
   public Alert() {}
+
+  public abstract int getColor();
 
   public String getName() { return name; }
   public void setName(String name) { this.name = name; }
