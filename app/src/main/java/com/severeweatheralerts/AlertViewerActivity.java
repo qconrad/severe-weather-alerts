@@ -107,7 +107,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private boolean startsInFuture() {
-    return al.isBeforeStart(new Date());
+    return al.startsBefore(new Date());
   }
 
   private boolean isCancellation() {

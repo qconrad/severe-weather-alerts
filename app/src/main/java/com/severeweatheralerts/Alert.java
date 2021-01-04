@@ -21,6 +21,19 @@ public abstract class Alert {
 
   public abstract int getColor();
 
+  public int getColorAt(Date date) {
+    if (!activeAt(date)) return getExpiredColor();
+    return getColor();
+  }
+
+  protected int getExpiredColor() {
+    return 234;
+  }
+
+  private boolean activeAt(Date date) {
+    return endsBefore(date) && !startsBefore(date);
+  }
+
   public String getName() { return name; }
   public void setName(String name) { this.name = name; }
 
@@ -59,7 +72,11 @@ public abstract class Alert {
     return expectedUpdateTime.getTime() >= endTime.getTime();
   }
 
-  public boolean isBeforeStart(Date date) {
+  public boolean startsBefore(Date date) {
     return date.getTime() < startTime.getTime();
+  }
+
+  public boolean endsBefore(Date date) {
+    return date.getTime() < endTime.getTime();
   }
 }
