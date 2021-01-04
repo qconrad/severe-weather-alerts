@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import android.graphics.Color;
+
 import java.util.Date;
 
 public abstract class Alert {
@@ -27,7 +29,7 @@ public abstract class Alert {
   }
 
   protected int getExpiredColor() {
-    return 234;
+    return Color.parseColor("#CCCCCC");
   }
 
   private boolean activeAt(Date date) {

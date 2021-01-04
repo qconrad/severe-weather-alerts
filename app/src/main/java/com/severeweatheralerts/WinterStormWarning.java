@@ -1,8 +1,10 @@
 package com.severeweatheralerts;
 
+import android.graphics.Color;
+
 public class WinterStormWarning extends Alert {
   @Override
   public int getColor() {
-    return 253;
+    return Color.parseColor("#FF69B4");
   }
 }
