@@ -20,6 +20,6 @@ public class KeywordEmphasizer {
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return match("/*.*\\.\\.\\.", input);
+    return match("(\\* .*(:|\\.\\.\\.))|(HAZARD\\.\\.\\.)|(SOURCE\\.\\.\\.)|(IMPACT\\.\\.\\.)", input);
   }
 }
