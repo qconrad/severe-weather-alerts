@@ -39,14 +39,15 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
 
   @Override
   public void onBindViewHolder(final AlertCardHolder holder, final int position) {
-    holder.title.setText(alertItemList.get(position).getName());
+    Alert curAlert = alertItemList.get(position);
+    holder.title.setText(curAlert.getName());
 
-    //float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
-    //GradientDrawable gd = new GradientDrawable();
-    //gd.setCornerRadius(fiftyDP);
-    //gd.setColor(0xFF770000);
+    float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
+    GradientDrawable gd = new GradientDrawable();
+    gd.setCornerRadius(fiftyDP);
+    gd.setColor(curAlert.getColor());
 //
-    //holder.card.setBackground(gd);
+    holder.card.setBackground(gd);
 
 //    holder.alertIcon.setImageResource(alertItemList.get(position).getIcon());
 

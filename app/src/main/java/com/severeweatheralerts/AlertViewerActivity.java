@@ -57,7 +57,9 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void setBackgroundColor() {
     View titleCard = findViewById(R.id.alert_viewer);
-    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {0xFF550000,0xFF050000});
+    int topGradienStep = ColorBrightnessChanger.changeBrightness(al.getColor(), 0.5f);
+    int bottomGradientStep = ColorBrightnessChanger.changeBrightness(al.getColor(), 0.1f);
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradienStep, bottomGradientStep});
     titleCard.setBackground(gd);
   }
 
