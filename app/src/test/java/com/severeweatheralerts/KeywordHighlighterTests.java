@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class KeywordHighlighterTests {
   final String keywordSurroundLeft =  "<font color='#FFFFFF'><b>";
-  final String keywordSurroundRight =  "</b><font>";
+  final String keywordSurroundRight =  "</b></font>";
   @Test
   public void emphasize_DescriptionIsProvided_WhatIsEmphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
@@ -35,47 +35,56 @@ public class KeywordHighlighterTests {
   }
 
   @Test
+  public void emphasize_DescriptionIsProvided_NewLinesAreHtmlLineBreaks() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* WHAT...Light snow expected\n\n* WHERE...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected<br><br>" + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
   public void emphasize_DescriptionIsProvided_WhatAndWhereIsEmphasizedAndOtherTextIsNot() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* WHAT...Light snow expected\n\n* WHERE...";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected\n\n" + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
+    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected<br><br>" + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
 
   @Test
   public void emphasize_DescriptionIsProvidedWithColons_KeywordsAreEmphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
-    String input = "* Affected area: California\n\n";
+    String input = "* Affected area: California";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "* Affected area:" + keywordSurroundRight + " California\n\n";
+    String expectedParse = keywordSurroundLeft + "* Affected area:" + keywordSurroundRight + " California";
     assertEquals(expectedParse, output);
   }
 
   @Test
   public void emphasize_DescriptionIsProvidedWithHazardKeyword_Emphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
-    String input = "HAZARD...Tornado\n\n";
+    String input = "HAZARD...Tornado";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "HAZARD..." + keywordSurroundRight + "Tornado\n\n";
+    String expectedParse = keywordSurroundLeft + "HAZARD..." + keywordSurroundRight + "Tornado";
     assertEquals(expectedParse, output);
   }
 
   @Test
   public void emphasize_DescriptionIsProvidedWithSourceKeyword_Emphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
-    String input = "SOURCE...Radar indicated.\n\n";
+    String input = "SOURCE...Radar indicated.";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "SOURCE..." + keywordSurroundRight + "Radar indicated.\n\n";
+    String expectedParse = keywordSurroundLeft + "SOURCE..." + keywordSurroundRight + "Radar indicated.";
     assertEquals(expectedParse, output);
   }
 
   @Test
   public void emphasize_DescriptionIsProvidedWithImpactKeyword_Emphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
-    String input = "IMPACT...Expect damage to roofs siding and trees.\n\n";
+    String input = "IMPACT...Expect damage to roofs siding and trees.";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "IMPACT..." + keywordSurroundRight + "Expect damage to roofs siding and trees.\n\n";
+    String expectedParse = keywordSurroundLeft + "IMPACT..." + keywordSurroundRight + "Expect damage to roofs siding and trees.";
     assertEquals(expectedParse, output);
   }
 
@@ -87,4 +96,31 @@ public class KeywordHighlighterTests {
     String expectedParse = "It is currently 8:00";
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_DescriptionIsProvidedWithMultipleMatches_ShorterOneIsEmphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Recent Activity...The maximum river stage ending at 6:30 PM";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft + "* Recent Activity..." + keywordSurroundRight + "The maximum river stage ending at 6:30 PM";
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_DescriptionIsProvidedWithTimeAndStar_NotEmphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* At 6:30 PM";
+    String output = kw.emphasize(input);
+    String expectedParse = "* At 6:30 PM";
+    assertEquals(expectedParse, output);
+  }
+
+  //@Test
+  //public void emphasize_DescriptionIsProvided_NotEmphasizedAcrossNewLine() {
+    //KeywordEmphasizer kw = new KeywordEmphasizer();
+    //String input = "* Minor flooding is forecast.\nForecast...";
+    //String output = kw.emphasize(input);
+    //String expectedParse = "* Minor flooding is forecast.<br>" + keywordSurroundLeft + "Forecast..." + keywordSurroundRight;
+    //assertEquals(expectedParse, output);
+  //}
 }

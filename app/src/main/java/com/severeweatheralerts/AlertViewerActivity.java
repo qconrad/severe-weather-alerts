@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -153,7 +154,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void setDescription() {
     if (notNull(al.getDescription())) {
       TextView description = findViewById(R.id.description);
-      description.setText(al.getDescription());
+      description.setText(Html.fromHtml(new KeywordEmphasizer().emphasize(al.getDescription())));
       description.setVisibility(View.VISIBLE);
     }
   }
