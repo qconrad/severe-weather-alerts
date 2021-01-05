@@ -115,12 +115,21 @@ public class KeywordHighlighterTests {
     assertEquals(expectedParse, output);
   }
 
-  //@Test
-  //public void emphasize_DescriptionIsProvided_NotEmphasizedAcrossNewLine() {
-    //KeywordEmphasizer kw = new KeywordEmphasizer();
-    //String input = "* Minor flooding is forecast.\nForecast...";
-    //String output = kw.emphasize(input);
-    //String expectedParse = "* Minor flooding is forecast.<br>" + keywordSurroundLeft + "Forecast..." + keywordSurroundRight;
-    //assertEquals(expectedParse, output);
-  //}
+  @Test
+  public void emphasize_ExcessivelyLongMatchIsProvided_NotEmphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Moderate flooding is occurring and moderate flooding is forecast.\n* Recent Activity...The max";
+    String output = kw.emphasize(input);
+    String expectedParse = "* Moderate flooding is occurring and moderate flooding is forecast.<br>" + keywordSurroundLeft + "* Recent Activity..." + keywordSurroundRight + "The max";
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_DescriptionIsProvided_NotEmphasizedAcrossNewLine() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Minor flooding is forecast.\n* Forecast...";
+    String output = kw.emphasize(input);
+    String expectedParse = "* Minor flooding is forecast.<br>" + keywordSurroundLeft + "* Forecast..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
 }

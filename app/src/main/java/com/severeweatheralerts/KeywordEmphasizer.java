@@ -10,7 +10,7 @@ public class KeywordEmphasizer {
     String output = input;
     ArrayList<String> keywords = getKeywords(input);
     for (int i = 0; i < keywords.size(); i++)
-      output = highlightKeyword(output, keywords.get(i));
+      output = emphasizeKeyword(output, keywords.get(i));
     return replaceNewLinesWithHtmlLineBreaks(output);
   }
 
@@ -18,13 +18,13 @@ public class KeywordEmphasizer {
     return text.replace("\n", "<br>");
   }
 
-  protected String highlightKeyword(String text, String keyword) {
+  protected String emphasizeKeyword(String text, String keyword) {
     String htmlSurroundLeft = "<font color='#FFFFFF'><b>";
     String htmlSurroundRight = "</b></font>";
     return text.replace(keyword, htmlSurroundLeft + keyword + htmlSurroundRight);
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return match("(\\* \\D*?(:|\\.\\.\\.))|(HAZARD\\.\\.\\.)|(SOURCE\\.\\.\\.)|(IMPACT\\.\\.\\.)", input);
+    return match("(\\* \\D{4,25}?(:|\\.\\.\\.))|(HAZARD\\.\\.\\.)|(SOURCE\\.\\.\\.)|(IMPACT\\.\\.\\.)", input);
   }
 }
