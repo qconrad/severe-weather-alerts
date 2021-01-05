@@ -1,6 +1,9 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
+import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.WinterStormWarning;
+import com.severeweatheralerts.Alerts.WinterWeatherAdvisory;
 
 import org.junit.Test;
 
@@ -664,5 +667,26 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     assertThat(aa.getAdaptedAlerts().get(0), instanceOf(WinterWeatherAdvisory.class));
+  }
+
+  @Test
+  public void adaptAlerts_UnknownAlertNameGiven_DefaultAlertReturned() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Random Alert Name String");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertThat(aa.getAdaptedAlerts().get(0), instanceOf(DefaultAlert.class));
+  }
+
+  @Test
+  public void adaptAlerts_TornadoWarningTextGiven_LargeHeadlineIsNull() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Tornado Warning");
+    pa.setDescription("The National Weather Service in Sacramento has issued a\n\n* Tornado Warning for...\nEast central Tehama County in northern California...\nNorth central Butte County in northern California...\n\n* Until 400 PM PST.\n\n* At 334 PM PST, a severe thunderstorm capable of producing a tornado\nwas located 7 miles west of Butte Meadows, or 21 miles south of\nMineral, moving northeast at 20 mph.\n\nHAZARD...Tornado.\n\nSOURCE...Radar indicated rotation.\n\nIMPACT...Flying debris will be dangerous to those caught without\nshelter. Mobile homes will be damaged or destroyed.\nDamage to roofs, windows, and vehicles will occur.  Tree\ndamage is likely.\n\n* This dangerous storm will be near...\nButte Meadows around 350 PM PST.\nMill Creek around 355 PM PST.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 }

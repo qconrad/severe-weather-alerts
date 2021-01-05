@@ -38,7 +38,7 @@ public class DescriptionHeadlineAdapter {
   }
 
   private ArrayList<String> matchHeadlines(String text) {
-    return match("\\.\\.\\.(\n|.)*?\\.\\.\\.\\n\\n", text);
+    return match("\\.\\.\\.[^\n](\n|.)*?\\.\\.\\.\\n\\n", text);
   }
 
   private String combineAllHeadlines(ArrayList<String> headlineList) {
