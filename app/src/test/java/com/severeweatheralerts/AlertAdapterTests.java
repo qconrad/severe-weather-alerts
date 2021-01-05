@@ -711,4 +711,15 @@ public class AlertAdapterTests {
     String expectedParse = "* Recent Activity...The maximum river stage in the 24 hours ending at 9:00 AM CST Tuesday was 15.8 feet.\n* Forecast...The river is expected to fall below flood stage late this afternoon and continue falling to 12.6 feet Sunday morning.\n* Impact...At 15.0 feet, Minor lowland flooding begins as water escapes the main channel and inundates the flood plain.";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void adaptAlerts_GaleWarningWithDayByDayForecast_EachDayOnSeperateLine() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("Sea forecasts represent the average of the highest\none-third of the combined windwave and swell height.\n\n.TODAY...SE wind 25 kt increasing to 35 kt in the late morning.\nGusts to 55 kt. Seas building to 7 ft, except 13 ft near ocean\nentrances. Rain.\n.TONIGHT...SE wind 30 kt diminishing to 20 kt late. Seas 5 ft,\nexcept 11 ft near ocean entrances. Rain.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "Sea forecasts represent the average of the highest one-third of the combined windwave and swell height.\n\nTODAY...SE wind 25 kt increasing to 35 kt in the late morning. Gusts to 55 kt. Seas building to 7 ft, except 13 ft near ocean entrances. Rain.\nTONIGHT...SE wind 30 kt diminishing to 20 kt late. Seas 5 ft, except 11 ft near ocean entrances. Rain.";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }

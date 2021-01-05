@@ -20,7 +20,7 @@ public class TextBeautifier {
     String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
     String curLine = lineSplit[i];
     String previousLine = (i > 0) ? lineSplit[i - 1] : "";
-    return !isTwoNewLines(nextLine) && isListOrSectionHeading(nextLine, curLine, previousLine);
+    return !isTwoNewLines(nextLine) && (isListOrSectionHeading(nextLine, curLine, previousLine));
   }
 
   private static boolean isListOrSectionHeading(String nextLine, String curLine, String previousLine) {
@@ -32,20 +32,19 @@ public class TextBeautifier {
   }
 
   private static boolean isBulletedList(String nextLine, String curLine) {
-    return endsWithPeriod(curLine) && startsWithBullet(nextLine);
+    return endsWithPeriod(curLine) && startsWith(nextLine, '*') || startsWith(nextLine, '.');
   }
 
   private static boolean isUnbulletedList(String curLine, String previousLine, String nextLine) {
-    return startsWithUpperCaseChar(curLine) && endsWithPeriod(curLine) && (hasNeighboringLineWithPeriodAtEnd(previousLine, nextLine));
+    return startsWithUpperCaseChar(curLine) && endsWithPeriod(curLine) && hasNeighboringLineWithPeriodAtEnd(previousLine, nextLine);
   }
 
   private static boolean hasNeighboringLineWithPeriodAtEnd(String previousLine, String nextLine) {
     return endsWithPeriod(previousLine) || endsWithPeriod(nextLine);
   }
 
-  private static boolean startsWithBullet(String line) {
-    if (line.length() < 1) return false;
-    return line.charAt(0) == '*';
+  private static boolean startsWith(String line, char inputChar) {
+    return line.charAt(0) == inputChar;
   }
 
   private static boolean startsWithUpperCaseChar(String line) {
