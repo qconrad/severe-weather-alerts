@@ -690,14 +690,25 @@ public class AlertAdapterTests {
     assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
 
-//  @Test
-//  public void adaptAlerts_LineWithPeriodAtEndIsGiven_NewlineIsRemoved() {
-//    UnadaptedAlert pa = new UnadaptedAlert();
-//    pa.setDescription("* IMPACTS...Winds may blow down trees and power lines. Power\noutages are possible. Loose objects, including holiday\ndecorations, will be blown around. Travel will be difficult.\nBoat moorages should be monitored.");
-//    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
-//    alerts.add(pa);
-//    AlertAdapter aa = new AlertAdapter(alerts);
-//    String expectedParse = "* IMPACTS...Winds may blow down trees and power lines. Power outages are possible. Loose objects, including holiday decorations, will be blown around. Travel will be difficult. Boat moorages should be monitored.";
-//    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
-//  }
+  @Test
+  public void adaptAlerts_LineWithPeriodAtEndIsGiven_NewlineIsRemoved() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("* IMPACTS...Winds may blow down trees and power lines. Power\noutages are possible. Loose objects, including holiday\ndecorations, will be blown around. Travel will be difficult.\nBoat moorages should be monitored.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "* IMPACTS...Winds may blow down trees and power lines. Power outages are possible. Loose objects, including holiday decorations, will be blown around. Travel will be difficult. Boat moorages should be monitored.";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void adaptAlerts_FloodWarningTextIsGiven_BulletPointsAreOnSeperateLines() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("* Recent Activity...The maximum river stage in the 24 hours ending\nat 9:00 AM CST Tuesday was 15.8 feet.\n* Forecast...The river is expected to fall below flood stage late\nthis afternoon and continue falling to 12.6 feet Sunday morning.\n* Impact...At 15.0 feet, Minor lowland flooding begins as water\nescapes the main channel and inundates the flood plain.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "* Recent Activity...The maximum river stage in the 24 hours ending at 9:00 AM CST Tuesday was 15.8 feet.\n* Forecast...The river is expected to fall below flood stage late this afternoon and continue falling to 12.6 feet Sunday morning.\n* Impact...At 15.0 feet, Minor lowland flooding begins as water escapes the main channel and inundates the flood plain.";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }

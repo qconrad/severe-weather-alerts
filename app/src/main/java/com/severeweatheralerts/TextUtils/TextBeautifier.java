@@ -1,5 +1,7 @@
 package com.severeweatheralerts.TextUtils;
 
+import static com.severeweatheralerts.TextUtils.RegExMatcher.match;
+
 public class TextBeautifier {
   public static String beautify(String text) {
     if (text == null) return null;
@@ -15,12 +17,43 @@ public class TextBeautifier {
   }
 
   private static boolean shouldAppendCurrentLineWithNewLine(String[] lineSplit, int i) {
+    String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
     String curLine = lineSplit[i];
-    String nextLine = lineSplit[i + 1];
+    String previousLine = (i > 0) ? lineSplit[i - 1] : "";
+    return !isTwoNewLines(nextLine) && isListOrSectionHeading(nextLine, curLine, previousLine);
+  }
 
-    return endsWithPeriod(curLine) &&
-           !isLastLine(i, lineSplit.length) &&
-           !isTwoNewLines(nextLine);
+  private static boolean isListOrSectionHeading(String nextLine, String curLine, String previousLine) {
+    return endsWith3Periods(curLine) || isList(nextLine, curLine, previousLine);
+  }
+
+  private static boolean isList(String nextLine, String curLine, String previousLine) {
+    return isUnbulletedList(curLine, previousLine, nextLine) || isBulletedList(nextLine, curLine);
+  }
+
+  private static boolean isBulletedList(String nextLine, String curLine) {
+    return endsWithPeriod(curLine) && startsWithBullet(nextLine);
+  }
+
+  private static boolean isUnbulletedList(String curLine, String previousLine, String nextLine) {
+    return startsWithUpperCaseChar(curLine) && endsWithPeriod(curLine) && (hasNeighboringLineWithPeriodAtEnd(previousLine, nextLine));
+  }
+
+  private static boolean hasNeighboringLineWithPeriodAtEnd(String previousLine, String nextLine) {
+    return endsWithPeriod(previousLine) || endsWithPeriod(nextLine);
+  }
+
+  private static boolean startsWithBullet(String line) {
+    if (line.length() < 1) return false;
+    return line.charAt(0) == '*';
+  }
+
+  private static boolean startsWithUpperCaseChar(String line) {
+    return Character.isUpperCase(line.charAt(0));
+  }
+
+  private static boolean endsWith3Periods(String line) {
+    return match("\\.\\.\\.$", line).size() > 0;
   }
 
   private static boolean shouldAppendTwoNewLines(String curLine) {
@@ -32,6 +65,7 @@ public class TextBeautifier {
   }
 
   private static boolean endsWithPeriod(String s) {
+    if (s.length() < 1) return false;
     return s.toCharArray()[s.length()-1] == '.';
   }
 
