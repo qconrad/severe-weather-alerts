@@ -689,4 +689,15 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
+
+//  @Test
+//  public void adaptAlerts_LineWithPeriodAtEndIsGiven_NewlineIsRemoved() {
+//    UnadaptedAlert pa = new UnadaptedAlert();
+//    pa.setDescription("* IMPACTS...Winds may blow down trees and power lines. Power\noutages are possible. Loose objects, including holiday\ndecorations, will be blown around. Travel will be difficult.\nBoat moorages should be monitored.");
+//    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+//    alerts.add(pa);
+//    AlertAdapter aa = new AlertAdapter(alerts);
+//    String expectedParse = "* IMPACTS...Winds may blow down trees and power lines. Power outages are possible. Loose objects, including holiday decorations, will be blown around. Travel will be difficult. Boat moorages should be monitored.";
+//    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+//  }
 }
