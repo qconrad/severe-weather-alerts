@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,8 +40,9 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void populateUIWithAlertData() {
     if (validAlert()) {
-      removeNullMessage();
+      removeNullErrorMessage();
       setTitle();
+      setIcon();
       setTimes();
       setLargeHeadline();
       setSmallHeadline();
@@ -51,7 +53,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private void removeNullMessage() {
+  private void removeNullErrorMessage() {
     TextView notFoundMsg = findViewById(R.id.not_found_message);
     notFoundMsg.setVisibility(View.GONE);
   }
@@ -128,6 +130,11 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void setTitle() {
     TextView title = findViewById(R.id.card_title);
     title.setText(al.getName());
+  }
+
+  private void setIcon() {
+    ImageView iv = findViewById(R.id.card_icon);
+    iv.setImageResource(al.getIcon());
   }
 
   private void setLargeHeadline() {

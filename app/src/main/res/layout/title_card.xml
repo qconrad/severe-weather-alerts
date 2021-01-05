@@ -26,9 +26,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/card_icon"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="#fff" />
+                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/card_title"

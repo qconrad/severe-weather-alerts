@@ -1,17 +1,14 @@
 package com.severeweatheralerts.AlertListRecyclerView;
 
 import androidx.annotation.NonNull;
-import androidx.core.widget.AutoSizeableTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.R;
@@ -46,10 +43,9 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(fiftyDP);
     gd.setColor(curAlert.getColor());
-//
     holder.card.setBackground(gd);
 
-//    holder.alertIcon.setImageResource(alertItemList.get(position).getIcon());
+    holder.icon.setImageResource(curAlert.getIcon());
 
     holder.card.setOnClickListener(new View.OnClickListener() {
       @Override

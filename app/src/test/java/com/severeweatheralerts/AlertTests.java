@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.DefaultAlert;
+
 import org.junit.Test;
 
 import java.util.Date;

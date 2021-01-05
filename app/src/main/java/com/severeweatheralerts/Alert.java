@@ -22,6 +22,7 @@ public abstract class Alert {
   public Alert() {}
 
   public abstract int getColor();
+  public abstract int getIcon();
 
   public int getColorAt(Date date) {
     if (!activeAt(date)) return getExpiredColor();
