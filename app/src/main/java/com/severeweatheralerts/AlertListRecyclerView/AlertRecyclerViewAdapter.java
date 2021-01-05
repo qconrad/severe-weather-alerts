@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.R;
 
+import java.util.Date;
 import java.util.List;
 
 public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHolder> {
@@ -43,7 +43,7 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
     float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(fiftyDP);
-    gd.setColor(curAlert.getColor());
+    gd.setColor(curAlert.getColorAt(new Date()));
     holder.card.setBackground(gd);
 
     holder.icon.setImageResource(curAlert.getIcon());

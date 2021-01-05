@@ -30,11 +30,16 @@ public abstract class Alert {
   }
 
   protected int getExpiredColor() {
-    return Color.parseColor("#CCCCCC");
+    return Color.parseColor("#515151");
   }
 
-  private boolean activeAt(Date date) {
-    return endsBefore(date) && !startsBefore(date);
+  public boolean activeAt(Date date) {
+    if (isCancel()) return false;
+    else return endsBefore(date);
+  }
+
+  private boolean isCancel() {
+    return type.equals(Type.CANCEL);
   }
 
   public String getName() { return name; }

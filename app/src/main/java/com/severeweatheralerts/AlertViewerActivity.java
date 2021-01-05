@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,20 +60,22 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void setBackgroundColor() {
+    int alertColor = al.getColorAt(new Date());
     View titleCard = findViewById(R.id.alert_viewer);
-    int topGradienStep = ColorBrightnessChanger.changeBrightness(al.getColor(), 0.5f);
-    int bottomGradientStep = ColorBrightnessChanger.changeBrightness(al.getColor(), 0.1f);
+    int topGradienStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.5f);
+    int bottomGradientStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.1f);
     GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradienStep, bottomGradientStep});
     titleCard.setBackground(gd);
   }
 
   private void setTitleCardColor() {
+    int alertColor = al.getColorAt(new Date());
     View titleCard = findViewById(R.id.title_card);
     titleCard.setVisibility(View.VISIBLE);
     float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(fiftyDP);
-    gd.setColor(al.getColor());
+    gd.setColor(alertColor);
     titleCard.setBackground(gd);
   }
 
@@ -104,12 +107,18 @@ public class AlertViewerActivity extends AppCompatActivity {
     futureTime.setVisibility(View.VISIBLE);
     if (startsInFuture())
       futureTime.setText("Active in " + new RelativeTimeFormatter(new Date(), al.getStartTime()).getFormattedString());
+    else if (expired())
+      futureTime.setText("Expired " + new RelativeTimeFormatter(new Date(), al.getEndTime()).getFormattedString() + " ago");
     else
       futureTime.setText("Active next " + new RelativeTimeFormatter(new Date(), al.getEndTime()).getFormattedString());
   }
 
   private boolean startsInFuture() {
     return al.startsBefore(new Date());
+  }
+
+  private boolean expired() {
+    return !al.activeAt(new Date());
   }
 
   private boolean isCancellation() {

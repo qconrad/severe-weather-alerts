@@ -25,4 +25,11 @@ public class AlertTests {
     Date mockCurrentTime = new Date(1577839500000L); // 01/01/2020 12:45 AM
     assertFalse(al.startsBefore(mockCurrentTime));
   }
+
+  @Test
+  public void CreateAlertObject_TypeIsCancel_IsNotActive() {
+    DefaultAlert al = new DefaultAlert();
+    al.setType(Alert.Type.CANCEL);
+    assertFalse(al.activeAt(new Date(1577839500000L))); // Date doesn't matter
+  }
 }
