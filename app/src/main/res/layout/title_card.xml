@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     android:id="@+id/card"
     android:elevation="32dp"
+    android:transitionName="zoom"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,9 +39,8 @@
                 android:textColor="#fff"
                 android:layout_marginLeft="5dp"
                 android:maxLines="1"
-                android:textSize="35dp"
-                android:autoSizeTextType="uniform"
-                android:text="Tornado Watch"
+                android:textSize="15dp"
+                android:text="Heavy Freezing Spray Warning"
                 android:textStyle="bold"
                 android:layout_marginStart="5dp" />
 

@@ -1,5 +1,5 @@
 package com.severeweatheralerts.AlertListRecyclerView;
 
 public interface AlertCardClickedListener {
-  void onAlertCardClicked(int position);
+  void onAlertCardClicked(int position, AlertCardHolder holder);
 }

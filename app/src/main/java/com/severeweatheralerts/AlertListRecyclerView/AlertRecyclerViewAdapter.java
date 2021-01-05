@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
     holder.card.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (clickListener != null) clickListener.onAlertCardClicked(position);
+        if (clickListener != null) clickListener.onAlertCardClicked(position, holder);
       }
     });
   }

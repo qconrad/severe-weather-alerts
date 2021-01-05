@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.severeweatheralerts.R;
 
 public class AlertCardHolder extends ViewHolder {
-  CardView card;
-  TextView title;
-  ImageView icon;
+  public CardView card;
+  public TextView title;
+  public ImageView icon;
 
   public AlertCardHolder(View view) {
     super(view);
