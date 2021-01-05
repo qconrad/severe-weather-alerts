@@ -14,6 +14,7 @@
         android:id="@+id/large_headline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textIsSelectable="true"
         android:gravity="center"
         android:textColor="#fff"
         android:textStyle="bold"
