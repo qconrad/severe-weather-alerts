@@ -132,4 +132,22 @@ public class KeywordHighlighterTests {
     String expectedParse = "* Minor flooding is forecast.<br>" + keywordSurroundLeft + "* Forecast..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_DescriptionIsProvidedWithoutStars_EmphasizedCategory() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "Locations impacted include...\nYour house";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "Locations impacted include..." + keywordSurroundRight + "<br>Your house";
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_ThreeLetterDaysOfTheWeekProvided_Emphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "WED...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "WED..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
 }

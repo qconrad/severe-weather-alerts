@@ -2,7 +2,7 @@ package com.severeweatheralerts;
 
 import java.util.ArrayList;
 
-import static com.severeweatheralerts.TextUtils.RegExMatcher.match;
+import static com.severeweatheralerts.TextUtils.RegExMatcher.multiLineMatch;
 
 public class KeywordEmphasizer {
   public KeywordEmphasizer() {}
@@ -10,8 +10,12 @@ public class KeywordEmphasizer {
     String output = input;
     ArrayList<String> keywords = getKeywords(input);
     for (int i = 0; i < keywords.size(); i++)
-      output = emphasizeKeyword(output, keywords.get(i));
+      output = emphasizeKeyword(output, removeNewLines(keywords.get(i)));
     return replaceNewLinesWithHtmlLineBreaks(output);
+  }
+
+  protected String removeNewLines(String text) {
+    return text.replace("\n", "");
   }
 
   protected String replaceNewLinesWithHtmlLineBreaks(String text) {
@@ -25,6 +29,6 @@ public class KeywordEmphasizer {
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return match("(\\* \\D{4,25}?(:|\\.\\.\\.))|(HAZARD\\.\\.\\.)|(SOURCE\\.\\.\\.)|(IMPACT\\.\\.\\.)", input);
+    return multiLineMatch("^(\\D{3,30}?(:|\\.\\.\\.))", input);
   }
 }
