@@ -10,8 +10,12 @@ public class KeywordEmphasizer {
     String output = input;
     ArrayList<String> keywords = getKeywords(input);
     for (int i = 0; i < keywords.size(); i++)
-      output = emphasizeKeyword(output, removeNewLines(keywords.get(i)));
+      if (validKeyword(keywords.get(i))) output = emphasizeKeyword(output, removeNewLines(keywords.get(i)));
     return replaceNewLinesWithHtmlLineBreaks(output);
+  }
+
+  protected boolean validKeyword(String keyword) {
+    return !keyword.contains("http");
   }
 
   protected String removeNewLines(String text) {
@@ -23,7 +27,6 @@ public class KeywordEmphasizer {
   }
 
   protected String emphasizeKeyword(String text, String keyword) {
-    if (keyword.contains("http")) return text;
     String htmlSurroundLeft = "<font color='#FFFFFF'><b>";
     String htmlSurroundRight = "</b></font>";
     return text.replace(keyword, htmlSurroundLeft + keyword + htmlSurroundRight);

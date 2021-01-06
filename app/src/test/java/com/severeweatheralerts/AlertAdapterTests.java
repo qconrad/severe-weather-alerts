@@ -733,4 +733,15 @@ public class AlertAdapterTests {
     String expectedParse = "Surface observations across Deep South Texas and the Rio Grande Valley indicate that visibilities are improving across the region. As a result, the Dense Fog Advisory has been allowed to expire. However, motorists are cautioned that isolated areas of dense fog continue to persist, but this fog should dissipate within the hour.";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void adaptAlerts_ImpactStatementAndHighwaysProvided_LineBreaksOnEachHighway() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("IMPACT...Dangerous life-threatening travel.\n\nThis includes the following highways...\nInterstate 25 in Wyoming between mile markers 1 and 10.\nInterstate 80 in Wyoming between mile markers 345 and 361.\n\nLocations...");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "IMPACT...Dangerous life-threatening travel.\n\nThis includes the following highways...\nInterstate 25 in Wyoming between mile markers 1 and 10.\nInterstate 80 in Wyoming between mile markers 345 and 361.\n\nLocations...";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }

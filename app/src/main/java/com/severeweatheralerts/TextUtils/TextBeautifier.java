@@ -39,20 +39,15 @@ public class TextBeautifier {
   }
 
   private static boolean allLinesInParagraphEndWithPeriods(String[] lineSplit, int i) {
-    return searchParagraphBackForPeriods(lineSplit, i) || searchParagraphForwardForPeriods(lineSplit, i);
+    return searchParagraphBackForPeriods(lineSplit, i);
   }
 
   private static boolean searchParagraphBackForPeriods(String[] lineSplit, int i) {
-    if (outOfRange(lineSplit, i)) return true;
+    if (outOfRange(lineSplit, i) || isTwoNewLines(lineSplit[i])) return true;
     if (endsWithPeriod(lineSplit[i])) return searchParagraphBackForPeriods(lineSplit, i-1);
     return false;
   }
 
-  private static boolean searchParagraphForwardForPeriods(String[] lineSplit, int i) {
-    if (outOfRange(lineSplit, i)) return true;
-    if (endsWithPeriod(lineSplit[i])) return searchParagraphForwardForPeriods(lineSplit, i+1);
-    return false;
-  }
 
   private static boolean outOfRange(String[] lineSplit, int i) {
     return i < 0 || i >= lineSplit.length;
