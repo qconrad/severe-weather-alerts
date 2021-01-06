@@ -23,12 +23,13 @@ public class KeywordEmphasizer {
   }
 
   protected String emphasizeKeyword(String text, String keyword) {
+    if (keyword.contains("http")) return text;
     String htmlSurroundLeft = "<font color='#FFFFFF'><b>";
     String htmlSurroundRight = "</b></font>";
     return text.replace(keyword, htmlSurroundLeft + keyword + htmlSurroundRight);
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return multiLineMatch("^(((?=[^\\n])).{3,40}?(\\D:|\\.\\.\\.))", input);
+    return multiLineMatch("^.{3,40}?(\\D:|\\.\\.\\.)", input);
   }
 }

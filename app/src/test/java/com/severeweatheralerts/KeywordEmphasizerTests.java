@@ -177,4 +177,31 @@ public class KeywordEmphasizerTests {
     String expectedParse = keywordSurroundLeft  + "Locations impacted through 11pm include..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_UrlProvided_NotEmphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* View in detail at https://weather.gov";
+    String output = kw.emphasize(input);
+    String expectedParse = "* View in detail at https://weather.gov";
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_KeywordProvided_Emphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Details: details here";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft + "* Details:" + keywordSurroundRight + " details here";
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_InsecureUrlProvided_NotEmphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* View in detail at http://weather.gov";
+    String output = kw.emphasize(input);
+    String expectedParse = "* View in detail at http://weather.gov";
+    assertEquals(expectedParse, output);
+  }
 }
