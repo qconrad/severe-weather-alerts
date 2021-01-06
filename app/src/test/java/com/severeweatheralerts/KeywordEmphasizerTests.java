@@ -159,4 +159,22 @@ public class KeywordEmphasizerTests {
     String expectedParse = "Heavy freezing spray.<br>" + keywordSurroundLeft  + "THU..." + keywordSurroundRight + "N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_IncludingTheFollowingHighwaysProvided_Emphasized() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "This includes the following highways...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "This includes the following highways..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_TimeInTitle_Emphasiszed() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "Locations impacted through 11pm include...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "Locations impacted through 11pm include..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
 }
