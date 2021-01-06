@@ -29,6 +29,6 @@ public class KeywordEmphasizer {
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return multiLineMatch("^(\\D{3,30}?(:|\\.\\.\\.))", input);
+    return multiLineMatch("^(((?=[^\\n])\\D){3,30}?(:|\\.\\.\\.))", input);
   }
 }

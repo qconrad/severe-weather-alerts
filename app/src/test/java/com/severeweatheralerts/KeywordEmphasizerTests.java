@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class KeywordHighlighterTests {
+public class KeywordEmphasizerTests {
   final String keywordSurroundLeft =  "<font color='#FFFFFF'><b>";
   final String keywordSurroundRight =  "</b></font>";
   @Test
@@ -148,6 +148,15 @@ public class KeywordHighlighterTests {
     String input = "WED...";
     String output = kw.emphasize(input);
     String expectedParse = keywordSurroundLeft  + "WED..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_KeywordProvidedNextToShortMatchAcrossNewline_DaysOfWeekEmphasizedAndPreviousLineIsNot() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "Heavy freezing spray.\nTHU...N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
+    String output = kw.emphasize(input);
+    String expectedParse = "Heavy freezing spray.<br>" + keywordSurroundLeft  + "THU..." + keywordSurroundRight + "N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
     assertEquals(expectedParse, output);
   }
 }
