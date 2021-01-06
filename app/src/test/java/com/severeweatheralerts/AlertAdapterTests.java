@@ -722,4 +722,15 @@ public class AlertAdapterTests {
     String expectedParse = "Sea forecasts represent the average of the highest one-third of the combined windwave and swell height.\n\nTODAY...SE wind 25 kt increasing to 35 kt in the late morning. Gusts to 55 kt. Seas building to 7 ft, except 13 ft near ocean entrances. Rain.\nTONIGHT...SE wind 30 kt diminishing to 20 kt late. Seas 5 ft, except 11 ft near ocean entrances. Rain.";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void adaptAlerts_DenseFogAdvisoryTextProvided_ThereAreNoLineBreaks() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("Surface observations across Deep South Texas and the Rio Grande\nValley indicate that visibilities are improving across the region.\nAs a result, the Dense Fog Advisory has been allowed to expire.\nHowever, motorists are cautioned that isolated areas of dense fog\ncontinue to persist, but this fog should dissipate within the\nhour.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "Surface observations across Deep South Texas and the Rio Grande Valley indicate that visibilities are improving across the region. As a result, the Dense Fog Advisory has been allowed to expire. However, motorists are cautioned that isolated areas of dense fog continue to persist, but this fog should dissipate within the hour.";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }

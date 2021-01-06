@@ -18,29 +18,44 @@ public class TextBeautifier {
 
   private static boolean shouldAppendCurrentLineWithNewLine(String[] lineSplit, int i) {
     String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
-    String curLine = lineSplit[i];
-    String previousLine = (i > 0) ? lineSplit[i - 1] : "";
-    return !isTwoNewLines(nextLine) && (isListOrSectionHeading(nextLine, curLine, previousLine));
+    return !isTwoNewLines(nextLine) && isListOrSectionHeading(lineSplit, i);
   }
 
-  private static boolean isListOrSectionHeading(String nextLine, String curLine, String previousLine) {
-    return endsWith3Periods(curLine) || isList(nextLine, curLine, previousLine);
+  private static boolean isListOrSectionHeading(String[] lineSplit, int i) {
+    return isList(lineSplit, i) || isSectionHeading(lineSplit[i]);
   }
 
-  private static boolean isList(String nextLine, String curLine, String previousLine) {
-    return isUnbulletedList(curLine, previousLine, nextLine) || isBulletedList(nextLine, curLine);
+  private static boolean isList(String[] lineSplit, int i) {
+    String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
+    return isUnbulletedList(lineSplit, i) || isBulletedList(nextLine, lineSplit[i]);
   }
 
   private static boolean isBulletedList(String nextLine, String curLine) {
     return endsWithPeriod(curLine) && startsWith(nextLine, '*') || startsWith(nextLine, '.');
   }
 
-  private static boolean isUnbulletedList(String curLine, String previousLine, String nextLine) {
-    return startsWithUpperCaseChar(curLine) && endsWithPeriod(curLine) && hasNeighboringLineWithPeriodAtEnd(previousLine, nextLine);
+  private static boolean isUnbulletedList(String[] lineSplit, int i) {
+    return startsWithUpperCaseChar(lineSplit[i]) &&  allLinesInParagraphEndWithPeriods(lineSplit, i);
   }
 
-  private static boolean hasNeighboringLineWithPeriodAtEnd(String previousLine, String nextLine) {
-    return endsWithPeriod(previousLine) || endsWithPeriod(nextLine);
+  private static boolean allLinesInParagraphEndWithPeriods(String[] lineSplit, int i) {
+    return searchParagraphBackForPeriods(lineSplit, i) || searchParagraphForwardForPeriods(lineSplit, i);
+  }
+
+  private static boolean searchParagraphBackForPeriods(String[] lineSplit, int i) {
+    if (outOfRange(lineSplit, i)) return true;
+    if (endsWithPeriod(lineSplit[i])) return searchParagraphBackForPeriods(lineSplit, i-1);
+    return false;
+  }
+
+  private static boolean searchParagraphForwardForPeriods(String[] lineSplit, int i) {
+    if (outOfRange(lineSplit, i)) return true;
+    if (endsWithPeriod(lineSplit[i])) return searchParagraphForwardForPeriods(lineSplit, i+1);
+    return false;
+  }
+
+  private static boolean outOfRange(String[] lineSplit, int i) {
+    return i < 0 || i >= lineSplit.length;
   }
 
   private static boolean startsWith(String line, char inputChar) {
@@ -51,8 +66,8 @@ public class TextBeautifier {
     return Character.isUpperCase(line.charAt(0));
   }
 
-  private static boolean endsWith3Periods(String line) {
-    return match("\\.\\.\\.$", line).size() > 0;
+  private static boolean isSectionHeading(String line) {
+    return  match("\\.\\.\\.$", line).size() > 0;
   }
 
   private static boolean shouldAppendTwoNewLines(String curLine) {
