@@ -5,7 +5,7 @@ import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Alert {
+public abstract class Alert implements Comparable<Alert> {
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
@@ -32,6 +32,13 @@ public abstract class Alert {
     return getColor();
   }
 
+  // Sort by send time
+  @Override
+  public int compareTo(Alert alert) {
+    if (alert.getSentTime() == null) return 0;
+    return alert.getSentTime().compareTo(getSentTime());
+  }
+
   protected int getExpiredColor() {
     return Color.parseColor("#515151");
   }
@@ -41,17 +48,10 @@ public abstract class Alert {
     else return endsBefore(date);
   }
 
-  public int getReferenceCount() {
-    return references.size();
-  }
-
-  public void addReference(Alert reference) {
-    references.add(reference);
-  }
-
-  public Alert getReference(int index) {
-    return references.get(index);
-  }
+  public int getReferenceCount() { return references.size(); }
+  public void addReference(Alert reference) { references.add(reference); }
+  public Alert getReference(int index) { return references.get(index); }
+  public ArrayList<Alert> getReferences() { return references; }
 
   private boolean isCancel() {
     return type.equals(Type.CANCEL);

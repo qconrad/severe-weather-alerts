@@ -767,4 +767,23 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(unAdaptedAlerts);
     assertEquals("testId1", aa.getAdaptedAlerts().get(0).getReference(0).getNwsId());
   }
+
+  @Test
+  public void linkReferences_TwoReferencesAdded_SortedBySendTimeMostRecentFirst() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    UnadaptedAlert reference1 = new UnadaptedAlert();
+    UnadaptedAlert reference2 = new UnadaptedAlert();
+    reference1.setSent("2021-01-06T14:37:00-06:00");
+    reference2.setSent("2021-01-06T18:30:00-06:00");
+    reference1.setId("reference1");
+    reference2.setId("reference2");
+    alert.addReferenceId("reference1");
+    alert.addReferenceId("reference2");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference1);
+    unAdaptedAlerts.add(reference2);
+    AlertAdapter aa = new AlertAdapter(unAdaptedAlerts);
+    assertEquals("reference2", aa.getAdaptedAlerts().get(0).getReference(0).getNwsId());
+  }
 }

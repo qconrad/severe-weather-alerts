@@ -77,4 +77,31 @@ public class ReferenceLinkerTests {
     ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertEquals(0, linked.get(1).getReferenceCount());
   }
+
+  @Test
+  public void linkReferences_InvalidIdProvided_NotIncluded() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    UnadaptedAlert reference1 = new UnadaptedAlert();
+    UnadaptedAlert reference2 = new UnadaptedAlert();
+    reference1.setId("reference1");
+    reference2.setId("fakeid");
+    alert.addReferenceId("reference1");
+    alert.addReferenceId("reference2");
+    reference1.addReferenceId("reference2");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference1);
+    unAdaptedAlerts.add(reference2);
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert adaptedAlert = new DefaultAlert();
+    DefaultAlert adaptedReference1 = new DefaultAlert();
+    DefaultAlert adaptedReference2 = new DefaultAlert();
+    adaptedReference1.setNwsId("reference1");
+    adaptedReference2.setNwsId("fakeid");
+    adaptedAlerts.add(adaptedAlert);
+    adaptedAlerts.add(adaptedReference1);
+    adaptedAlerts.add(adaptedReference2);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(0, linked.get(1).getReferenceCount());
+  }
 }

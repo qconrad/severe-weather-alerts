@@ -1,6 +1,7 @@
 package com.severeweatheralerts;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ReferenceLinker {
   private ArrayList<UnadaptedAlert> unadaptedAlerts;
@@ -16,9 +17,12 @@ public class ReferenceLinker {
       if (notReferenced(adaptedAlerts.get(i))) {
         for (int r = 0; r < unadaptedAlerts.get(i).getReferenceCount(); r++) {
           Alert reference = findAlertById(unadaptedAlerts.get(i).getReference(r));
-          adaptedAlerts.get(i).addReference(reference);
-          alreadyReferenced.add(reference);
+          if (reference != null) {
+            adaptedAlerts.get(i).addReference(reference);
+            alreadyReferenced.add(reference);
+          }
         }
+        Collections.sort(adaptedAlerts.get(i).getReferences());
       }
     }
     return adaptedAlerts;
