@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Adapters.ReferenceLinker;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
 import org.junit.Test;
@@ -7,6 +8,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ReferenceLinkerTests {
   @Test
@@ -103,5 +106,55 @@ public class ReferenceLinkerTests {
     adaptedAlerts.add(adaptedReference2);
     ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertEquals(0, linked.get(1).getReferenceCount());
+  }
+
+  @Test
+  public void linkReferences_OneReferenceIsLinked_ReferenceShowsReplaced() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    alert.addReferenceId("testId1");
+    UnadaptedAlert reference = new UnadaptedAlert();
+    reference.setId("testId1");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference);
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert adaptedAlert = new DefaultAlert();
+    DefaultAlert adaptedReference = new DefaultAlert();
+    adaptedReference.setNwsId("testId1");
+    adaptedAlerts.add(adaptedAlert);
+    adaptedAlerts.add(adaptedReference);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertTrue(linked.get(0).getReference(0).isReplaced());
+  }
+
+  @Test
+  public void linkReferences_OneReferenceIsLinked_RootAlertNotReplaced() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    alert.addReferenceId("testId1");
+    UnadaptedAlert reference = new UnadaptedAlert();
+    reference.setId("testId1");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference);
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert adaptedAlert = new DefaultAlert();
+    DefaultAlert adaptedReference = new DefaultAlert();
+    adaptedReference.setNwsId("testId1");
+    adaptedAlerts.add(adaptedAlert);
+    adaptedAlerts.add(adaptedReference);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertFalse(linked.get(0).isReplaced());
+  }
+
+  @Test
+  public void linkReferences_OneAlertIsAdded_AlertNotReplaced() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert adaptedAlert = new DefaultAlert();
+    adaptedAlerts.add(adaptedAlert);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertFalse(linked.get(0).isReplaced());
   }
 }

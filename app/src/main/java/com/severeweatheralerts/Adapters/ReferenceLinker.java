@@ -1,4 +1,7 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Adapters;
+
+import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.UnadaptedAlert;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +9,6 @@ import java.util.Collections;
 public class ReferenceLinker {
   private ArrayList<UnadaptedAlert> unadaptedAlerts;
   private ArrayList<Alert> adaptedAlerts;
-  private ArrayList<Alert> alreadyReferenced = new ArrayList<>();
   public ReferenceLinker(ArrayList<UnadaptedAlert> unadaptedAlerts, ArrayList<Alert> adaptedAlerts) {
     this.unadaptedAlerts = unadaptedAlerts;
     this.adaptedAlerts = adaptedAlerts;
@@ -14,12 +16,12 @@ public class ReferenceLinker {
 
   public ArrayList<Alert> linkReferences() {
     for (int i = 0; i < unadaptedAlerts.size(); i++) {
-      if (notReferenced(adaptedAlerts.get(i))) {
+      if (notReplaced(adaptedAlerts.get(i))) {
         for (int r = 0; r < unadaptedAlerts.get(i).getReferenceCount(); r++) {
           Alert reference = findAlertById(unadaptedAlerts.get(i).getReference(r));
-          if (reference != null) {
+          if (notNull(reference)) {
             adaptedAlerts.get(i).addReference(reference);
-            alreadyReferenced.add(reference);
+            reference.setReplaced(true);
           }
         }
         Collections.sort(adaptedAlerts.get(i).getReferences());
@@ -28,8 +30,8 @@ public class ReferenceLinker {
     return adaptedAlerts;
   }
 
-  private boolean notReferenced(Alert reference) {
-    return !alreadyReferenced.contains(reference);
+  private boolean notReplaced(Alert reference) {
+    return !reference.isReplaced();
   }
 
   private Alert findAlertById(String id) {
@@ -38,6 +40,10 @@ public class ReferenceLinker {
         return adaptedAlerts.get(i);
     }
     return null;
+  }
+
+  private boolean notNull(Alert alert) {
+    return alert != null;
   }
 
   private boolean hasId(Alert alert) {

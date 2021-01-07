@@ -2,7 +2,6 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.AlertFactory;
-import com.severeweatheralerts.ReferenceLinker;
 import com.severeweatheralerts.UnadaptedAlert;
 
 import java.util.ArrayList;
