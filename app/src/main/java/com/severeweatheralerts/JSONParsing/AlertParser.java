@@ -51,6 +51,7 @@ public class AlertParser {
   private UnadaptedAlert parseAlertProperties(JSONObject props, UnadaptedAlert pa) throws JSONException {
     AlertPropertyParser propParser = new AlertPropertyParser(props, pa);
     propParser.parseName();
+    propParser.parseId();
     propParser.parseType();
     propParser.parseDescription();
     propParser.parseInstruction();

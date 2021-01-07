@@ -2,12 +2,14 @@ package com.severeweatheralerts;
 
 import android.graphics.Color;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Alert {
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
+  private String nwsId;
   private String smallHeadline;
   private String largeHeadline;
   private String description;
@@ -18,6 +20,7 @@ public abstract class Alert {
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
+  private ArrayList<Alert> references;
 
   public Alert() {}
 
@@ -38,12 +41,24 @@ public abstract class Alert {
     else return endsBefore(date);
   }
 
+  public void addReference(Alert reference) {
+    if (references == null) references = new ArrayList<>();
+    references.add(reference);
+  }
+
+  public Alert getReference(int index) {
+    return references.get(index);
+  }
+
   private boolean isCancel() {
     return type.equals(Type.CANCEL);
   }
 
   public String getName() { return name; }
   public void setName(String name) { this.name = name; }
+
+  public void setNwsId(String nwsId) { this.nwsId = nwsId; }
+  public String getNwsId() { return nwsId; }
 
   public String getDescription() { return description; }
   public void setDescription(String description) { this.description = description; }

@@ -18,6 +18,10 @@ public class AlertPropertyParser {
     pa.setName(getProp("event"));
   }
 
+  public void parseId() throws JSONException {
+    pa.setId(getProp("id"));
+  }
+
   public void parseDescription() throws JSONException {
     pa.setDescription(getProp("description"));
   }

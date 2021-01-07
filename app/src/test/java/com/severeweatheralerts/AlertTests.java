@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -31,5 +32,22 @@ public class AlertTests {
     DefaultAlert al = new DefaultAlert();
     al.setType(Alert.Type.CANCEL);
     assertFalse(al.activeAt(new Date(1577839500000L))); // Date doesn't matter
+  }
+
+  @Test
+  public void AlertReferenceAddGet_ReferenceIsProvided_CorrectOneReturned() {
+    DefaultAlert al = new DefaultAlert();
+    DefaultAlert reference = new DefaultAlert();
+    al.addReference(reference);
+    Alert result = al.getReference(0);
+    assertEquals(result.hashCode(), reference.hashCode());
+  }
+
+
+  @Test
+  public void NwsIdGetSet_NwsIdGiven_SameIdReturned() {
+    DefaultAlert al = new DefaultAlert();
+    al.setNwsId("NWS-ID");
+    assertEquals("NWS-ID", al.getNwsId());
   }
 }

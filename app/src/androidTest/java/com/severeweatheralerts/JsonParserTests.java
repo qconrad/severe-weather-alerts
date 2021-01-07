@@ -215,4 +215,12 @@ public class JsonParserTests {
     String result = parsed.get(1).getType();
     assertEquals("Alert", result);
   }
+
+  @Test
+  public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_FirstIdIsCorrect() {
+    AlertParser parser = new AlertParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    String name = parsed.get(0).getId();
+    assertEquals("NWS-IDP-PROD-4559615-3770224", name);
+  }
 }
