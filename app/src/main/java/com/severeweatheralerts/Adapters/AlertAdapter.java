@@ -2,6 +2,7 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.AlertFactory;
+import com.severeweatheralerts.ReferenceLinker;
 import com.severeweatheralerts.UnadaptedAlert;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class AlertAdapter {
   public AlertAdapter(ArrayList<UnadaptedAlert> unadaptedAlerts) {
     this.unadaptedAlerts = unadaptedAlerts;
     adaptAlerts();
+    linkReferences();
   }
 
   private void adaptAlerts() {
@@ -23,6 +25,10 @@ public class AlertAdapter {
       adaptAlert(unadaptedAlerts.get(i), al);
       alerts.add(al);
     }
+  }
+
+  private void linkReferences() {
+    alerts = new ReferenceLinker(unadaptedAlerts, alerts).linkReferences();
   }
 
   private Alert generateObject(String name) {
@@ -35,6 +41,7 @@ public class AlertAdapter {
     adaptDescription(ua, al);
     adaptInstruction(ua, al);
     adaptSeverity(ua, al);
+    adaptId(ua, al);
     adaptType(ua, al);
     adaptSendTime(ua, al);
     adaptExpectedUpdateTime(ua, al);
@@ -94,6 +101,11 @@ public class AlertAdapter {
   private void adaptName(UnadaptedAlert ua, Alert al) {
     al.setName(ua.getName());
   }
+
+  private void adaptId(UnadaptedAlert ua, Alert al) {
+    al.setNwsId(ua.getId());
+  }
+
 
   private void adaptType(UnadaptedAlert ua, Alert al) {
     al.setType(new TypeAdapter(ua.getType()).adaptType());

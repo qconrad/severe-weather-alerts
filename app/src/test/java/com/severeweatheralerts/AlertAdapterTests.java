@@ -744,4 +744,27 @@ public class AlertAdapterTests {
     String expectedParse = "IMPACT...Dangerous life-threatening travel.\n\nThis includes the following highways...\nInterstate 25 in Wyoming between mile markers 1 and 10.\nInterstate 80 in Wyoming between mile markers 345 and 361.\n\nLocations...";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void linkReferences_IdProvided_ReturnsCorrectID() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    alert.setId("testId1");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    AlertAdapter aa = new AlertAdapter(unAdaptedAlerts);
+    assertEquals("testId1", aa.getAdaptedAlerts().get(0).getNwsId());
+  }
+
+  @Test
+  public void linkReferences_OneReferenceIsLinked_ReturnsCorrectID() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    alert.addReferenceId("testId1");
+    UnadaptedAlert reference = new UnadaptedAlert();
+    reference.setId("testId1");
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference);
+    AlertAdapter aa = new AlertAdapter(unAdaptedAlerts);
+    assertEquals("testId1", aa.getAdaptedAlerts().get(0).getReference(0).getNwsId());
+  }
 }

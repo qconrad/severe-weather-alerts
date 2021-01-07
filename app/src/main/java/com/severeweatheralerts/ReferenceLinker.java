@@ -13,9 +13,9 @@ public class ReferenceLinker {
 
   public ArrayList<Alert> linkReferences() {
     for (int i = 0; i < unadaptedAlerts.size(); i++) {
-      for (int r = 0; r < unadaptedAlerts.get(i).getReferenceCount(); r++) {
-        Alert reference = findAlertById(unadaptedAlerts.get(i).getReference(r));
-        if (notReferenced(reference)) {
+      if (notReferenced(adaptedAlerts.get(i))) {
+        for (int r = 0; r < unadaptedAlerts.get(i).getReferenceCount(); r++) {
+          Alert reference = findAlertById(unadaptedAlerts.get(i).getReference(r));
           adaptedAlerts.get(i).addReference(reference);
           alreadyReferenced.add(reference);
         }
