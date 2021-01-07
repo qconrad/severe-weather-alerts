@@ -223,4 +223,27 @@ public class JsonParserTests {
     String name = parsed.get(0).getId();
     assertEquals("NWS-IDP-PROD-4559615-3770224", name);
   }
+
+  @Test
+  public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_FirstReferenceIsCorrect() {
+    AlertParser parser = new AlertParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    String id = parsed.get(0).getReference(0);
+    assertEquals("NWS-IDP-PROD-4558114-3769815", id);
+  }
+
+  @Test
+  public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_SecondReferenceIsCorrect() {
+    AlertParser parser = new AlertParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    String id = parsed.get(0).getReference(1);
+    assertEquals("NWS-IDP-PROD-4556947-3769503", id);
+  }
+
+  @Test
+  public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_ReferenceCountIsCorrect() {
+    AlertParser parser = new AlertParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals(2, parsed.get(0).getReferenceCount());
+  }
 }

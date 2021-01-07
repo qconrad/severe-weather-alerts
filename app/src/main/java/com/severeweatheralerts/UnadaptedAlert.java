@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import java.util.ArrayList;
+
 public class UnadaptedAlert {
   private String name;
   private String id;
@@ -12,6 +14,7 @@ public class UnadaptedAlert {
   private String ends;
   private String nwsHeadline;
   private String severity;
+  private ArrayList<String> references = new ArrayList<>();
 
   public void setName(String name) { this.name = name; }
   public String getName() { return name; }
@@ -45,4 +48,9 @@ public class UnadaptedAlert {
 
   public void setId(String id) { this.id = id; }
   public String getId() { return id; }
+
+  public void addReferenceId(String referenceId) { references.add(referenceId); }
+  public String getReference(int index) { return references.get(index); }
+
+  public int getReferenceCount() { return references.size(); }
 }

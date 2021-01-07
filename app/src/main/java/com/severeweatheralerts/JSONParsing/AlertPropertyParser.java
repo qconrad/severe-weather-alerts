@@ -2,6 +2,7 @@ package com.severeweatheralerts.JSONParsing;
 
 import com.severeweatheralerts.UnadaptedAlert;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,6 +73,14 @@ public class AlertPropertyParser {
   public void parseType() throws  JSONException {
     String type = getProp("messageType");
     if (notNull(type)) pa.setType(type);
+  }
+
+  public void parseReferences() throws  JSONException {
+    JSONArray references = props.getJSONArray("references");
+    for (int i = 0; i < references.length(); i++) {
+      String refId = references.getJSONObject(i).getString("identifier");
+      pa.addReferenceId(refId);
+    }
   }
 
   private boolean notNull(String expires) {
