@@ -20,7 +20,7 @@ public abstract class Alert {
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
-  private ArrayList<Alert> references;
+  private ArrayList<Alert> references = new ArrayList<>();
 
   public Alert() {}
 
@@ -41,8 +41,11 @@ public abstract class Alert {
     else return endsBefore(date);
   }
 
+  public int getReferenceCount() {
+    return references.size();
+  }
+
   public void addReference(Alert reference) {
-    if (references == null) references = new ArrayList<>();
     references.add(reference);
   }
 
