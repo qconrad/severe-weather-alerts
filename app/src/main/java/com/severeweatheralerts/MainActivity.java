@@ -8,18 +8,17 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.AlertListRecyclerView.AlertCardClickedListener;
 import com.severeweatheralerts.AlertListRecyclerView.AlertCardHolder;
 import com.severeweatheralerts.AlertListRecyclerView.AlertRecyclerViewAdapter;
 
 import java.io.IOException;
 
 import static com.severeweatheralerts.Networking.LocationAlertPopulator.populateLocationWithAlertsForThatLocation;
+import static com.severeweatheralerts.ReferenceFilter.removeReferences;
 
 public class MainActivity extends AppCompatActivity {
   @Override
@@ -32,30 +31,21 @@ public class MainActivity extends AppCompatActivity {
   private void displayFullAlert(int alertIndex, AlertCardHolder holder) {
     Intent alertIntent = new Intent(MainActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
-    Pair<View,String> pair1 = Pair.create((View)holder.card, "zoom");
+    Pair<View,String> pair1 = Pair.create(holder.card, "zoom");
     ActivityOptions aO = null;
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-      aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
-    }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
       holder.card.setTransitionName("zoom");
     }
     alertIntent.putExtra("alertIndex", alertIndex);
-    assert aO != null;
     startActivity(alertIntent, aO.toBundle());
   }
-
 
   private void populateRecyclerView() {
     RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(LocationsDao.getLocation(0).getAlerts());
-    alertRecyclerViewAdapter.setClickListener(new AlertCardClickedListener() {
-      @Override
-      public void onAlertCardClicked(int position, AlertCardHolder holder) {
-        displayFullAlert(position, holder);
-      }
-    });
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(removeReferences(LocationsDao.getLocation(0).getAlerts()));
+    alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
     recyclerView.setAdapter(alertRecyclerViewAdapter);
   }
 

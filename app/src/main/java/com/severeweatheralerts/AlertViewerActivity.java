@@ -2,7 +2,6 @@ package com.severeweatheralerts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import java.util.Date;
 
 public class AlertViewerActivity extends AppCompatActivity {
-  Alert al;
+  private Alert al;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +154,8 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private boolean notNull(String largeHeadline) {
-    return largeHeadline != null;
+  private boolean notNull(String text) {
+    return text != null;
   }
 
   private void setSmallHeadline() {
