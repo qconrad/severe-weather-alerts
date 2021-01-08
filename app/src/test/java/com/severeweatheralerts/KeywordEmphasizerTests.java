@@ -204,4 +204,13 @@ public class KeywordEmphasizerTests {
     String expectedParse = "* View in detail at http://weather.gov";
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_LongFloodingTitle_Emphasiszed() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Some locations that will experience flooding include...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "* Some locations that will experience flooding include..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
 }
