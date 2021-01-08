@@ -6,7 +6,11 @@ import java.util.ArrayList;
 public class ReferenceFilter {
   public static ArrayList<Alert> removeReferences(ArrayList<Alert> alerts) {
     for (int i = 0; i < alerts.size(); i++)
-      if (alerts.get(i).isReplaced()) alerts.remove(i--);
+      if (shouldFilterAlert(alerts.get(i))) alerts.remove(i--);
     return alerts;
+  }
+
+  protected static boolean shouldFilterAlert(Alert alert) {
+    return alert.isReplaced();
   }
 }
