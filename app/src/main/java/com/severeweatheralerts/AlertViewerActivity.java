@@ -68,13 +68,18 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void populateReferences() {
-    RecyclerView recyclerView = findViewById(R.id.references);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    ReferenceRecyclerViewAdapter referenceRVAdapter = new ReferenceRecyclerViewAdapter(al.getReferences());
-    referenceRVAdapter.setClickListener((position, holder) -> {
-      displayReference(al.getReference(position));
-    });
-    recyclerView.setAdapter(referenceRVAdapter);
+    boolean hasReferences = al.getReferences().size() > 0;
+    if (hasReferences) {
+      View referencesLabel = findViewById(R.id.references_label);
+      referencesLabel.setVisibility(View.VISIBLE);
+      RecyclerView recyclerView = findViewById(R.id.references);
+      recyclerView.setLayoutManager(new LinearLayoutManager(this));
+      ReferenceRecyclerViewAdapter referenceRVAdapter = new ReferenceRecyclerViewAdapter(al.getReferences());
+      referenceRVAdapter.setClickListener((position, holder) -> {
+        displayReference(al.getReference(position));
+      });
+      recyclerView.setAdapter(referenceRVAdapter);
+    }
   }
 
   private void displayReference(Alert reference) {

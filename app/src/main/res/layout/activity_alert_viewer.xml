@@ -75,6 +75,8 @@
                 android:layout_marginTop="5dp" />
 
             <include
+                android:id="@+id/references_label"
+                android:visibility="gone"
                 layout="@layout/references_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
