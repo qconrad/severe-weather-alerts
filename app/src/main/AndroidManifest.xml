@@ -18,7 +18,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".AlertViewerActivity" />
-        <activity android:name=".ReferenceViewerActivity" />
     </application>
 
 </manifest>

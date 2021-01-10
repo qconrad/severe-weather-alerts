@@ -18,8 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.AlertListSearcher;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AlertViewerActivity extends AppCompatActivity {
@@ -36,11 +38,17 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   protected void getAlertFromExtras(Bundle bundle) {
-    if (bundle != null) {
-      int locIndex = bundle.getInt("locIndex");
-      int alertIndex = bundle.getInt("alertIndex");
-      al = LocationsDao.getLocationList().get(locIndex).getAlerts().get(alertIndex);
-    }
+    int locIndex = bundle.getInt("locIndex");
+    String alertIndex = bundle.getString("alertID");
+    al = new AlertListSearcher(getAlerts(locIndex)).findAlertByID(alertIndex);
+  }
+
+  private ArrayList<Alert> getAlerts(int locIndex) {
+    return getLocation(locIndex).getAlerts();
+  }
+
+  private Location getLocation(int locIndex) {
+    return LocationsDao.getLocationList().get(locIndex);
   }
 
   private void populateUIWithAlertData() {
@@ -70,7 +78,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayReference(Alert reference) {
-    Intent alertIntent = new Intent(AlertViewerActivity.this, ReferenceViewerActivity.class);
+    Intent alertIntent = new Intent(AlertViewerActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);
