@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdap
 import java.util.Date;
 
 public class AlertViewerActivity extends AppCompatActivity {
-  private Alert al;
+  protected Alert al;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,11 @@ public class AlertViewerActivity extends AppCompatActivity {
     setContentView(R.layout.activity_alert_viewer);
 
     makeStatusBarTransparent();
-    getAlertFromExtras();
+    getAlertFromExtras(getIntent().getExtras());
     populateUIWithAlertData();
   }
 
-  private void getAlertFromExtras() {
-    Bundle bundle = getIntent().getExtras();
+  protected void getAlertFromExtras(Bundle bundle) {
     if (bundle != null) {
       int locIndex = bundle.getInt("locIndex");
       int alertIndex = bundle.getInt("alertIndex");
@@ -63,9 +63,16 @@ public class AlertViewerActivity extends AppCompatActivity {
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     ReferenceRecyclerViewAdapter referenceRVAdapter = new ReferenceRecyclerViewAdapter(al.getReferences());
     referenceRVAdapter.setClickListener((position, holder) -> {
-      // Display full reference
+      displayReference(al.getReference(position));
     });
     recyclerView.setAdapter(referenceRVAdapter);
+  }
+
+  private void displayReference(Alert reference) {
+    Intent alertIntent = new Intent(AlertViewerActivity.this, ReferenceViewerActivity.class);
+    alertIntent.putExtra("locIndex", 0);
+    alertIntent.putExtra("alertID", reference.getNwsId());
+    startActivity(alertIntent);
   }
 
   private void removeNullErrorMessage() {
