@@ -9,16 +9,15 @@ public class AlertListSearcher {
     this.alerts = alerts;
   }
 
-  public Alert findAlertByID(String testID) {
+  public Alert findAlertByID(String id) {
     for (int i = 0; i < alerts.size(); i++) {
       Alert curAlert = alerts.get(i);
-      if (matchingIDs(testID, curAlert))
-        return curAlert;
+      if (matchingIDs(id, curAlert)) return curAlert;
     }
     return null;
   }
 
-  private boolean matchingIDs(String testID, Alert alert) {
-    return alert.getNwsId().equals(testID);
+  private boolean matchingIDs(String id, Alert alert) {
+    return alert.getNwsId().equals(id);
   }
 }
