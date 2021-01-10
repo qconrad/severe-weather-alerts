@@ -11,13 +11,9 @@ public class ReferenceTextGenerator {
 
   public String getText(Date date) {
     String time = new RelativeTimeFormatter(date, alert.getSentTime()).getFormattedString();
-    if (isPost())
-      return alert.getName() + " posted " + time + " ago";
+    if (alert.getType() == Alert.Type.POST)
+      return "Post: " + time + " ago";
     else
-      return "Updated " + time + " ago";
-  }
-
-  private boolean isPost() {
-    return alert.getType() == Alert.Type.POST;
+      return "Update: " + time + " ago";
   }
 }
