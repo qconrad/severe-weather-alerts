@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.AlertListRecyclerView.AlertCardHolder;
-import com.severeweatheralerts.AlertListRecyclerView.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
+import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 
 import java.io.IOException;
 
@@ -28,14 +28,15 @@ public class MainActivity extends AppCompatActivity {
     new AsyncRefresh().execute();
   }
 
-  private void displayFullAlert(int alertIndex, AlertCardHolder holder) {
+  private void displayFullAlert(int alertIndex, RecyclerView.ViewHolder holder) {
     Intent alertIntent = new Intent(MainActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
-    Pair<View,String> pair1 = Pair.create(holder.card, "zoom");
+    AlertCardHolder ach = (AlertCardHolder) holder;
+    Pair<View,String> pair1 = Pair.create(ach.card, "zoom");
     ActivityOptions aO = null;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
-      holder.card.setTransitionName("zoom");
+      ach.card.setTransitionName("zoom");
     }
     alertIntent.putExtra("alertIndex", alertIndex);
     startActivity(alertIntent, aO.toBundle());

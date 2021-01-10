@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:id="@+id/card"
+    android:id="@+id/alert_card"
     android:elevation="32dp"
+    app:cardCornerRadius="50dp"
     android:transitionName="zoom"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:layout_marginLeft="5dp"
                 android:maxLines="1"
                 android:textSize="15dp"
-                android:text="Heavy Freezing Spray Warning"
+                android:text="@string/title_placeholder"
                 android:textStyle="bold"
                 android:layout_marginStart="5dp" />
 

@@ -1,18 +1,22 @@
 package com.severeweatheralerts;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 
 import java.util.Date;
 
@@ -50,7 +54,18 @@ public class AlertViewerActivity extends AppCompatActivity {
       setInstruction();
       setTitleCardColor();
       setBackgroundColor();
+      populateReferences();
     }
+  }
+
+  private void populateReferences() {
+    RecyclerView recyclerView = findViewById(R.id.references);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    ReferenceRecyclerViewAdapter referenceRVAdapter = new ReferenceRecyclerViewAdapter(al.getReferences());
+    referenceRVAdapter.setClickListener((position, holder) -> {
+      // Display full reference
+    });
+    recyclerView.setAdapter(referenceRVAdapter);
   }
 
   private void removeNullErrorMessage() {
@@ -61,21 +76,15 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void setBackgroundColor() {
     int alertColor = al.getColorAt(new Date());
     View titleCard = findViewById(R.id.alert_viewer);
-    int topGradienStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.5f);
+    int topGradientStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.5f);
     int bottomGradientStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.1f);
-    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradienStep, bottomGradientStep});
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradientStep, bottomGradientStep});
     titleCard.setBackground(gd);
   }
 
   private void setTitleCardColor() {
-    int alertColor = al.getColorAt(new Date());
-    View titleCard = findViewById(R.id.title_card);
-    titleCard.setVisibility(View.VISIBLE);
-    float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.getResources().getDisplayMetrics());
-    GradientDrawable gd = new GradientDrawable();
-    gd.setCornerRadius(fiftyDP);
-    gd.setColor(alertColor);
-    titleCard.setBackground(gd);
+    CardView titleCard = findViewById(R.id.title_card);
+    titleCard.setCardBackgroundColor(al.getColorAt(new Date()));
   }
 
   private void setTimes() {

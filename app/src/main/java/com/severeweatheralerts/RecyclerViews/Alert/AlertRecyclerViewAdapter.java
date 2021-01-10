@@ -1,30 +1,28 @@
-package com.severeweatheralerts.AlertListRecyclerView;
+package com.severeweatheralerts.RecyclerViews.Alert;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Resources;
-import android.graphics.drawable.GradientDrawable;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.severeweatheralerts.Alert;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.RecyclerViews.CardClickListener;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHolder> {
-  private List<Alert> alertItemList;
-  private AlertCardClickedListener clickListener;
+  private final ArrayList<Alert> alertItemList;
+  private CardClickListener clickListener;
 
-  public void setClickListener(AlertCardClickedListener clickListener) {
+  public void setClickListener(CardClickListener clickListener) {
     this.clickListener = clickListener;
   }
 
-  public AlertRecyclerViewAdapter(List<Alert> alertItemList) {
+  public AlertRecyclerViewAdapter(ArrayList<Alert> alertItemList) {
     this.alertItemList = alertItemList;
   }
 
@@ -39,20 +37,11 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
   public void onBindViewHolder(final AlertCardHolder holder, final int position) {
     Alert curAlert = alertItemList.get(position);
     holder.title.setText(curAlert.getName());
-
-    float fiftyDP = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Resources.getSystem().getDisplayMetrics());
-    GradientDrawable gd = new GradientDrawable();
-    gd.setCornerRadius(fiftyDP);
-    gd.setColor(curAlert.getColorAt(new Date()));
-    holder.card.setBackground(gd);
-
     holder.icon.setImageResource(curAlert.getIcon());
+    holder.card.setCardBackgroundColor(curAlert.getColorAt(new Date()));
 
-    holder.card.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (clickListener != null) clickListener.onAlertCardClicked(position, holder);
-      }
+    holder.card.setOnClickListener(v -> {
+      if (clickListener != null) clickListener.onCardClick(position, holder);
     });
   }
 

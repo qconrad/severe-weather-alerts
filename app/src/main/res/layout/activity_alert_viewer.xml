@@ -16,12 +16,12 @@
         android:text="@string/alert_not_found_error_message"
         android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
-        app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+        app:layout_constraintEnd_toEndOf="@+id/scroll_view"
+        app:layout_constraintStart_toStartOf="@+id/scroll_view"
+        app:layout_constraintTop_toTopOf="@+id/scroll_view" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="15dp">
@@ -36,8 +36,7 @@
                 layout="@layout/title_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:visibility="gone" />
+                android:layout_marginTop="25dp" />
 
             <include
                 layout="@layout/time"
@@ -74,6 +73,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp" />
+
+            <include
+                layout="@layout/references_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/references"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

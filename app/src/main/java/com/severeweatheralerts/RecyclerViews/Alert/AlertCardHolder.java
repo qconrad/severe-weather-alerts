@@ -1,4 +1,4 @@
-package com.severeweatheralerts.AlertListRecyclerView;
+package com.severeweatheralerts.RecyclerViews.Alert;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -16,7 +16,7 @@ public class AlertCardHolder extends ViewHolder {
 
   public AlertCardHolder(View view) {
     super(view);
-    card = view.findViewById(R.id.card);
+    card = view.findViewById(R.id.alert_card);
     title = view.findViewById(R.id.card_title);
     icon = view.findViewById(R.id.card_icon);
   }
