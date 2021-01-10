@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
+
 import java.util.ArrayList;
 
 public class Location {

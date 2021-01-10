@@ -1,9 +1,10 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
-import com.severeweatheralerts.Alerts.WinterStormWarning;
-import com.severeweatheralerts.Alerts.WinterWeatherAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 
 import org.junit.Test;
 

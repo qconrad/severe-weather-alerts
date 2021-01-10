@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.CardClickListener;
 

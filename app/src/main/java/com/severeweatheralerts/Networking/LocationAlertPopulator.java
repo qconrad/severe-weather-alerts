@@ -1,7 +1,7 @@
 package com.severeweatheralerts.Networking;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
-import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.JSONParsing.AlertParser;
 import com.severeweatheralerts.Location;
 

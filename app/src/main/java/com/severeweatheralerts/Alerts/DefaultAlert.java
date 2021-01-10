@@ -1,7 +1,5 @@
 package com.severeweatheralerts.Alerts;
 
-import com.severeweatheralerts.Alert;
-
 public class DefaultAlert extends Alert {
   @Override
   public int getColor() {

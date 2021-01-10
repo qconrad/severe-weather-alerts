@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Adapters;
 
-import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.Alerts.Alert;
 
 public class TypeAdapter {
   String type;

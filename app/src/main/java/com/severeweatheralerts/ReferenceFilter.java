@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
+
 import java.util.ArrayList;
 
 // Want to keep minimum android version old so not using java's filtering

@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.Alert;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.CardClickListener;
-import com.severeweatheralerts.RecyclerViews.Reference.ReferenceCardHolder;
 import com.severeweatheralerts.ReferenceTextGenerator;
 
 import java.util.ArrayList;

@@ -2,7 +2,8 @@ package com.severeweatheralerts;
 
 import android.graphics.Color;
 
-import com.severeweatheralerts.Alerts.WinterStormWarning;
+import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 
 import org.junit.Test;
 
