@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
       aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
       ach.card.setTransitionName("zoom");
     }
-    alertIntent.putExtra("alertID", LocationsDao.getLocation(0).getAlerts().get(alertIndex).getNwsId());
+    alertIntent.putExtra("alertID", removeReferences(LocationsDao.getLocation(0).getAlerts()).get(alertIndex).getNwsId());
     startActivity(alertIntent, aO.toBundle());
   }
 
