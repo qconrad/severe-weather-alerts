@@ -13,7 +13,27 @@ public class TextBeautifier {
       else if (shouldAppendCurrentLineWithNewLine(lineSplit, curLine)) newText.append(lineSplit[curLine]).append("\n");
       else newText.append(lineSplit[curLine]).append(" "); // append line with space
     }
-    return newText.toString().replaceAll(" +\n", "\n").replaceAll("^\\.(?=[^.])", "").replaceAll("\n\\.(?=[^.])", "\n");
+    return finalize(newText.toString());
+  }
+
+  private static String finalize(String text) {
+    String output = text;
+    output = removeSpaceAtEndOfLines(output);
+    output = removeDotsAtBeginningOfLines(output);
+    output = removeExcessiveLineBreaks(output);
+    return output;
+  }
+
+  private static String removeSpaceAtEndOfLines(String text) {
+    return text.replaceAll(" +\n", "\n");
+  }
+
+  private static String removeDotsAtBeginningOfLines(String text) {
+    return text.replaceAll("\n\\.(?=[^.])", "\n");
+  }
+
+  private static String removeExcessiveLineBreaks(String text) {
+    return text.replaceAll("\n\n\n+", "\n\n");
   }
 
   private static boolean shouldAppendCurrentLineWithNewLine(String[] lineSplit, int i) {

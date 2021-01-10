@@ -786,4 +786,15 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(unAdaptedAlerts);
     assertEquals("reference2", aa.getAdaptedAlerts().get(0).getReference(0).getNwsId());
   }
+
+  @Test
+  public void adaptAlerts_3NewLinesUsed_ReducedToTwo() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("end of paragraph.\n\n\nNew paragraph");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "end of paragraph.\n\nNew paragraph";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }
