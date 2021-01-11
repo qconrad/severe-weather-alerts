@@ -61,6 +61,7 @@ public class AlertViewerActivity extends AppCompatActivity {
       setSmallHeadline();
       setDescription();
       setInstruction();
+      setSender();
       setTitleCardColor();
       setBackgroundColor();
       populateReferences();
@@ -202,6 +203,11 @@ public class AlertViewerActivity extends AppCompatActivity {
       description.setText(Html.fromHtml(new KeywordEmphasizer().emphasize(al.getDescription())));
       description.setVisibility(View.VISIBLE);
     }
+  }
+
+  private void setSender() {
+    TextView sender = findViewById(R.id.sender);
+    sender.setText(al.getSender());
   }
 
   private void setInstruction() {
