@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TimeStringTests {
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs30seconds_DifferenceStringIs1Minute() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs30seconds_DifferenceStringIs1Minute() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -19,7 +19,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs5minutes_DifferenceStringIs5Minutes() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs5minutes_DifferenceStringIs5Minutes() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -30,7 +30,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs59minutes_DifferenceStringIs59minutes() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs59minutes_DifferenceStringIs59minutes() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -41,7 +41,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs1hour5minutes_DifferenceStringIs1hour() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs1hour5minutes_DifferenceStringIs1hour() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -52,7 +52,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs1hour35minutes_DifferenceStringIs2hours() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs1hour35minutes_DifferenceStringIs2hours() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -63,7 +63,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs23hours_DifferenceStringIs23hours() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs23hours_DifferenceStringIs23hours() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -74,7 +74,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs25hours_DifferenceStringIs1day() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs25hours_DifferenceStringIs1day() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -85,7 +85,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs2days_DifferenceStringIs2days() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs2days_DifferenceStringIs2days() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
@@ -96,7 +96,7 @@ public class TimeStringTests {
   }
 
   @Test
-  public void testRealativeTime_TwoDateObjectsGivenDifferenceIs2daysButOrderIsReversed_DifferenceStringIs2days() {
+  public void testRelativeTime_TwoDateObjectsGivenDifferenceIs2daysButOrderIsReversed_DifferenceStringIs2days() {
     Date firstDate = new Date();
     Date secondDate = new Date();
     firstDate.setTime(1578009600000L); // 01/03/2020 12:00:00 AM
