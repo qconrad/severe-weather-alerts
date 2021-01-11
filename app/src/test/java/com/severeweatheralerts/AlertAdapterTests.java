@@ -798,4 +798,26 @@ public class AlertAdapterTests {
     String expectedParse = "end of paragraph.\n\nNew paragraph";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void adaptAlerts_SenderProvided_SenderReturn() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setSender("NWS Chicago IL");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "NWS Chicago IL";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getSender());
+  }
+
+  @Test
+  public void adaptAlerts_DifferentSenderProvided_SenderReturned() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setSender("NWS Lincoln IL");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "NWS Lincoln IL";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getSender());
+  }
 }

@@ -15,6 +15,7 @@ public abstract class Alert implements Comparable<Alert> {
   private String description;
   private String instruction;
   private Type type;
+  private String sender;
   private Date sentTime;
   private Date startTime;
   private Date endTime;
@@ -96,6 +97,9 @@ public abstract class Alert implements Comparable<Alert> {
 
   public Date getExpectedUpdateTime() { return expectedUpdateTime; }
   public void setExpectedUpdateTime(Date expectedUpdateTime) { this.expectedUpdateTime = expectedUpdateTime; }
+
+  public String getSender() { return sender; }
+  public void setSender(String sender) { this.sender = sender; }
 
   public boolean isLikelyLastUpdate() {
     if (expectedUpdateTime == null) return true;

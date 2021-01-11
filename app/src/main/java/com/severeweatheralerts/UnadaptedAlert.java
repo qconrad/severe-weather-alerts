@@ -14,7 +14,8 @@ public class UnadaptedAlert {
   private String ends;
   private String nwsHeadline;
   private String severity;
-  private ArrayList<String> references = new ArrayList<>();
+  private String sender;
+  private final ArrayList<String> references = new ArrayList<>();
 
   public void setName(String name) { this.name = name; }
   public String getName() { return name; }
@@ -53,4 +54,7 @@ public class UnadaptedAlert {
   public String getReference(int index) { return references.get(index); }
 
   public int getReferenceCount() { return references.size(); }
+
+  public void setSender(String sender) { this.sender = sender; }
+  public String getSender() { return sender; }
 }
