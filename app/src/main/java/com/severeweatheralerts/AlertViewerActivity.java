@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -207,7 +208,8 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void setSender() {
     TextView sender = findViewById(R.id.sender);
-    sender.setText(al.getSender());
+    sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode() + ">" + al.getSender()));
+    sender.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
   private void setInstruction() {
