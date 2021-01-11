@@ -90,4 +90,8 @@ public class AlertPropertyParser {
   private String getProp(String event) throws JSONException {
     return props.getString(event);
   }
+
+  public void parseSender() throws JSONException {
+    pa.setSender(getProp("senderName"));
+  }
 }

@@ -246,4 +246,11 @@ public class JsonParserTests {
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
     assertEquals(2, parsed.get(0).getReferenceCount());
   }
+
+  @Test
+  public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_SenderIsCorrect() {
+    AlertParser parser = new AlertParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals("NWS Upton NY", parsed.get(0).getSender());
+  }
 }

@@ -56,6 +56,7 @@ public class AlertParser {
     propParser.parseReferences();
     propParser.parseDescription();
     propParser.parseInstruction();
+    propParser.parseSender();
     propParser.parseSent();
     propParser.parseOnset();
     propParser.parseExpires();
