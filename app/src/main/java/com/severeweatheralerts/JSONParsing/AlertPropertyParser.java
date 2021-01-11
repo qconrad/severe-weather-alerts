@@ -33,11 +33,11 @@ public class AlertPropertyParser {
   }
 
   private String getNwsHeadline() throws JSONException {
-    return props.getJSONObject("parameters").getJSONArray("NWSheadline").getString(0);
+    return getParameters().getJSONArray("NWSheadline").getString(0);
   }
 
   private boolean hasNwsHeadline() throws JSONException {
-    return props.getJSONObject("parameters").has("NWSheadline");
+    return getParameters().has("NWSheadline");
   }
 
   public void parseEnds() throws JSONException {
@@ -93,5 +93,17 @@ public class AlertPropertyParser {
 
   public void parseSender() throws JSONException {
     pa.setSender(getProp("senderName"));
+  }
+
+  public void parseSenderCode() throws JSONException {
+    pa.setSenderCode(getSenderCode());
+  }
+
+  private String getSenderCode() throws JSONException {
+    return getParameters().getJSONArray("PIL").getString(0).substring(0, 3);
+  }
+
+  private JSONObject getParameters() throws JSONException {
+    return props.getJSONObject("parameters");
   }
 }
