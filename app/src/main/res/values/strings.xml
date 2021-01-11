@@ -12,4 +12,5 @@
     <string name="alert_not_found_error_message">Sorry, this alert was not found</string>
     <string name="reference_placeholder">Reference</string>
     <string name="references_label">History</string>
+    <string name="sender_placeholder">National Weather Service</string>
 </resources>
