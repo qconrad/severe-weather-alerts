@@ -13,4 +13,5 @@
     <string name="reference_placeholder">Reference</string>
     <string name="references_label">History</string>
     <string name="sender_placeholder">National Weather Service</string>
+    <string name="next_update_placeholder">Next Update</string>
 </resources>
