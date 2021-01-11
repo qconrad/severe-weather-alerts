@@ -9,4 +9,9 @@ public class DateTimeConverter {
     try { return formatter.parse(dateTimeString); }
     catch(Exception e) { return null; }
   }
+
+  public static String convertDateToString(Date date, String format) {
+    SimpleDateFormat formatter = new SimpleDateFormat(format);
+    return formatter.format(date);
+  }
 }
