@@ -41,6 +41,7 @@ public class AlertAdapter {
     adaptInstruction(ua, al);
     adaptSeverity(ua, al);
     adaptSender(ua, al);
+    adaptSenderCode(ua, al);
     adaptId(ua, al);
     adaptType(ua, al);
     adaptSendTime(ua, al);
@@ -104,6 +105,10 @@ public class AlertAdapter {
 
   private void adaptSender(UnadaptedAlert ua, Alert al) {
     al.setSender(ua.getSender());
+  }
+
+  private void adaptSenderCode(UnadaptedAlert ua, Alert al) {
+    al.setSenderCode(ua.getSenderCode());
   }
 
   private void adaptId(UnadaptedAlert ua, Alert al) {

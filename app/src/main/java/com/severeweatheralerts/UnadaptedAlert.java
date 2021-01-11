@@ -15,6 +15,7 @@ public class UnadaptedAlert {
   private String nwsHeadline;
   private String severity;
   private String sender;
+  private String senderCode;
   private final ArrayList<String> references = new ArrayList<>();
 
   public void setName(String name) { this.name = name; }
@@ -57,4 +58,7 @@ public class UnadaptedAlert {
 
   public void setSender(String sender) { this.sender = sender; }
   public String getSender() { return sender; }
+
+  public void setSenderCode(String senderCode) { this.senderCode = senderCode; }
+  public String getSenderCode() { return senderCode; }
 }
