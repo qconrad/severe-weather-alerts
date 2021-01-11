@@ -11,4 +11,8 @@ public abstract class TimeFormatter {
     this.first = first;
     this.second = second;
   }
+
+  protected long getDifference() {
+    return Math.abs(second.getTime() - first.getTime());
+  }
 }

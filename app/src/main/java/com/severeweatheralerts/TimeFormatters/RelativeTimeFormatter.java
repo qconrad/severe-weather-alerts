@@ -22,10 +22,6 @@ public class RelativeTimeFormatter extends TimeFormatter {
     return "1 minute";
   }
 
-  private long getDifference() {
-    return Math.abs(second.getTime() - first.getTime());
-  }
-
   private double toSeconds(long difference) {
     return difference / 1000.0;
   }
