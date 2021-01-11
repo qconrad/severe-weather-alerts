@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertListSearcher;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
+import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;

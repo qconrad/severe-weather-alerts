@@ -1,19 +1,22 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
+import com.severeweatheralerts.TimeFormatters.TimeFormatter;
+
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
-public class TimeStringTests {
+public class RelativeTimeFormatterTests {
   @Test
   public void testRelativeTime_TwoDateObjectsGivenDifferenceIs30seconds_DifferenceStringIs1Minute() {
     Date firstDate = new Date();
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577836830000L); // 01/01/2020 12:00:30 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("1 minute", output);
   }
@@ -24,7 +27,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577837100000L); // 01/01/2020 12:05:00 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("5 minutes", output);
   }
@@ -35,7 +38,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577840340000L); // 01/01/2020 11:00:00 PM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("59 minutes", output);
   }
@@ -46,7 +49,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577840700000L); // 01/01/2020 01:05:00 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("1 hour", output);
   }
@@ -57,7 +60,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577842500000L); // 01/01/2020 01:35:00 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("2 hours", output);
   }
@@ -68,7 +71,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577919600000L); // 01/01/2020 11:00:00 PM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("23 hours", output);
   }
@@ -79,7 +82,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1577923200000L); // 01/01/2020 11:00:00 PM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("1 day", output);
   }
@@ -90,7 +93,7 @@ public class TimeStringTests {
     firstDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
     Date secondDate = new Date();
     secondDate.setTime(1578009600000L); // 01/03/2020 12:00:00 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("2 days", output);
   }
@@ -101,7 +104,7 @@ public class TimeStringTests {
     Date secondDate = new Date();
     firstDate.setTime(1578009600000L); // 01/03/2020 12:00:00 AM
     secondDate.setTime(1577836800000L); // 01/01/2020 12:00:00 AM
-    RelativeTimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
+    TimeFormatter rtf = new RelativeTimeFormatter(firstDate, secondDate);
     String output = rtf.getFormattedString();
     assertEquals("2 days", output);
   }

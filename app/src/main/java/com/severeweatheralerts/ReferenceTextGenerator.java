@@ -1,6 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 

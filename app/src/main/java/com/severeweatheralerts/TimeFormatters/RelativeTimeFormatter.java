@@ -1,16 +1,13 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TimeFormatters;
 
 import java.util.Date;
 
-public class RelativeTimeFormatter {
-  private Date first;
-  private Date second;
-
+public class RelativeTimeFormatter extends TimeFormatter {
   public RelativeTimeFormatter(Date first, Date second) {
-    this.first = first;
-    this.second = second;
+    super(first, second);
   }
 
+  @Override
   public String getFormattedString() {
     long differenceMs = getDifference();
     double seconds = toSeconds(differenceMs);
