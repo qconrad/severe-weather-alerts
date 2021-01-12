@@ -216,11 +216,11 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void setNextUpdate() {
-    Date nextUpdateDate = al.getExpectedUpdateTime();
-    if (nextUpdateDate != null) {
-      TextView nextUpdate = findViewById(R.id.next_update);
+    TextView nextUpdate = findViewById(R.id.next_update);
+    NextUpdateTextGenerator nextUpdateGen = new NextUpdateTextGenerator(al);
+    if (nextUpdateGen.hasText()) {
       nextUpdate.setVisibility(View.VISIBLE);
-      nextUpdate.setText("Next update expected by " + new AbsoluteTimeFormatter(new Date(), nextUpdateDate).getFormattedString());
+      nextUpdate.setText(nextUpdateGen.getText(new Date()));
     }
   }
 
