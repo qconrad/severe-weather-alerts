@@ -92,6 +92,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     alertIntent.putExtra("locIndex", 0);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void removeNullErrorMessage() {
