@@ -18,6 +18,6 @@ public class AbsoluteTimeFormatter extends TimeFormatter {
       return DateTimeConverter.convertDateToString(second, "h a") + " Tomorrow";
     }
 
-    return DateTimeConverter.convertDateToString(second, "h a") + " Today";
+    return DateTimeConverter.convertDateToString(second, "h a");
   }
 }
