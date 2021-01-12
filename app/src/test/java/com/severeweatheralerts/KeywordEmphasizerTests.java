@@ -206,11 +206,20 @@ public class KeywordEmphasizerTests {
   }
 
   @Test
-  public void emphasize_LongFloodingTitle_Emphasiszed() {
+  public void emphasize_LongFloodingTitle_Emphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* Some locations that will experience flooding include...";
     String output = kw.emphasize(input);
     String expectedParse = keywordSurroundLeft  + "* Some locations that will experience flooding include..." + keywordSurroundRight;
+    assertEquals(expectedParse, output);
+  }
+
+  @Test
+  public void emphasize_LocationsListed_TitleEmphasizedButNotLocations() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "* Flood Advisory for...\nNorth county in northeastern state...\nSouth county in southwestern state...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "* Flood Advisory for..." + keywordSurroundRight + "<br>North county in northeastern state...<br>South county in southwestern state...";
     assertEquals(expectedParse, output);
   }
 }

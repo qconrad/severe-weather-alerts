@@ -15,7 +15,15 @@ public class KeywordEmphasizer {
   }
 
   protected boolean validKeyword(String keyword) {
-    return !keyword.contains("http");
+    return !hasURL(keyword) && !isLocation(keyword);
+  }
+
+  private boolean isLocation(String text) {
+    return text.matches(".* in .*\\.\\.\\.");
+  }
+
+  private boolean hasURL(String text) {
+    return text.contains("http");
   }
 
   protected String removeNewLines(String text) {
@@ -33,6 +41,6 @@ public class KeywordEmphasizer {
   }
 
   protected ArrayList<String> getKeywords(String input) {
-    return multiLineMatch("^.{3,60}?(\\D:|\\.\\.\\.)", input);
+    return multiLineMatch("^.{3,60}(\\D:|\\.\\.\\.)", input);
   }
 }
