@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
 import org.junit.Test;
@@ -51,5 +52,25 @@ public class NextUpdateTextGeneratorTests {
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(162000000L));
     assertEquals("Next update expected by 3 PM", nextUpdateTextGenerator.getText(new Date(163000000L)));
+  }
+
+  @Test
+  public void generateText_TypeIsCancel_TextIsNull() {
+    DefaultAlert alert = new DefaultAlert();
+    alert.setType(Alert.Type.CANCEL);
+    NextUpdateTextGenerator nextUpdateTextGenerator = new NextUpdateTextGenerator(alert);
+    alert.setEndTime(new Date(164000000L));
+    alert.setExpectedUpdateTime(new Date(162000000L));
+    assertNull(nextUpdateTextGenerator.getText(new Date(163000000L)));
+  }
+
+  @Test
+  public void generateText_TypeIsCancel_DoesNotHaveText() {
+    DefaultAlert alert = new DefaultAlert();
+    alert.setType(Alert.Type.CANCEL);
+    NextUpdateTextGenerator nextUpdateTextGenerator = new NextUpdateTextGenerator(alert);
+    alert.setEndTime(new Date(164000000L));
+    alert.setExpectedUpdateTime(new Date(162000000L));
+    assertFalse(nextUpdateTextGenerator.hasText());
   }
 }

@@ -13,14 +13,19 @@ public class NextUpdateTextGenerator {
   }
 
   public boolean hasText() {
+    if (isCancel()) return false;
     return alert.getExpectedUpdateTime() != null;
   }
 
   public String getText(Date time) {
-    if (alert.isLikelyLastUpdate() && hasText())
-      return "Likely to be the last update";
-    if (hasText())
+    if (hasText() && !isCancel()) {
+      if (alert.isLikelyLastUpdate()) return "Likely to be the last update";
       return "Next update expected by " + new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime()).getFormattedString();
+    }
     return null;
+  }
+
+  private boolean isCancel() {
+    return alert.getType() == Alert.Type.CANCEL;
   }
 }
