@@ -11,13 +11,16 @@ public class AbsoluteTimeFormatter extends TimeFormatter {
 
   @Override
   public String getFormattedString() {
-    if (getDifference() >= 248400000L) {
-      return DateTimeConverter.convertDateToString(second, "h a EEEE");
-    }
-    if (getDifference() >= 162000000L) {
-      return DateTimeConverter.convertDateToString(second, "h a") + " Tomorrow";
-    }
-
+    if (greaterThan48Hours()) return DateTimeConverter.convertDateToString(second, "h a EEEE");
+    if (greaterThan12Hours()) return DateTimeConverter.convertDateToString(second, "h a") + " Tomorrow";
     return DateTimeConverter.convertDateToString(second, "h a");
+  }
+
+  private boolean greaterThan12Hours() {
+    return getDifference() >= 43200000L;
+  }
+
+  private boolean greaterThan48Hours() {
+    return getDifference() >= 172800000L;
   }
 }
