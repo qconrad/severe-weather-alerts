@@ -219,6 +219,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     Date nextUpdateDate = al.getExpectedUpdateTime();
     if (nextUpdateDate != null) {
       TextView nextUpdate = findViewById(R.id.next_update);
+      nextUpdate.setVisibility(View.VISIBLE);
       nextUpdate.setText("Next update expected by " + new AbsoluteTimeFormatter(new Date(), nextUpdateDate).getFormattedString());
     }
   }
