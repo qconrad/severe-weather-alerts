@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertListSearcher;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
+import com.severeweatheralerts.TimeFormatters.AbsoluteTimeFormatter;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class AlertViewerActivity extends AppCompatActivity {
       setDescription();
       setInstruction();
       setSender();
+      setNextUpdate();
       setTitleCardColor();
       setBackgroundColor();
       populateReferences();
@@ -211,6 +213,14 @@ public class AlertViewerActivity extends AppCompatActivity {
     TextView sender = findViewById(R.id.sender);
     sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode() + ">" + al.getSender()));
     sender.setMovementMethod(LinkMovementMethod.getInstance());
+  }
+
+  private void setNextUpdate() {
+    Date nextUpdateDate = al.getExpectedUpdateTime();
+    if (nextUpdateDate != null) {
+      TextView nextUpdate = findViewById(R.id.next_update);
+      nextUpdate.setText("Next update expected by " + new AbsoluteTimeFormatter(new Date(), nextUpdateDate).getFormattedString());
+    }
   }
 
   private void setInstruction() {
