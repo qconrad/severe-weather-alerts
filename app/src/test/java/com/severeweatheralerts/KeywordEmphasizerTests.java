@@ -222,4 +222,13 @@ public class KeywordEmphasizerTests {
     String expectedParse = keywordSurroundLeft  + "* Flood Advisory for..." + keywordSurroundRight + "<br>North county in northeastern state...<br>South county in southwestern state...";
     assertEquals(expectedParse, output);
   }
+
+  @Test
+  public void emphasize_MultipleMatchProvided_ShorterOneMatched() {
+    KeywordEmphasizer kw = new KeywordEmphasizer();
+    String input = "For the Northeast Cape Fear River...including Burgaw...";
+    String output = kw.emphasize(input);
+    String expectedParse = keywordSurroundLeft  + "For the Northeast Cape Fear River..." + keywordSurroundRight + "including Burgaw...";
+    assertEquals(expectedParse, output);
+  }
 }
