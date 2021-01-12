@@ -3,6 +3,7 @@
     android:id="@+id/instruction"
     xmlns:tools="http://schemas.android.com/tools"
     android:visibility="gone"
+    android:autoLink="all"
     android:textIsSelectable="true"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"

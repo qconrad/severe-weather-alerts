@@ -205,6 +205,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void setDescription() {
     if (notNull(al.getDescription())) {
       TextView description = findViewById(R.id.description);
+      description.setLinkTextColor(al.getColorAt(new Date()));
       description.setText(Html.fromHtml(new KeywordEmphasizer().emphasize(al.getDescription())));
       description.setVisibility(View.VISIBLE);
     }
@@ -229,6 +230,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     if (notNull(al.getInstruction())) {
       TextView instruction = findViewById(R.id.instruction);
       TextView instructionLabel = findViewById(R.id.instruction_label);
+      instruction.setLinkTextColor(al.getColorAt(new Date()));
       instruction.setVisibility(View.VISIBLE);
       instructionLabel.setVisibility(View.VISIBLE);
       instruction.setText(al.getInstruction());
