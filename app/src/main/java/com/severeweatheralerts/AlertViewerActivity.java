@@ -88,7 +88,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayReference(Alert reference) {
-    Intent alertIntent = new Intent(AlertViewerActivity.this, AlertViewerActivity.class);
+    Intent alertIntent = new Intent(AlertViewerActivity.this, ReferenceViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);
@@ -215,7 +215,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     sender.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
-  private void setNextUpdate() {
+  protected void setNextUpdate() {
     TextView nextUpdate = findViewById(R.id.next_update);
     NextUpdateTextGenerator nextUpdateGen = new NextUpdateTextGenerator(al);
     if (nextUpdateGen.hasText()) {
