@@ -88,7 +88,11 @@ public class AlertAdapter {
   }
 
   private void adaptDescription(UnadaptedAlert ua, Alert al) {
-    al.setDescription(beautify(ua.getDescription()));
+    if (notNullOrEmpty(ua.getDescription())) al.setDescription(beautify(ua.getDescription()));
+  }
+
+  private boolean notNullOrEmpty(String text) {
+    return text != null && !text.equals("");
   }
 
   private void adaptSeverity(UnadaptedAlert ua, Alert al) {

@@ -842,4 +842,15 @@ public class AlertAdapterTests {
     String expectedParse = "ILX";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getSenderCode());
   }
+
+  @Test
+  public void adaptAlerts_DescriptionIsEmptyString_DescriptionReturnsNull() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setName("Winter Weather Advisory");
+    pa.setDescription("");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }
