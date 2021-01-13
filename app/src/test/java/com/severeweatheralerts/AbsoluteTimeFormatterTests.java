@@ -12,19 +12,19 @@ public class AbsoluteTimeFormatterTests {
   @Test
   public void getFormattedScreen_DateProvided_CorrectTime() {
     AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0L), new Date(154800000L));
-    assertEquals("1 PM Tomorrow", absoluteTimeFormatter.getFormattedString());
+    assertEquals("1 PM Friday", absoluteTimeFormatter.getFormattedString());
   }
 
   @Test
   public void getFormattedScreen_DifferentDateProvided_CorrectTime() {
     AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0L), new Date(93600000L));
-    assertEquals("8 PM Tomorrow", absoluteTimeFormatter.getFormattedString());
+    assertEquals("8 PM Thursday", absoluteTimeFormatter.getFormattedString());
   }
 
   @Test
   public void getFormattedScreen_DateTomorrowAdded_CorrectTime() {
     AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0), new Date(154800000L));
-    assertEquals("1 PM Tomorrow", absoluteTimeFormatter.getFormattedString());
+    assertEquals("1 PM Friday", absoluteTimeFormatter.getFormattedString());
   }
 
   @Test
