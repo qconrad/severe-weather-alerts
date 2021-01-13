@@ -12,12 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.Networking.LocationPopulater;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 
 import java.io.IOException;
 
-import static com.severeweatheralerts.Networking.LocationAlertPopulator.populateLocationWithAlertsForThatLocation;
 import static com.severeweatheralerts.ReferenceFilter.removeReferences;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     Location location = new Location();
     @Override
     protected Void doInBackground(Void... params) {
-      try { populateLocationWithAlertsForThatLocation(location); }
+      try { new LocationPopulater(location).populate(); }
       catch (IOException e) { e.printStackTrace(); }
       return null;
     }
