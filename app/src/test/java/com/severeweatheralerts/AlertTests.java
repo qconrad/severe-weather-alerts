@@ -32,7 +32,7 @@ public class AlertTests {
   public void CreateAlertObject_TypeIsCancel_IsNotActive() {
     DefaultAlert al = new DefaultAlert();
     al.setType(Alert.Type.CANCEL);
-    assertFalse(al.activeAt(new Date(1577839500000L))); // Date doesn't matter
+    assertFalse(al.activeAt(new Date(0)));
   }
 
   @Test

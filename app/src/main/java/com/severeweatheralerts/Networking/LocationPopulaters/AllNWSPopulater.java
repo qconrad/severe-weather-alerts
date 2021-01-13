@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class AllNWS {
+public class AllNWSPopulater {
   protected Location location;
-  public AllNWS(Location location) {
+  public AllNWSPopulater(Location location) {
     this.location = location;
   }
 

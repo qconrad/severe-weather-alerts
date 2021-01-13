@@ -5,16 +5,14 @@ import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 
-public class ReferenceTime {
-  private final Alert alert;
-  private final Date date;
+public class ReferenceTime extends AlertTime{
+  public ReferenceTime(Alert alert, Date date) { super(alert, date); }
 
-  public ReferenceTime(Alert alert, Date date) {
-    this.alert = alert;
-    this.date = date;
-  }
+  @Override
+  public boolean hasCenterTime() { return true; }
 
-  public String getText() {
+  @Override
+  public String getCenterTime() {
     String time = new RelativeTimeFormatter(date, alert.getSentTime()).getFormattedString();
     if (getPost()) return "Original post from " + time + " ago";
     return "Update from " + time +  " ago";

@@ -25,6 +25,7 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
+import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -116,14 +117,18 @@ public class AlertViewerActivity extends AppCompatActivity {
     titleCard.setCardBackgroundColor(al.getColorAt(new Date()));
   }
 
-  protected void setTimes() {
-    AlertTime generator = new AlertTime(al, new Date());
+  private void setTimes() {
+    TimeGenerator generator = getTimeGenerator();
     setLeftTime(generator);
     setCenter(generator);
     setRightTime(generator);
   }
 
-  private void setLeftTime(AlertTime gen) {
+  protected TimeGenerator getTimeGenerator() {
+    return new AlertTime(al, new Date());
+  }
+
+  private void setLeftTime(TimeGenerator gen) {
     if (gen.hasLeftTime()) {
       TextView leftTime = findViewById(R.id.left_time);
       leftTime.setVisibility(View.VISIBLE);
@@ -131,7 +136,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private void setCenter(AlertTime gen) {
+  private void setCenter(TimeGenerator gen) {
     if (gen.hasCenterTime()) {
       TextView centerTime = findViewById(R.id.center_time);
       centerTime.setVisibility(View.VISIBLE);
@@ -139,7 +144,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private void setRightTime(AlertTime gen) {
+  private void setRightTime(TimeGenerator gen) {
     if (gen.hasRightTime()) {
       TextView rightTime = findViewById(R.id.right_time);
       rightTime.setVisibility(View.VISIBLE);

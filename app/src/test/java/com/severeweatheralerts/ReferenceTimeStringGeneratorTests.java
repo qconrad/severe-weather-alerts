@@ -18,7 +18,7 @@ public class ReferenceTimeStringGeneratorTests {
     da.setSentTime(new Date(0));
     ReferenceTime rtsg = new ReferenceTime(da, new Date(60000));
     String expectedString = "Original post from 1 minute ago";
-    assertEquals(expectedString, rtsg.getText());
+    assertEquals(expectedString, rtsg.getCenterTime());
   }
 
   @Test
@@ -28,7 +28,7 @@ public class ReferenceTimeStringGeneratorTests {
     da.setSentTime(new Date(0));
     ReferenceTime rtsg = new ReferenceTime(da, new Date(60000));
     String expectedString = "Update from 1 minute ago";
-    assertEquals(expectedString, rtsg.getText());
+    assertEquals(expectedString, rtsg.getCenterTime());
   }
 
   @Test
@@ -38,7 +38,7 @@ public class ReferenceTimeStringGeneratorTests {
     da.setSentTime(new Date(0));
     ReferenceTime rtsg = new ReferenceTime(da, new Date(120000));
     String expectedString = "Update from 2 minutes ago";
-    assertEquals(expectedString, rtsg.getText());
+    assertEquals(expectedString, rtsg.getCenterTime());
   }
 
   @Test
@@ -48,6 +48,6 @@ public class ReferenceTimeStringGeneratorTests {
     da.setSentTime(new Date(0));
     ReferenceTime rtsg = new ReferenceTime(da, new Date(120000));
     String expectedString = "Original post from 2 minutes ago";
-    assertEquals(expectedString, rtsg.getText());
+    assertEquals(expectedString, rtsg.getCenterTime());
   }
 }

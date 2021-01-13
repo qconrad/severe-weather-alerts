@@ -2,8 +2,8 @@ package com.severeweatheralerts.Networking.LocationPopulaters;
 
 import com.severeweatheralerts.Location.Location;
 
-public class FromLocationPoint extends AllNWS {
-  public FromLocationPoint(Location location) {
+public class FromLocationPointPopulater extends AllNWSPopulater {
+  public FromLocationPointPopulater(Location location) {
     super(location);
   }
 

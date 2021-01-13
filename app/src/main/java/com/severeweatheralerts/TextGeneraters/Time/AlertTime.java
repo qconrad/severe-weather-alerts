@@ -5,9 +5,9 @@ import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 
-public class AlertTime {
-  private final Alert alert;
-  private final Date date;
+public class AlertTime implements TimeGenerator {
+  protected final Alert alert;
+  protected final Date date;
 
   public AlertTime(Alert alert, Date date) {
     this.alert = alert;

@@ -1,9 +1,7 @@
 package com.severeweatheralerts;
 
-import android.view.View;
-import android.widget.TextView;
-
 import com.severeweatheralerts.TextGeneraters.Time.ReferenceTime;
+import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
 
 import java.util.Date;
 
@@ -18,9 +16,7 @@ public class ReferenceViewerActivity extends AlertViewerActivity {
   }
 
   @Override
-  protected void setTimes() {
-    TextView centerTime = findViewById(R.id.center_time);
-    centerTime.setVisibility(View.VISIBLE);
-    centerTime.setText(new ReferenceTime(al, new Date()).getText());
+  protected TimeGenerator getTimeGenerator() {
+    return new ReferenceTime(al, new Date());
   }
 }
