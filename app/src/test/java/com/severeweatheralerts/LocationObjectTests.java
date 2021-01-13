@@ -43,4 +43,18 @@ public class LocationObjectTests {
     int size = loc.getAlerts().size();
     assertEquals(2, size);
   }
+
+  @Test
+  public void getLat_LatProvided_CorrectReturn() {
+    Location loc = makeLocation();
+    loc.setLatitude(41.0);
+    assertEquals(41.0, loc.getLatitude(), 0.001);
+  }
+
+  @Test
+  public void getLat_LongProvided_CorrectReturn() {
+    Location loc = makeLocation();
+    loc.setLongitude(-87.0);
+    assertEquals(-87.0, loc.getLongitude(), 0.001);
+  }
 }
