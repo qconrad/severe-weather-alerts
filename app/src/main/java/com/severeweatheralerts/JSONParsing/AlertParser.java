@@ -1,6 +1,6 @@
 package com.severeweatheralerts.JSONParsing;
 
-import com.severeweatheralerts.UnadaptedAlert;
+import com.severeweatheralerts.Adapters.UnadaptedAlert;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -14,9 +14,11 @@ public class Reference {
 
   public String getText(Date date) {
     String time = new RelativeTimeFormatter(date, alert.getSentTime()).getFormattedString();
-    if (alert.getType() == Alert.Type.POST)
-      return "Post: " + time + " ago";
-    else
-      return "Update: " + time + " ago";
+    if (isPost()) return "Post: " + time + " ago";
+    return "Update: " + time + " ago";
+  }
+
+  private boolean isPost() {
+    return alert.getType() == Alert.Type.POST;
   }
 }

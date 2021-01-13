@@ -1,7 +1,6 @@
 package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.UnadaptedAlert;
 
 import java.util.ArrayList;
 import java.util.Collections;

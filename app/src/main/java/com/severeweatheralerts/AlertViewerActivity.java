@@ -26,6 +26,7 @@ import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdap
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
+import com.severeweatheralerts.TextUtils.KeywordEmphasizer;
 
 import java.util.ArrayList;
 import java.util.Date;

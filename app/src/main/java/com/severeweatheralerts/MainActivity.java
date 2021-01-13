@@ -20,7 +20,7 @@ import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 
 import java.io.IOException;
 
-import static com.severeweatheralerts.ReferenceFilter.removeReferences;
+import static com.severeweatheralerts.AlertFilter.removeReferences;
 
 public class MainActivity extends AppCompatActivity {
   @Override

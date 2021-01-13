@@ -16,7 +16,7 @@ public class ReferenceFilterTests {
     DefaultAlert alert1 = new DefaultAlert();
     alert1.setReplaced(true);
     alerts.add(alert1);
-    assertEquals(0, ReferenceFilter.removeReferences(alerts).size());
+    assertEquals(0, AlertFilter.removeReferences(alerts).size());
   }
 
   @Test
@@ -27,7 +27,7 @@ public class ReferenceFilterTests {
     alert2.setReplaced(true);
     alerts.add(alert1);
     alerts.add(alert2);
-    assertEquals(1, ReferenceFilter.removeReferences(alerts).size());
+    assertEquals(1, AlertFilter.removeReferences(alerts).size());
   }
 
   @Test
@@ -41,7 +41,7 @@ public class ReferenceFilterTests {
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);
-    assertEquals(1, ReferenceFilter.removeReferences(alerts).size());
+    assertEquals(1, AlertFilter.removeReferences(alerts).size());
   }
 
   @Test
@@ -55,7 +55,7 @@ public class ReferenceFilterTests {
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);
-    ReferenceFilter.removeReferences(alerts);
+    AlertFilter.removeReferences(alerts);
     assertEquals(3, alerts.size());
   }
 }
