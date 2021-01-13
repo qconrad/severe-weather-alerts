@@ -47,7 +47,7 @@ public abstract class Alert implements Comparable<Alert> {
   }
 
   public boolean activeAt(Date date) {
-    if (isCancel()) return false;
+    if (isCancel() || isReplaced()) return false;
     else return endsBefore(date);
   }
 

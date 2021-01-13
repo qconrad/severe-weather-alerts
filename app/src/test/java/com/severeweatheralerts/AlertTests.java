@@ -51,4 +51,14 @@ public class AlertTests {
     al.setNwsId("NWS-ID");
     assertEquals("NWS-ID", al.getNwsId());
   }
+
+  @Test
+  public void activeAt_isReplaced_NotActive() {
+    DefaultAlert da = new DefaultAlert();
+    da.setEndTime(new Date(10));
+    da.setType(Alert.Type.POST);
+    da.activeAt(new Date(0));
+    da.setReplaced(true);
+    assertFalse(da.activeAt(new Date(0)));
+  }
 }
