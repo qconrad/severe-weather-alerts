@@ -1,18 +1,19 @@
-package com.severeweatheralerts.Networking;
+package com.severeweatheralerts.Networking.LocationPopulaters;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.JSONParsing.AlertParser;
-import com.severeweatheralerts.Location;
+import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Networking.DataFetchService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class LocationPopulater {
+public class AllNWS {
   protected Location location;
-  public LocationPopulater(Location location) {
+  public AllNWS(Location location) {
     this.location = location;
   }
 

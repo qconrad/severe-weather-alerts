@@ -1,5 +1,8 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Location.LocationsDao;
+
 import org.junit.Before;
 import org.junit.Test;
 

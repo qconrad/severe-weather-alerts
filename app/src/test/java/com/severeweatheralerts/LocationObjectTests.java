@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Location.Location;
 
 import org.junit.Test;
 

@@ -1,14 +1,14 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TextGeneraters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 
-public class ReferenceTextGenerator {
+public class Reference {
   private final Alert alert;
 
-  public ReferenceTextGenerator(Alert alert) {
+  public Reference(Alert alert) {
     this.alert = alert;
   }
 

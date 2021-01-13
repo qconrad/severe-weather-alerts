@@ -6,7 +6,7 @@ import java.net.URLConnection;
 
 public class DataFetchService {
   private final int TIMEOUT = 60000;
-  private String fetchUrl;
+  private final String fetchUrl;
 
   public DataFetchService(String url) {
     fetchUrl = url;

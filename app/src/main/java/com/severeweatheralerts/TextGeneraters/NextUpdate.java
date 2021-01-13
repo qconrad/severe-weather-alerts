@@ -1,14 +1,14 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TextGeneraters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.TimeFormatters.AbsoluteTimeFormatter;
 
 import java.util.Date;
 
-public class NextUpdateTextGenerator {
+public class NextUpdate {
   private final Alert alert;
 
-  public NextUpdateTextGenerator(Alert alert) {
+  public NextUpdate(Alert alert) {
     this.alert = alert;
   }
 

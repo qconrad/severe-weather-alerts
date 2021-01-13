@@ -1,15 +1,15 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TextGeneraters.Time;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 
-public class ReferenceTimeStringGenerator {
+public class ReferenceTime {
   private final Alert alert;
   private final Date date;
 
-  public ReferenceTimeStringGenerator(Alert alert, Date date) {
+  public ReferenceTime(Alert alert, Date date) {
     this.alert = alert;
     this.date = date;
   }

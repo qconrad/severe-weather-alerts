@@ -20,8 +20,11 @@ import android.widget.TextView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertListSearcher;
+import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
-import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
+import com.severeweatheralerts.TextGeneraters.NextUpdate;
+import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,49 +117,34 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   protected void setTimes() {
-    if (isCancellation())
-      setCancelTime();
-    else {
-      setPastTime();
-      setFutureTime();
+    AlertTime generator = new AlertTime(al, new Date());
+    setLeftTime(generator);
+    setCenter(generator);
+    setRightTime(generator);
+  }
+
+  private void setLeftTime(AlertTime gen) {
+    if (gen.hasLeftTime()) {
+      TextView leftTime = findViewById(R.id.left_time);
+      leftTime.setVisibility(View.VISIBLE);
+      leftTime.setText(gen.getLeftTime());
     }
   }
 
-  private void setCancelTime() {
-    TextView cancelTime = findViewById(R.id.center_time);
-    cancelTime.setVisibility(View.VISIBLE);
-    cancelTime.setText("Cancelled " + new RelativeTimeFormatter(new Date(), al.getSentTime()).getFormattedString() + " ago");
+  private void setCenter(AlertTime gen) {
+    if (gen.hasCenterTime()) {
+      TextView centerTime = findViewById(R.id.center_time);
+      centerTime.setVisibility(View.VISIBLE);
+      centerTime.setText(gen.getCenterTime());
+    }
   }
 
-  private void setPastTime() {
-    TextView pastTime = findViewById(R.id.left_time);
-    pastTime.setVisibility(View.VISIBLE);
-    String verb = "Posted ";
-    if (al.getType() == Alert.Type.UPDATE) verb = "Updated ";
-    pastTime.setText(verb + new RelativeTimeFormatter(new Date(), al.getSentTime()).getFormattedString() + " ago");
-  }
-
-  private void setFutureTime() {
-    TextView futureTime = findViewById(R.id.right_time);
-    futureTime.setVisibility(View.VISIBLE);
-    if (startsInFuture())
-      futureTime.setText("Active in " + new RelativeTimeFormatter(new Date(), al.getStartTime()).getFormattedString());
-    else if (expired())
-      futureTime.setText("Expired " + new RelativeTimeFormatter(new Date(), al.getEndTime()).getFormattedString() + " ago");
-    else
-      futureTime.setText("Active next " + new RelativeTimeFormatter(new Date(), al.getEndTime()).getFormattedString());
-  }
-
-  private boolean startsInFuture() {
-    return al.startsBefore(new Date());
-  }
-
-  private boolean expired() {
-    return !al.activeAt(new Date());
-  }
-
-  private boolean isCancellation() {
-    return al.getType() == Alert.Type.CANCEL;
+  private void setRightTime(AlertTime gen) {
+    if (gen.hasRightTime()) {
+      TextView rightTime = findViewById(R.id.right_time);
+      rightTime.setVisibility(View.VISIBLE);
+      rightTime.setText(gen.getRightTime());
+    }
   }
 
   private boolean validAlert() {
@@ -218,7 +206,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void setNextUpdate() {
     TextView nextUpdate = findViewById(R.id.next_update);
-    NextUpdateTextGenerator nextUpdateGen = new NextUpdateTextGenerator(al);
+    NextUpdate nextUpdateGen = new NextUpdate(al);
     if (nextUpdateGen.hasText()) {
       nextUpdate.setVisibility(View.VISIBLE);
       nextUpdate.setText(nextUpdateGen.getText(new Date()));

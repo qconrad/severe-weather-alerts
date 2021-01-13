@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.CardClickListener;
-import com.severeweatheralerts.ReferenceTextGenerator;
+import com.severeweatheralerts.TextGeneraters.Reference;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +37,7 @@ public class ReferenceRecyclerViewAdapter extends RecyclerView.Adapter<Reference
   @Override
   public void onBindViewHolder(@NonNull ReferenceCardHolder holder, int position) {
     Alert reference = referenceList.get(position);
-    holder.text.setText(new ReferenceTextGenerator(reference).getText(new Date()));
+    holder.text.setText(new Reference(reference).getText(new Date()));
     holder.card.setCardBackgroundColor(reference.getColor());
 
     holder.card.setOnClickListener(v -> {

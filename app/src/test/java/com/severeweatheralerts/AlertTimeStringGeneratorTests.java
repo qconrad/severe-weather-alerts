@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class AlertTimeStringGeneratorTests {
   public void hasCenterTime_AlertIsCancellation_ReturnsTrue() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.CANCEL);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertTrue(atsg.hasCenterTime());
   }
 
@@ -24,7 +25,7 @@ public class AlertTimeStringGeneratorTests {
   public void hasCenterTime_AlertIsNotCancellation_ReturnsFalse() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.UPDATE);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertFalse(atsg.hasCenterTime());
   }
 
@@ -33,8 +34,8 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.CANCEL);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(60000));
-    assertEquals("Cancelled 1 minute ago", atsg.getCenterText());
+    AlertTime atsg = new AlertTime(da, new Date(60000));
+    assertEquals("Cancelled 1 minute ago", atsg.getCenterTime());
   }
 
   @Test
@@ -42,15 +43,15 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.CANCEL);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(120000));
-    assertEquals("Cancelled 2 minutes ago", atsg.getCenterText());
+    AlertTime atsg = new AlertTime(da, new Date(120000));
+    assertEquals("Cancelled 2 minutes ago", atsg.getCenterTime());
   }
 
   @Test
   public void hasLeftTime_AlertIsCancellation_DoesNotHaveLeftTime() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.CANCEL);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertFalse(atsg.hasLeftTime());
   }
 
@@ -58,7 +59,7 @@ public class AlertTimeStringGeneratorTests {
   public void hasLeftTime_AlertIsCancellation_HasLeftTime() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.UPDATE);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertTrue(atsg.hasLeftTime());
   }
 
@@ -66,7 +67,7 @@ public class AlertTimeStringGeneratorTests {
   public void hasLeftTime_AlertIsCancellation_HasRightTime() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.CANCEL);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertFalse(atsg.hasRightTime());
   }
 
@@ -74,7 +75,7 @@ public class AlertTimeStringGeneratorTests {
   public void hasLeftTime_AlertIsUpdate_HasRightTime() {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.UPDATE);
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertTrue(atsg.hasRightTime());
   }
 
@@ -83,7 +84,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.POST);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(60000));
+    AlertTime atsg = new AlertTime(da, new Date(60000));
     assertEquals("Posted 1 minute ago", atsg.getLeftTime());
   }
 
@@ -92,7 +93,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.POST);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(120000));
+    AlertTime atsg = new AlertTime(da, new Date(120000));
     assertEquals("Posted 2 minutes ago", atsg.getLeftTime());
   }
 
@@ -101,7 +102,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.UPDATE);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(120000));
+    AlertTime atsg = new AlertTime(da, new Date(120000));
     assertEquals("Updated 2 minutes ago", atsg.getLeftTime());
   }
 
@@ -110,7 +111,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setType(Alert.Type.UPDATE);
     da.setSentTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(60000));
+    AlertTime atsg = new AlertTime(da, new Date(60000));
     assertEquals("Updated 1 minute ago", atsg.getLeftTime());
   }
 
@@ -119,7 +120,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setStartTime(new Date(60000));
     da.setEndTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertEquals("Active in 1 minute", atsg.getRightTime());
   }
 
@@ -128,7 +129,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setStartTime(new Date(120000));
     da.setEndTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(0));
+    AlertTime atsg = new AlertTime(da, new Date(0));
     assertEquals("Active in 2 minutes", atsg.getRightTime());
   }
 
@@ -137,7 +138,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setEndTime(new Date(5));
     da.setStartTime(new Date(0));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(60000));
+    AlertTime atsg = new AlertTime(da, new Date(60000));
     assertEquals("Expired 1 minute ago", atsg.getRightTime());
   }
 
@@ -146,7 +147,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setStartTime(new Date(0));
     da.setEndTime(new Date(60000));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(5));
+    AlertTime atsg = new AlertTime(da, new Date(5));
     assertEquals("Active next 1 minute", atsg.getRightTime());
   }
 
@@ -155,7 +156,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setStartTime(new Date(0));
     da.setEndTime(new Date(120000));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(5));
+    AlertTime atsg = new AlertTime(da, new Date(5));
     assertEquals("Active next 2 minutes", atsg.getRightTime());
   }
 
@@ -164,7 +165,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setStartTime(new Date(60000));
     da.setEndTime(new Date(120000));
-    AlertTimeStringGenerator atsg = new AlertTimeStringGenerator(da, new Date(5));
+    AlertTime atsg = new AlertTime(da, new Date(5));
     assertEquals("Active in 1 minute", atsg.getRightTime());
   }
 }

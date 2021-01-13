@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.TextGeneraters.Reference;
 
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class ReferenceTextGeneratorTests {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setSentTime(new Date(0));
     defaultAlert.setType(Alert.Type.POST);
-    ReferenceTextGenerator rtg = new ReferenceTextGenerator(defaultAlert);
+    Reference rtg = new Reference(defaultAlert);
     String expected = ("Post: 6 minutes ago");
     assertEquals(expected, rtg.getText(new Date(360000)));
   }
@@ -25,7 +26,7 @@ public class ReferenceTextGeneratorTests {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setSentTime(new Date(0));
     defaultAlert.setType(Alert.Type.UPDATE);
-    ReferenceTextGenerator rtg = new ReferenceTextGenerator(defaultAlert);
+    Reference rtg = new Reference(defaultAlert);
     String expected = ("Update: 6 minutes ago");
     assertEquals(expected, rtg.getText(new Date(360000)));
   }
@@ -35,7 +36,7 @@ public class ReferenceTextGeneratorTests {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setSentTime(new Date(0));
     defaultAlert.setType(Alert.Type.UPDATE);
-    ReferenceTextGenerator rtg = new ReferenceTextGenerator(defaultAlert);
+    Reference rtg = new Reference(defaultAlert);
     String expected = ("Update: 14 minutes ago");
     assertEquals(expected, rtg.getText(new Date(840000)));
   }
@@ -45,7 +46,7 @@ public class ReferenceTextGeneratorTests {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setSentTime(new Date(0));
     defaultAlert.setType(Alert.Type.POST);
-    ReferenceTextGenerator rtg = new ReferenceTextGenerator(defaultAlert);
+    Reference rtg = new Reference(defaultAlert);
     String expected = ("Post: 14 minutes ago");
     assertEquals(expected, rtg.getText(new Date(840000)));
   }

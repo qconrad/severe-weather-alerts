@@ -1,15 +1,15 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TextGeneraters.Time;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.Date;
 
-public class AlertTimeStringGenerator {
+public class AlertTime {
   private final Alert alert;
   private final Date date;
 
-  public AlertTimeStringGenerator(Alert alert, Date date) {
+  public AlertTime(Alert alert, Date date) {
     this.alert = alert;
     this.date = date;
   }
@@ -18,7 +18,7 @@ public class AlertTimeStringGenerator {
     return alert.getType() == Alert.Type.CANCEL;
   }
 
-  public String getCenterText() {
+  public String getCenterTime() {
     return "Cancelled " + getSendTime() + " ago";
   }
 

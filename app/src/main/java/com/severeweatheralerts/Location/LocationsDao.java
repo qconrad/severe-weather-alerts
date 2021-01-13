@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Location;
 
 import java.util.ArrayList;
 
