@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_alert_viewer">
 
     <TextView
-        android:id="@+id/past_time"
+        android:id="@+id/left_time"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cancel_time"
+        android:id="@+id/center_time"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,11 +26,11 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/past_time"
+        app:layout_constraintStart_toStartOf="@+id/left_time"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/future_time"
+        android:id="@+id/right_time"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

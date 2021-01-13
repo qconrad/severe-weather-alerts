@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertListSearcher;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
-import com.severeweatheralerts.TimeFormatters.AbsoluteTimeFormatter;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.ArrayList;
@@ -114,7 +113,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     titleCard.setCardBackgroundColor(al.getColorAt(new Date()));
   }
 
-  private void setTimes() {
+  protected void setTimes() {
     if (isCancellation())
       setCancelTime();
     else {
@@ -124,13 +123,13 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void setCancelTime() {
-    TextView cancelTime = findViewById(R.id.cancel_time);
+    TextView cancelTime = findViewById(R.id.center_time);
     cancelTime.setVisibility(View.VISIBLE);
     cancelTime.setText("Cancelled " + new RelativeTimeFormatter(new Date(), al.getSentTime()).getFormattedString() + " ago");
   }
 
   private void setPastTime() {
-    TextView pastTime = findViewById(R.id.past_time);
+    TextView pastTime = findViewById(R.id.left_time);
     pastTime.setVisibility(View.VISIBLE);
     String verb = "Posted ";
     if (al.getType() == Alert.Type.UPDATE) verb = "Updated ";
@@ -138,7 +137,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void setFutureTime() {
-    TextView futureTime = findViewById(R.id.future_time);
+    TextView futureTime = findViewById(R.id.right_time);
     futureTime.setVisibility(View.VISIBLE);
     if (startsInFuture())
       futureTime.setText("Active in " + new RelativeTimeFormatter(new Date(), al.getStartTime()).getFormattedString());
