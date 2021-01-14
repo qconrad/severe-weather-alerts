@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Location;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.os.HandlerThread;
@@ -31,6 +32,7 @@ public class GPSLocation extends LocationGetter {
     requestLocationUpdates();
   }
 
+  @SuppressLint("MissingPermission")
   private void requestLocationUpdates() {
     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, handlerThread.getLooper());
   }
