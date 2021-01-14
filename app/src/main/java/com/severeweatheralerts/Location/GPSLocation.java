@@ -1,6 +1,5 @@
 package com.severeweatheralerts.Location;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Location;
 import android.os.HandlerThread;
@@ -12,17 +11,15 @@ import com.google.android.gms.location.LocationResult;
 
 import java.util.List;
 
-@SuppressLint("MissingPermission")
 public class GPSLocation extends LocationGetter {
   private final LocationUpdateCallback locationUpdateCallback;
-  private final FusedLocationProviderClient fusedLocationClient;
+  private final FusedLocationProviderClient fusedLocationClient = new FusedLocationProviderClient(context);
   private LocationCallback locationCallback;
   HandlerThread handlerThread;
   private LocationRequest locationRequest;
 
   public GPSLocation(Context context, LocationUpdateCallback locationUpdateCallback) {
     super(context);
-    fusedLocationClient = new FusedLocationProviderClient(context);
     this.locationUpdateCallback = locationUpdateCallback;
   }
 
@@ -35,8 +32,7 @@ public class GPSLocation extends LocationGetter {
   }
 
   private void requestLocationUpdates() {
-    if (hasPermissions())
-      fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, handlerThread.getLooper());
+    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, handlerThread.getLooper());
   }
 
   private void createLocationCallback() {

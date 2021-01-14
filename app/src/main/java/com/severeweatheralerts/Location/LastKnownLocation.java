@@ -6,6 +6,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 
+import static com.severeweatheralerts.PermissionManager.hasLocationPermissions;
+
 
 public class LastKnownLocation extends LocationGetter {
   private LocationManager locationManager;
@@ -23,7 +25,7 @@ public class LastKnownLocation extends LocationGetter {
   @SuppressLint("MissingPermission")
   private Location getLastKnownLocation() {
     Location location = null;
-    if (hasPermissions())
+    if (hasLocationPermissions(context))
       location = locationManager.getLastKnownLocation(getProvider(locationManager, getCriteria()));
     return location;
   }
