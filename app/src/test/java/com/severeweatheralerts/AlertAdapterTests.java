@@ -854,4 +854,15 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertNull(aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void adaptAlerts_InstructionIsProvided_NoSingleNewLines() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setInstruction("For your protection move to an interior room on the lowest floor of a\nbuilding.\n\nWind damage with this storm will occur without lightning.\nDo not wait for the sound of thunder before taking cover. SEEK\nSHELTER IMMEDIATELY inside a sturdy structure and stay away from\nwindows.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    String expectedParse = "For your protection move to an interior room on the lowest floor of a building.\n\nWind damage with this storm will occur without lightning. Do not wait for the sound of thunder before taking cover. SEEK SHELTER IMMEDIATELY inside a sturdy structure and stay away from windows.";
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getInstruction());
+  }
 }
