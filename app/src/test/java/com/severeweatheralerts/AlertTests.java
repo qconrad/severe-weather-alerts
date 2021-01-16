@@ -57,7 +57,7 @@ public class AlertTests {
     da.setEndTime(new Date(10));
     da.setType(Alert.Type.POST);
     da.activeAt(new Date(0));
-    da.setReplaced(true);
+    da.setReplacedBy(new DefaultAlert());
     assertFalse(da.activeAt(new Date(0)));
   }
 }

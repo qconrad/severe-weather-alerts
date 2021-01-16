@@ -14,7 +14,7 @@ public class ReferenceFilterTests {
   public void removeReferences_ReplacedAlertProvided_NoItemsInList() {
     ArrayList<Alert> alerts = new ArrayList<>();
     DefaultAlert alert1 = new DefaultAlert();
-    alert1.setReplaced(true);
+    alert1.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
     assertEquals(0, AlertFilter.removeReferences(alerts).size());
   }
@@ -24,7 +24,7 @@ public class ReferenceFilterTests {
     ArrayList<Alert> alerts = new ArrayList<>();
     DefaultAlert alert1 = new DefaultAlert();
     DefaultAlert alert2 = new DefaultAlert();
-    alert2.setReplaced(true);
+    alert2.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
     alerts.add(alert2);
     assertEquals(1, AlertFilter.removeReferences(alerts).size());
@@ -36,8 +36,8 @@ public class ReferenceFilterTests {
     DefaultAlert alert1 = new DefaultAlert();
     DefaultAlert alert2 = new DefaultAlert();
     DefaultAlert alert3 = new DefaultAlert();
-    alert2.setReplaced(true);
-    alert3.setReplaced(true);
+    alert2.setReplacedBy(new DefaultAlert());
+    alert3.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);
@@ -50,8 +50,8 @@ public class ReferenceFilterTests {
     DefaultAlert alert1 = new DefaultAlert();
     DefaultAlert alert2 = new DefaultAlert();
     DefaultAlert alert3 = new DefaultAlert();
-    alert2.setReplaced(true);
-    alert3.setReplaced(true);
+    alert2.setReplacedBy(new DefaultAlert());
+    alert3.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);

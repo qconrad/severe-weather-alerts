@@ -42,7 +42,6 @@ public class ReferenceLinker {
     Alert alert = adaptedAlerts.get(i);
     alert.addReference(reference);
     reference.setReplacedBy(alert);
-    reference.setReplaced(true);
   }
 
   private boolean sameType(int i, Alert reference) {

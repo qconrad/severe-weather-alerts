@@ -22,7 +22,6 @@ public abstract class Alert implements Comparable<Alert> {
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
-  private boolean isReplaced = false;
   private Alert replacedBy;
   private ArrayList<Alert> references = new ArrayList<>();
 
@@ -102,8 +101,11 @@ public abstract class Alert implements Comparable<Alert> {
   public Date getEndTime() { return endTime; }
   public void setEndTime(Date endTime) { this.endTime = endTime; }
 
-  public boolean isReplaced() { return isReplaced; }
-  public void setReplaced(boolean isReplaced) { this.isReplaced = isReplaced; }
+  public boolean isReplaced() { return hasReplacement(); }
+
+  private boolean hasReplacement() {
+    return replacedBy != null;
+  }
 
   public Date getExpectedUpdateTime() { return expectedUpdateTime; }
   public void setExpectedUpdateTime(Date expectedUpdateTime) { this.expectedUpdateTime = expectedUpdateTime; }
