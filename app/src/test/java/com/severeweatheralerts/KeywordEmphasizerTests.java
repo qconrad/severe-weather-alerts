@@ -8,7 +8,9 @@ import static org.junit.Assert.assertEquals;
 
 public class KeywordEmphasizerTests {
   final String keywordSurroundLeft =  "<font color='#FFFFFF'><b>";
-  final String keywordSurroundRight =  "</b></font>";
+  final String keywordSurroundRight = "</b></font>";
+  final String lineBreak = "<br>";
+
   @Test
   public void emphasize_DescriptionIsProvided_WhatIsEmphasized() {
     KeywordEmphasizer kw = new KeywordEmphasizer();
@@ -41,7 +43,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* WHAT...Light snow expected\n\n* WHERE...";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected<br><br>" + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
+    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected" + lineBreak + lineBreak + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
 
@@ -50,7 +52,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* WHAT...Light snow expected\n\n* WHERE...";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected<br><br>" + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
+    String expectedParse = keywordSurroundLeft + "* WHAT..." + keywordSurroundRight + "Light snow expected" + lineBreak + lineBreak + keywordSurroundLeft + "* WHERE..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
 
@@ -122,7 +124,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* Moderate flooding is occurring and moderate flooding is forecast.\n* Recent Activity...The max";
     String output = kw.emphasize(input);
-    String expectedParse = "* Moderate flooding is occurring and moderate flooding is forecast.<br>" + keywordSurroundLeft + "* Recent Activity..." + keywordSurroundRight + "The max";
+    String expectedParse = "* Moderate flooding is occurring and moderate flooding is forecast." + lineBreak + keywordSurroundLeft + "* Recent Activity..." + keywordSurroundRight + "The max";
     assertEquals(expectedParse, output);
   }
 
@@ -131,7 +133,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* Minor flooding is forecast.\n* Forecast...";
     String output = kw.emphasize(input);
-    String expectedParse = "* Minor flooding is forecast.<br>" + keywordSurroundLeft + "* Forecast..." + keywordSurroundRight;
+    String expectedParse = "* Minor flooding is forecast." + lineBreak + keywordSurroundLeft + "* Forecast..." + keywordSurroundRight;
     assertEquals(expectedParse, output);
   }
 
@@ -140,7 +142,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "Locations impacted include...\nYour house";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft  + "Locations impacted include..." + keywordSurroundRight + "<br>Your house";
+    String expectedParse = keywordSurroundLeft  + "Locations impacted include..." + keywordSurroundRight + lineBreak + "Your house";
     assertEquals(expectedParse, output);
   }
 
@@ -158,7 +160,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "Heavy freezing spray.\nTHU...N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
     String output = kw.emphasize(input);
-    String expectedParse = "Heavy freezing spray.<br>" + keywordSurroundLeft  + "THU..." + keywordSurroundRight + "N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
+    String expectedParse = "Heavy freezing spray." + lineBreak + keywordSurroundLeft  + "THU..." + keywordSurroundRight + "N winds 20 kt. Seas 6 ft. Heavy freezing spray.";
     assertEquals(expectedParse, output);
   }
 
@@ -221,7 +223,7 @@ public class KeywordEmphasizerTests {
     KeywordEmphasizer kw = new KeywordEmphasizer();
     String input = "* Flood Advisory for...\nNorth county in northeastern state...\nSouth county in southwestern state...";
     String output = kw.emphasize(input);
-    String expectedParse = keywordSurroundLeft  + "* Flood Advisory for..." + keywordSurroundRight + "<br>North county in northeastern state...<br>South county in southwestern state...";
+    String expectedParse = keywordSurroundLeft  + "* Flood Advisory for..." + keywordSurroundRight + lineBreak + "North county in northeastern state..." + lineBreak + "South county in southwestern state...";
     assertEquals(expectedParse, output);
   }
 

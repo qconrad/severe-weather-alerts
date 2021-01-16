@@ -24,8 +24,8 @@ public class AlertTests {
   public void CreateAlertObject_CurrentAfterIsBeforeStart_IsNotInFuture() {
     DefaultAlert al = new DefaultAlert();
     al.setStartTime(new Date(1577838600000L)); // 01/01/2020 12:30 AM
-    Date mockCurrentTime = new Date(1577839500000L); // 01/01/2020 12:45 AM
-    assertFalse(al.startsBefore(mockCurrentTime));
+    Date mockTime = new Date(1577839500000L); // 01/01/2020 12:45 AM
+    assertFalse(al.startsBefore(mockTime));
   }
 
   @Test
@@ -45,7 +45,7 @@ public class AlertTests {
   }
 
   @Test
-  public void NwsIdGetSet_NwsIdGiven_SameIdReturned() {
+  public void NwsIdSetGet_NwsIdGiven_SameIdReturned() {
     DefaultAlert al = new DefaultAlert();
     al.setNwsId("NWS-ID");
     assertEquals("NWS-ID", al.getNwsId());
