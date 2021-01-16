@@ -4,6 +4,8 @@ import com.severeweatheralerts.Adapters.ReferenceLinker;
 import com.severeweatheralerts.Adapters.UnadaptedAlert;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 
 import org.junit.Test;
 
@@ -158,5 +160,27 @@ public class ReferenceLinkerTests {
     adaptedAlerts.add(adaptedAlert);
     ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertFalse(linked.get(0).isReplaced());
+  }
+
+  @Test
+  public void linkReferences_referenceToDifferentTypeProvided_NotLinked() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    UnadaptedAlert reference = new UnadaptedAlert();
+
+    alert.addReferenceId("testID");
+    reference.setId("testID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    WinterStormWarning adaptedAlert = new WinterStormWarning();
+    WinterStormWatch adaptedReference = new WinterStormWatch();
+    adaptedReference.setNwsId("testID");
+    adaptedAlerts.add(adaptedAlert);
+    adaptedAlerts.add(adaptedReference);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(0, linked.get(0).getReferences().size());
   }
 }
