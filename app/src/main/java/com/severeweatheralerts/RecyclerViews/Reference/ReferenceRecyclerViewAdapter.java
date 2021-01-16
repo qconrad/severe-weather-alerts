@@ -38,8 +38,7 @@ public class ReferenceRecyclerViewAdapter extends RecyclerView.Adapter<Reference
   public void onBindViewHolder(@NonNull ReferenceCardHolder holder, int position) {
     Alert reference = referenceList.get(position);
     holder.text.setText(new Reference(reference).getText(new Date()));
-    holder.card.setCardBackgroundColor(reference.getColor());
-
+    holder.card.setCardBackgroundColor(new ReferenceColorChooser(reference).getColorAt(new Date()));
     holder.card.setOnClickListener(v -> {
       if (clickListener != null) clickListener.onCardClick(position, holder);
     });
