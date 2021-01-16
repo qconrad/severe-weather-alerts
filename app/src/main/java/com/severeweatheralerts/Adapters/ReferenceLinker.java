@@ -39,7 +39,9 @@ public class ReferenceLinker {
   }
 
   private void linkReference(int i, Alert reference) {
-    adaptedAlerts.get(i).addReference(reference);
+    Alert alert = adaptedAlerts.get(i);
+    alert.addReference(reference);
+    reference.setReplacedBy(alert);
     reference.setReplaced(true);
   }
 

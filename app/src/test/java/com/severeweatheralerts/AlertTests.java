@@ -44,7 +44,6 @@ public class AlertTests {
     assertEquals(result.hashCode(), reference.hashCode());
   }
 
-
   @Test
   public void NwsIdGetSet_NwsIdGiven_SameIdReturned() {
     DefaultAlert al = new DefaultAlert();

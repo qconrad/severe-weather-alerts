@@ -23,6 +23,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Date expectedUpdateTime;
   private Severity severity;
   private boolean isReplaced = false;
+  private Alert replacedBy;
   private ArrayList<Alert> references = new ArrayList<>();
 
   public Alert() {}
@@ -58,6 +59,14 @@ public abstract class Alert implements Comparable<Alert> {
 
   private boolean isCancel() {
     return type.equals(Type.CANCEL);
+  }
+
+  public void setReplacedBy(Alert replacedBy) {
+    this.replacedBy = replacedBy;
+  }
+
+  public Alert getReplacedBy() {
+    return replacedBy;
   }
 
   public String getName() { return name; }

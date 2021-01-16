@@ -183,4 +183,26 @@ public class ReferenceLinkerTests {
     ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertEquals(0, linked.get(0).getReferences().size());
   }
+
+  @Test
+  public void linkReferences_AlertWithReferenceProvided_ReferenceLinksBackToAlert() {
+    UnadaptedAlert alert = new UnadaptedAlert();
+    UnadaptedAlert reference = new UnadaptedAlert();
+
+    alert.addReferenceId("testID");
+    reference.setId("testID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(alert);
+    unAdaptedAlerts.add(reference);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert adaptedAlert = new DefaultAlert();
+    DefaultAlert adaptedReference = new DefaultAlert();
+    adaptedReference.setNwsId("testID");
+    adaptedAlerts.add(adaptedAlert);
+    adaptedAlerts.add(adaptedReference);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(adaptedAlert, linked.get(1).getReplacedBy());
+  }
 }
