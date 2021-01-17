@@ -33,7 +33,7 @@ public class TextBeautifier {
   }
 
   private static String removeExcessiveLineBreaks(String text) {
-    return text.replaceAll("\n\n\n+", "\n\n");
+    return text.replaceAll("\n\n+", "\n\n");
   }
 
   private static boolean shouldAppendCurrentLineWithNewLine(String[] lineSplit, int i) {
@@ -46,7 +46,7 @@ public class TextBeautifier {
   }
 
   private static boolean isList(String[] lineSplit, int i) {
-    String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
+    String nextLine = (i < lineSplit.length) ? lineSplit[i + 1] : "";
     return isUnbulletedList(lineSplit, i) || isBulletedList(nextLine, lineSplit[i]);
   }
 
