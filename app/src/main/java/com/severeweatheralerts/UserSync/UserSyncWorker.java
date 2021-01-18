@@ -25,10 +25,10 @@ public class UserSyncWorker extends Worker {
   }
 
   private void syncLocation() {
-    fetchID(this::postToken);
+    getToken(this::postToken);
   }
 
-  private void fetchID(OnCompleteListener<String> completeListener) {
+  private void getToken(OnCompleteListener<String> completeListener) {
     FirebaseMessaging.getInstance().getToken()
     .addOnCompleteListener(completeListener);
   }
