@@ -2,8 +2,6 @@ package com.severeweatheralerts.Networking;
 
 import android.os.AsyncTask;
 
-import com.severeweatheralerts.Networking.DataPostService;
-
 import java.io.IOException;
 
 public class AsyncPost extends AsyncTask<String, Void, Void> {
