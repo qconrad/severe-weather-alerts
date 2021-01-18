@@ -24,13 +24,17 @@ public class DataPostService {
     urlConnection.connect();
 
     BufferedWriter writer = createBufferedWriter(out);
-    writeToBuffer(out, writer);
+    writeToBuffer(writer);
+    cleanUp(out, writer);
 
     urlConnection.getInputStream();
   }
 
-  private void writeToBuffer(OutputStream out, BufferedWriter writer) throws IOException {
+  private void writeToBuffer(BufferedWriter writer) throws IOException {
     writer.write(data);
+  }
+
+  private void cleanUp(OutputStream out, BufferedWriter writer) throws IOException {
     writer.flush();
     writer.close();
     out.close();
