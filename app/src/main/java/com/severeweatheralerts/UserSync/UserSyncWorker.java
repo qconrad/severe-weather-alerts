@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.severeweatheralerts.Networking.AsyncPost;
@@ -17,19 +18,37 @@ public class UserSyncWorker extends Worker {
     super(context, workerParams);
   }
 
-  public void syncLocation() {
+  @NonNull
+  @Override
+  public Result doWork() {
+    syncLocation();
+    return Result.success();
+  }
+
+  private void syncLocation() {
+    fetchID(this::postToken);
+  }
+
+  private void fetchID(OnCompleteListener<String> completeListener) {
     FirebaseMessaging.getInstance().getToken()
-    .addOnCompleteListener(this::onComplete);
+    .addOnCompleteListener(completeListener);
   }
 
   private String getToken(Task<String> task) {
     return task.getResult();
   }
 
-  private void onComplete(Task<String> task) {
+  private void postToken(Task<String> task) {
     if (failure(task)) return;
-    String syncData = new UserSyncJSONGenerator(getToken(task)).getLocationsString(getLocations());
-    new AsyncPost().execute("https://us-central1-severe-weather-alerts.cloudfunctions.net/userupdate", syncData);
+    new AsyncPost(getUrl(), getSyncData(task)).execute();
+  }
+
+  private String getSyncData(Task<String> task) {
+    return new UserSyncJSONGenerator(getToken(task)).getLocationsString(getLocations());
+  }
+
+  protected String getUrl() {
+    return "https://us-central1-severe-weather-alerts.cloudfunctions.net/userupdate";
   }
 
   private String getLocations() {
@@ -38,12 +57,5 @@ public class UserSyncWorker extends Worker {
 
   private boolean failure(Task<String> task) {
     return !task.isSuccessful();
-  }
-
-  @NonNull
-  @Override
-  public Result doWork() {
-    syncLocation();
-    return Result.success();
   }
 }

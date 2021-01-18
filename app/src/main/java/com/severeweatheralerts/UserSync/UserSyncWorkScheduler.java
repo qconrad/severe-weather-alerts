@@ -8,8 +8,6 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
-import com.severeweatheralerts.UserSync.UserSyncWorker;
-
 public class UserSyncWorkScheduler {
   private final Context context;
 

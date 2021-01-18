@@ -24,13 +24,16 @@ public class JSONLocationString {
   }
 
   private void addLocation(StringBuilder locArr, int i) {
-    Location curLoc = locationList.get(i);
-    locArr.append("[").append(curLoc.getLatitude()).append(",").append(curLoc.getLongitude()).append("]");
+    locArr.append(getArrayString(locationList.get(i)));
     if (shouldAddComma(i)) locArr.append(",");
   }
 
+  private String getArrayString(Location loc) {
+    return "[" + loc.getLatitude() + "," + loc.getLongitude() + "]";
+  }
+
   private boolean shouldAddComma(int i) {
-    return i <= locationList.size()-2;
+    return i < locationList.size() - 1;
   }
 
   private String emptyLocationArray() {

@@ -24,6 +24,7 @@ public class DataPostService {
     urlConnection.connect();
 
     BufferedWriter writer = createBufferedWriter(out);
+
     writeToBuffer(writer);
     cleanUp(out, writer);
 

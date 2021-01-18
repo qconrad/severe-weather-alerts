@@ -17,11 +17,9 @@ public class TextBeautifier {
   }
 
   private static String finalize(String text) {
-    String output = text;
-    output = removeSpaceAtEndOfLines(output);
-    output = removeDotsAtBeginningOfLines(output);
-    output = removeExcessiveLineBreaks(output);
-    return output;
+    return removeExcessiveLineBreaks(
+           removeDotsAtBeginningOfLines(
+           removeSpaceAtEndOfLines(text)));
   }
 
   private static String removeSpaceAtEndOfLines(String text) {
@@ -81,7 +79,7 @@ public class TextBeautifier {
   }
 
   private static boolean isSectionHeading(String line) {
-    return  match("\\.\\.\\.$", line).size() > 0;
+    return match("\\.\\.\\.$", line).size() > 0;
   }
 
   private static boolean shouldAppendTwoNewLines(String curLine) {

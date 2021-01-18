@@ -17,8 +17,12 @@ public class DataFetchService {
     URLConnection request = url.openConnection();
     request.setConnectTimeout(TIMEOUT);
     request.setReadTimeout(TIMEOUT);
-    request.setRequestProperty("User-Agent", "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
+    request.setRequestProperty("User-Agent", getUserAgent());
     request.connect();
     return request.getContent();
+  }
+
+  protected String getUserAgent() {
+    return "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)";
   }
 }
