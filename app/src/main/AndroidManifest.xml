@@ -20,7 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AlertViewerActivity" />
+        <activity
+            android:name=".AlertViewerActivity"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="alertviewer" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ReferenceViewerActivity" />
     </application>
 
