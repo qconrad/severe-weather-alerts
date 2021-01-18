@@ -23,7 +23,7 @@ public class LastKnownLocation extends LocationGetter {
   private Location getLastKnownLocation() {
     return locationManager.getLastKnownLocation(getProvider(locationManager, getCriteria()));
   }
-  private void getLocationService() {
+  protected void getLocationService() {
     locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
   }
 
@@ -31,9 +31,7 @@ public class LastKnownLocation extends LocationGetter {
     return lm.getBestProvider(criteria, true);
   }
 
-  private Criteria getCriteria() {
-    Criteria criteria = new Criteria();
-    criteria.setAccuracy(Criteria.NO_REQUIREMENT);
-    return criteria;
+  protected Criteria getCriteria() {
+    return new Criteria();
   }
 }
