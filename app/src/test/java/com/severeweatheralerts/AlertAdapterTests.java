@@ -389,7 +389,7 @@ public class AlertAdapterTests {
   @Test
   public void adaptAlerts_SentTimeStringIsProvided_CorrectlyConvertedToDateObject() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setSent("2020-11-26T04:52:00-05:00");
+    pa.setSent("2020-11-26T04:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -397,9 +397,19 @@ public class AlertAdapterTests {
   }
 
   @Test
+  public void adaptAlerts_DifferentTimeZoneProvided_CorrectTime() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setSent("2021-01-18T02:00:00-00:00");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1610935200000L, aa.getAdaptedAlerts().get(0).getSentTime().getTime());
+  }
+
+  @Test
   public void adaptAlerts_BeginTimeStringIsProvided_CorrectlyConvertedToDateObject() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setOnset("2020-11-26T04:52:00-05:00");
+    pa.setOnset("2020-11-26T04:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -409,7 +419,7 @@ public class AlertAdapterTests {
   @Test
   public void adaptAlerts_EndTimeStringIsProvided_CorrectlyConvertedToDateObject() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setEnds("2020-11-26T05:52:00-05:00");
+    pa.setEnds("2020-11-26T05:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -419,7 +429,7 @@ public class AlertAdapterTests {
   @Test
   public void adaptAlerts_ExpireTimeWithoutEndStringIsProvided_ExpireTimeIsUsedAsEndTime() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setExpires("2020-11-26T06:52:00-05:00");
+    pa.setExpires("2020-11-26T06:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -429,8 +439,8 @@ public class AlertAdapterTests {
   @Test
   public void adaptAlerts_ExpiresAndEndTimeProvided_NextUpdateTimeIsExpireTime() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setExpires("2020-11-26T04:52:00-05:00");
-    pa.setEnds("2020-11-26T06:52:00-05:00");
+    pa.setExpires("2020-11-26T04:52:00-06:00");
+    pa.setEnds("2020-11-26T06:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -440,8 +450,8 @@ public class AlertAdapterTests {
   @Test
   public void adaptAlerts_ExpiresAndEndTimeProvided_EndTimeIsEndTime() {
     UnadaptedAlert pa = new UnadaptedAlert();
-    pa.setExpires("2020-11-26T04:52:00-05:00");
-    pa.setEnds("2020-11-26T06:52:00-05:00");
+    pa.setExpires("2020-11-26T04:52:00-06:00");
+    pa.setEnds("2020-11-26T06:52:00-06:00");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
