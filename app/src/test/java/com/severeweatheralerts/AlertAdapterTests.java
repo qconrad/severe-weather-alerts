@@ -425,7 +425,6 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(1606395120000L, aa.getAdaptedAlerts().get(0).getEndTime().getTime());
   }
-  // TODO: check and make sure till time isn't set
 
   @Test
   public void adaptAlerts_ExpiresAndEndTimeProvided_NextUpdateTimeIsExpireTime() {
