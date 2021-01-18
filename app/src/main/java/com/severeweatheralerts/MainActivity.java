@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
+import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 
@@ -27,6 +28,19 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    populateLocations();
+    asyncRefresh();
+  }
+
+  private void populateLocations() {
+    Location loc = new Location();
+    android.location.Location deviceLoc = new LastKnownLocation(this).getLocation();
+    loc.setLatitude(deviceLoc.getLatitude());
+    loc.setLongitude(deviceLoc.getLongitude());
+    LocationsDao.addLocation(loc);
+  }
+
+  private void asyncRefresh() {
     new AsyncRefresh().execute();
   }
 
@@ -53,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private class AsyncRefresh extends AsyncTask<Void, Void, Void> {
-    Location location = new Location();
     @Override
     protected Void doInBackground(Void... params) {
       try { populateAlerts(); }
@@ -62,12 +75,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateAlerts() throws IOException {
-      new AllNWSPopulater(location).populate();
+      new FromLocationPointPopulater(LocationsDao.getLocation(0)).populate();
     }
 
     @Override
     protected void onPostExecute(Void result) {
-      LocationsDao.addLocation(location);
       populateRecyclerView();
     }
   }
