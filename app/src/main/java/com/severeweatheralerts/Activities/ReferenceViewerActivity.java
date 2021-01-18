@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Activities;
 
 import com.severeweatheralerts.TextGeneraters.Time.ReferenceTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;

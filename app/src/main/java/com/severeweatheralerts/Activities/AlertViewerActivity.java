@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -20,8 +20,10 @@ import android.widget.TextView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertListSearcher;
+import com.severeweatheralerts.ColorBrightnessChanger;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
