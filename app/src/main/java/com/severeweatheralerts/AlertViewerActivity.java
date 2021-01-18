@@ -30,6 +30,7 @@ import com.severeweatheralerts.TextUtils.KeywordEmphasizer;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
   protected Alert al;
@@ -212,7 +213,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void setNextUpdate() {
     TextView nextUpdate = findViewById(R.id.next_update);
-    NextUpdate nextUpdateGen = new NextUpdate(al);
+    NextUpdate nextUpdateGen = new NextUpdate(al, TimeZone.getTimeZone("CST"));
     if (nextUpdateGen.hasText()) {
       nextUpdate.setVisibility(View.VISIBLE);
       nextUpdate.setText(nextUpdateGen.getText(new Date()));

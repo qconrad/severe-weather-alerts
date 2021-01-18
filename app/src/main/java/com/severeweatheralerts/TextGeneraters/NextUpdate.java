@@ -8,9 +8,11 @@ import java.util.TimeZone;
 
 public class NextUpdate {
   private final Alert alert;
+  private final TimeZone timeZone;
 
-  public NextUpdate(Alert alert) {
+  public NextUpdate(Alert alert, TimeZone timeZone) {
     this.alert = alert;
+    this.timeZone = timeZone;
   }
 
   public boolean hasText() {
@@ -21,7 +23,7 @@ public class NextUpdate {
   public String getText(Date time) {
     if (hasText() && !isCancel()) {
       if (alert.isLikelyLastUpdate()) return "Likely to be the last update";
-      return "Next update expected by " + new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime(), TimeZone.getDefault()).getFormattedString();
+      return "Next update expected by " + new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime(), timeZone).getFormattedString();
     }
     return null;
   }
