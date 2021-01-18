@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Networking;
 
 import android.os.AsyncTask;
 

@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.UserSync;
 
 import android.content.Context;
 
@@ -7,6 +7,8 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
+
+import com.severeweatheralerts.UserSync.UserSyncWorker;
 
 public class UserSyncWorkScheduler {
   private final Context context;

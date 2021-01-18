@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.UserSync;
 
 public class UserSyncJSONGenerator {
   private final String token;

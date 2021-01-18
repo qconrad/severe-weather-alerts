@@ -18,6 +18,7 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.io.IOException;
 

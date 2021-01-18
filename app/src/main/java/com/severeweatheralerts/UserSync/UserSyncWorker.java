@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.UserSync;
 
 import android.content.Context;
 
@@ -8,6 +8,8 @@ import androidx.work.WorkerParameters;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.severeweatheralerts.Networking.AsyncPost;
+import com.severeweatheralerts.JSONLocationString;
 import com.severeweatheralerts.Location.LocationsDao;
 
 public class UserSyncWorker extends Worker {
