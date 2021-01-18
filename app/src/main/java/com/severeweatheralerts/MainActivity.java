@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     populateLocations();
     asyncRefresh();
+    userSync();
+  }
+
+  private void userSync() {
+    new UserSyncWorkScheduler(this).oneTimeSync();
   }
 
   private void populateLocations() {
