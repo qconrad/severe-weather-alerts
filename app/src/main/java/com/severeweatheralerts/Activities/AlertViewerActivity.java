@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.AlertListSearcher;
+import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.ColorBrightnessChanger;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
@@ -50,7 +50,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void getAlertFromExtras(Bundle bundle) {
     int locIndex = bundle.getInt("locIndex");
     String alertIndex = bundle.getString("alertID");
-    al = new AlertListSearcher(getAlerts(locIndex)).findAlertByID(alertIndex);
+    al = new AlertFinder(getAlerts(locIndex)).findAlertByID(alertIndex);
   }
 
   private ArrayList<Alert> getAlerts(int locIndex) {

@@ -23,7 +23,7 @@ import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.io.IOException;
 
-import static com.severeweatheralerts.AlertFilter.removeReferences;
+import static com.severeweatheralerts.AlertListTools.AlertFilter.filter;
 
 public class MainActivity extends AppCompatActivity {
   @Override
@@ -61,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
       aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
       ach.card.setTransitionName("zoom");
     }
-    alertIntent.putExtra("alertID", removeReferences(LocationsDao.getLocation(0).getAlerts()).get(alertIndex).getNwsId());
+    alertIntent.putExtra("alertID", filter(LocationsDao.getLocation(0).getAlerts()).get(alertIndex).getNwsId());
     startActivity(alertIntent, aO.toBundle());
   }
 
   private void populateRecyclerView() {
     RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(removeReferences(LocationsDao.getLocation(0).getAlerts()));
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(filter(LocationsDao.getLocation(0).getAlerts()));
     alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
     recyclerView.setAdapter(alertRecyclerViewAdapter);
   }

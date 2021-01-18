@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.AlertListSearcher;
+import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
 import org.junit.Test;
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class AlertListSearcherTests {
+public class AlertFinderTests {
   @Test
   public void findAlertByID_EmptyList_NullReturn() {
-    AlertListSearcher als = new AlertListSearcher(new ArrayList<Alert>());
+    AlertFinder als = new AlertFinder(new ArrayList<Alert>());
     assertNull(als.findAlertByID("testID"));
   }
 
@@ -24,7 +24,7 @@ public class AlertListSearcherTests {
     DefaultAlert da = new DefaultAlert();
     da.setNwsId("testID");
     alerts.add(da);
-    AlertListSearcher als = new AlertListSearcher(alerts);
+    AlertFinder als = new AlertFinder(alerts);
     assertEquals("testID", als.findAlertByID("testID").getNwsId());
   }
 
@@ -34,7 +34,7 @@ public class AlertListSearcherTests {
     DefaultAlert da = new DefaultAlert();
     da.setNwsId("realID");
     alerts.add(da);
-    AlertListSearcher als = new AlertListSearcher(alerts);
+    AlertFinder als = new AlertFinder(alerts);
     assertNull(als.findAlertByID("invalidID"));
   }
 
@@ -47,7 +47,7 @@ public class AlertListSearcherTests {
     second.setNwsId("second");
     alerts.add(first);
     alerts.add(second);
-    AlertListSearcher als = new AlertListSearcher(alerts);
+    AlertFinder als = new AlertFinder(alerts);
     assertEquals("second", als.findAlertByID("second").getNwsId());
   }
 }

@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.UserSync;
 
 import com.severeweatheralerts.Location.Location;
 

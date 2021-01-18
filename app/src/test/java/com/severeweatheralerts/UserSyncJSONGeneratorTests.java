@@ -1,6 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.UserSync.JSONLocationString;
 import com.severeweatheralerts.UserSync.UserSyncJSONGenerator;
 
 import org.junit.Test;

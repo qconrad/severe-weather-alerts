@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.AlertListTools.AlertFilter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
@@ -16,7 +17,7 @@ public class ReferenceFilterTests {
     DefaultAlert alert1 = new DefaultAlert();
     alert1.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
-    assertEquals(0, AlertFilter.removeReferences(alerts).size());
+    assertEquals(0, AlertFilter.filter(alerts).size());
   }
 
   @Test
@@ -27,7 +28,7 @@ public class ReferenceFilterTests {
     alert2.setReplacedBy(new DefaultAlert());
     alerts.add(alert1);
     alerts.add(alert2);
-    assertEquals(1, AlertFilter.removeReferences(alerts).size());
+    assertEquals(1, AlertFilter.filter(alerts).size());
   }
 
   @Test
@@ -41,7 +42,7 @@ public class ReferenceFilterTests {
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);
-    assertEquals(1, AlertFilter.removeReferences(alerts).size());
+    assertEquals(1, AlertFilter.filter(alerts).size());
   }
 
   @Test
@@ -55,7 +56,7 @@ public class ReferenceFilterTests {
     alerts.add(alert1);
     alerts.add(alert2);
     alerts.add(alert3);
-    AlertFilter.removeReferences(alerts);
+    AlertFilter.filter(alerts);
     assertEquals(3, alerts.size());
   }
 }

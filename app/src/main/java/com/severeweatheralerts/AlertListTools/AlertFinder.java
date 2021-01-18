@@ -1,11 +1,13 @@
-package com.severeweatheralerts.Alerts;
+package com.severeweatheralerts.AlertListTools;
+
+import com.severeweatheralerts.Alerts.Alert;
 
 import java.util.ArrayList;
 
-public class AlertListSearcher {
+public class AlertFinder {
   private final ArrayList<Alert> alerts;
 
-  public AlertListSearcher(ArrayList<Alert> alerts) {
+  public AlertFinder(ArrayList<Alert> alerts) {
     this.alerts = alerts;
   }
 
