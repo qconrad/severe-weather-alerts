@@ -24,12 +24,13 @@ public class GPSLocation extends LocationGetter {
     this.locationUpdateCallback = locationUpdateCallback;
   }
 
-  public void startUpdates() {
+  public GPSLocation startUpdates() {
     createHandlerThread();
     startHandlerThread();
     createLocationCallback();
     createLocationRequest();
     requestLocationUpdates();
+    return this;
   }
 
   @SuppressLint("MissingPermission")

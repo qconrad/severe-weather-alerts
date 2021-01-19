@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.R;
@@ -30,23 +28,12 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    populateLocations();
     asyncRefresh();
     userSync();
   }
 
   private void userSync() {
     new UserSyncWorkScheduler(this).oneTimeSync();
-  }
-
-  private void populateLocations() {
-    Location loc = new Location();
-    android.location.Location deviceLoc = new LastKnownLocation(this).getLocation();
-    if (deviceLoc != null) {
-      loc.setLatitude(deviceLoc.getLatitude());
-      loc.setLongitude(deviceLoc.getLongitude());
-      LocationsDao.addLocation(loc);
-    }
   }
 
   private void asyncRefresh() {
