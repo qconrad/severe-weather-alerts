@@ -25,11 +25,11 @@ import java.io.IOException;
 
 import static com.severeweatheralerts.AlertListTools.AlertFilter.filter;
 
-public class MainActivity extends AppCompatActivity {
+public class AlertListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_alertlist);
     populateLocations();
     asyncRefresh();
     userSync();
@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void displayFullAlert(int alertIndex, RecyclerView.ViewHolder holder) {
-    Intent alertIntent = new Intent(MainActivity.this, AlertViewerActivity.class);
+    Intent alertIntent = new Intent(AlertListActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     AlertCardHolder ach = (AlertCardHolder) holder;
     Pair<View,String> pair1 = Pair.create(ach.card, "zoom");
     ActivityOptions aO = null;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      aO = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair1);
+      aO = ActivityOptions.makeSceneTransitionAnimation(AlertListActivity.this, pair1);
       ach.card.setTransitionName("zoom");
     }
     alertIntent.putExtra("alertID", filter(LocationsDao.getLocation(0).getAlerts()).get(alertIndex).getNwsId());
