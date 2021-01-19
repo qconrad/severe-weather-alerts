@@ -42,9 +42,11 @@ public class MainActivity extends AppCompatActivity {
   private void populateLocations() {
     Location loc = new Location();
     android.location.Location deviceLoc = new LastKnownLocation(this).getLocation();
-    loc.setLatitude(deviceLoc.getLatitude());
-    loc.setLongitude(deviceLoc.getLongitude());
-    LocationsDao.addLocation(loc);
+    if (deviceLoc != null) {
+      loc.setLatitude(deviceLoc.getLatitude());
+      loc.setLongitude(deviceLoc.getLongitude());
+      LocationsDao.addLocation(loc);
+    }
   }
 
   private void asyncRefresh() {

@@ -21,6 +21,7 @@ public class LastKnownLocation extends LocationGetter {
 
   @SuppressLint("MissingPermission")
   private Location getLastKnownLocation() {
+    if (getProvider(locationManager, getCriteria()) == null) return null;
     return locationManager.getLastKnownLocation(getProvider(locationManager, getCriteria()));
   }
   protected void getLocationService() {
