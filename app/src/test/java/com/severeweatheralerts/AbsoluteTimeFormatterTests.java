@@ -39,4 +39,16 @@ public class AbsoluteTimeFormatterTests {
     AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0), new Date(313200000L), TimeZone.getTimeZone("EST"));
     assertEquals("10 AM Sunday", absoluteTimeFormatter.getFormattedString());
   }
+
+  @Test
+  public void getFormattedString_12PMProvided_ChangedToNoon() {
+    AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0L), new Date(154800000L), TimeZone.getTimeZone("MST"));
+    assertEquals("noon Friday", absoluteTimeFormatter.getFormattedString());
+  }
+
+  @Test
+  public void getFormattedString_12AMProvided_ChangedToMidnight() {
+    AbsoluteTimeFormatter absoluteTimeFormatter = new AbsoluteTimeFormatter(new Date(0L), new Date(111600000L), TimeZone.getTimeZone("MST"));
+    assertEquals("midnight Friday", absoluteTimeFormatter.getFormattedString());
+  }
 }

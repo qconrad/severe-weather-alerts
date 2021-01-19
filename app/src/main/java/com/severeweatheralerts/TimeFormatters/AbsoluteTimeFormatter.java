@@ -15,8 +15,32 @@ public class AbsoluteTimeFormatter extends TimeFormatter {
 
   @Override
   public String getFormattedString() {
-    if (greaterThanHours(23)) return DateTimeConverter.convertDateToString(second, "h a EEEE", timeZone);
+    return finalize(getTimeString());
+  }
+
+  protected String finalize(String timeText) {
+    return replaceMidnight(replaceNoon(timeText));
+  }
+
+  private String replaceMidnight(String timeText) {
+    return timeText.replace("12 AM", "midnight");
+  }
+
+  private String replaceNoon(String timeText) {
+    return timeText.replace("12 PM", "noon");
+  }
+
+  private String getTimeString() {
+    if (greaterThanHours(23)) return getDayOfWeek();
+    return getTimeOnly();
+  }
+
+  private String getTimeOnly() {
     return DateTimeConverter.convertDateToString(second, "h a", timeZone);
+  }
+
+  private String getDayOfWeek() {
+    return DateTimeConverter.convertDateToString(second, "h a EEEE", timeZone);
   }
 
   private boolean greaterThanHours(int hours) {
