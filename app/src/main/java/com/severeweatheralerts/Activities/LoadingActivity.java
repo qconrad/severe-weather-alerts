@@ -15,6 +15,7 @@ import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class LoadingActivity extends AppCompatActivity {
 
@@ -30,8 +31,20 @@ public class LoadingActivity extends AppCompatActivity {
   private void populateLocations() {
     Location deviceLoc = new Location();
     android.location.Location lastKnown = new LastKnownLocation(this).getLocation();
-    if (lastKnown != null) setDeviceLocation(deviceLoc, lastKnown);
+    if (notNull(lastKnown) && notOutdated(lastKnown)) setDeviceLocation(deviceLoc, lastKnown);
     else useGPS(deviceLoc);
+  }
+
+  private boolean notOutdated(android.location.Location lastKnown) {
+    return lastKnown.getTime() > new Date().getTime() - getLastKnownExpireTimeMS();
+  }
+
+  private boolean notNull(android.location.Location lastKnown) {
+    return lastKnown != null;
+  }
+
+  private int getLastKnownExpireTimeMS() {
+    return 1000*60*45; // 45 minutes
   }
 
   private void useGPS(Location deviceLoc) {
@@ -45,7 +58,7 @@ public class LoadingActivity extends AppCompatActivity {
     setDeviceLocation(deviceLoc, location);
   }
 
-  private boolean accurateEnough(android.location.Location location) {
+  protected boolean accurateEnough(android.location.Location location) {
     return location.getAccuracy() < 100;
   }
 
