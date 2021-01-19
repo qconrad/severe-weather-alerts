@@ -9,12 +9,16 @@ import androidx.work.WorkerParameters;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.severeweatheralerts.BuildNumber;
 import com.severeweatheralerts.Networking.AsyncPost;
 import com.severeweatheralerts.Location.LocationsDao;
 
 public class UserSyncWorker extends Worker {
+  private final Context context;
+
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
+    this.context = context;
   }
 
   @NonNull
@@ -43,7 +47,7 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getSyncData(Task<String> task) {
-    return new UserSyncJSONGenerator(getToken(task)).getLocationsString(getLocations());
+    return new UserSyncJSONGenerator(getToken(task), BuildNumber.get(context)).getLocationsString(getLocations());
   }
 
   protected String getUrl() {

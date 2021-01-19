@@ -12,10 +12,10 @@ import static org.junit.Assert.assertEquals;
 
 public class UserSyncJSONGeneratorTests {
   @Test
-  public void getString_TokenAndLocationsProvided_ValidJSONReturned() {
+  public void getString_TokenAndBuildProvided_TokenAndBuildInString() {
     String token = "0123456789abc";
-    UserSyncJSONGenerator userSyncJSONGenerator = new UserSyncJSONGenerator(token);
+    UserSyncJSONGenerator userSyncJSONGenerator = new UserSyncJSONGenerator(token, 1);
     String output = userSyncJSONGenerator.getLocationsString(new JSONLocationString(new ArrayList<Location>()).getString());
-    assertEquals("{\"0123456789abc\":{\"locations\":[[]]}}", output);
+    assertEquals("{\"0123456789abc\":{\"build\":1,\"locations\":[[]]}}", output);
   }
 }
