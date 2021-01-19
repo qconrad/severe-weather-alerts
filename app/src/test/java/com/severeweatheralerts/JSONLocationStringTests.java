@@ -52,4 +52,26 @@ public class JSONLocationStringTests {
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
     assertEquals("[[41.0,-81.0],[40.0,-80.0]]", jsonSettingsGenerator.getString());
   }
+
+  @Test
+  public void getString_LongLatitudeIsProvided_TrimmedTo3Digits() {
+    ArrayList<Location> locationList = new ArrayList<>();
+    Location loc1 = new Location();
+    loc1.setLatitude(41.12345678);
+    loc1.setLongitude(-81.0);
+    locationList.add(loc1);
+    JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
+    assertEquals("[[41.123,-81.0]]", jsonSettingsGenerator.getString());
+  }
+
+  @Test
+  public void getString_LongLongitudeIsProvided_TrimmedTo3Digits() {
+    ArrayList<Location> locationList = new ArrayList<>();
+    Location loc1 = new Location();
+    loc1.setLatitude(41.0);
+    loc1.setLongitude(-80.12345678);
+    locationList.add(loc1);
+    JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
+    assertEquals("[[41.0,-80.123]]", jsonSettingsGenerator.getString());
+  }
 }

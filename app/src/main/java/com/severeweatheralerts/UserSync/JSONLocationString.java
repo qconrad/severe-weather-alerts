@@ -29,7 +29,19 @@ public class JSONLocationString {
   }
 
   private String getArrayString(Location loc) {
-    return "[" + loc.getLatitude() + "," + loc.getLongitude() + "]";
+    return "[" + getLat(loc) + "," + getLong(loc) + "]";
+  }
+
+  private double getLat(Location loc) {
+    return new DecimalTrimmer(loc.getLatitude()).trim(getTrimCount());
+  }
+
+  private double getLong(Location loc) {
+    return new DecimalTrimmer(loc.getLongitude()).trim(getTrimCount());
+  }
+
+  protected int getTrimCount() {
+    return 3;
   }
 
   private boolean shouldAddComma(int i) {
