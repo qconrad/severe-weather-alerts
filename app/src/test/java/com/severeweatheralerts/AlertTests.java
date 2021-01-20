@@ -60,4 +60,40 @@ public class AlertTests {
     da.setReplacedBy(new DefaultAlert());
     assertFalse(da.activeAt(new Date(0)));
   }
+
+  @Test
+  public void getPolygonCount_NothingAdded_Returns0() {
+    DefaultAlert da = new DefaultAlert();
+    assertEquals(0, da.getPolygonCount());
+  }
+
+  @Test
+  public void getPolygonCount_OnePolygonAdded_Returns1() {
+    DefaultAlert da = new DefaultAlert();
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(0.0, 0.0));
+    da.addPolygon(polygon);
+    assertEquals(1, da.getPolygonCount());
+  }
+
+  @Test
+  public void getPolygon_OnePolygonAdded_ReturnsThatPolygon() {
+    DefaultAlert da = new DefaultAlert();
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(1.0, 2.0));
+    da.addPolygon(polygon);
+    assertEquals(1.0, da.getPolygon(0).getCoordinate(0).getX(), 0.0001);
+    assertEquals(2.0, da.getPolygon(0).getCoordinate(0).getY(), 0.0001);
+  }
+
+  @Test
+  public void getPolygon_TwoPolygonsAdded_Get0ReturnsFirstPolygon() {
+    DefaultAlert da = new DefaultAlert();
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(1.0, 2.0));
+    da.addPolygon(polygon);
+    da.addPolygon(new Polygon());
+    assertEquals(1.0, da.getPolygon(0).getCoordinate(0).getX(), 0.0001);
+    assertEquals(2.0, da.getPolygon(0).getCoordinate(0).getY(), 0.0001);
+  }
 }

@@ -2,6 +2,8 @@ package com.severeweatheralerts.Alerts;
 
 import android.graphics.Color;
 
+import com.severeweatheralerts.Polygon;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,7 +25,8 @@ public abstract class Alert implements Comparable<Alert> {
   private Date expectedUpdateTime;
   private Severity severity;
   private Alert replacedBy;
-  private ArrayList<Alert> references = new ArrayList<>();
+  private final ArrayList<Alert> references = new ArrayList<>();
+  private final ArrayList<Polygon> polygons = new ArrayList<>();
 
   public Alert() {}
 
@@ -55,6 +58,18 @@ public abstract class Alert implements Comparable<Alert> {
   public void addReference(Alert reference) { references.add(reference); }
   public Alert getReference(int index) { return references.get(index); }
   public ArrayList<Alert> getReferences() { return references; }
+
+  public void addPolygon(Polygon polygon) {
+    polygons.add(polygon);
+  }
+
+  public Polygon getPolygon(int i) {
+    return polygons.get(i);
+  }
+
+  public int getPolygonCount() {
+    return polygons.size();
+  }
 
   private boolean isCancel() {
     return type.equals(Type.CANCEL);
