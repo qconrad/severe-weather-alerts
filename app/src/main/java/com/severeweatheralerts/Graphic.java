@@ -1,8 +1,11 @@
 package com.severeweatheralerts;
 
+import android.graphics.Bitmap;
+
 public class Graphic {
   private String title;
   private String subText;
+  private Bitmap image;
 
   public String getTitle() {
     return title;
@@ -18,5 +21,13 @@ public class Graphic {
 
   public String getSubtext() {
     return subText;
+  }
+
+  public void setImage(Bitmap image) {
+    this.image = image;
+  }
+
+  public Bitmap getImage() {
+    return image;
   }
 }
