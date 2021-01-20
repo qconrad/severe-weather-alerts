@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class GraphicImageTests {
   @Test
-  public void test() {
+  public void getImage_BitmapAdded_SamHeightReturned() {
     Graphic graphic = new Graphic();
     Bitmap bm = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
     graphic.setImage(bm);
