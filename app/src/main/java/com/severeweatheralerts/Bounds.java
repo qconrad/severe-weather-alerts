@@ -1,12 +1,12 @@
 package com.severeweatheralerts;
 
-public class PolygonBounds {
+public class Bounds {
   private final double top;
   private final double right;
   private final double bottom;
   private final double left;
 
-  public PolygonBounds(double top, double right, double bottom, double left) {
+  public Bounds(double top, double right, double bottom, double left) {
     this.top = top;
     this.right = right;
     this.bottom = bottom;

@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class PolygonBoundCalculatorTests {
+public class BoundCalculatorTests {
   @Test
   public void getLeft_OneCoordinateGiven_LeftBoundIsX() {
     Polygon polygon = new Polygon();
     polygon.addCoordinate(new MercatorCoordinate(1.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(1.0, bounds.getLeft(), 0.001);
   }
 
@@ -17,7 +17,7 @@ public class PolygonBoundCalculatorTests {
   public void getLeft_DifferentCoordinateGiven_LeftBoundIsX() {
     Polygon polygon = new Polygon();
     polygon.addCoordinate(new MercatorCoordinate(2.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(2.0, bounds.getLeft(), 0.001);
   }
 
@@ -26,7 +26,7 @@ public class PolygonBoundCalculatorTests {
     Polygon polygon = new Polygon();
     polygon.addCoordinate(new MercatorCoordinate(2.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(1.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(1.0, bounds.getLeft(), 0.001);
   }
 
@@ -36,7 +36,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(-1.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(2.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(1.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(-1.0, bounds.getLeft(), 0.001);
   }
 
@@ -46,7 +46,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(0.0, 2.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, 1.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, 3.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(1.0, bounds.getBottom(), 0.001);
   }
 
@@ -56,7 +56,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(0.0, 2.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, 1.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, -3.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(-3.0, bounds.getBottom(), 0.001);
   }
 
@@ -66,7 +66,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(0.0, 2.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, 1.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, -3.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(2.0, bounds.getTop(), 0.001);
   }
 
@@ -76,7 +76,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(0.0, 3.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, 2.0));
     polygon.addCoordinate(new MercatorCoordinate(0.0, -5.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(3.0, bounds.getTop(), 0.001);
   }
 
@@ -86,7 +86,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(1.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(3.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(-2.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(3.0, bounds.getRight(), 0.001);
   }
 
@@ -96,7 +96,7 @@ public class PolygonBoundCalculatorTests {
     polygon.addCoordinate(new MercatorCoordinate(1.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(4.0, 0.0));
     polygon.addCoordinate(new MercatorCoordinate(-2.0, 0.0));
-    PolygonBounds bounds = new PolygonBoundCalculator(polygon).getBounds();
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(4.0, bounds.getRight(), 0.001);
   }
 }

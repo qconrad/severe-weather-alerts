@@ -1,15 +1,15 @@
 package com.severeweatheralerts;
 
-public class PolygonBoundCalculator {
+public class BoundCalculator {
   private final Polygon polygon;
-  private PolygonBounds bounds;
+  private Bounds bounds;
 
-  public PolygonBoundCalculator(Polygon polygon) {
+  public BoundCalculator(Polygon polygon) {
     this.polygon = polygon;
     calculateBounds();
   }
 
-  public PolygonBounds getBounds() {
+  public Bounds getBounds() {
     return bounds;
   }
 
@@ -28,6 +28,6 @@ public class PolygonBoundCalculator {
       if (polygon.getCoordinate(i).getX() > right)
         right = polygon.getCoordinate(i).getX();
     }
-    bounds = new PolygonBounds(top, right, bottom, left);
+    bounds = new Bounds(top, right, bottom, left);
   }
 }
