@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.TextUtils;
 
 public class StringArrayJoiner {
   private final String[] arr;

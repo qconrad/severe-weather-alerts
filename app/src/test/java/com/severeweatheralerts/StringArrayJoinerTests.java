@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.TextUtils.StringArrayJoiner;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

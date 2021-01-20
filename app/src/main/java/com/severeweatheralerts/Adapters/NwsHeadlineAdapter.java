@@ -1,7 +1,7 @@
 package com.severeweatheralerts.Adapters;
 
 import static com.severeweatheralerts.TextUtils.RegExMatcher.match;
-import static com.severeweatheralerts.TextUtils.TitleCaseConvertor.toTitleCase;
+import static com.severeweatheralerts.TextUtils.TitleCaseConverter.toTitleCase;
 
 public class NwsHeadlineAdapter {
   private String nwsHeadline;

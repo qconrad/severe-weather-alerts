@@ -1,9 +1,6 @@
 package com.severeweatheralerts.TextUtils;
 
-import android.annotation.SuppressLint;
-
-public class TitleCaseConvertor {
-  @SuppressLint("NewApi")
+public class TitleCaseConverter {
   public static String toTitleCase(String input) {
     if (isNotAllCaps(input)) return input;
     String[] words = convertToWordArray(input);
@@ -15,7 +12,7 @@ public class TitleCaseConvertor {
       else
         words[i] = capatalizeFirstLetter(words[i]);
     }
-    return String.join(" ", words);
+    return new StringArrayJoiner(words).join();
   }
 
   private static boolean isNotAllCaps(String input) {

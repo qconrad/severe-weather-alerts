@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "504128705362",
+    "firebase_url": "https://severe-weather-alerts.firebaseio.com",
+    "project_id": "severe-weather-alerts",
+    "storage_bucket": "severe-weather-alerts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504128705362:android:6484b43653f9ff7e58608b",
+        "android_client_info": {
+          "package_name": "com.severeweatheralerts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504128705362-sbsd3j6abrerlbp1d2tq03hs81t1u5vs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXestGMeMQkjRYtkyfZ4Pc8hHXgCm-oVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504128705362-sbsd3j6abrerlbp1d2tq03hs81t1u5vs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
