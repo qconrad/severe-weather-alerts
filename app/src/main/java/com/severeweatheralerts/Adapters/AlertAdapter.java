@@ -2,6 +2,8 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.MercatorCoordinate;
+import com.severeweatheralerts.Polygon;
 
 import java.util.ArrayList;
 
@@ -47,7 +49,16 @@ public class AlertAdapter {
     adaptExpectedUpdateTime(ua, al);
     adaptStartTime(ua, al);
     adaptEndTime(ua, al);
+    adaptGeometry(ua, al);
     removeHeadlinesFromDescription(al); // Requires already parsed description
+  }
+
+  private void adaptGeometry(UnadaptedAlert ua, Alert al) {
+    if (ua.hasGeometry()) {
+      Polygon polygon = new Polygon();
+      polygon.addCoordinate(new MercatorCoordinate(0.0, 0.0));
+      al.addPolygon(polygon);
+    }
   }
 
   private void adaptHeadlines(UnadaptedAlert ua, Alert al) {

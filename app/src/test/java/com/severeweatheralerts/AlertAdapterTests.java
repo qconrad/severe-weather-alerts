@@ -1,6 +1,8 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.UnadaptedAlert;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
@@ -873,5 +875,36 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     String expectedParse = "For your protection move to an interior room on the lowest floor of a building.\n\nWind damage with this storm will occur without lightning. Do not wait for the sound of thunder before taking cover. SEEK SHELTER IMMEDIATELY inside a sturdy structure and stay away from windows.";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getInstruction());
+  }
+
+  @Test
+  public void adaptAlerts_PolygonGiven_HasGeometry() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setPolygon(new GeoJSONPolygon());
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertTrue(aa.getAdaptedAlerts().get(0).hasGeometry());
+  }
+
+  @Test
+  public void adaptAlerts_NoPolygonGiven_DoesNotHaveGeometry() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertFalse(aa.getAdaptedAlerts().get(0).hasGeometry());
+  }
+
+  @Test
+  public void adaptAlerts_PolygonGivenWithOneCoordinate_HasOneCoordinate() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
+    geoJSONPolygon.addCoordinate(new GCSCoordinate(1.0, 0.0));
+    ua.setPolygon(geoJSONPolygon);
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinateCount());
   }
 }

@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Alert implements Comparable<Alert> {
+  public boolean hasGeometry() {
+    return polygons.size() > 0;
+  }
+
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
