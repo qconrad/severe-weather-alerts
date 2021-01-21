@@ -76,10 +76,6 @@ public class UnadaptedAlert {
     return polygon;
   }
 
-  public boolean hasZoneLinks() {
-    return !hasGeometry();
-  }
-
   public int getZoneLinkCount() {
     return zoneLinks.size();
   }
