@@ -62,12 +62,16 @@ public class UnadaptedAlert {
   public void setSenderCode(String senderCode) { this.senderCode = senderCode; }
   public String getSenderCode() { return senderCode; }
 
-  private boolean hasGeometry = false;
+  private GeoJSONPolygon polygon;
   public boolean hasGeometry() {
-    return hasGeometry;
+    return polygon != null;
   }
 
-  public void setGeometry() {
-    hasGeometry = true;
+  public void setPolygon(GeoJSONPolygon geoJSONPolygon) {
+    polygon = geoJSONPolygon;
+  }
+
+  public GeoJSONPolygon getPolygon() {
+    return polygon;
   }
 }

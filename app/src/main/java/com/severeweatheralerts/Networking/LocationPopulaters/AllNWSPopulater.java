@@ -2,7 +2,7 @@ package com.severeweatheralerts.Networking.LocationPopulaters;
 
 import com.severeweatheralerts.Adapters.AlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.JSONParsing.AlertParser;
+import com.severeweatheralerts.JSONParsing.AlertListParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.DataFetchService;
 
@@ -26,7 +26,7 @@ public class AllNWSPopulater {
   }
 
   private ArrayList<Alert> convertDataToAlerts(String alertData) {
-    return new AlertAdapter(new AlertParser(alertData).getParsedAlerts()).getAdaptedAlerts();
+    return new AlertAdapter(new AlertListParser(alertData).getParsedAlerts()).getAdaptedAlerts();
   }
 
   private String getAlertData() throws IOException {

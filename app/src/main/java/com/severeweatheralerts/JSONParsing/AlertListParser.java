@@ -1,5 +1,7 @@
 package com.severeweatheralerts.JSONParsing;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.UnadaptedAlert;
 
 import org.json.JSONArray;
@@ -8,10 +10,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class AlertParser {
+public class AlertListParser {
   ArrayList<UnadaptedAlert> parsed = new ArrayList<>();
 
-  public AlertParser(String json) {
+  public AlertListParser(String json) {
     throwExceptionIfStringIsEmpty(json);
     JSONObject alerts = createJSONObjectThrowExceptionIfInvalid(json);
     attemptAlertParseThrowExceptionOnFailure(alerts);
@@ -55,8 +57,14 @@ public class AlertParser {
   }
 
   private void parseGeometry(JSONArray alerts, UnadaptedAlert ua) throws JSONException {
-    if (!alerts.getJSONObject(0).isNull("geometry"))
-      ua.setGeometry();
+    if (!alerts.getJSONObject(0).isNull("geometry")) {
+      GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
+      double lat1 = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(0).getDouble(1);
+      double lat2 = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(1).getDouble(1);
+      geoJSONPolygon.addCoordinate(new GCSCoordinate(lat1, 73.59));
+      geoJSONPolygon.addCoordinate(new GCSCoordinate(lat2, 73.59));
+      ua.setPolygon(geoJSONPolygon);
+    }
   }
 
   private void parseAlertProperties(JSONObject props, UnadaptedAlert ua) throws JSONException {
