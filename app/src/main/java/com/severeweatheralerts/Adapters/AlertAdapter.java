@@ -3,6 +3,7 @@ package com.severeweatheralerts.Adapters;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
 import com.severeweatheralerts.MercatorCoordinate;
+import com.severeweatheralerts.MercatorCoordinateAdapter;
 import com.severeweatheralerts.Polygon;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class AlertAdapter {
     if (ua.hasGeometry()) {
       Polygon polygon = new Polygon();
       for (int i = 0; i < ua.getPolygon().getCoordinateCount(); i++)
-        polygon.addCoordinate(new MercatorCoordinate(0.0, 0.0));
+        polygon.addCoordinate(new MercatorCoordinateAdapter(ua.getPolygon().getCoordinate(i)).getCoordinate());
       al.addPolygon(polygon);
     }
   }

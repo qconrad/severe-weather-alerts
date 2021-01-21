@@ -920,4 +920,16 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(2, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinateCount());
   }
+
+  @Test
+  public void adaptAlerts_PolygonWithCoordinateGiven_XCorrect() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
+    geoJSONPolygon.addCoordinate(new GCSCoordinate(0.0, 1.0));
+    ua.setPolygon(geoJSONPolygon);
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(111319.49, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinate(0).getX(), 0.01);
+  }
 }
