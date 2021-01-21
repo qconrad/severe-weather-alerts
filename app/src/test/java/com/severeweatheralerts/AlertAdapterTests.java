@@ -907,4 +907,17 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(1, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinateCount());
   }
+
+  @Test
+  public void adaptAlerts_PolygonGivenWithTwoCoordinates_HasTwoCoordinates() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
+    geoJSONPolygon.addCoordinate(new GCSCoordinate(1.0, 0.0));
+    geoJSONPolygon.addCoordinate(new GCSCoordinate(1.0, 0.0));
+    ua.setPolygon(geoJSONPolygon);
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(2, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinateCount());
+  }
 }

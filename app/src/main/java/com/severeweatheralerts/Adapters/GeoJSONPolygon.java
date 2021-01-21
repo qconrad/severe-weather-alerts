@@ -12,4 +12,8 @@ public class GeoJSONPolygon {
   public void addCoordinate(GCSCoordinate coordinate) {
     coordinates.add(coordinate);
   }
+
+  public int getCoordinateCount() {
+    return coordinates.size();
+  }
 }

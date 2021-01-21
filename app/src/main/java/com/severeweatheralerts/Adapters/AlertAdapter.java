@@ -56,7 +56,8 @@ public class AlertAdapter {
   private void adaptGeometry(UnadaptedAlert ua, Alert al) {
     if (ua.hasGeometry()) {
       Polygon polygon = new Polygon();
-      polygon.addCoordinate(new MercatorCoordinate(0.0, 0.0));
+      for (int i = 0; i < ua.getPolygon().getCoordinateCount(); i++)
+        polygon.addCoordinate(new MercatorCoordinate(0.0, 0.0));
       al.addPolygon(polygon);
     }
   }
