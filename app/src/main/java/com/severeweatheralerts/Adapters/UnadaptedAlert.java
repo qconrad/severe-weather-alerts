@@ -17,6 +17,7 @@ public class UnadaptedAlert {
   private String sender;
   private String senderCode;
   private final ArrayList<String> references = new ArrayList<>();
+  private ArrayList<String> zoneLinks = new ArrayList<>();
 
   public void setName(String name) { this.name = name; }
   public String getName() { return name; }
@@ -80,11 +81,14 @@ public class UnadaptedAlert {
   }
 
   public int getZoneLinkCount() {
-    return count;
+    return zoneLinks.size();
   }
 
-  private int count;
-  public void setZoneCount(int length) {
-    count = length;
+  public String getZoneLink(int i) {
+    return zoneLinks.get(i);
+  }
+
+  public void addZoneLink(String zoneLink) {
+    zoneLinks.add(zoneLink);
   }
 }

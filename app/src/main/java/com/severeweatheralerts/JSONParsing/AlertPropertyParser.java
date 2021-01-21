@@ -108,7 +108,9 @@ public class AlertPropertyParser {
   }
 
   public void parseZones() throws JSONException {
-    ua.setZoneCount(getZones().length());
+    int zoneCount = getZones().length();
+    for (int i = 0; i < zoneCount; i++)
+      ua.addZoneLink(getZones().getString(i));
   }
 
   private JSONArray getZones() throws JSONException {

@@ -337,4 +337,18 @@ public class JsonParserTests {
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
     assertEquals(10, parsed.get(1).getZoneLinkCount());
   }
+
+  @Test
+  public void parseAlerts_ZoneLinkGiven_CorrectLinkReturn() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals("https://api.weather.gov/zones/forecast/WIZ036", parsed.get(1).getZoneLink(0));
+  }
+
+  @Test
+  public void parseAlerts_SecondZoneLinkGiven_CorrectLinkReturn() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals("https://api.weather.gov/zones/forecast/WIZ039", parsed.get(1).getZoneLink(1));
+  }
 }
