@@ -295,4 +295,18 @@ public class JsonParserTests {
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
     assertEquals(44.46, parsed.get(0).getPolygon().getCoordinate(1).getLat(), 0.01);
   }
+
+  @Test
+  public void parseAlerts_GeometryGiven_SecondCoordLongitudeCorrect() {
+    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals(-73.31, parsed.get(0).getPolygon().getCoordinate(1).getLong(), 0.01);
+  }
+
+  @Test
+  public void parseAlerts_GeometryGiven_ThirdCoordLatitudeCorrect() {
+    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals(44.37, parsed.get(0).getPolygon().getCoordinate(2).getLat(), 0.01);
+  }
 }

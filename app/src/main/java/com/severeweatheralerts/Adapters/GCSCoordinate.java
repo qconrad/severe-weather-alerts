@@ -2,9 +2,11 @@ package com.severeweatheralerts.Adapters;
 
 public class GCSCoordinate {
   private final double lat;
+  private final double lon;
 
   public GCSCoordinate(double lat, double lon) {
     this.lat = lat;
+    this.lon = lon;
   }
 
   public double getLat() {
@@ -12,6 +14,6 @@ public class GCSCoordinate {
   }
 
   public double getLong() {
-    return -73.59;
+    return lon;
   }
 }

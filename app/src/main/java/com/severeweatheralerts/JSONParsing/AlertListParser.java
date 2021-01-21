@@ -59,10 +59,11 @@ public class AlertListParser {
   private void parseGeometry(JSONArray alerts, UnadaptedAlert ua) throws JSONException {
     if (!alerts.getJSONObject(0).isNull("geometry")) {
       GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
-      double lat1 = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(0).getDouble(1);
-      double lat2 = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(1).getDouble(1);
-      geoJSONPolygon.addCoordinate(new GCSCoordinate(lat1, 73.59));
-      geoJSONPolygon.addCoordinate(new GCSCoordinate(lat2, 73.59));
+      for (int i = 0; i < alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).length(); i++) {
+        double lat = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(i).getDouble(1);
+        double lon = alerts.getJSONObject(0).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(i).getDouble(0);
+        geoJSONPolygon.addCoordinate(new GCSCoordinate(lat, lon));
+      }
       ua.setPolygon(geoJSONPolygon);
     }
   }
