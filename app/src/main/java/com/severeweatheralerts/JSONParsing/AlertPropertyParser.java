@@ -8,28 +8,28 @@ import org.json.JSONObject;
 
 public class AlertPropertyParser {
   JSONObject props;
-  UnadaptedAlert pa;
+  UnadaptedAlert ua;
 
-  public AlertPropertyParser(JSONObject props, UnadaptedAlert pa) {
+  public AlertPropertyParser(JSONObject props, UnadaptedAlert ua) {
     this.props = props;
-    this.pa = pa;
+    this.ua = ua;
   }
 
   public void parseName() throws JSONException {
-    pa.setName(getProp("event"));
+    ua.setName(getProp("event"));
   }
 
   public void parseId() throws JSONException {
-    pa.setId(getProp("id"));
+    ua.setId(getProp("id"));
   }
 
   public void parseDescription() throws JSONException {
-    pa.setDescription(getProp("description"));
+    ua.setDescription(getProp("description"));
   }
 
   public void parseNwsHeadline() throws JSONException {
     if (hasNwsHeadline())
-      pa.setNwsHeadline(getNwsHeadline());
+      ua.setNwsHeadline(getNwsHeadline());
   }
 
   private String getNwsHeadline() throws JSONException {
@@ -42,44 +42,44 @@ public class AlertPropertyParser {
 
   public void parseEnds() throws JSONException {
     String ends = getProp("ends");
-    if (notNull(ends)) pa.setEnds(ends);
+    if (notNull(ends)) ua.setEnds(ends);
   }
 
   public void parseExpires() throws JSONException {
     String expires = getProp("expires");
-    if (notNull(expires)) pa.setExpires(expires);
+    if (notNull(expires)) ua.setExpires(expires);
   }
 
   public void parseOnset() throws JSONException {
     String onset = getProp("onset");
-    if (notNull(onset)) pa.setOnset(onset);
+    if (notNull(onset)) ua.setOnset(onset);
   }
 
   public void parseSent() throws JSONException {
     String sent = getProp("sent");
-    if (notNull(sent)) pa.setSent(sent);
+    if (notNull(sent)) ua.setSent(sent);
   }
 
   public void parseInstruction() throws JSONException {
     String instruction = getProp("instruction");
-    if (notNull(instruction)) pa.setInstruction(instruction);
+    if (notNull(instruction)) ua.setInstruction(instruction);
   }
 
   public void parseSeverity() throws  JSONException {
     String severity = getProp("severity");
-    if (notNull(severity)) pa.setSeverity(severity);
+    if (notNull(severity)) ua.setSeverity(severity);
   }
 
   public void parseType() throws  JSONException {
     String type = getProp("messageType");
-    if (notNull(type)) pa.setType(type);
+    if (notNull(type)) ua.setType(type);
   }
 
   public void parseReferences() throws  JSONException {
     JSONArray references = props.getJSONArray("references");
     for (int i = 0; i < references.length(); i++) {
       String refId = references.getJSONObject(i).getString("identifier");
-      pa.addReferenceId(refId);
+      ua.addReferenceId(refId);
     }
   }
 
@@ -92,11 +92,11 @@ public class AlertPropertyParser {
   }
 
   public void parseSender() throws JSONException {
-    pa.setSender(getProp("senderName"));
+    ua.setSender(getProp("senderName"));
   }
 
   public void parseSenderCode() throws JSONException {
-    pa.setSenderCode(getSenderCode());
+    ua.setSenderCode(getSenderCode());
   }
 
   private String getSenderCode() throws JSONException {

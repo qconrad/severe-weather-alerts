@@ -61,4 +61,13 @@ public class UnadaptedAlert {
 
   public void setSenderCode(String senderCode) { this.senderCode = senderCode; }
   public String getSenderCode() { return senderCode; }
+
+  private boolean hasGeometry = false;
+  public boolean hasGeometry() {
+    return hasGeometry;
+  }
+
+  public void setGeometry() {
+    hasGeometry = true;
+  }
 }

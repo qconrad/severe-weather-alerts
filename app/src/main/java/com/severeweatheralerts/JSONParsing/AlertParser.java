@@ -43,13 +43,24 @@ public class AlertParser {
   private void parseAlerts(JSONObject root) throws JSONException {
     JSONArray alerts = getAlertArray(root);
     for (int i = 0; i < alerts.length(); i++) {
-      JSONObject currentAlertProperties = getAlertProperties(alerts, i);
-      parsed.add(parseAlertProperties(currentAlertProperties, new UnadaptedAlert()));
+      parseAlert(alerts, i);
     }
   }
 
-  private UnadaptedAlert parseAlertProperties(JSONObject props, UnadaptedAlert pa) throws JSONException {
-    AlertPropertyParser propParser = new AlertPropertyParser(props, pa);
+  private void parseAlert(JSONArray alerts, int i) throws JSONException {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    parseGeometry(alerts, ua);
+    parseAlertProperties(getAlertProperties(alerts, i), ua);
+    parsed.add(ua);
+  }
+
+  private void parseGeometry(JSONArray alerts, UnadaptedAlert ua) throws JSONException {
+    if (!alerts.getJSONObject(0).isNull("geometry"))
+      ua.setGeometry();
+  }
+
+  private void parseAlertProperties(JSONObject props, UnadaptedAlert ua) throws JSONException {
+    AlertPropertyParser propParser = new AlertPropertyParser(props, ua);
     propParser.parseName();
     propParser.parseId();
     propParser.parseType();
@@ -64,7 +75,6 @@ public class AlertParser {
     propParser.parseEnds();
     propParser.parseNwsHeadline();
     propParser.parseSeverity();
-    return pa;
   }
 
   private boolean stringIsEmpty(String text) {
