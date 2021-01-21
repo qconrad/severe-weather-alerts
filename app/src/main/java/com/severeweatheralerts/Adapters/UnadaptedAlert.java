@@ -74,4 +74,17 @@ public class UnadaptedAlert {
   public GeoJSONPolygon getPolygon() {
     return polygon;
   }
+
+  public boolean hasZoneLinks() {
+    return !hasGeometry();
+  }
+
+  public int getZoneLinkCount() {
+    return count;
+  }
+
+  private int count;
+  public void setZoneCount(int length) {
+    count = length;
+  }
 }

@@ -309,4 +309,32 @@ public class JsonParserTests {
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
     assertEquals(44.37, parsed.get(0).getPolygon().getCoordinate(2).getLat(), 0.01);
   }
+
+  @Test
+  public void parseAlerts_GeometryGiven_DoesNotHaveZoneLinks() {
+    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertFalse(parsed.get(0).hasZoneLinks());
+  }
+
+  @Test
+  public void parseAlerts_NoGeometryGiven_HasZoneLinks() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertTrue(parsed.get(0).hasZoneLinks());
+  }
+
+  @Test
+  public void parseAlerts_NoGeometryGiven_OneZoneLink() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals(1, parsed.get(0).getZoneLinkCount());
+  }
+
+  @Test
+  public void parseAlerts_10ZoneLinksGiven_10ZoneLinksReturned() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals(10, parsed.get(1).getZoneLinkCount());
+  }
 }

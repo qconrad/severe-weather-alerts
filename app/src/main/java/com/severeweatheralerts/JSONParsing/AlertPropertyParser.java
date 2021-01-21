@@ -106,4 +106,12 @@ public class AlertPropertyParser {
   private JSONObject getParameters() throws JSONException {
     return props.getJSONObject("parameters");
   }
+
+  public void parseZones() throws JSONException {
+    ua.setZoneCount(getZones().length());
+  }
+
+  private JSONArray getZones() throws JSONException {
+    return props.getJSONArray("affectedZones");
+  }
 }

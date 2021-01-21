@@ -84,6 +84,7 @@ public class AlertListParser {
     propParser.parseEnds();
     propParser.parseNwsHeadline();
     propParser.parseSeverity();
+    propParser.parseZones();
   }
 
   private boolean stringIsEmpty(String text) {
