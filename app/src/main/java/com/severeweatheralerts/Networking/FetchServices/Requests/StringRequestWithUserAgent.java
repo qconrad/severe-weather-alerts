@@ -9,18 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StringRequestWithUserAgent extends StringRequest {
-  public StringRequestWithUserAgent(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
+  private final String userAgent;
+
+ public StringRequestWithUserAgent(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener, String userAgent) {
     super(method, url, listener, errorListener);
+    this.userAgent = userAgent;
   }
 
   @Override
   public Map<String, String> getHeaders() {
     Map<String, String> headers = new HashMap<>();
-    headers.put("User-Agent", getUserAgent());
+    headers.put("User-Agent", userAgent);
     return headers;
-  }
-
-  private String getUserAgent() {
-    return "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)";
   }
 }

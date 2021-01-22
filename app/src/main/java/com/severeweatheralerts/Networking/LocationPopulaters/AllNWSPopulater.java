@@ -25,18 +25,23 @@ public class AllNWSPopulater {
   }
 
   private void fetchAndSetAlerts(PopulateCallback populateCallback) {
-    new StringFetchService(context, getUrl()).fetch(new FetchCallback() {
+    StringFetchService stringFetchService = new StringFetchService(context, getUrl());
+    stringFetchService.setUserAgent(getUserAgent());
+    stringFetchService.fetch(new FetchCallback() {
       @Override
       public void success(String response) {
         setAlertsForLocation(convertDataToAlerts(response));
         populateCallback.complete();
       }
-
       @Override
       public void error(String message) {
         populateCallback.error(message);
       }
     });
+  }
+
+  private String getUserAgent() {
+    return "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)";
   }
 
   private void setAlertsForLocation(ArrayList<Alert> alerts) {
