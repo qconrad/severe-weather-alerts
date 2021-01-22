@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Graphics;
 
 import java.util.ArrayList;
 

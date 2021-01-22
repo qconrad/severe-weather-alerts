@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import android.graphics.Bitmap;
 
+import com.severeweatheralerts.Graphics.Graphic;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

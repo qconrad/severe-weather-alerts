@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Graphics;
 
 public class URLGenerator {
   public String getCountyMap(Bounds bounds) {

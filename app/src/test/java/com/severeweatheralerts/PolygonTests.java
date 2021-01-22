@@ -1,5 +1,8 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Graphics.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

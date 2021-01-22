@@ -1,6 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Graphics.AlertAreaGenerator;
 
 import org.junit.Test;
 

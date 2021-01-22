@@ -2,7 +2,7 @@ package com.severeweatheralerts.Alerts;
 
 import android.graphics.Color;
 
-import com.severeweatheralerts.Polygon;
+import com.severeweatheralerts.Graphics.Polygon;
 
 import java.util.ArrayList;
 import java.util.Date;

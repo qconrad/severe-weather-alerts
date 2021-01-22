@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Graphics.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon;
 
 import org.junit.Test;
 
