@@ -2,7 +2,7 @@
     <string name="app_name">Severe Weather Alerts</string>
     <string name="title_placeholder">Event Title</string>
     <string name="instruction_label">Recommended Actions</string>
-   <string name="small_headline_placeholder">SMALL HEADLINE</string>
+    <string name="small_headline_placeholder">SMALL HEADLINE</string>
     <string name="description_placeholder">Description</string>
     <string name="large_headline_placeholder">Large Headline</string>
     <string name="instruction_placeholder">Instruction</string>
@@ -14,4 +14,6 @@
     <string name="references_label">History</string>
     <string name="sender_placeholder">National Weather Service</string>
     <string name="next_update_placeholder">Next Update</string>
+    <string name="server_error">There was a server error while getting alert data</string>
+    <string name="unknown_alert_error">An unknown error occurred while getting alert data: </string>
 </resources>

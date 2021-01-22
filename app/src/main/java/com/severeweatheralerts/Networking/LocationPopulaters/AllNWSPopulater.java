@@ -2,12 +2,15 @@ package com.severeweatheralerts.Networking.LocationPopulaters;
 
 import android.content.Context;
 
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.AlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
+import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
 
@@ -29,15 +32,22 @@ public class AllNWSPopulater {
     stringFetchService.setUserAgent(getUserAgent());
     stringFetchService.fetch(new FetchCallback() {
       @Override
-      public void success(String response) {
-        setAlertsForLocation(convertDataToAlerts(response));
-        populateCallback.complete();
-      }
+      public void success(String response) { setAlertsAndCallback(response, populateCallback); }
       @Override
-      public void error(String message) {
-        populateCallback.error(message);
-      }
+      public void error(VolleyError error) { handleError(error, populateCallback); }
     });
+  }
+
+  private void setAlertsAndCallback(String response, PopulateCallback populateCallback) {
+    setAlertsForLocation(convertDataToAlerts(response));
+    populateCallback.complete();
+  }
+
+  private void handleError(VolleyError error, PopulateCallback populateCallback) {
+    if (error instanceof ServerError)
+      populateCallback.error(context.getString(R.string.server_error));
+    else
+      populateCallback.error(context.getString(R.string.unknown_alert_error) + error.getMessage());
   }
 
   private String getUserAgent() {

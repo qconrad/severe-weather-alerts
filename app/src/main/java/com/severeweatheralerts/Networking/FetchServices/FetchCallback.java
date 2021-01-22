@@ -1,6 +1,8 @@
 package com.severeweatheralerts.Networking.FetchServices;
 
+import com.android.volley.VolleyError;
+
 public interface FetchCallback {
   void success(String response);
-  void error(String message);
+  void error(VolleyError error);
 }

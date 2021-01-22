@@ -46,7 +46,7 @@ public class StringFetchService {
             StringRequest.Method.GET,
             url,
             callback::success,
-            error -> callback.error(error.toString()));
+            callback::error);
   }
 
   private StringRequest getRequestWithUserAgent(FetchCallback callback) {
@@ -54,7 +54,7 @@ public class StringFetchService {
             StringRequest.Method.GET,
             url,
             callback::success,
-            error -> callback.error(error.toString()), userAgent);
+            callback::error, userAgent);
   }
 
   private RequestQueue getRequestQueue() {
