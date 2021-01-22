@@ -1,11 +1,11 @@
-package com.severeweatheralerts.Networking;
+package com.severeweatheralerts.Networking.FetchServices;
 
 import android.content.Context;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.severeweatheralerts.Networking.FetchServices.Requests.StringRequestWithUserAgent;
 
 public class StringFetchService {
   private final Context context;
@@ -27,11 +27,11 @@ public class StringFetchService {
   }
 
   private StringRequest getRequest(FetchCallback callback) {
-    return new StringRequest(
-        Request.Method.GET,
-        url,
-        callback::success,
-        error -> callback.error(error.getMessage()));
+    return new StringRequestWithUserAgent(
+            StringRequest.Method.GET,
+            url,
+            callback::success,
+            error -> callback.error(error.toString()));
   }
 
   private RequestQueue getRequestQueue() {

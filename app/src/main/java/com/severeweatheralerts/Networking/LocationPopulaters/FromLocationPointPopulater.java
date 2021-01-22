@@ -1,10 +1,12 @@
 package com.severeweatheralerts.Networking.LocationPopulaters;
 
+import android.content.Context;
+
 import com.severeweatheralerts.Location.Location;
 
 public class FromLocationPointPopulater extends AllNWSPopulater {
-  public FromLocationPointPopulater(Location location) {
-    super(location);
+  public FromLocationPointPopulater(Location location, Context context) {
+    super(location, context);
   }
 
   protected String getUrl() {

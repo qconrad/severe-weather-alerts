@@ -1,24 +1,42 @@
 package com.severeweatheralerts.Networking.LocationPopulaters;
 
+import android.content.Context;
+
 import com.severeweatheralerts.Adapters.AlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
 import com.severeweatheralerts.Location.Location;
-import com.severeweatheralerts.Networking.DataFetchService;
+import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
+import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AllNWSPopulater {
+  private final Context context;
   protected Location location;
-  public AllNWSPopulater(Location location) {
+
+  public AllNWSPopulater(Location location, Context context) {
     this.location = location;
+    this.context = context;
   }
 
-  public void populate() throws IOException {
-    setAlertsForLocation(convertDataToAlerts(getAlertData()));
+  public void populate(PopulateCallback populateCallback) {
+    fetchAndSetAlerts(populateCallback);
+  }
+
+  private void fetchAndSetAlerts(PopulateCallback populateCallback) {
+    new StringFetchService(context, getUrl()).fetch(new FetchCallback() {
+      @Override
+      public void success(String response) {
+        setAlertsForLocation(convertDataToAlerts(response));
+        populateCallback.complete();
+      }
+
+      @Override
+      public void error(String message) {
+        populateCallback.error(message);
+      }
+    });
   }
 
   private void setAlertsForLocation(ArrayList<Alert> alerts) {
@@ -29,23 +47,7 @@ public class AllNWSPopulater {
     return new AlertAdapter(new AlertListParser(alertData).getParsedAlerts()).getAdaptedAlerts();
   }
 
-  private String getAlertData() throws IOException {
-    return inputStreamToString(fetchData());
-  }
-
-  private InputStream fetchData() throws IOException {
-    return (InputStream) new DataFetchService(getUrl()).fetchData();
-  }
-
   protected String getUrl() {
     return "https://api.weather.gov/alerts?status=actual";
-  }
-
-  private String inputStreamToString(InputStream inputStream) throws IOException {
-    ByteArrayOutputStream into = new ByteArrayOutputStream();
-    byte[] buf = new byte[4096];
-    for (int n; 0 < (n = inputStream.read(buf));) { into.write(buf, 0, n); }
-    into.close();
-    return new String(into.toByteArray(), "UTF-8");
   }
 }

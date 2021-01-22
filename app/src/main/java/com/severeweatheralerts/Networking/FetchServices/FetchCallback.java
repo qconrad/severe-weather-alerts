@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Networking;
+package com.severeweatheralerts.Networking.FetchServices;
 
 public interface FetchCallback {
   void success(String response);

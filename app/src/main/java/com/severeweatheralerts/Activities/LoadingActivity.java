@@ -3,22 +3,21 @@ package com.severeweatheralerts.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
+import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
-import java.io.IOException;
 import java.util.Date;
 
 public class LoadingActivity extends AppCompatActivity {
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -73,7 +72,17 @@ public class LoadingActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    new AsyncRefresh().execute();
+    new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
+      @Override
+      public void complete() {
+        displayAlerts();
+      }
+
+      @Override
+      public void error(String message) {
+        Toast.makeText(LoadingActivity.this, message, Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 
   private void displayAlerts() {
@@ -85,23 +94,5 @@ public class LoadingActivity extends AppCompatActivity {
   private void adaptLocation(Location loc, android.location.Location deviceLoc) {
     loc.setLatitude(deviceLoc.getLatitude());
     loc.setLongitude(deviceLoc.getLongitude());
-  }
-
-  private class AsyncRefresh extends AsyncTask<Void, Void, Void> {
-    @Override
-    protected Void doInBackground(Void... params) {
-      try { populateAlerts(); }
-      catch (IOException e) { e.printStackTrace(); }
-      return null;
-    }
-
-    private void populateAlerts() throws IOException {
-      new FromLocationPointPopulater(LocationsDao.getLocation(0)).populate();
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
-      displayAlerts();
-    }
   }
 }
