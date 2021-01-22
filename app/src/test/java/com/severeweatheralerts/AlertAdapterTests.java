@@ -663,7 +663,7 @@ public class AlertAdapterTests {
   }
 
   @Test
-  public void adaptAlerts_WinterStormWarningIsGiven_IsOfTypeWinterStormWawrning() {
+  public void adaptAlerts_WinterStormWarningIsGiven_IsOfTypeWinterStormWarning() {
     UnadaptedAlert pa = new UnadaptedAlert();
     pa.setName("Winter Storm Warning");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();

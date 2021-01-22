@@ -10,7 +10,7 @@ public class TitleCaseConverter {
       else if (shouldBeAllUpperCase(words[i]))
         words[i] = words[i].toUpperCase();
       else
-        words[i] = capatalizeFirstLetter(words[i]);
+        words[i] = capitalizeFirstLetter(words[i]);
     }
     return new StringArrayJoiner(words).join();
   }
@@ -23,7 +23,7 @@ public class TitleCaseConverter {
     return input.toLowerCase().split(" ");
   }
 
-  private static String capatalizeFirstLetter(String word) {
+  private static String capitalizeFirstLetter(String word) {
     if (word.equals("")) return word;
     char[] chars = word.toCharArray();
     chars[0] = Character.toUpperCase(chars[0]);
@@ -31,12 +31,7 @@ public class TitleCaseConverter {
   }
 
   private static boolean shouldBeAllUpperCase(String word) {
-    return isAmOrPm(word) || isStateAbbreviation(word);
-  }
-
-  private static boolean isAmOrPm(String word) {
-    return word.equals("pm") ||
-           word.equals("am");
+    return isStateAbbreviation(word);
   }
 
   private static boolean isStateAbbreviation(String word) {
