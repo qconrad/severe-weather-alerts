@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
-import com.severeweatheralerts.ColorBrightnessChanger;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;

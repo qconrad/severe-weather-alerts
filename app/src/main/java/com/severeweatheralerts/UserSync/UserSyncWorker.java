@@ -9,7 +9,6 @@ import androidx.work.WorkerParameters;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.severeweatheralerts.BuildNumber;
 import com.severeweatheralerts.Networking.AsyncPost;
 import com.severeweatheralerts.Location.LocationsDao;
 

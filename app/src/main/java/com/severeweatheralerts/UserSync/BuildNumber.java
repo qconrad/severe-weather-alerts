@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.UserSync;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
