@@ -32,7 +32,7 @@ public class AllNWSPopulater {
     stringFetchService.setUserAgent(getUserAgent());
     stringFetchService.fetch(new FetchCallback() {
       @Override
-      public void success(String response) { setAlertsAndCallback(response, populateCallback); }
+      public void success(Object response) { setAlertsAndCallback((String) response, populateCallback); }
       @Override
       public void error(VolleyError error) { handleError(error, populateCallback); }
     });

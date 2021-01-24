@@ -2,37 +2,23 @@ package com.severeweatheralerts.Networking.FetchServices;
 
 import android.content.Context;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.severeweatheralerts.Networking.FetchServices.Requests.FetchService;
 import com.severeweatheralerts.Networking.FetchServices.Requests.StringRequestWithUserAgent;
 
-public class StringFetchService {
+public class StringFetchService extends FetchService {
   private String userAgent;
 
-  private final Context context;
-  private final String url;
-
   public StringFetchService(Context context, String url) {
-    this.context = context;
-    this.url = url;
-  }
-
-  public void fetch(FetchCallback callback) {
-    RequestQueue queue = getRequestQueue();
-    StringRequest stringRequest = getRequest(callback);
-    addRequestToQueue(queue, stringRequest);
+    super(context, url);
   }
 
   public void setUserAgent(String userAgent) {
     this.userAgent = userAgent;
   }
 
-  private void addRequestToQueue(RequestQueue queue, StringRequest stringRequest) {
-    queue.add(stringRequest);
-  }
-
-  private StringRequest getRequest(FetchCallback callback) {
+  protected Request getRequest(FetchCallback callback) {
     if (noUserAgent()) return getRequestWithoutUserAgent(callback);
     return getRequestWithUserAgent(callback);
   }
@@ -55,9 +41,5 @@ public class StringFetchService {
             url,
             callback::success,
             callback::error, userAgent);
-  }
-
-  private RequestQueue getRequestQueue() {
-    return Volley.newRequestQueue(context);
   }
 }
