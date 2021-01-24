@@ -10,6 +10,7 @@ import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 public abstract class FetchService {
   protected final Context context;
   protected final String url;
+  protected String userAgent;
 
   public FetchService(Context context, String url) {
     this.context = context;
@@ -20,7 +21,21 @@ public abstract class FetchService {
     addRequestToQueue(getRequestQueue(), getRequest(callback));
   }
 
-  protected abstract Request getRequest(FetchCallback callback);
+  public void setUserAgent(String userAgent) {
+    this.userAgent = userAgent;
+  }
+
+  private boolean noUserAgent() {
+    return userAgent == null;
+  }
+
+  protected Request getRequest(FetchCallback callback) {
+    if (noUserAgent()) return getRequestWithoutUserAgent(callback);
+    return getRequestWithUserAgent(callback);
+  }
+
+  protected abstract Request getRequestWithUserAgent(FetchCallback callback);
+  protected abstract Request getRequestWithoutUserAgent(FetchCallback callback);
 
   private void addRequestToQueue(RequestQueue queue, Request request) {
     queue.add(request);
