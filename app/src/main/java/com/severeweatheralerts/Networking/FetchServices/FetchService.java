@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Networking.FetchServices.Requests;
+package com.severeweatheralerts.Networking.FetchServices;
 
 import android.content.Context;
 

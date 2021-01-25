@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.ImageRequest;
-import com.severeweatheralerts.Networking.FetchServices.Requests.FetchService;
 import com.severeweatheralerts.Networking.FetchServices.Requests.ImageRequestWithUserAgent;
 
 public class ImageFetchService extends FetchService {

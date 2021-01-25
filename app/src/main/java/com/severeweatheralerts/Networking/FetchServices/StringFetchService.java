@@ -3,7 +3,6 @@ package com.severeweatheralerts.Networking.FetchServices;
 import android.content.Context;
 
 import com.android.volley.toolbox.StringRequest;
-import com.severeweatheralerts.Networking.FetchServices.Requests.FetchService;
 import com.severeweatheralerts.Networking.FetchServices.Requests.StringRequestWithUserAgent;
 
 public class StringFetchService extends FetchService {
