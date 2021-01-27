@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,10 +20,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
+import com.severeweatheralerts.Graphics.BoundCalculator;
+import com.severeweatheralerts.Graphics.URLGenerator;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
+import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
@@ -75,6 +82,28 @@ public class AlertViewerActivity extends AppCompatActivity {
       setTitleCardColor();
       setBackgroundColor();
       populateReferences();
+      generateGraphics();
+    }
+  }
+
+  private void generateGraphics() {
+    if (al.hasGeometry()) {
+      String url = new URLGenerator().getCountyMap(new BoundCalculator(al.getPolygon(0)).getBounds());
+      ImageFetchService imageFetchService = new ImageFetchService(this, url);
+      imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
+      imageFetchService.fetch(new FetchCallback() {
+        @Override
+        public void success(Object response) {
+          Bitmap test = (Bitmap) response;
+          ImageView iv = findViewById(R.id.graphic_image);
+          iv.setImageBitmap(test);
+        }
+
+        @Override
+        public void error(VolleyError error) {
+          System.out.println(error.getMessage());
+        }
+      });
     }
   }
 
