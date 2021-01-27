@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Alert implements Comparable<Alert> {
-  public boolean hasGeometry() {
-    return polygons.size() > 0;
-  }
-
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
@@ -58,26 +54,19 @@ public abstract class Alert implements Comparable<Alert> {
     else return endsBefore(date);
   }
 
+  private boolean isCancel() {
+    return type.equals(Type.CANCEL);
+  }
+
   public int getReferenceCount() { return references.size(); }
   public void addReference(Alert reference) { references.add(reference); }
   public Alert getReference(int index) { return references.get(index); }
   public ArrayList<Alert> getReferences() { return references; }
 
-  public void addPolygon(Polygon polygon) {
-    polygons.add(polygon);
-  }
-
-  public Polygon getPolygon(int i) {
-    return polygons.get(i);
-  }
-
-  public int getPolygonCount() {
-    return polygons.size();
-  }
-
-  private boolean isCancel() {
-    return type.equals(Type.CANCEL);
-  }
+  public void addPolygon(Polygon polygon) { polygons.add(polygon); }
+  public boolean hasGeometry() { return polygons.size() > 0; }
+  public Polygon getPolygon(int i) { return polygons.get(i); }
+  public int getPolygonCount() { return polygons.size(); }
 
   public void setReplacedBy(Alert replacedBy) {
     this.replacedBy = replacedBy;
