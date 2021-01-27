@@ -54,12 +54,8 @@ public class AlertAdapter {
   }
 
   private void adaptAlertArea(UnadaptedAlert ua, Alert al) {
-    if (ua.hasGeometry()) {
-      Polygon polygon = new Polygon();
-      for (int i = 0; i < ua.getPolygon().getCoordinateCount(); i++)
-        polygon.addCoordinate(new MercatorCoordinateAdapter(ua.getPolygon().getCoordinate(i)).getCoordinate());
-      al.addPolygon(polygon);
-    } else {
+    if (ua.hasGeometry()) al.addPolygon(PolygonAdapter.toMercatorPolygon(ua.getPolygon()));
+    else {
       for (int i = 0; i < ua.getZoneLinkCount(); i++)
         al.addZoneLink(ua.getZoneLink(i));
     }
