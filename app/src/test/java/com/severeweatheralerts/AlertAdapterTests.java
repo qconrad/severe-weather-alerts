@@ -993,4 +993,15 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals("testLink1", aa.getAdaptedAlerts().get(0).getZone(0));
   }
+
+  @Test
+  public void getLargeHeadline_NWSHeadlineWithLakeEffectProvided_IsLargeHeadline() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    String nwsHeadline = "Moderate to Possibly Heavy Lake Effect Snow on Wednesday";
+    ua.setNwsHeadline(nwsHeadline);
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(nwsHeadline, aa.getAdaptedAlerts().get(0).getLargeHeadline());
+  }
 }

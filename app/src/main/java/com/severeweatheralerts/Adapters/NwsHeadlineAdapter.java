@@ -47,7 +47,7 @@ public class NwsHeadlineAdapter {
   private boolean shouldBeSmallHeadline() {
     return containsTime() ||
            hasMultipleHeadlines() ||
-           caseInsensitiveContains("effect") ||
+           caseInsensitiveContains("in effect") ||
            caseInsensitiveContains("expire") ||
            caseInsensitiveContains("cancel");
   }
