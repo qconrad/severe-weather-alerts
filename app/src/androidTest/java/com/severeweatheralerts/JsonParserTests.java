@@ -276,41 +276,6 @@ public class JsonParserTests {
   }
 
   @Test
-  public void parseAlerts_GeometryGiven_FirstCoordLatitudeParsed() {
-    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
-    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
-    assertEquals(44.25, parsed.get(0).getPolygon().getCoordinate(0).getLat(), 0.01);
-  }
-
-  @Test
-  public void parseAlerts_GeometryGiven_FirstCoordLongitudeParsed() {
-    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
-    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
-    assertEquals(-73.59, parsed.get(0).getPolygon().getCoordinate(0).getLong(), 0.01);
-  }
-
-  @Test
-  public void parseAlerts_GeometryGiven_SecondCoordLatitudeCorrect() {
-    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
-    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
-    assertEquals(44.46, parsed.get(0).getPolygon().getCoordinate(1).getLat(), 0.01);
-  }
-
-  @Test
-  public void parseAlerts_GeometryGiven_SecondCoordLongitudeCorrect() {
-    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
-    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
-    assertEquals(-73.31, parsed.get(0).getPolygon().getCoordinate(1).getLong(), 0.01);
-  }
-
-  @Test
-  public void parseAlerts_GeometryGiven_ThirdCoordLatitudeCorrect() {
-    AlertListParser parser = new AlertListParser(SpecialWeatherStatementInput);
-    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
-    assertEquals(44.37, parsed.get(0).getPolygon().getCoordinate(2).getLat(), 0.01);
-  }
-
-  @Test
   public void parseAlerts_NoGeometryGiven_OneZoneLink() {
     AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
