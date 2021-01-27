@@ -21,20 +21,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Graphics.BoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
+import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
+import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
 import com.severeweatheralerts.TextUtils.KeywordEmphasizer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,23 +94,46 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void generateGraphics() {
     if (al.hasGeometry()) {
-      String url = new URLGenerator().getCountyMap(new BoundCalculator(al.getPolygon(0)).getBounds());
-      ImageFetchService imageFetchService = new ImageFetchService(this, url);
-      imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
-      imageFetchService.fetch(new FetchCallback() {
+      displayPolygon();
+    } else {
+      StringFetchService fetchService = new StringFetchService(this, al.getZone(0));
+      fetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
+      fetchService.fetch(new FetchCallback() {
         @Override
         public void success(Object response) {
-          Bitmap test = (Bitmap) response;
-          ImageView iv = findViewById(R.id.graphic_image);
-          iv.setImageBitmap(test);
+          try {
+            al.addPolygon(PolygonAdapter.toMercatorPolygon(new GeometryParser(new JSONObject(response.toString()).getJSONObject("geometry")).parseGeometry().get(0)));
+            displayPolygon();
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
         }
 
         @Override
         public void error(VolleyError error) {
-          System.out.println(error.getMessage());
+
         }
       });
     }
+  }
+
+  private void displayPolygon() {
+    String url = new URLGenerator().getCountyMap(new BoundCalculator(al.getPolygon(0)).getBounds());
+    ImageFetchService imageFetchService = new ImageFetchService(this, url);
+    imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
+    imageFetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        Bitmap test = (Bitmap) response;
+        ImageView iv = findViewById(R.id.graphic_image);
+        iv.setImageBitmap(test);
+      }
+
+      @Override
+      public void error(VolleyError error) {
+        System.out.println(error.getMessage());
+      }
+    });
   }
 
   private void populateReferences() {
