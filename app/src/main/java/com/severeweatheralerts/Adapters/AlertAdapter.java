@@ -49,16 +49,19 @@ public class AlertAdapter {
     adaptExpectedUpdateTime(ua, al);
     adaptStartTime(ua, al);
     adaptEndTime(ua, al);
-    adaptGeometry(ua, al);
+    adaptAlertArea(ua, al);
     removeHeadlinesFromDescription(al); // Requires already parsed description
   }
 
-  private void adaptGeometry(UnadaptedAlert ua, Alert al) {
+  private void adaptAlertArea(UnadaptedAlert ua, Alert al) {
     if (ua.hasGeometry()) {
       Polygon polygon = new Polygon();
       for (int i = 0; i < ua.getPolygon().getCoordinateCount(); i++)
         polygon.addCoordinate(new MercatorCoordinateAdapter(ua.getPolygon().getCoordinate(i)).getCoordinate());
       al.addPolygon(polygon);
+    } else {
+      for (int i = 0; i < ua.getZoneLinkCount(); i++)
+        al.addZoneLink(ua.getZoneLink(i));
     }
   }
 

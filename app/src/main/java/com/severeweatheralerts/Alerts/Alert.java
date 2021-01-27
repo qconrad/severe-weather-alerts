@@ -27,6 +27,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Alert replacedBy;
   private final ArrayList<Alert> references = new ArrayList<>();
   private final ArrayList<Polygon> polygons = new ArrayList<>();
+  private final ArrayList<String> zoneLinks = new ArrayList<>();
 
   public Alert() {}
 
@@ -67,6 +68,10 @@ public abstract class Alert implements Comparable<Alert> {
   public boolean hasGeometry() { return polygons.size() > 0; }
   public Polygon getPolygon(int i) { return polygons.get(i); }
   public int getPolygonCount() { return polygons.size(); }
+
+  public int getZoneLinkCount() { return zoneLinks.size(); }
+  public void addZoneLink(String link) { zoneLinks.add(link); }
+  public String getZone(int i) { return zoneLinks.get(i); }
 
   public void setReplacedBy(Alert replacedBy) {
     this.replacedBy = replacedBy;

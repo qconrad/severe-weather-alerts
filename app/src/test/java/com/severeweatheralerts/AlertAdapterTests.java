@@ -932,4 +932,65 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(111319.49, aa.getAdaptedAlerts().get(0).getPolygon(0).getCoordinate(0).getX(), 0.01);
   }
+
+  @Test
+  public void getZoneCount_NoZoneLinksGiven_CountIs0() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(0, aa.getAdaptedAlerts().get(0).getZoneLinkCount());
+  }
+
+  @Test
+  public void getZoneCount_OneZoneLinkGiven_CountIs1() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.addZoneLink("testLink");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1, aa.getAdaptedAlerts().get(0).getZoneLinkCount());
+  }
+
+  @Test
+  public void getZoneCount_TwoZoneLinksGiven_CountIs2() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.addZoneLink("testLink");
+    ua.addZoneLink("testLink");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(2, aa.getAdaptedAlerts().get(0).getZoneLinkCount());
+  }
+
+  @Test
+  public void getZone_ZoneLinkGiven_CorrectReturn() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.addZoneLink("testLink");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("testLink", aa.getAdaptedAlerts().get(0).getZone(0));
+  }
+
+  @Test
+  public void getZone_DifferentZoneLinkGiven_CorrectReturn() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.addZoneLink("testLink2");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("testLink2", aa.getAdaptedAlerts().get(0).getZone(0));
+  }
+
+  @Test
+  public void getZone_TwoZoneLinksGiven_FirstOneIsCorrect() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.addZoneLink("testLink1");
+    ua.addZoneLink("testLink2");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("testLink1", aa.getAdaptedAlerts().get(0).getZone(0));
+  }
 }
