@@ -104,4 +104,20 @@ public class BoundCalculatorTests {
     Bounds bounds = new BoundCalculator(polygon).getBounds();
     assertEquals(4.0, bounds.getRight(), 0.001);
   }
+
+  @Test
+  public void getRight_NegativeRightGiven_CorrectBound() {
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(-5.0, 0.0));
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
+    assertEquals(-5.0, bounds.getRight(), 0.001);
+  }
+
+  @Test
+  public void getRight_NegativeTopGiven_CorrectBound() {
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(0.0, -50.0));
+    Bounds bounds = new BoundCalculator(polygon).getBounds();
+    assertEquals(-50.0, bounds.getTop(), 0.001);
+  }
 }
