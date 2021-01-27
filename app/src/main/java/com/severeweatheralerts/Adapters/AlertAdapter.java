@@ -2,8 +2,6 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
-import com.severeweatheralerts.Graphics.MercatorCoordinateAdapter;
-import com.severeweatheralerts.Graphics.Polygon;
 
 import java.util.ArrayList;
 
