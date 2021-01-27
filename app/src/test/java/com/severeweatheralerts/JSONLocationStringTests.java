@@ -24,7 +24,7 @@ public class JSONLocationStringTests {
     loc.setLongitude(-80.0);
     locationList.add(loc);
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
-    assertEquals("[[40.0,-80.0]]", jsonSettingsGenerator.getString());
+    assertEquals("[[-80.0,40.0]]", jsonSettingsGenerator.getString());
   }
 
   @Test
@@ -35,7 +35,7 @@ public class JSONLocationStringTests {
     loc.setLongitude(-81.0);
     locationList.add(loc);
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
-    assertEquals("[[41.0,-81.0]]", jsonSettingsGenerator.getString());
+    assertEquals("[[-81.0,41.0]]", jsonSettingsGenerator.getString());
   }
 
   @Test
@@ -50,7 +50,7 @@ public class JSONLocationStringTests {
     locationList.add(loc1);
     locationList.add(loc2);
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
-    assertEquals("[[41.0,-81.0],[40.0,-80.0]]", jsonSettingsGenerator.getString());
+    assertEquals("[[-81.0,41.0],[-80.0,40.0]]", jsonSettingsGenerator.getString());
   }
 
   @Test
@@ -61,7 +61,7 @@ public class JSONLocationStringTests {
     loc1.setLongitude(-81.0);
     locationList.add(loc1);
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
-    assertEquals("[[41.123,-81.0]]", jsonSettingsGenerator.getString());
+    assertEquals("[[-81.0,41.123]]", jsonSettingsGenerator.getString());
   }
 
   @Test
@@ -72,6 +72,6 @@ public class JSONLocationStringTests {
     loc1.setLongitude(-80.12345678);
     locationList.add(loc1);
     JSONLocationString jsonSettingsGenerator = new JSONLocationString(locationList);
-    assertEquals("[[41.0,-80.123]]", jsonSettingsGenerator.getString());
+    assertEquals("[[-80.123,41.0]]", jsonSettingsGenerator.getString());
   }
 }

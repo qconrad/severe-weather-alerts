@@ -29,7 +29,7 @@ public class JSONLocationString {
   }
 
   private String getArrayString(Location loc) {
-    return "[" + getLat(loc) + "," + getLong(loc) + "]";
+    return "[" + getLong(loc) + "," + getLat(loc) + "]";
   }
 
   private double getLat(Location loc) {
