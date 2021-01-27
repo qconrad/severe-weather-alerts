@@ -1,7 +1,5 @@
 package com.severeweatheralerts.JSONParsing;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.UnadaptedAlert;
 
 import org.json.JSONArray;
@@ -57,15 +55,16 @@ public class AlertListParser {
   }
 
   private void parseGeometry(JSONArray alerts, UnadaptedAlert ua, int index) throws JSONException {
-    if (!alerts.getJSONObject(index).isNull("geometry")) {
-      GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
-      for (int i = 0; i < alerts.getJSONObject(index).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).length(); i++) {
-        double lat = alerts.getJSONObject(index).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(i).getDouble(1);
-        double lon = alerts.getJSONObject(index).getJSONObject("geometry").getJSONArray("coordinates").getJSONArray(0).getJSONArray(i).getDouble(0);
-        geoJSONPolygon.addCoordinate(new GCSCoordinate(lat, lon));
-      }
-      ua.setPolygon(geoJSONPolygon);
-    }
+    if (hasGeometry(alerts, index))
+      ua.setPolygon(new GeometryParser(getGeometry(alerts, index)).parseGeometry().get(0));
+  }
+
+  private JSONObject getGeometry(JSONArray alerts, int index) throws JSONException {
+    return alerts.getJSONObject(index).getJSONObject("geometry");
+  }
+
+  private boolean hasGeometry(JSONArray alerts, int i) throws JSONException {
+    return !alerts.getJSONObject(i).isNull("geometry");
   }
 
   private void parseAlertProperties(JSONObject props, UnadaptedAlert ua) throws JSONException {
