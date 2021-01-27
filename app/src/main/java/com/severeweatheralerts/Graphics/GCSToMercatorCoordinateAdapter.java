@@ -2,12 +2,12 @@ package com.severeweatheralerts.Graphics;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 
-public class MercatorCoordinateAdapter {
+public class GCSToMercatorCoordinateAdapter {
   final static double RADIUS = 6378137.0;
   private final GCSCoordinate gcsCoordinate;
   MercatorCoordinate mercatorCoordinate;
 
-  public MercatorCoordinateAdapter(GCSCoordinate gcsCoordinate) {
+  public GCSToMercatorCoordinateAdapter(GCSCoordinate gcsCoordinate) {
     this.gcsCoordinate = gcsCoordinate;
     adaptCoordinate();
   }
