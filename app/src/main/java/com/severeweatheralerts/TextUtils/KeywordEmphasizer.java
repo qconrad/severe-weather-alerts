@@ -8,9 +8,8 @@ public class KeywordEmphasizer {
   public KeywordEmphasizer() {}
   public String emphasize(String input) {
     String output = input;
-    ArrayList<String> keywords = getKeywords(input);
-    for (int i = 0; i < keywords.size(); i++)
-      if (validKeyword(keywords.get(i))) output = emphasizeKeyword(output, removeNewLines(keywords.get(i)));
+    for (String keyword : getKeywords(input))
+      if (validKeyword(keyword)) output = emphasizeKeyword(output, removeNewLines(keyword));
     return replaceNewLinesWithHtmlLineBreaks(output);
   }
 
