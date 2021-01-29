@@ -272,7 +272,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void setNextUpdate() {
     TextView nextUpdate = findViewById(R.id.next_update);
-    NextUpdate nextUpdateGen = new NextUpdate(al, TimeZone.getTimeZone("CST"));
+    NextUpdate nextUpdateGen = new NextUpdate(al, TimeZone.getDefault());
     if (nextUpdateGen.hasText()) {
       nextUpdate.setVisibility(View.VISIBLE);
       nextUpdate.setText(nextUpdateGen.getText(new Date()));
