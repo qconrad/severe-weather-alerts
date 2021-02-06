@@ -31,6 +31,7 @@ import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
+import com.severeweatheralerts.Networking.FetchServices.ListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
@@ -96,13 +97,16 @@ public class AlertViewerActivity extends AppCompatActivity {
     if (al.hasGeometry()) {
       displayPolygon();
     } else {
-      StringFetchService fetchService = new StringFetchService(this, al.getZone(0));
+      ListFetch fetchService = new ListFetch(this, al.getZones());
       fetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
       fetchService.fetch(new FetchCallback() {
         @Override
         public void success(Object response) {
+          ArrayList<String> zones = (ArrayList<String>) response;
           try {
-            al.addPolygon(PolygonAdapter.toMercatorPolygon(new GeometryParser(new JSONObject(response.toString()).getJSONObject("geometry")).parseGeometry().get(0)));
+            for (String zone : zones) {
+              al.addPolygon(PolygonAdapter.toMercatorPolygon(new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry().get(0)));
+            }
             displayPolygon();
           } catch (JSONException e) {
             e.printStackTrace();

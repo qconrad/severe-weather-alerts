@@ -72,6 +72,7 @@ public abstract class Alert implements Comparable<Alert> {
   public int getZoneLinkCount() { return zoneLinks.size(); }
   public void addZoneLink(String link) { zoneLinks.add(link); }
   public String getZone(int i) { return zoneLinks.get(i); }
+  public ArrayList<String> getZones() { return zoneLinks; }
 
   public void setReplacedBy(Alert replacedBy) {
     this.replacedBy = replacedBy;
