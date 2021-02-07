@@ -10,8 +10,8 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
-import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
-import com.severeweatheralerts.Networking.FetchServices.ListFetch;
+import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
+import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
 import com.severeweatheralerts.PolygonListBoundCalculator;
 
 import org.json.JSONException;
@@ -37,7 +37,7 @@ public class GraphicGenerator {
   }
 
   private void fetchZones(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
-    ListFetch fetchService = new ListFetch(context, alert.getZones());
+    StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
@@ -62,16 +62,15 @@ public class GraphicGenerator {
 
   private void generateImage(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
     Bounds bounds = getBounds();
-    ImageFetchService imageFetchService = new ImageFetchService(context, new URLGenerator().getCountyMap(bounds));
-    imageFetchService.setUserAgent(Constants.USER_AGENT);
-    imageFetchService.fetch(new FetchCallback() {
+    ArrayList<String> urls = new ArrayList<>();
+    urls.add(new URLGenerator().getCountyMap(bounds));
+    ImageListFetch fetchService = new ImageListFetch(context, urls);
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        Bitmap baseCountyMap = (Bitmap) response;
-        ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        bitmaps.add(baseCountyMap);
-        Bitmap zonePolygons = new ZoneDrawer(alert.getPolygons(), alert.getColor(), bounds, location).getBitmap();
-        bitmaps.add(zonePolygons);
+        ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
+        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColor(), bounds, location).getBitmap());
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
       }
