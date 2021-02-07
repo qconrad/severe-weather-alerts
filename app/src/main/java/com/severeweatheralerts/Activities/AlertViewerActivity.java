@@ -1,13 +1,7 @@
 package com.severeweatheralerts.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,38 +16,25 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.severeweatheralerts.Adapters.GeoJSONPolygon;
-import com.severeweatheralerts.Adapters.PolygonAdapter;
-import com.severeweatheralerts.Alerts.Alert;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.severeweatheralerts.AlertListTools.AlertFinder;
-import com.severeweatheralerts.BoundAspectRatio;
-import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.AlertArea;
-import com.severeweatheralerts.Graphics.BoundMargin;
-import com.severeweatheralerts.Graphics.BitmapCombiner;
-import com.severeweatheralerts.Graphics.Bounds;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GraphicGenerator;
 import com.severeweatheralerts.Graphics.GraphicType;
-import com.severeweatheralerts.Graphics.ZoneDrawer;
-import com.severeweatheralerts.PolygonListBoundCalculator;
-import com.severeweatheralerts.Graphics.URLGenerator;
-import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
-import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
-import com.severeweatheralerts.Networking.FetchServices.ListFetch;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
 import com.severeweatheralerts.TextUtils.KeywordEmphasizer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,11 +89,17 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void generateGraphics() {
     GraphicType graphicType = new AlertArea();
     View graphicView = createGraphicView();
-    displayGraphicTypeAndLoading(graphicType, graphicView);
-    new GraphicGenerator(graphicType).generate(graphic -> {
+    displayGraphicTypeAndProgressBar(graphicType, graphicView);
+    new GraphicGenerator(this, graphicType, al).generate(graphic -> {
       displaySubtext(graphicView, graphic);
+      displayImage(graphicView, graphic);
       hideProgressBar(graphicView);
     });
+  }
+
+  private void displayImage(View graphicView, Graphic graphic) {
+    ImageView iv = graphicView.findViewById(R.id.gfx_image);
+    iv.setImageBitmap(graphic.getImage());
   }
 
   private void displaySubtext(View graphicView, Graphic graphic) {
@@ -127,7 +114,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     graphicView.findViewById(R.id.progress).setVisibility(View.GONE);
   }
 
-  private void displayGraphicTypeAndLoading(GraphicType graphicType, View graphicView) {
+  private void displayGraphicTypeAndProgressBar(GraphicType graphicType, View graphicView) {
     setTitle(graphicView, graphicType.getTitle());
     setProgressBarColor(graphicView, al.getColor());
     addGraphicToLayout(graphicView);
@@ -151,56 +138,6 @@ public class AlertViewerActivity extends AppCompatActivity {
   private void setTitle(View graphicView, String text) {
     TextView titleTv = graphicView.findViewById(R.id.gfx_title);
     titleTv.setText(text);
-  }
-
-  private void fetchZones(View graphicView) {
-    ListFetch fetchService = new ListFetch(this, al.getZones());
-    fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
-      @Override
-      public void success(Object response) {
-        parseZones((ArrayList<String>) response);
-        displayGraphic(graphicView);
-      }
-
-      @Override public void error(VolleyError error) { }
-    });
-  }
-
-  private void parseZones(ArrayList<String> response) {
-    for (String zone : response) {
-      ArrayList<GeoJSONPolygon> geometry = null;
-      try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
-      catch (JSONException e) { e.printStackTrace(); }
-      for (int i = 0; i < geometry.size(); i++)
-        al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
-    }
-  }
-
-  private void displayGraphic(View graphicView) {
-    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
-    String url = new URLGenerator().getCountyMap(bounds);
-    ImageFetchService imageFetchService = new ImageFetchService(this, url);
-    imageFetchService.setUserAgent(Constants.USER_AGENT);
-    imageFetchService.fetch(new FetchCallback() {
-      @Override
-      public void success(Object response) {
-        Bitmap baseCountyMap = (Bitmap) response;
-        ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        bitmaps.add(baseCountyMap);
-        Bitmap zonePolygons = new ZoneDrawer(al.getPolygons(), al.getColor(), bounds).getBitmap();
-        bitmaps.add(zonePolygons);
-        ImageView iv = graphicView.findViewById(R.id.gfx_image);
-        iv.setImageBitmap(new BitmapCombiner(bitmaps).combine());
-
-        graphicView.findViewById(R.id.progress).setVisibility(View.GONE);
-      }
-
-      @Override
-      public void error(VolleyError error) {
-        System.out.println(error.getMessage());
-      }
-    });
   }
 
   private void populateReferences() {
