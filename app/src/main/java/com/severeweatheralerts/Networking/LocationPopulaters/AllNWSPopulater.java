@@ -6,6 +6,7 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.AlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
@@ -51,7 +52,7 @@ public class AllNWSPopulater {
   }
 
   private String getUserAgent() {
-    return "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)";
+    return Constants.USER_AGENT;
   }
 
   private void setAlertsForLocation(ArrayList<Alert> alerts) {

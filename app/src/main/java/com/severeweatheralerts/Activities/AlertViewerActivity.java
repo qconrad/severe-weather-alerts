@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -29,8 +28,8 @@ import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.BoundAspectRatio;
-import com.severeweatheralerts.BoundMargin;
-import com.severeweatheralerts.Graphics.AlertAreaGenerator;
+import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Graphics.BoundMargin;
 import com.severeweatheralerts.Graphics.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds;
 import com.severeweatheralerts.Graphics.Graphic;
@@ -104,34 +103,32 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    if (al.hasGeometry()) {
-      displayPolygon();
-    } else {
-      ListFetch fetchService = new ListFetch(this, al.getZones());
-      fetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
-      fetchService.fetch(new FetchCallback() {
-        @Override
-        public void success(Object response) {
-          for (String zone : (ArrayList<String>) response) {
-            ArrayList<GeoJSONPolygon> geometry = null;
-            try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
-            catch (JSONException e) { e.printStackTrace(); }
-            for (int i = 0; i < geometry.size(); i++)
-              al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
-          }
-          displayPolygon();
-        }
-
-        @Override
-        public void error(VolleyError error) {
-
-        }
-      });
-    }
+    if (al.hasGeometry()) displayGraphic();
+    else fetchZones();
   }
 
-  private void displayPolygon() {
-    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), 0.25).getBounds();
+  private void fetchZones() {
+    ListFetch fetchService = new ListFetch(this, al.getZones());
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        for (String zone : (ArrayList<String>) response) {
+          ArrayList<GeoJSONPolygon> geometry = null;
+          try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
+          catch (JSONException e) { e.printStackTrace(); }
+          for (int i = 0; i < geometry.size(); i++)
+            al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+        }
+        displayGraphic();
+      }
+
+      @Override public void error(VolleyError error) { }
+    });
+  }
+
+  private void displayGraphic() {
+    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
     String url = new URLGenerator().getCountyMap(bounds);
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -148,11 +145,11 @@ public class AlertViewerActivity extends AppCompatActivity {
       subTextTv.setText(graphic.getSubtext());
     }
 
-    ProgressBar pb = (ProgressBar)graphicView.findViewById(R.id.progress);
+    ProgressBar pb = graphicView.findViewById(R.id.progress);
     pb.getIndeterminateDrawable().setColorFilter(al.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
     LinearLayout ll = findViewById(R.id.graphics);
     ll.addView(graphicView);
-    imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
+    imageFetchService.setUserAgent(Constants.USER_AGENT);
     imageFetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {

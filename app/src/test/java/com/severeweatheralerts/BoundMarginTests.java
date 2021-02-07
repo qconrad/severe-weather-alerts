@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Graphics.BoundMargin;
 import com.severeweatheralerts.Graphics.Bounds;
 
 import org.junit.Test;
