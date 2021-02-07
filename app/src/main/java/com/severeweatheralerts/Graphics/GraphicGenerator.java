@@ -22,10 +22,12 @@ import java.util.ArrayList;
 public class GraphicGenerator {
   private final Alert alert;
   private final Context context;
+  private final MercatorCoordinate location;
 
-  public GraphicGenerator(Context context, GraphicType graphicType, Alert alert) {
+  public GraphicGenerator(Context context, GraphicType graphicType, Alert alert, MercatorCoordinate location) {
     this.context = context;
     this.alert = alert;
+    this.location = location;
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
@@ -68,7 +70,7 @@ public class GraphicGenerator {
         Bitmap baseCountyMap = (Bitmap) response;
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
         bitmaps.add(baseCountyMap);
-        Bitmap zonePolygons = new ZoneDrawer(alert.getPolygons(), alert.getColor(), bounds).getBitmap();
+        Bitmap zonePolygons = new ZoneDrawer(alert.getPolygons(), alert.getColor(), bounds, location).getBitmap();
         bitmaps.add(zonePolygons);
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);

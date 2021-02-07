@@ -21,12 +21,15 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.AlertArea;
+import com.severeweatheralerts.Graphics.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GraphicGenerator;
 import com.severeweatheralerts.Graphics.GraphicType;
+import com.severeweatheralerts.Graphics.MercatorCoordinate;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
@@ -90,7 +93,8 @@ public class AlertViewerActivity extends AppCompatActivity {
     GraphicType graphicType = new AlertArea();
     View graphicView = createGraphicView();
     displayGraphicTypeAndProgressBar(graphicType, graphicView);
-    new GraphicGenerator(this, graphicType, al).generate(graphic -> {
+    MercatorCoordinate location = new GCSToMercatorCoordinateAdapter(new GCSCoordinate(LocationsDao.getLocation(0).getLatitude(), LocationsDao.getLocation(0).getLongitude())).getCoordinate();
+    new GraphicGenerator(this, graphicType, al, location).generate(graphic -> {
       displaySubtext(graphicView, graphic);
       displayImage(graphicView, graphic);
       hideProgressBar(graphicView);

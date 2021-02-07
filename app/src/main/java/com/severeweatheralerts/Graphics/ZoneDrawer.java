@@ -16,12 +16,14 @@ public class ZoneDrawer {
   private final Paint paint;
   private final Bitmap bitmap;
   private final Canvas canvas;
+  private final MercatorCoordinate location;
 
-  public ZoneDrawer(ArrayList<Polygon> polygons, int color, Bounds bounds) {
+  public ZoneDrawer(ArrayList<Polygon> polygons, int color, Bounds bounds, MercatorCoordinate location) {
     this.color = color;
     this.polygons = polygons;
     this.bounds = bounds;
-    paint = getPaint();
+    this.location = location;
+    paint = getZonePaint();
     bitmap = createBitmap();
     canvas =  new Canvas(bitmap);
     drawPolygons();
@@ -33,6 +35,14 @@ public class ZoneDrawer {
 
   private void drawPolygons() {
     for (Polygon polygon : polygons) drawPolygon(polygon);
+    drawLocation();
+  }
+
+  private void drawLocation() {
+    if (location != null) {
+      Point locPoint = new MercatorCoordinateToPointAdapter(bounds, getWidth(), getHeight()).getPoint(location);
+      canvas.drawCircle(locPoint.x, getHeight() - locPoint.y, 10, getLocationPaint());
+    }
   }
 
   private void drawPolygon(Polygon polygon) {
@@ -69,12 +79,20 @@ public class ZoneDrawer {
     return 512;
   }
 
-  protected Paint getPaint() {
+  protected Paint getZonePaint() {
     Paint paint = new Paint();
     paint.setColor(color);
     paint.setStrokeWidth(5);
     paint.setShadowLayer(5, 0, 0, Color.BLACK);
     paint.setStyle(Paint.Style.STROKE);
+    return paint;
+  }
+
+  protected Paint getLocationPaint() {
+    Paint paint = new Paint();
+    paint.setColor(Color.YELLOW);
+    paint.setStyle(Paint.Style.FILL);
+    paint.setShadowLayer(5, 0, 0, Color.BLACK);
     return paint;
   }
 }
