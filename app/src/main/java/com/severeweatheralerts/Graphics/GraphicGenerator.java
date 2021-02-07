@@ -5,6 +5,7 @@ public class GraphicGenerator {
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
-    graphicCompleteListener.onComplete(null);
+    Graphic graphic = new Graphic();
+    graphicCompleteListener.onComplete(graphic);
   }
 }

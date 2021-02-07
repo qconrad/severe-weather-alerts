@@ -34,7 +34,6 @@ import com.severeweatheralerts.Graphics.BoundMargin;
 import com.severeweatheralerts.Graphics.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds;
 import com.severeweatheralerts.Graphics.Graphic;
-import com.severeweatheralerts.Graphics.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.GraphicGenerator;
 import com.severeweatheralerts.Graphics.GraphicType;
 import com.severeweatheralerts.Graphics.ZoneDrawer;
@@ -107,30 +106,28 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    // getGraphicTypes(alert)
-    // displayTitle(type.getTitle())
-    // generateGraphic(getGraphicType(0))
-    // generationCompleteListener
-    //    displaySubtext
-    //    displayImage
-
     GraphicType graphicType = new AlertArea();
-    displayType(graphicType);
+    View graphicView = createGraphicView();
+    displayGraphicTypeAndLoading(graphicType, graphicView);
     new GraphicGenerator(graphicType).generate(graphic -> {
+      displaySubtext(graphicView, graphic);
+      hideProgressBar(graphicView);
     });
-
-    //if (graphic.getSubtext() != null) {
-      //TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
-      //subTextTv.setVisibility(View.VISIBLE);
-      //subTextTv.setText(graphic.getSubtext());
-    //}
-
-    //if (al.hasGeometry()) displayGraphic(graphicView);
-    //else fetchZones(graphicView);
   }
 
-  private void displayType(GraphicType graphicType) {
-    View graphicView = createGraphicView();
+  private void displaySubtext(View graphicView, Graphic graphic) {
+    if (graphic.hasSubtext()) {
+      TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
+      subTextTv.setVisibility(View.VISIBLE);
+      subTextTv.setText(graphic.getSubtext());
+    }
+  }
+
+  private void hideProgressBar(View graphicView) {
+    graphicView.findViewById(R.id.progress).setVisibility(View.GONE);
+  }
+
+  private void displayGraphicTypeAndLoading(GraphicType graphicType, View graphicView) {
     setTitle(graphicView, graphicType.getTitle());
     setProgressBarColor(graphicView, al.getColor());
     addGraphicToLayout(graphicView);
