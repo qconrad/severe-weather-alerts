@@ -67,6 +67,7 @@ public abstract class Alert implements Comparable<Alert> {
   public void addPolygon(Polygon polygon) { polygons.add(polygon); }
   public boolean hasGeometry() { return polygons.size() > 0; }
   public Polygon getPolygon(int i) { return polygons.get(i); }
+  public ArrayList<Polygon> getPolygons() { return polygons; }
   public int getPolygonCount() { return polygons.size(); }
 
   public int getZoneLinkCount() { return zoneLinks.size(); }

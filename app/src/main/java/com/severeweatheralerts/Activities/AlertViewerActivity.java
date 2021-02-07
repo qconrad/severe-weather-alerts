@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
+import com.severeweatheralerts.BoundListCalculator;
 import com.severeweatheralerts.Graphics.BoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
@@ -122,7 +123,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayPolygon() {
-    String url = new URLGenerator().getCountyMap(new BoundCalculator(al.getPolygon(0)).getBounds());
+    String url = new URLGenerator().getCountyMap(new BoundListCalculator(al.getPolygons()).getBounds());
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
     imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
     imageFetchService.fetch(new FetchCallback() {
