@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ListFetch {
   private final Context context;
   private final ArrayList<String> urls;
-  private int fetchCount = 0;
+  private int fetchedCount = 0;
   private final ArrayList<String> fetchedData = new ArrayList<>();
   private String userAgent = null;
 
@@ -30,6 +30,7 @@ public class ListFetch {
       stringFetchService.fetch(new FetchCallback() {
         @Override
         public void success(Object response) {
+          fetchedCount++;
           if (hasMoreUrls()) addData(response.toString());
           else callback.success(fetchedData);
         }
@@ -41,11 +42,10 @@ public class ListFetch {
   }
 
   private boolean hasMoreUrls() {
-    return fetchCount < urls.size() - 2;
+    return fetchedCount < urls.size();
   }
 
   private void addData(String response) {
     fetchedData.add(response);
-    fetchCount++;
   }
 }

@@ -20,9 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
+import com.severeweatheralerts.BoundAspectRatio;
+import com.severeweatheralerts.BoundMargin;
 import com.severeweatheralerts.Graphics.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds;
 import com.severeweatheralerts.Graphics.ZoneDrawer;
@@ -103,15 +106,14 @@ public class AlertViewerActivity extends AppCompatActivity {
       fetchService.fetch(new FetchCallback() {
         @Override
         public void success(Object response) {
-          ArrayList<String> zones = (ArrayList<String>) response;
-          try {
-            for (String zone : zones) {
-              al.addPolygon(PolygonAdapter.toMercatorPolygon(new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry().get(0)));
-            }
-            displayPolygon();
-          } catch (JSONException e) {
-            e.printStackTrace();
+          for (String zone : (ArrayList<String>) response) {
+            ArrayList<GeoJSONPolygon> geometry = null;
+            try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
+            catch (JSONException e) { e.printStackTrace(); }
+            for (int i = 0; i < geometry.size(); i++)
+              al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
           }
+          displayPolygon();
         }
 
         @Override
@@ -123,7 +125,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayPolygon() {
-    Bounds bounds = new PolygonListBoundCalculator(al.getPolygons()).getBounds();
+    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), 0.25).getBounds();
     String url = new URLGenerator().getCountyMap(bounds);
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
     imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
