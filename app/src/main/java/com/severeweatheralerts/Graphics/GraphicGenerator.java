@@ -71,7 +71,8 @@ public class GraphicGenerator {
       @Override
       public void success(Object response) {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, location).getBitmap());
+        if (graphicType.renderZoneMap())
+          bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, location).getBitmap());
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
       }

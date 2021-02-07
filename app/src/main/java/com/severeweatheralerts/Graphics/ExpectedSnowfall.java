@@ -3,8 +3,7 @@ package com.severeweatheralerts.Graphics;
 import java.util.ArrayList;
 
 public class ExpectedSnowfall extends AlertArea implements GraphicType  {
-  public ExpectedSnowfall() {
-  }
+  public ExpectedSnowfall() {}
 
   @Override
   public String getTitle() {

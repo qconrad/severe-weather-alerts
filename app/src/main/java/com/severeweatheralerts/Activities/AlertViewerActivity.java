@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.AlertArea;
+import com.severeweatheralerts.GraphicFactory;
 import com.severeweatheralerts.Graphics.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GraphicGenerator;
@@ -90,15 +90,17 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    GraphicType graphicType = new AlertArea();
-    View graphicView = createGraphicView();
-    displayGraphicTypeAndProgressBar(graphicType, graphicView);
     MercatorCoordinate location = new GCSToMercatorCoordinateAdapter(new GCSCoordinate(LocationsDao.getLocation(0).getLatitude(), LocationsDao.getLocation(0).getLongitude())).getCoordinate();
-    new GraphicGenerator(this, graphicType, al, location).generate(graphic -> {
-      displaySubtext(graphicView, graphic);
-      displayImage(graphicView, graphic);
-      hideProgressBar(graphicView);
-    });
+    ArrayList<GraphicType> types = new GraphicFactory(al).getTypes();
+    for (GraphicType type : types) {
+      View graphicView = createGraphicView();
+      displayGraphicTitleAndProgressBar(type, graphicView);
+      new GraphicGenerator(this, type, al, location).generate(graphic -> {
+        displaySubtext(graphicView, graphic);
+        displayImage(graphicView, graphic);
+        hideProgressBar(graphicView);
+      });
+    }
   }
 
   private void displayImage(View graphicView, Graphic graphic) {
@@ -118,7 +120,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     graphicView.findViewById(R.id.progress).setVisibility(View.GONE);
   }
 
-  private void displayGraphicTypeAndProgressBar(GraphicType graphicType, View graphicView) {
+  private void displayGraphicTitleAndProgressBar(GraphicType graphicType, View graphicView) {
     setTitle(graphicView, graphicType.getTitle());
     setProgressBarColor(graphicView, al.getColorAt(new Date()));
     addGraphicToLayout(graphicView);
