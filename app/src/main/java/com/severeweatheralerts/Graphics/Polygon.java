@@ -16,4 +16,8 @@ public class Polygon {
   public MercatorCoordinate getCoordinate(int index) {
     return coordList.get(index);
   }
+
+  public ArrayList<MercatorCoordinate> getCoordinates() {
+    return coordList;
+  }
 }

@@ -23,6 +23,9 @@ import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
+import com.severeweatheralerts.Graphics.BitmapCombiner;
+import com.severeweatheralerts.Graphics.Bounds;
+import com.severeweatheralerts.Graphics.ZoneDrawer;
 import com.severeweatheralerts.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
@@ -120,15 +123,19 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayPolygon() {
-    String url = new URLGenerator().getCountyMap(new PolygonListBoundCalculator(al.getPolygons()).getBounds());
+    Bounds bounds = new PolygonListBoundCalculator(al.getPolygons()).getBounds();
+    String url = new URLGenerator().getCountyMap(bounds);
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
     imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
     imageFetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         Bitmap test = (Bitmap) response;
+        ArrayList<Bitmap> bitmaps = new ArrayList<>();
+        bitmaps.add(test);
+        bitmaps.add(new ZoneDrawer(al.getPolygons(), al.getColor(), bounds).getBitmap());
         ImageView iv = findViewById(R.id.graphic_image);
-        iv.setImageBitmap(test);
+        iv.setImageBitmap(new BitmapCombiner(bitmaps).combine());
       }
 
       @Override
