@@ -25,6 +25,8 @@ public class GraphicGenerator {
   private final Context context;
   private final MercatorCoordinate location;
   private final GraphicType graphicType;
+  private GraphicCompleteListener graphicCompleteListener;
+  private Bounds bounds;
 
   public GraphicGenerator(Context context, GraphicType graphicType, Alert alert, MercatorCoordinate location) {
     this.context = context;
@@ -34,19 +36,20 @@ public class GraphicGenerator {
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
-    Graphic graphic = new Graphic();
-    if (!alert.hasGeometry()) fetchZones(graphicCompleteListener, graphic);
-    else generateImage(graphicCompleteListener, graphic);
+    this.graphicCompleteListener = graphicCompleteListener;
+    if (!alert.hasGeometry()) fetchZones();
+    else generateImages();
   }
 
-  private void fetchZones(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
+  private void fetchZones() {
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         parseZones((ArrayList<String>) response);
-        generateImage(graphicCompleteListener, graphic);
+        bounds = getBounds();
+        generateImages();
       }
 
       @Override public void error(VolleyError error) { }
@@ -63,16 +66,20 @@ public class GraphicGenerator {
     }
   }
 
-  private void generateImage(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
-    Bounds bounds = getBounds();
-    ImageListFetch fetchService = new ImageListFetch(context, graphicType.getURLs(bounds));
+  private void generateImages() {
+    GraphicURLGenerator graphicURLGenerator = new GraphicURLGenerator(graphicType, bounds);
+    graphicURLGenerator.generate((URLGenCompleteListener) this::fetchImages);
+  }
+
+  private void fetchImages(ArrayList<String> urls) {
+    ImageListFetch fetchService = new ImageListFetch(context, urls);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        if (graphicType.renderZoneMap())
-          bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, location).getBitmap());
+        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, location).getBitmap());
+        Graphic graphic = new Graphic();
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
       }
