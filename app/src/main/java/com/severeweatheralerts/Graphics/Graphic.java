@@ -21,4 +21,8 @@ public class Graphic {
   public Bitmap getImage() {
     return image;
   }
+
+  public boolean hasSubtext() {
+    return subText != null;
+  }
 }
