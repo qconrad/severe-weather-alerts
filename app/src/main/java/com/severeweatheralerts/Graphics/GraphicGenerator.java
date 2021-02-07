@@ -24,11 +24,13 @@ public class GraphicGenerator {
   private final Alert alert;
   private final Context context;
   private final MercatorCoordinate location;
+  private final GraphicType graphicType;
 
   public GraphicGenerator(Context context, GraphicType graphicType, Alert alert, MercatorCoordinate location) {
     this.context = context;
     this.alert = alert;
     this.location = location;
+    this.graphicType = graphicType;
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
@@ -63,11 +65,7 @@ public class GraphicGenerator {
 
   private void generateImage(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
     Bounds bounds = getBounds();
-    ArrayList<String> urls = new ArrayList<>();
-    //urls.add(new URLGenerator().getTotalSnow(bounds, "conus", "2021-02-10T00:00"));
-    urls.add(new URLGenerator().getCountyMap(bounds));
-    //urls.add(new URLGenerator().getTotalSnowPoints(bounds, "conus", "2021-02-10T00:00"));
-    ImageListFetch fetchService = new ImageListFetch(context, urls);
+    ImageListFetch fetchService = new ImageListFetch(context, graphicType.getURLs(bounds));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
