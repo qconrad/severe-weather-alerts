@@ -6,11 +6,11 @@ import com.severeweatheralerts.Graphics.Polygon;
 
 import java.util.ArrayList;
 
-public class BoundListCalculator {
+public class PolygonListBoundCalculator {
   private final ArrayList<Polygon> polygons;
   Bounds bounds;
 
-  public BoundListCalculator(ArrayList<Polygon> polygons) {
+  public PolygonListBoundCalculator(ArrayList<Polygon> polygons) {
     this.polygons = polygons;
     bounds = new Bounds();
   }

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,8 +23,7 @@ import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
-import com.severeweatheralerts.BoundListCalculator;
-import com.severeweatheralerts.Graphics.BoundCalculator;
+import com.severeweatheralerts.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Location.Location;
@@ -33,7 +31,6 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
 import com.severeweatheralerts.Networking.FetchServices.ListFetch;
-import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
@@ -123,7 +120,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void displayPolygon() {
-    String url = new URLGenerator().getCountyMap(new BoundListCalculator(al.getPolygons()).getBounds());
+    String url = new URLGenerator().getCountyMap(new PolygonListBoundCalculator(al.getPolygons()).getBounds());
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
     imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
     imageFetchService.fetch(new FetchCallback() {
