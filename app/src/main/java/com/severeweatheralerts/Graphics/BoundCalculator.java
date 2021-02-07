@@ -2,10 +2,16 @@ package com.severeweatheralerts.Graphics;
 
 public class BoundCalculator {
   private final Polygon polygon;
-  private Bounds bounds;
+  private Bounds bounds = new Bounds();
 
   public BoundCalculator(Polygon polygon) {
     this.polygon = polygon;
+    calculateBounds();
+  }
+
+  public BoundCalculator(Polygon polygon, Bounds bounds) {
+    this.polygon = polygon;
+    this.bounds = bounds;
     calculateBounds();
   }
 
@@ -14,10 +20,10 @@ public class BoundCalculator {
   }
 
   private void calculateBounds() {
-    double top = Double.NEGATIVE_INFINITY;
-    double right = Double.NEGATIVE_INFINITY;
-    double bottom = Double.POSITIVE_INFINITY;
-    double left = Double.POSITIVE_INFINITY;
+    double top = bounds.getTop();
+    double right = bounds.getRight();
+    double bottom = bounds.getBottom();
+    double left = bounds.getLeft();
     for (int i = 0; i < polygon.getCoordinateCount(); i++) {
       left = Math.min(left, polygon.getCoordinate(i).getX());
       bottom = Math.min(bottom, polygon.getCoordinate(i).getY());

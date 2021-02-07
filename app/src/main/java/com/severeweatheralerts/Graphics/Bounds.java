@@ -13,6 +13,13 @@ public class Bounds {
     this.left = left;
   }
 
+  public Bounds() {
+    this.top = Double.NEGATIVE_INFINITY;
+    this.right = Double.NEGATIVE_INFINITY;
+    this.bottom = Double.POSITIVE_INFINITY;
+    this.left = Double.POSITIVE_INFINITY;
+  }
+
   public double getTop() { return top; }
   public double getRight() { return right; }
   public double getBottom() { return bottom; }
