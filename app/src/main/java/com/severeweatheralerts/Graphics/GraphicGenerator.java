@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GraphicGenerator {
   private final Alert alert;
@@ -70,7 +71,7 @@ public class GraphicGenerator {
       @Override
       public void success(Object response) {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColor(), bounds, location).getBitmap());
+        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, location).getBitmap());
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
       }

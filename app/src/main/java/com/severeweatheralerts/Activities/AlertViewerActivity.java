@@ -120,7 +120,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void displayGraphicTypeAndProgressBar(GraphicType graphicType, View graphicView) {
     setTitle(graphicView, graphicType.getTitle());
-    setProgressBarColor(graphicView, al.getColor());
+    setProgressBarColor(graphicView, al.getColorAt(new Date()));
     addGraphicToLayout(graphicView);
   }
 
