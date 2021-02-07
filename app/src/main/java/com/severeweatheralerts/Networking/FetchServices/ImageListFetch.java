@@ -4,21 +4,23 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ImageListFetch extends StringListFetch {
-  protected ArrayList<Bitmap> bitmaps = new ArrayList<>();
+  protected final Bitmap[] bitmaps;
 
   public ImageListFetch(Context context, ArrayList<String> urls) {
     super(context, urls);
+    bitmaps = new Bitmap[urls.size()];
   }
 
   @Override
-  protected void addData(Object response) {
-    bitmaps.add((Bitmap)response);
+  protected void addData(Object response, int index) {
+    bitmaps[index] = (Bitmap) response;
   }
 
   protected Object getReturnData() {
-    return bitmaps;
+    return new ArrayList<>(Arrays.asList(bitmaps));
   }
 
   protected FetchService getFetchService(String url) {

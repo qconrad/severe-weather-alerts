@@ -5,32 +5,36 @@ import android.content.Context;
 import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class StringListFetch {
   protected final Context context;
   private final ArrayList<String> urls;
   private int fetchedCount = 0;
-  protected final ArrayList<String> stringData = new ArrayList<>();
   private String userAgent = null;
+  private final String[] stringArr;
 
   public StringListFetch(Context context, ArrayList<String> urls) {
     this.context = context;
     this.urls = urls;
+    stringArr = new String[urls.size()];
   }
 
   public void setUserAgent(String userAgent) {
     this.userAgent = userAgent;
   }
 
+  private int i;
   public void fetch(FetchCallback callback) {
-    for (int i = 0; i < urls.size(); i++) {
+    for (i = 0; i < urls.size(); i++) {
       String curUrl = urls.get(i);
       FetchService fetchService = getFetchService(curUrl);
       fetchService.setUserAgent(userAgent);
       fetchService.fetch(new FetchCallback() {
+        private final int index = i;
         @Override
         public void success(Object response) {
-          addData(response);
+          addData(response, index);
           fetchedCount++;
           if (!hasMoreUrls())
             callback.success(getReturnData());
@@ -44,7 +48,7 @@ public class StringListFetch {
   }
 
   protected Object getReturnData() {
-    return stringData;
+    return new ArrayList<>(Arrays.asList(stringArr));
   }
 
   protected FetchService getFetchService(String url) {
@@ -55,7 +59,7 @@ public class StringListFetch {
     return fetchedCount < urls.size();
   }
 
-  protected void addData(Object response) {
-    stringData.add(response.toString());
+  protected void addData(Object response, int index) {
+    stringArr[index] = response.toString();
   }
 }

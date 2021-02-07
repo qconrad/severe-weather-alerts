@@ -64,7 +64,9 @@ public class GraphicGenerator {
   private void generateImage(GraphicCompleteListener graphicCompleteListener, Graphic graphic) {
     Bounds bounds = getBounds();
     ArrayList<String> urls = new ArrayList<>();
+    urls.add(new URLGenerator().getTotalSnow(bounds, "conus", "2021-02-10T00:00"));
     urls.add(new URLGenerator().getCountyMap(bounds));
+    urls.add(new URLGenerator().getTotalSnowPoints(bounds, "conus", "2021-02-10T00:00"));
     ImageListFetch fetchService = new ImageListFetch(context, urls);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
