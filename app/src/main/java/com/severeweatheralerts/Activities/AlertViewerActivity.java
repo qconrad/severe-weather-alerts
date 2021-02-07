@@ -29,10 +29,14 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.BoundAspectRatio;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Graphics.AlertArea;
 import com.severeweatheralerts.Graphics.BoundMargin;
 import com.severeweatheralerts.Graphics.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds;
 import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.GraphicCompleteListener;
+import com.severeweatheralerts.Graphics.GraphicGenerator;
+import com.severeweatheralerts.Graphics.GraphicType;
 import com.severeweatheralerts.Graphics.ZoneDrawer;
 import com.severeweatheralerts.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
@@ -103,26 +107,53 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    Graphic graphic = new Graphic();
-    graphic.setTitle("Alert Area");
-    View graphicView = inflater.inflate(R.layout.graphic, null);
+    // getGraphicTypes(alert)
+    // displayTitle(type.getTitle())
+    // generateGraphic(getGraphicType(0))
+    // generationCompleteListener
+    //    displaySubtext
+    //    displayImage
 
-    TextView titleTv = graphicView.findViewById(R.id.gfx_title);
-    titleTv.setText(graphic.getTitle());
+    GraphicType graphicType = new AlertArea();
+    displayType(graphicType);
+    new GraphicGenerator(graphicType).generate(graphic -> {
+    });
 
-    if (graphic.getSubtext() != null) {
-      TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
-      subTextTv.setVisibility(View.VISIBLE);
-      subTextTv.setText(graphic.getSubtext());
-    }
+    //if (graphic.getSubtext() != null) {
+      //TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
+      //subTextTv.setVisibility(View.VISIBLE);
+      //subTextTv.setText(graphic.getSubtext());
+    //}
 
+    //if (al.hasGeometry()) displayGraphic(graphicView);
+    //else fetchZones(graphicView);
+  }
+
+  private void displayType(GraphicType graphicType) {
+    View graphicView = createGraphicView();
+    setTitle(graphicView, graphicType.getTitle());
+    setProgressBarColor(graphicView, al.getColor());
+    addGraphicToLayout(graphicView);
+  }
+
+  private void setProgressBarColor(View graphicView, int color) {
     ProgressBar pb = graphicView.findViewById(R.id.progress);
-    pb.getIndeterminateDrawable().setColorFilter(al.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
-    LinearLayout ll = findViewById(R.id.graphics);
-    ll.addView(graphicView);
-    if (al.hasGeometry()) displayGraphic(graphicView);
-    else fetchZones(graphicView);
+    pb.getIndeterminateDrawable().setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
+  }
+
+  private void addGraphicToLayout(View graphicView) {
+    LinearLayout graphicStack = findViewById(R.id.graphics);
+    graphicStack.addView(graphicView);
+  }
+
+  private View createGraphicView() {
+    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    return inflater.inflate(R.layout.graphic, null);
+  }
+
+  private void setTitle(View graphicView, String text) {
+    TextView titleTv = graphicView.findViewById(R.id.gfx_title);
+    titleTv.setText(text);
   }
 
   private void fetchZones(View graphicView) {
