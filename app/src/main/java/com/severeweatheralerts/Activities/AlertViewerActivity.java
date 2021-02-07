@@ -103,34 +103,6 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    if (al.hasGeometry()) displayGraphic();
-    else fetchZones();
-  }
-
-  private void fetchZones() {
-    ListFetch fetchService = new ListFetch(this, al.getZones());
-    fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
-      @Override
-      public void success(Object response) {
-        for (String zone : (ArrayList<String>) response) {
-          ArrayList<GeoJSONPolygon> geometry = null;
-          try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
-          catch (JSONException e) { e.printStackTrace(); }
-          for (int i = 0; i < geometry.size(); i++)
-            al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
-        }
-        displayGraphic();
-      }
-
-      @Override public void error(VolleyError error) { }
-    });
-  }
-
-  private void displayGraphic() {
-    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
-    String url = new URLGenerator().getCountyMap(bounds);
-    ImageFetchService imageFetchService = new ImageFetchService(this, url);
     LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     Graphic graphic = new Graphic();
     graphic.setTitle("Alert Area");
@@ -149,6 +121,38 @@ public class AlertViewerActivity extends AppCompatActivity {
     pb.getIndeterminateDrawable().setColorFilter(al.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
     LinearLayout ll = findViewById(R.id.graphics);
     ll.addView(graphicView);
+    if (al.hasGeometry()) displayGraphic(graphicView);
+    else fetchZones(graphicView);
+  }
+
+  private void fetchZones(View graphicView) {
+    ListFetch fetchService = new ListFetch(this, al.getZones());
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        parseZones((ArrayList<String>) response);
+        displayGraphic(graphicView);
+      }
+
+      @Override public void error(VolleyError error) { }
+    });
+  }
+
+  private void parseZones(ArrayList<String> response) {
+    for (String zone : response) {
+      ArrayList<GeoJSONPolygon> geometry = null;
+      try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
+      catch (JSONException e) { e.printStackTrace(); }
+      for (int i = 0; i < geometry.size(); i++)
+        al.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+    }
+  }
+
+  private void displayGraphic(View graphicView) {
+    Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
+    String url = new URLGenerator().getCountyMap(bounds);
+    ImageFetchService imageFetchService = new ImageFetchService(this, url);
     imageFetchService.setUserAgent(Constants.USER_AGENT);
     imageFetchService.fetch(new FetchCallback() {
       @Override
@@ -301,7 +305,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void setSender() {
     TextView sender = findViewById(R.id.sender);
-    sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode() + ">" + al.getSender()));
+    sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode().toLowerCase() + ">" + al.getSender()));
     sender.setMovementMethod(LinkMovementMethod.getInstance());
   }
 
