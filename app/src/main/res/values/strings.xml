@@ -16,4 +16,7 @@
     <string name="next_update_placeholder">Next Update</string>
     <string name="server_error">There was a server error while getting alert data</string>
     <string name="unknown_alert_error">An unknown error occurred while getting alert data: </string>
+    <string name="graphic_title_placeholder">Graphic Title</string>
+    <string name="graphic_subtext_placeholder">Graphic Subtext</string>
+    <string name="graphic_content_description">graphic</string>
 </resources>
