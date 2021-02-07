@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
@@ -12,11 +13,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -26,8 +30,10 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.BoundAspectRatio;
 import com.severeweatheralerts.BoundMargin;
+import com.severeweatheralerts.Graphics.AlertAreaGenerator;
 import com.severeweatheralerts.Graphics.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds;
+import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.ZoneDrawer;
 import com.severeweatheralerts.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.URLGenerator;
@@ -128,16 +134,37 @@ public class AlertViewerActivity extends AppCompatActivity {
     Bounds bounds = new BoundMargin(new BoundAspectRatio(new PolygonListBoundCalculator(al.getPolygons()).getBounds()).equalize(), 0.25).getBounds();
     String url = new URLGenerator().getCountyMap(bounds);
     ImageFetchService imageFetchService = new ImageFetchService(this, url);
+    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    Graphic graphic = new Graphic();
+    graphic.setTitle("Alert Area");
+    View graphicView = inflater.inflate(R.layout.graphic, null);
+
+    TextView titleTv = graphicView.findViewById(R.id.gfx_title);
+    titleTv.setText(graphic.getTitle());
+
+    if (graphic.getSubtext() != null) {
+      TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
+      subTextTv.setVisibility(View.VISIBLE);
+      subTextTv.setText(graphic.getSubtext());
+    }
+
+    ProgressBar pb = (ProgressBar)graphicView.findViewById(R.id.progress);
+    pb.getIndeterminateDrawable().setColorFilter(al.getColor(), android.graphics.PorterDuff.Mode.SRC_IN);
+    LinearLayout ll = findViewById(R.id.graphics);
+    ll.addView(graphicView);
     imageFetchService.setUserAgent("(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)");
     imageFetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        Bitmap test = (Bitmap) response;
+        Bitmap baseCountyMap = (Bitmap) response;
         ArrayList<Bitmap> bitmaps = new ArrayList<>();
-        bitmaps.add(test);
-        bitmaps.add(new ZoneDrawer(al.getPolygons(), al.getColor(), bounds).getBitmap());
-        ImageView iv = findViewById(R.id.graphic_image);
+        bitmaps.add(baseCountyMap);
+        Bitmap zonePolygons = new ZoneDrawer(al.getPolygons(), al.getColor(), bounds).getBitmap();
+        bitmaps.add(zonePolygons);
+        ImageView iv = graphicView.findViewById(R.id.gfx_image);
         iv.setImageBitmap(new BitmapCombiner(bitmaps).combine());
+
+        graphicView.findViewById(R.id.progress).setVisibility(View.GONE);
       }
 
       @Override
