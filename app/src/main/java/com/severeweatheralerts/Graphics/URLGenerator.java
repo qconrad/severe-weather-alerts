@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
@@ -29,7 +30,11 @@ public class URLGenerator {
 
   public void generate(URLGenCompleteListener completeListener) {
     this.completeListener = completeListener;
-    getMapTimes();
+    if (graphicType.getClass().equals(AlertArea.class)) {
+      urls.add(new URL().getCountyMap(bounds));
+      completeListener.onComplete(urls);
+    }
+    else getMapTimes();
   }
 
   public void getMapTimes() {
@@ -46,10 +51,10 @@ public class URLGenerator {
             mapTimes.add(DateTimeConverter.convertStringToDate(times.getString(i)));
           }
           urls.add(new URL().getTotalSnow(bounds, "conus", times.getJSONArray(times.length()-1).getString(0)));
+          urls.add(new URL().getTotalSnowPoints(bounds, "conus", times.getJSONArray(times.length()-1).getString(0)));
         } catch (JSONException e) {
           e.printStackTrace();
         }
-        urls.add(new URL().getCountyMap(bounds));
         completeListener.onComplete(urls);
       }
 
