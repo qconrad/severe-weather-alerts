@@ -67,7 +67,7 @@ public class GraphicGenerator {
   }
 
   private void generateImages() {
-    GraphicURLGenerator graphicURLGenerator = new GraphicURLGenerator(graphicType, bounds);
+    URLGenerator graphicURLGenerator = new URLGenerator(graphicType, bounds);
     graphicURLGenerator.generate((URLGenCompleteListener) this::fetchImages);
   }
 
