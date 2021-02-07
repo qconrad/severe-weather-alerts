@@ -1,6 +1,4 @@
-package com.severeweatheralerts;
-
-import com.severeweatheralerts.Graphics.Bounds;
+package com.severeweatheralerts.Graphics;
 
 public class BoundAspectRatio {
   private final Bounds bounds;

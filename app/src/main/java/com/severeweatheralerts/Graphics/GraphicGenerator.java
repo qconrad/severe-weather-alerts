@@ -7,7 +7,6 @@ import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.BoundAspectRatio;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;

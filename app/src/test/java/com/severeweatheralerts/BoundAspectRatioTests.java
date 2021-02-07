@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Graphics.BoundAspectRatio;
 import com.severeweatheralerts.Graphics.Bounds;
 
 import org.junit.Test;
