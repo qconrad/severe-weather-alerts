@@ -14,6 +14,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class URLGenerator {
   private final GraphicType graphicType;
@@ -44,17 +45,11 @@ public class URLGenerator {
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        JSONArray times = null;
-        try {
-          times = new JSONArray(response.toString());
-          for (int i = 0; i < times.length(); i++) {
-            mapTimes.add(DateTimeConverter.convertStringToDate(times.getString(i)));
-          }
-          urls.add(new URL().getTotalSnow(bounds, "conus", times.getJSONArray(times.length()-1).getString(0)));
-          urls.add(new URL().getTotalSnowPoints(bounds, "conus", times.getJSONArray(times.length()-1).getString(0)));
-        } catch (JSONException e) {
-          e.printStackTrace();
-        }
+        MapTimeParser mapTimeParser = new MapTimeParser(response.toString());
+        ArrayList<Date> dates = mapTimeParser.getDates();
+        //urls.add(new URL().getTotalSnow(bounds, "conus", DateTimeConverter.convertDateToString(dates.get(0),"yyyy-MM-dd'T'HH:mm:ssX", TimeZone.getDefault())));
+        //urls.add(new URL().getTotalSnowPoints(bounds, "conus", times.getJSONArray(times.length()-1).getString(0)));
+        urls.add(new URL().getCountyMap(bounds));
         completeListener.onComplete(urls);
       }
 

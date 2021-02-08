@@ -99,8 +99,13 @@ public class AlertViewerActivity extends AppCompatActivity {
       View graphicView = createGraphicView();
       displayGraphicTitleAndProgressBar(type, graphicView);
       new GraphicGenerator(this, type, al, location).generate(graphic -> {
-        displaySubtext(graphicView, graphic);
-        displayImage(graphicView, graphic);
+        if (graphic == null)
+          displaySubtext(graphicView, "Error while generating this graphic");
+        else {
+          if (graphic.hasSubtext())
+            displaySubtext(graphicView, graphic.getSubtext());
+          displayImage(graphicView, graphic);
+        }
         hideProgressBar(graphicView);
       });
     }
@@ -113,12 +118,10 @@ public class AlertViewerActivity extends AppCompatActivity {
     iv.setImageDrawable(dr);
   }
 
-  private void displaySubtext(View graphicView, Graphic graphic) {
-    if (graphic.hasSubtext()) {
-      TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
-      subTextTv.setVisibility(View.VISIBLE);
-      subTextTv.setText(graphic.getSubtext());
-    }
+  private void displaySubtext(View graphicView, String text) {
+    TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
+    subTextTv.setVisibility(View.VISIBLE);
+    subTextTv.setText(text);
   }
 
   private void hideProgressBar(View graphicView) {
