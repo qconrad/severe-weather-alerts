@@ -4,6 +4,7 @@ import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.AlertArea;
 import com.severeweatheralerts.Graphics.ExpectedSnowfall;
+import com.severeweatheralerts.Graphics.GraphicFactory;
 
 import org.junit.Test;
 

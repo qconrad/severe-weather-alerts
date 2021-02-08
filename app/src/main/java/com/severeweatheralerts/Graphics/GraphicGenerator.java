@@ -12,7 +12,6 @@ import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
-import com.severeweatheralerts.PolygonListBoundCalculator;
 
 import org.json.JSONException;
 import org.json.JSONObject;

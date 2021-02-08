@@ -1,8 +1,4 @@
-package com.severeweatheralerts;
-
-import com.severeweatheralerts.Graphics.BoundCalculator;
-import com.severeweatheralerts.Graphics.Bounds;
-import com.severeweatheralerts.Graphics.Polygon;
+package com.severeweatheralerts.Graphics;
 
 import java.util.ArrayList;
 

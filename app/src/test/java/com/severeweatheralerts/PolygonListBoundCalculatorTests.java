@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Graphics.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon;
+import com.severeweatheralerts.Graphics.PolygonListBoundCalculator;
 
 import org.junit.Test;
 

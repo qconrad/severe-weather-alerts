@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.GraphicFactory;
+import com.severeweatheralerts.Graphics.GraphicFactory;
 import com.severeweatheralerts.Graphics.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GraphicGenerator;

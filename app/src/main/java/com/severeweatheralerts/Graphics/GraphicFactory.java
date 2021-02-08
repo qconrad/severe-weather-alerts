@@ -1,10 +1,7 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Graphics;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
-import com.severeweatheralerts.Graphics.AlertArea;
-import com.severeweatheralerts.Graphics.ExpectedSnowfall;
-import com.severeweatheralerts.Graphics.GraphicType;
 
 import java.util.ArrayList;
 
