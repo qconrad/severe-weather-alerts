@@ -86,7 +86,7 @@ public class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        System.out.println(error.getMessage());
+        graphicCompleteListener.onComplete(null);
       }
     });
   }

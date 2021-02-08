@@ -2,6 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -105,7 +108,9 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void displayImage(View graphicView, Graphic graphic) {
     ImageView iv = graphicView.findViewById(R.id.gfx_image);
-    iv.setImageBitmap(graphic.getImage());
+    RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(Resources.getSystem(), graphic.getImage());
+    dr.setCornerRadius(20.0f);
+    iv.setImageDrawable(dr);
   }
 
   private void displaySubtext(View graphicView, Graphic graphic) {
