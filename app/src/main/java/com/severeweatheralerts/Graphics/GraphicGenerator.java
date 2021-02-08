@@ -47,7 +47,6 @@ public class GraphicGenerator {
       @Override
       public void success(Object response) {
         parseZones((ArrayList<String>) response);
-        bounds = getBounds();
         generateImages();
       }
 
@@ -66,6 +65,7 @@ public class GraphicGenerator {
   }
 
   private void generateImages() {
+    bounds = getBounds();
     URLGenerator graphicURLGenerator = new URLGenerator(context, graphicType, bounds);
     graphicURLGenerator.generate((URLGenCompleteListener) this::fetchImages);
   }
