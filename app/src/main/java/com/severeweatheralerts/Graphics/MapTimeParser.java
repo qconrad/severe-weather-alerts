@@ -28,11 +28,15 @@ public class MapTimeParser {
   }
 
   private void addDate(int i) throws JSONException {
-    dates.add(DateTimeConverter.convertStringToDate(dateTimeJson.getString(i)));
+    dates.add(DateTimeConverter.convertStringToDate(dateTimeJson.getJSONArray(i).getString(1), getDateFormat()));
+  }
+
+  protected String getDateFormat() {
+    return "yyyy-MM-dd'T'HH:mm";
   }
 
   private void createJSONArray(String times) throws JSONException {
-    this.dateTimeJson = new JSONArray(times).getJSONArray(0);
+    this.dateTimeJson = new JSONArray(times);
   }
 
   public ArrayList<Date> getDates() {

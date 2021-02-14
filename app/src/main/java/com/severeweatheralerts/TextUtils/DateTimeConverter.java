@@ -11,6 +11,12 @@ public class DateTimeConverter {
     catch(Exception e) { return null; }
   }
 
+  public static Date convertStringToDate(String dateTimeString, String format) {
+    SimpleDateFormat formatter = new SimpleDateFormat(format);
+    try { return formatter.parse(dateTimeString); }
+    catch(Exception e) { return null; }
+  }
+
   public static String convertDateToString(Date date, String format, TimeZone timeZone) {
     SimpleDateFormat formatter = new SimpleDateFormat(format);
     formatter.setTimeZone(timeZone);
