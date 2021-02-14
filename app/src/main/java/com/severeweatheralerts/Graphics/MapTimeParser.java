@@ -11,6 +11,7 @@ import java.util.Date;
 public class MapTimeParser {
   private JSONArray dateTimeJson = null;
   private ArrayList<Date> dates;
+  private ArrayList<String> strings;
 
   public MapTimeParser(String times) {
     try { parseMapTimes(times); }
@@ -24,11 +25,17 @@ public class MapTimeParser {
 
   private void convertTimes() throws JSONException {
     dates = new ArrayList<>();
+    strings = new ArrayList<>();
     for (int i = 0; i < dateTimeJson.length(); i++) addDate(i);
   }
 
   private void addDate(int i) throws JSONException {
-    dates.add(DateTimeConverter.convertStringToDate(dateTimeJson.getJSONArray(i).getString(0), getDateFormat()));
+    strings.add(getDateString(i));
+    dates.add(DateTimeConverter.convertStringToDate(getDateString(i), getDateFormat()));
+  }
+
+  private String getDateString(int i) throws JSONException {
+    return dateTimeJson.getJSONArray(i).getString(0);
   }
 
   protected String getDateFormat() {
@@ -41,5 +48,9 @@ public class MapTimeParser {
 
   public ArrayList<Date> getDates() {
     return dates;
+  }
+
+  public ArrayList<String> getDateStrings() {
+    return strings;
   }
 }

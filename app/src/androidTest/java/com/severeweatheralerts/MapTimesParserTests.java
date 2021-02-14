@@ -42,4 +42,18 @@ public class MapTimesParserTests {
     ArrayList<Date> dates = mapTimeParser.getDates();
     assertNotEquals(dates.get(1).getTime(), dates.get(0).getTime());
   }
+
+  @Test
+  public void getTimes_3TimesGiven_FirstStringCorrect() {
+    String times = "[[\"2021-02-14T20:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T19:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
+    MapTimeParser mapTimeParser = new MapTimeParser(times);
+    assertEquals("2021-02-14T20:00", mapTimeParser.getDateStrings().get(0));
+  }
+
+  @Test
+  public void getTimes_3TimesGiven_DifferentFirstStringCorrect() {
+    String times = "[[\"2021-02-15T00:00\",\"2021-02-15T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T19:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
+    MapTimeParser mapTimeParser = new MapTimeParser(times);
+    assertEquals("2021-02-15T00:00", mapTimeParser.getDateStrings().get(0));
+  }
 }
