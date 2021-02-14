@@ -28,7 +28,7 @@ public class MapTimeParser {
   }
 
   private void addDate(int i) throws JSONException {
-    dates.add(DateTimeConverter.convertStringToDate(dateTimeJson.getJSONArray(i).getString(1), getDateFormat()));
+    dates.add(DateTimeConverter.convertStringToDate(dateTimeJson.getJSONArray(i).getString(0), getDateFormat()));
   }
 
   protected String getDateFormat() {
