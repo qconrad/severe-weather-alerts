@@ -36,11 +36,11 @@ public class AbsoluteTimeFormatter extends TimeFormatter {
   }
 
   private String getTimeOnly() {
-    return DateTimeConverter.convertDateToString(second, "h a", timeZone);
+    return DateTimeConverter.convertDateToString(second, "h:mm a", timeZone).replace(":00", "");
   }
 
   private String getDayOfWeek() {
-    return DateTimeConverter.convertDateToString(second, "h a EEEE", timeZone);
+    return DateTimeConverter.convertDateToString(second, "h:mm a EEEE", timeZone).replace(":00", "");
   }
 
   private boolean greaterThanHours(int hours) {
