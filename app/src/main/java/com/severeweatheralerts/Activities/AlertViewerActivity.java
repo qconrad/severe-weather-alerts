@@ -30,7 +30,6 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Graphic;
-import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Location.Location;
@@ -98,17 +97,19 @@ public class AlertViewerActivity extends AppCompatActivity {
     for (GraphicType type : types) {
       View graphicView = createGraphicView();
       displayGraphicTitleAndProgressBar(type, graphicView);
-      new GraphicGenerator(this, type, al, location).generate(graphic -> {
-        if (graphic == null)
-          displaySubtext(graphicView, "Error while generating this graphic");
-        else {
-          if (graphic.hasSubtext())
-            displaySubtext(graphicView, graphic.getSubtext());
-          displayImage(graphicView, graphic);
-        }
-        hideProgressBar(graphicView);
-      });
+      generateGraphic(location, type, graphicView);
     }
+  }
+
+  private void generateGraphic(MercatorCoordinate location, GraphicType type, View graphicView) {
+    type.getGenerator(this, al, location).generate(graphic -> {
+      if (graphic == null) displaySubtext(graphicView, "Error while generating this graphic");
+      else {
+        if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
+        displayImage(graphicView, graphic);
+      }
+      hideProgressBar(graphicView);
+    });
   }
 
   private void displayImage(View graphicView, Graphic graphic) {
