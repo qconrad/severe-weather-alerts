@@ -2,9 +2,9 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
-import com.severeweatheralerts.Graphics.AlertArea;
-import com.severeweatheralerts.Graphics.ExpectedSnowfall;
-import com.severeweatheralerts.Graphics.GraphicFactory;
+import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.ExpectedSnowfall;
+import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
 
 import org.junit.Test;
 

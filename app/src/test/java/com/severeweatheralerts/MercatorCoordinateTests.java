@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 
 import org.junit.Test;
 

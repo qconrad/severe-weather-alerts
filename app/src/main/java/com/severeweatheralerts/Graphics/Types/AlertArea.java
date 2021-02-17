@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Types;
 
 public class AlertArea implements GraphicType {
   public AlertArea() { }

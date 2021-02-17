@@ -1,8 +1,8 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.MercatorCoordinate;
-import com.severeweatheralerts.Graphics.Polygon;
-import com.severeweatheralerts.Graphics.PolygonListBoundCalculator;
+import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
 
 import org.junit.Test;
 

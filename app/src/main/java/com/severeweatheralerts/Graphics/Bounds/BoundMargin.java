@@ -1,18 +1,16 @@
-package com.severeweatheralerts.Graphics;
-
-import com.severeweatheralerts.Graphics.Bounds;
+package com.severeweatheralerts.Graphics.Bounds;
 
 public class BoundMargin {
-  private final Bounds bounds;
+  private final Bound bounds;
   private final double marginPercentage;
 
-  public BoundMargin(Bounds bounds, double marginPercentage) {
+  public BoundMargin(Bound bounds, double marginPercentage) {
     this.bounds = bounds;
     this.marginPercentage = marginPercentage;
   }
 
-  public Bounds getBounds() {
-    return new Bounds(getTop(), getRight(), getBottom(), getLeft());
+  public Bound getBounds() {
+    return new Bound(getTop(), getRight(), getBottom(), getLeft());
   }
 
   protected double getLeft() {

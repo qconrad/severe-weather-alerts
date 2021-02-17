@@ -1,7 +1,7 @@
 package com.severeweatheralerts.Adapters;
 
-import com.severeweatheralerts.Graphics.GCSToMercatorCoordinateAdapter;
-import com.severeweatheralerts.Graphics.Polygon;
+import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
 
 public class PolygonAdapter {
   public static Polygon toMercatorPolygon(GeoJSONPolygon geoJSONPolygon) {

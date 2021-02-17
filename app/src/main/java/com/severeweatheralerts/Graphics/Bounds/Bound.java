@@ -1,19 +1,19 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Bounds;
 
-public class Bounds {
+public class Bound {
   private final double top;
   private final double right;
   private final double bottom;
   private final double left;
 
-  public Bounds(double top, double right, double bottom, double left) {
+  public Bound(double top, double right, double bottom, double left) {
     this.top = top;
     this.right = right;
     this.bottom = bottom;
     this.left = left;
   }
 
-  public Bounds() {
+  public Bound() {
     this.top = Double.NEGATIVE_INFINITY;
     this.right = Double.NEGATIVE_INFINITY;
     this.bottom = Double.POSITIVE_INFINITY;

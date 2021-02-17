@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.GraphicGeneration;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,6 +8,16 @@ import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
+import com.severeweatheralerts.Graphics.BitmapTools.ZoneDrawer;
+import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
+import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
+import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
+import com.severeweatheralerts.Graphics.Types.GraphicType;
+import com.severeweatheralerts.Graphics.URLGeneration.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
@@ -25,7 +35,7 @@ public class GraphicGenerator {
   private final MercatorCoordinate location;
   private final GraphicType graphicType;
   private GraphicCompleteListener graphicCompleteListener;
-  private Bounds bounds;
+  private Bound bounds;
 
   public GraphicGenerator(Context context, GraphicType graphicType, Alert alert, MercatorCoordinate location) {
     this.context = context;
@@ -67,7 +77,7 @@ public class GraphicGenerator {
   private void generateImages() {
     bounds = getBounds();
     URLGenerator graphicURLGenerator = new URLGenerator(context, graphicType, bounds);
-    graphicURLGenerator.generate((URLGenCompleteListener) this::fetchImages);
+    graphicURLGenerator.generate(this::fetchImages);
   }
 
   private void fetchImages(ArrayList<String> urls) {
@@ -90,9 +100,9 @@ public class GraphicGenerator {
     });
   }
 
-  protected Bounds getBounds() {
-    Bounds bounds = new PolygonListBoundCalculator(alert.getPolygons()).getBounds();
-    bounds = new BoundAspectRatio(bounds).equalize();
+  protected Bound getBounds() {
+    Bound bounds = new PolygonListBoundCalculator(alert.getPolygons()).getBounds();
+    bounds = new AspectRatioEqualizer(bounds).equalize();
     bounds = new BoundMargin(bounds, Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
     return bounds;
   }

@@ -1,17 +1,20 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Polygon;
+
+import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
+import com.severeweatheralerts.Graphics.Bounds.Bound;
 
 import java.util.ArrayList;
 
 public class PolygonListBoundCalculator {
   private final ArrayList<Polygon> polygons;
-  Bounds bounds;
+  Bound bounds;
 
   public PolygonListBoundCalculator(ArrayList<Polygon> polygons) {
     this.polygons = polygons;
-    bounds = new Bounds();
+    bounds = new Bound();
   }
 
-  public Bounds getBounds() {
+  public Bound getBounds() {
     for (Polygon polygon : polygons) addPolygonToBoundCalculation(polygon);
     return bounds;
   }

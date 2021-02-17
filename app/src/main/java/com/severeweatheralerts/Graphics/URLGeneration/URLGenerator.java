@@ -1,9 +1,13 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.URLGeneration;
 
 import android.content.Context;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.GraphicType;
+import com.severeweatheralerts.JSONParsing.MapTimeParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 
@@ -11,12 +15,12 @@ import java.util.ArrayList;
 
 public class URLGenerator {
   private final GraphicType graphicType;
-  private final Bounds bounds;
+  private final Bound bounds;
   private final Context context;
   private URLGenCompleteListener completeListener;
   ArrayList<String> urls = new ArrayList<>();
 
-  public URLGenerator(Context context, GraphicType graphicType, Bounds bounds) {
+  public URLGenerator(Context context, GraphicType graphicType, Bound bounds) {
     this.graphicType = graphicType;
     this.bounds = bounds;
     this.context = context;

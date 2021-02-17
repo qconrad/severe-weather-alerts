@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.MapTimeParser;
+import com.severeweatheralerts.JSONParsing.MapTimeParser;
 
 import org.junit.Test;
 

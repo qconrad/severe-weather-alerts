@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Graphics.GCSToMercatorCoordinateAdapter;
+import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 
 import org.junit.Test;
 

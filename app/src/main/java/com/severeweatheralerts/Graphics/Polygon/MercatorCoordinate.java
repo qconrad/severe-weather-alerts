@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Polygon;
 
 public class MercatorCoordinate {
   private final double x;
