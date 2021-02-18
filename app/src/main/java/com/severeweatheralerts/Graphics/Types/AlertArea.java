@@ -5,7 +5,6 @@ import android.content.Context;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GraphicGeneration.AlertAreaGenerator;
 import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Location.Location;
 
 public class AlertArea implements GraphicType {

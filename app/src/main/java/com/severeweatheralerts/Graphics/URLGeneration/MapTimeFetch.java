@@ -35,7 +35,7 @@ public abstract class MapTimeFetch implements URLGenerator {
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        getURLS(new MapTimeParser(response.toString()).getDateStrings());
+        getURLS(getImageTime(response.toString()));
         completeListener.onComplete(urls);
       }
 
@@ -46,6 +46,11 @@ public abstract class MapTimeFetch implements URLGenerator {
     });
   }
 
+  public String getImageTime(String response) {
+    ArrayList<String> dateStrings = new MapTimeParser(response).getDateStrings();
+    return dateStrings.get(dateStrings.size()-1);
+  }
 
-  public abstract void getURLS(ArrayList<String> dateStrings);
+
+  public abstract void getURLS(String dateString);
 }
