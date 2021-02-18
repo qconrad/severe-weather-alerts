@@ -33,13 +33,13 @@ public class GridDataParserTests {
   @Test
   public void getSnowFallAmount_SnowGridDataGiven_CountCorrect() throws JSONException {
     GridDataParser gridDataParser = new GridDataParser(snowGridData);
-    assertEquals(4, gridDataParser.getParameter("snowfallAmount").getSize());
+    assertEquals(4, gridDataParser.getParameter("snowfallAmount").getCount());
   }
 
   @Test
   public void getSnowFallAmount_DifferentSnowGridDataGiven_CountCorrect() throws JSONException {
     GridDataParser gridDataParser = new GridDataParser(differentSnowGridData);
-    assertEquals(3, gridDataParser.getParameter("snowfallAmount").getSize());
+    assertEquals(3, gridDataParser.getParameter("snowfallAmount").getCount());
   }
 
   @Test

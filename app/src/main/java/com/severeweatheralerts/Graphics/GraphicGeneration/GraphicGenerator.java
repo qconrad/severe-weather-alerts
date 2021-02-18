@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.android.volley.VolleyError;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
@@ -14,10 +15,12 @@ import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.URLGeneration.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
@@ -33,10 +36,10 @@ public abstract class GraphicGenerator {
   protected Bound bound;
 
   private final Alert alert;
-  private final MercatorCoordinate location;
+  protected final Location location;
   protected GraphicCompleteListener graphicCompleteListener;
 
-  public GraphicGenerator(Context context, Alert alert, MercatorCoordinate location) {
+  public GraphicGenerator(Context context, Alert alert, Location location) {
     this.context = context;
     this.alert = alert;
     this.location = location;
@@ -77,7 +80,7 @@ public abstract class GraphicGenerator {
       @Override
       public void success(Object response) {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, location).getBitmap());
+        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap());
         Graphic graphic = new Graphic();
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
@@ -89,6 +92,12 @@ public abstract class GraphicGenerator {
       }
     });
   }
+
+  private MercatorCoordinate getMercatorCoordinate() {
+    GCSCoordinate lonLat = new GCSCoordinate(location.getLatitude(), location.getLongitude());
+    return new GCSToMercatorCoordinateAdapter(lonLat).getCoordinate();
+  }
+
   protected Bound getBound() {
     Bound bounds = new PolygonListBoundCalculator(alert.getPolygons()).getBounds();
     bounds = new AspectRatioEqualizer(bounds).equalize();

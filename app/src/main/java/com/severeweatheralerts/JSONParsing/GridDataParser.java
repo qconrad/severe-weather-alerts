@@ -13,8 +13,8 @@ import java.util.Date;
 
 public class GridDataParser {
   JSONObject jsonObject;
-  public GridDataParser(String snowGridData) throws JSONException {
-     jsonObject = new JSONObject(snowGridData);
+  public GridDataParser(String gridData) throws JSONException {
+     jsonObject = new JSONObject(gridData);
   }
 
   public GridDataParameter getParameter(String parameter) {

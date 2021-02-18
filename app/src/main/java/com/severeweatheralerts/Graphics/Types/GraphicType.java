@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Location.Location;
 
 public interface GraphicType {
   String getTitle();
-  GraphicGenerator getGenerator(Context context, Alert alert, MercatorCoordinate location);
+  GraphicGenerator getGenerator(Context context, Alert alert, Location location);
 }

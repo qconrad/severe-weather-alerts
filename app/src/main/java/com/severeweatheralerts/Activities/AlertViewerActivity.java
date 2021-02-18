@@ -92,16 +92,15 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    MercatorCoordinate location = new GCSToMercatorCoordinateAdapter(new GCSCoordinate(LocationsDao.getLocation(0).getLatitude(), LocationsDao.getLocation(0).getLongitude())).getCoordinate();
     ArrayList<GraphicType> types = new GraphicFactory(al).getTypes();
     for (GraphicType type : types) {
       View graphicView = createGraphicView();
       displayGraphicTitleAndProgressBar(type, graphicView);
-      generateGraphic(location, type, graphicView);
+      generateGraphic(LocationsDao.getLocation(0), type, graphicView);
     }
   }
 
-  private void generateGraphic(MercatorCoordinate location, GraphicType type, View graphicView) {
+  private void generateGraphic(Location location, GraphicType type, View graphicView) {
     type.getGenerator(this, al, location).generate(graphic -> {
       if (graphic == null) displaySubtext(graphicView, "Error while generating this graphic");
       else {

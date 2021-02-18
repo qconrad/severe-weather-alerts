@@ -18,4 +18,8 @@ public class URL {
   public String getMapTimes(String type, String region) {
     return "https://digital.weather.gov/scripts/get_multivt.php?&grid=ndfd&elmt=" + type + "&region=" + region;
   }
+
+  public String getPointInfo(double lat, double lon) {
+    return "https://api.weather.gov/points/" + lat + "," + lon;
+  }
 }

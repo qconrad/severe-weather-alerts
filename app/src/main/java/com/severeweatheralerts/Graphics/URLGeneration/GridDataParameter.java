@@ -9,7 +9,7 @@ public class GridDataParameter {
     this.forecastTimes = forecastTimes;
   }
 
-  public int getSize() {
+  public int getCount() {
     return forecastTimes.size();
   }
 
