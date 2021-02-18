@@ -9,6 +9,7 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
   public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
     needsMapTimes = true;
+    gridParameter = "snowfallAmount";
   }
 
   @Override
@@ -17,5 +18,10 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
     urls.add(new URL().getTotalSnow(bound, "conus", dateString));
     urls.add(new URL().getTotalSnowPoints(bound, "conus", dateString));
     urls.add(new URL().getCountyMap(bound));
+  }
+
+  @Override
+  protected String getSubText() {
+    return new SumCalculator(gridData).getSum() + "mm of snow expected";
   }
 }

@@ -162,6 +162,7 @@ public abstract class GraphicGenerator {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
         bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap());
         Graphic graphic = new Graphic();
+        graphic.setSubtext(getSubText());
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
         graphicCompleteListener.onComplete(graphic);
       }
@@ -171,6 +172,10 @@ public abstract class GraphicGenerator {
         graphicCompleteListener.onComplete(null);
       }
     });
+  }
+
+  protected String getSubText() {
+    return null;
   }
 
   private MercatorCoordinate getMercatorCoordinate() {
