@@ -7,6 +7,8 @@ import com.severeweatheralerts.JSONParsing.GridDataParser;
 import org.json.JSONException;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -56,5 +58,23 @@ public class GridDataParserTests {
   public void getSnowFallAmount_ThirdItemValueIsCorrect() throws JSONException {
     GridDataParser gridDataParser = new GridDataParser(snowGridData);
     assertEquals(5.0800000000000001, gridDataParser.getParameter("snowfallAmount").get(2).getValue(), 0.001);
+  }
+
+  @Test
+  public void getSnowFallAmount_getDate_CorrectType() throws JSONException {
+    GridDataParser gridDataParser = new GridDataParser(snowGridData);
+    assertEquals(gridDataParser.getParameter("snowfallAmount").get(0).getDate().getClass(), Date.class);
+ }
+
+  @Test
+  public void getSnowFallAmount_getDate_CorrectTime() throws JSONException {
+    GridDataParser gridDataParser = new GridDataParser(snowGridData);
+    assertEquals(1613592000000L, gridDataParser.getParameter("snowfallAmount").get(0).getDate().getTime());
+  }
+
+  @Test
+  public void getSnowFallAmount_DifferentDate_CorrectTime() throws JSONException {
+    GridDataParser gridDataParser = new GridDataParser(snowGridData);
+    assertEquals(1613628000000L, gridDataParser.getParameter("snowfallAmount").get(2).getDate().getTime());
   }
 }
