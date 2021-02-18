@@ -39,6 +39,7 @@ import java.util.Date;
 public abstract class GraphicGenerator {
   protected final Context context;
   protected Bound bound;
+  protected String gridParameter;
   protected Parameter gridData;
 
   private final Alert alert;
@@ -55,14 +56,12 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    fetchGridData();
+    if (gridParameter != null) getGridData();
     if (alert.hasGeometry()) generateImages();
     else fetchZones();
   }
 
-  private void fetchGridData() {
-    getPointInfo();
-  }
+  public void getGridData() { getPointInfo(); }
 
   private void getPointInfo() {
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLatitude(), location.getLongitude()));
@@ -100,7 +99,7 @@ public abstract class GraphicGenerator {
 
   private int fetchCount = 0;
   private void finish() {
-    if (fetchCount++ >= 1) generateImages();
+    if (gridParameter == null || fetchCount++ >= 1) generateImages();
   }
 
   private void generateImages() {
@@ -110,7 +109,7 @@ public abstract class GraphicGenerator {
   }
 
   private void parseGridData(Object response) {
-    try { new GridDataParser(response.toString()).getParameter("snowfallAmount"); }
+    try { gridData = new GridDataParser(response.toString()).getParameter(gridParameter); }
     catch (JSONException e) { graphicCompleteListener.onComplete(null); }
   }
 
