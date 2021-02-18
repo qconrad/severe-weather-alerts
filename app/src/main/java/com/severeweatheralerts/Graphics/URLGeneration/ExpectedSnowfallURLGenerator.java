@@ -3,12 +3,13 @@ package com.severeweatheralerts.Graphics.URLGeneration;
 import android.content.Context;
 
 import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 
 import java.util.ArrayList;
 
 public class ExpectedSnowfallURLGenerator extends MapTimeFetch {
-  public ExpectedSnowfallURLGenerator(Context context, Bound bound) {
-    super(context, bound);
+  public ExpectedSnowfallURLGenerator(Context context, Bound bound, Parameter gridData) {
+    super(context, bound, gridData);
   }
 
   @Override

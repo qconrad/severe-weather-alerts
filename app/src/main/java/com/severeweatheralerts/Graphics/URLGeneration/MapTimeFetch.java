@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
@@ -14,11 +15,13 @@ import java.util.ArrayList;
 public abstract class MapTimeFetch implements URLGenerator {
   protected final Bound bound;
   private final Context context;
+  protected final Parameter gridData;
   private URLGenCompleteListener completeListener;
   ArrayList<String> urls = new ArrayList<>();
-  public MapTimeFetch(Context context, Bound bound) {
+  public MapTimeFetch(Context context, Bound bound, Parameter gridData) {
     this.bound = bound;
     this.context = context;
+    this.gridData = gridData;
   }
 
   public void generate(URLGenCompleteListener completeListener) {

@@ -1,11 +1,11 @@
-package com.severeweatheralerts.Graphics.URLGeneration;
+package com.severeweatheralerts.Graphics.GridData;
 
 import java.util.ArrayList;
 
-public class GridDataParameter {
+public class Parameter {
   private final ArrayList<ForecastTime> forecastTimes;
 
-  public GridDataParameter(ArrayList<ForecastTime> forecastTimes) {
+  public Parameter(ArrayList<ForecastTime> forecastTimes) {
     this.forecastTimes = forecastTimes;
   }
 

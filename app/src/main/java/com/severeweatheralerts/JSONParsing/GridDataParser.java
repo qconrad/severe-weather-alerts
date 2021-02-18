@@ -1,7 +1,7 @@
 package com.severeweatheralerts.JSONParsing;
 
-import com.severeweatheralerts.Graphics.URLGeneration.ForecastTime;
-import com.severeweatheralerts.Graphics.URLGeneration.GridDataParameter;
+import com.severeweatheralerts.Graphics.GridData.ForecastTime;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.TextUtils.DateTimeConverter;
 
 import org.json.JSONArray;
@@ -17,9 +17,9 @@ public class GridDataParser {
      jsonObject = new JSONObject(gridData);
   }
 
-  public GridDataParameter getParameter(String parameter) {
-    GridDataParameter gridDataParameter = null;
-    try { gridDataParameter = new GridDataParameter(getParam(parameter)); }
+  public Parameter getParameter(String parameter) {
+    Parameter gridDataParameter = null;
+    try { gridDataParameter = new Parameter(getParam(parameter)); }
     catch (Exception ignored) {}
     return gridDataParameter;
   }

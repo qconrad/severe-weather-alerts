@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.URLGeneration.ForecastTime;
-import com.severeweatheralerts.Graphics.URLGeneration.GridDataParameter;
+import com.severeweatheralerts.Graphics.GridData.ForecastTime;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
 
 import org.json.JSONException;
@@ -19,7 +19,7 @@ public class GridDataParserTests {
   @Test
   public void getSnowFallAmount_SnowGridDataGiven_IsCorrectType() throws JSONException {
     GridDataParser gridDataParser = new GridDataParser(snowGridData);
-    assertEquals(gridDataParser.getParameter("snowfallAmount").getClass(), GridDataParameter.class);
+    assertEquals(gridDataParser.getParameter("snowfallAmount").getClass(), Parameter.class);
   }
 
   @Test

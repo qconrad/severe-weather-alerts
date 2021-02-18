@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.URLGeneration;
+package com.severeweatheralerts.Graphics.GridData;
 
 import java.util.Date;
 
