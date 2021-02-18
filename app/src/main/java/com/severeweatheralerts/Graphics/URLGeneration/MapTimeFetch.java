@@ -7,6 +7,7 @@ import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
+import com.severeweatheralerts.MapTime;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 
@@ -47,10 +48,9 @@ public abstract class MapTimeFetch implements URLGenerator {
   }
 
   public String getImageTime(String response) {
-    ArrayList<String> dateStrings = new MapTimeParser(response).getDateStrings();
-    return dateStrings.get(dateStrings.size()-1);
+    ArrayList<MapTime> mapTimes = new MapTimeParser(response).getMapTimes();
+    return mapTimes.get(mapTimes.size()-1).getString();
   }
-
 
   public abstract void getURLS(String dateString);
 }

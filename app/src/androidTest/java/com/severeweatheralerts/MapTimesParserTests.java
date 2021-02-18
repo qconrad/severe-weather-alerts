@@ -17,21 +17,21 @@ public class MapTimesParserTests {
   public void getTimes_2TimesGiven_2Returned() {
     String times = "[[\"2021-02-15T00:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    assertEquals(2, mapTimeParser.getDates().size());
+    assertEquals(2, mapTimeParser.getMapTimes().size());
   }
 
   @Test
   public void getTimes_3TimesGiven_3Returned() {
     String times = "[[\"2021-02-15T00:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T20:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    assertEquals(3, mapTimeParser.getDates().size());
+    assertEquals(3, mapTimeParser.getMapTimes().size());
   }
 
   @Test
   public void getTimes_3TimesGiven_FirstDateNotNull() {
     String times = "[[\"2021-02-15T00:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T20:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    ArrayList<Date> dates = mapTimeParser.getDates();
+    ArrayList<MapTime> dates = mapTimeParser.getMapTimes();
     assertNotNull(dates.get(0));
   }
 
@@ -39,21 +39,21 @@ public class MapTimesParserTests {
   public void getTimes_3TimesGiven_NotTheSame() {
     String times = "[[\"2021-02-15T00:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T19:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    ArrayList<Date> dates = mapTimeParser.getDates();
-    assertNotEquals(dates.get(1).getTime(), dates.get(0).getTime());
+    ArrayList<MapTime> dates = mapTimeParser.getMapTimes();
+    assertNotEquals(dates.get(1).getDate().getTime(), dates.get(0).getDate().getTime());
   }
 
   @Test
   public void getTimes_3TimesGiven_FirstStringCorrect() {
     String times = "[[\"2021-02-14T20:00\",\"2021-02-14T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T19:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    assertEquals("2021-02-14T20:00", mapTimeParser.getDateStrings().get(0));
+    assertEquals("2021-02-14T20:00", mapTimeParser.getMapTimes().get(0).getString());
   }
 
   @Test
   public void getTimes_3TimesGiven_DifferentFirstStringCorrect() {
     String times = "[[\"2021-02-15T00:00\",\"2021-02-15T20:00\"],[\"2021-02-15T06:00\",\"2021-02-14T19:00\"],[\"2021-02-15T00:00\",\"2021-02-14T20:00\"]]";
     MapTimeParser mapTimeParser = new MapTimeParser(times);
-    assertEquals("2021-02-15T00:00", mapTimeParser.getDateStrings().get(0));
+    assertEquals("2021-02-15T00:00", mapTimeParser.getMapTimes().get(0).getString());
   }
 }
