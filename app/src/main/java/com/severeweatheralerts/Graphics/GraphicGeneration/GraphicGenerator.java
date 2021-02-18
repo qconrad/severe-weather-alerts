@@ -15,14 +15,18 @@ import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.PointInfoParser;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
+import com.severeweatheralerts.Graphics.URLGeneration.URL;
 import com.severeweatheralerts.Graphics.URLGeneration.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
+import com.severeweatheralerts.JSONParsing.GridDataParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
+import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
 
 import org.json.JSONException;
@@ -49,14 +53,63 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
+    fetchGridData();
     if (alert.hasGeometry()) generateImages();
     else fetchZones();
   }
 
-  protected void generateImages() {
+  private void fetchGridData() {
+    getPointInfo();
+  }
+
+  private void getPointInfo() {
+    StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLatitude(), location.getLongitude()));
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        String url = new PointInfoParser(response.toString()).getForecastGridLink();
+        getForecastGridData(url);
+      }
+
+      @Override
+      public void error(VolleyError error) {
+        graphicCompleteListener.onComplete(null);
+      }
+    });
+  }
+
+  public void getForecastGridData(String gridDataURL) {
+    StringFetchService fetchService = new StringFetchService(context, gridDataURL);
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        parseGridData(response);
+        finish();
+      }
+
+      @Override
+      public void error(VolleyError error) {
+        graphicCompleteListener.onComplete(null);
+      }
+    });
+  }
+
+  private int fetchCount = 0;
+  private void finish() {
+    if (fetchCount++ >= 1) generateImages();
+  }
+
+  private void generateImages() {
     bound = getBound();
     URLGenerator graphicURLGenerator = getURLGenerator();
     graphicURLGenerator.generate(this::fetchImages);
+  }
+
+  private void parseGridData(Object response) {
+    try { new GridDataParser(response.toString()).getParameter("snowfallAmount"); }
+    catch (JSONException e) { graphicCompleteListener.onComplete(null); }
   }
 
   protected void fetchZones() {
@@ -66,7 +119,7 @@ public abstract class GraphicGenerator {
       @Override
       public void success(Object response) {
         parseZones((ArrayList<String>) response);
-        generateImages();
+         finish();
       }
 
       @Override public void error(VolleyError error) { }

@@ -14,6 +14,6 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected URLGenerator getURLGenerator() {
-    return new ExpectedSnowfallURLGenerator(context, bound, location);
+    return new ExpectedSnowfallURLGenerator(context, bound);
   }
 }
