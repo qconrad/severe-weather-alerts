@@ -16,15 +16,15 @@ import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.JSONParsing.MapTimeParser;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
-import com.severeweatheralerts.Graphics.URLGeneration.URL;
-import com.severeweatheralerts.Graphics.URLGeneration.URLGenerator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.MapTime;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
@@ -41,6 +41,9 @@ public abstract class GraphicGenerator {
   protected Bound bound;
   protected String gridParameter;
   protected Parameter gridData;
+  protected ArrayList<MapTime> mapTimes;
+  private int fetchesRemaining = 0;
+  protected ArrayList<String> urls = new ArrayList<>();
 
   private final Alert alert;
   protected final Location location;
@@ -52,16 +55,35 @@ public abstract class GraphicGenerator {
     this.location = location;
   }
 
-  protected abstract URLGenerator getURLGenerator();
-
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
+    getMapTimes();
     if (gridParameter != null) getGridData();
-    if (alert.hasGeometry()) generateImages();
-    else fetchZones();
+    if (!alert.hasGeometry()) fetchZones();
   }
 
-  public void getGridData() { getPointInfo(); }
+  public void getGridData() {
+    fetchesRemaining++;
+    getPointInfo();
+  }
+
+  public void getMapTimes() {
+    fetchesRemaining++;
+    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes("snowamt", "conus"));
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        mapTimes = new MapTimeParser(response.toString()).getMapTimes();
+        finish();
+      }
+
+      @Override
+      public void error(VolleyError error) {
+        graphicCompleteListener.onComplete(null);
+      }
+    });
+  }
 
   private void getPointInfo() {
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLatitude(), location.getLongitude()));
@@ -97,16 +119,17 @@ public abstract class GraphicGenerator {
     });
   }
 
-  private int fetchCount = 0;
   private void finish() {
-    if (gridParameter == null || fetchCount++ >= 1) generateImages();
+    if (--fetchesRemaining == 0) generateImages();
   }
 
   private void generateImages() {
     bound = getBound();
-    URLGenerator graphicURLGenerator = getURLGenerator();
-    graphicURLGenerator.generate(this::fetchImages);
+    getURLs();
+    fetchImages();
   }
+
+  protected abstract void getURLs();
 
   private void parseGridData(Object response) {
     try { gridData = new GridDataParser(response.toString()).getParameter(gridParameter); }
@@ -114,20 +137,24 @@ public abstract class GraphicGenerator {
   }
 
   protected void fetchZones() {
+    fetchesRemaining++;
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         parseZones((ArrayList<String>) response);
-         finish();
+        finish();
       }
 
-      @Override public void error(VolleyError error) { }
+      @Override public void error(VolleyError error) {
+        graphicCompleteListener.onComplete(null);
+      }
     });
   }
 
-  protected void fetchImages(ArrayList<String> urls) {
+
+  protected void fetchImages() {
     ImageListFetch fetchService = new ImageListFetch(context, urls);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {

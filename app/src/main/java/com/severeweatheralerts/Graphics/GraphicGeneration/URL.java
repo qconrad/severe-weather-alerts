@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.URLGeneration;
+package com.severeweatheralerts.Graphics.GraphicGeneration;
 
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 
