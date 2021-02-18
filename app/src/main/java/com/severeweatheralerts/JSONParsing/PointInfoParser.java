@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.JSONParsing;
 
 import org.json.JSONException;
 import org.json.JSONObject;

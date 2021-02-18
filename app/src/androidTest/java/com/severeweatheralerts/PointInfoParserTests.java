@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.PointInfoParser;
+import com.severeweatheralerts.JSONParsing.PointInfoParser;
 
 import org.junit.Test;
 
