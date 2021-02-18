@@ -24,7 +24,6 @@ import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
 import com.severeweatheralerts.Location.Location;
-import com.severeweatheralerts.MapTime;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
@@ -37,17 +36,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class GraphicGenerator {
-  protected final Context context;
+  private final Context context;
+  private final Alert alert;
+  private final Location location;
+  private GraphicCompleteListener graphicCompleteListener;
+
+  protected ArrayList<String> urls = new ArrayList<>();
   protected Bound bound;
   protected String gridParameter;
   protected Parameter gridData;
   protected ArrayList<MapTime> mapTimes;
-  private int fetchesRemaining = 0;
-  protected ArrayList<String> urls = new ArrayList<>();
-
-  private final Alert alert;
-  protected final Location location;
-  protected GraphicCompleteListener graphicCompleteListener;
+  protected abstract void getURLs();
 
   public GraphicGenerator(Context context, Alert alert, Location location) {
     this.context = context;
@@ -60,6 +59,17 @@ public abstract class GraphicGenerator {
     getMapTimes();
     if (gridParameter != null) getGridData();
     if (!alert.hasGeometry()) fetchZones();
+  }
+
+  private int fetchesRemaining = 0;
+  private void finish() {
+    if (--fetchesRemaining == 0) generateImages();
+  }
+
+  private void generateImages() {
+    bound = getBound();
+    getURLs();
+    fetchImages();
   }
 
   public void getGridData() {
@@ -91,8 +101,7 @@ public abstract class GraphicGenerator {
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        String url = new PointInfoParser(response.toString()).getForecastGridLink();
-        getForecastGridData(url);
+        getForecastGridData(new PointInfoParser(response.toString()).getForecastGridLink());
       }
 
       @Override
@@ -119,18 +128,6 @@ public abstract class GraphicGenerator {
     });
   }
 
-  private void finish() {
-    if (--fetchesRemaining == 0) generateImages();
-  }
-
-  private void generateImages() {
-    bound = getBound();
-    getURLs();
-    fetchImages();
-  }
-
-  protected abstract void getURLs();
-
   private void parseGridData(Object response) {
     try { gridData = new GridDataParser(response.toString()).getParameter(gridParameter); }
     catch (JSONException e) { graphicCompleteListener.onComplete(null); }
@@ -152,7 +149,6 @@ public abstract class GraphicGenerator {
       }
     });
   }
-
 
   protected void fetchImages() {
     ImageListFetch fetchService = new ImageListFetch(context, urls);

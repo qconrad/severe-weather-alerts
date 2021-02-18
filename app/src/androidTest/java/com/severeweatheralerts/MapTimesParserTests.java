@@ -1,11 +1,11 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Graphics.GraphicGeneration.MapTime;
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
