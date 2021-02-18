@@ -43,9 +43,12 @@ public abstract class GraphicGenerator {
 
   protected ArrayList<String> urls = new ArrayList<>();
   protected Bound bound;
-  protected String gridParameter;
   protected Parameter gridData;
   protected ArrayList<MapTime> mapTimes;
+
+  protected String gridParameter;
+  protected boolean needsMapTimes = false;
+
   protected abstract void getURLs();
 
   public GraphicGenerator(Context context, Alert alert, Location location) {
@@ -56,8 +59,8 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    getMapTimes();
-    if (gridParameter != null) getGridData();
+    if (needsMapTimes) fetchMapTimes();
+    if (gridParameter != null) fetchGridData();
     if (!alert.hasGeometry()) fetchZones();
   }
 
@@ -72,12 +75,12 @@ public abstract class GraphicGenerator {
     fetchImages();
   }
 
-  public void getGridData() {
+  public void fetchGridData() {
     fetchesRemaining++;
-    getPointInfo();
+    fetchPointInfo();
   }
 
-  public void getMapTimes() {
+  public void fetchMapTimes() {
     fetchesRemaining++;
     StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes("snowamt", "conus"));
     fetchService.setUserAgent(Constants.USER_AGENT);
@@ -95,7 +98,7 @@ public abstract class GraphicGenerator {
     });
   }
 
-  private void getPointInfo() {
+  private void fetchPointInfo() {
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLatitude(), location.getLongitude()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {

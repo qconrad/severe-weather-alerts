@@ -8,7 +8,7 @@ import com.severeweatheralerts.Location.Location;
 public class ExpectedSnowfallGenerator extends GraphicGenerator {
   public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
-    gridParameter = "snowfallAmount";
+    needsMapTimes = true;
   }
 
   @Override
