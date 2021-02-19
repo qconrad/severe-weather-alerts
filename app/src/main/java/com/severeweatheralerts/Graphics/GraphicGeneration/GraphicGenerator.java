@@ -47,7 +47,7 @@ public abstract class GraphicGenerator {
   protected ArrayList<MapTime> mapTimes;
 
   protected String gridParameter;
-  protected boolean needsMapTimes = false;
+  protected String mapTimeParameter;
 
   protected abstract void getURLs();
 
@@ -59,7 +59,7 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    if (needsMapTimes) fetchMapTimes();
+    if (mapTimeParameter != null) fetchMapTimes();
     if (gridParameter != null) fetchGridData();
     if (!alert.hasGeometry()) fetchZones();
   }
@@ -82,7 +82,7 @@ public abstract class GraphicGenerator {
 
   public void fetchMapTimes() {
     fetchesRemaining++;
-    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes("snowamt", "conus"));
+    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, "conus"));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override

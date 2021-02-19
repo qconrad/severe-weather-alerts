@@ -9,7 +9,7 @@ import com.severeweatheralerts.TextUtils.Plurality;
 public class ExpectedSnowfallGenerator extends GraphicGenerator {
   public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
-    needsMapTimes = true;
+    mapTimeParameter = "snowamt";
     gridParameter = "snowfallAmount";
   }
 

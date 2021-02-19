@@ -9,7 +9,7 @@ import com.severeweatheralerts.TextUtils.Plurality;
 public class ExpectedRainfallGenerator extends GraphicGenerator {
   public ExpectedRainfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
-    needsMapTimes = true;
+    mapTimeParameter = "totalqpf";
     gridParameter = "quantitativePrecipitation";
   }
 
