@@ -22,6 +22,10 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected String getSubText() {
-    return new SumCalculator(gridData).getSum() + "mm of snow expected";
+    return getSnowfallInches() + " inches";
+  }
+
+  private double getSnowfallInches() {
+    return new SumCalculator(gridData).getSum() / 25.4;
   }
 }
