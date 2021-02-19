@@ -3,8 +3,11 @@ package com.severeweatheralerts.Graphics.GraphicGeneration;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
+
+import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
 
 public class ExpectedSnowfallGenerator extends GraphicGenerator {
   public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
@@ -23,7 +26,7 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected String getSubText() {
-    double snowfallAmt = getSnowfallInches();
+    double snowfallAmt = new Rounder(getSnowfallInches(), SNOWFALL_AMOUNT_DECIMAL_PLACES).getRounded();
     return snowfallAmt + new Plurality(snowfallAmt, " inch", " inches").getText();
   }
 
