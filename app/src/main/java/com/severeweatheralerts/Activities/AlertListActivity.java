@@ -53,4 +53,9 @@ public class AlertListActivity extends AppCompatActivity {
     alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
     recyclerView.setAdapter(alertRecyclerViewAdapter);
   }
+
+  @Override
+  public void onBackPressed() {
+    finishAffinity();
+  }
 }
