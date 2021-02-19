@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.TextUtils.Plurality;
 
 public class ExpectedRainfallGenerator extends GraphicGenerator {
   public ExpectedRainfallGenerator(Context context, Alert alert, Location location) {
@@ -20,12 +21,13 @@ public class ExpectedRainfallGenerator extends GraphicGenerator {
     urls.add(new URL().getCountyMap(bound));
   }
 
-  //@Override
-  //protected String getSubText() {
-    //return getSnowfallInches() + " inches";
-  //}
+  @Override
+  protected String getSubText() {
+    double rainfallAmt = getRainfallInches();
+    return rainfallAmt + new Plurality(rainfallAmt, " inch", " inches").getText();
+  }
 
-  //private double getSnowfallInches() {
-    //return new SumCalculator(gridData).getSum() / 25.4;
-  //
+  private double getRainfallInches() {
+    return new SumCalculator(gridData).getSum() / 25.4;
+  }
 }

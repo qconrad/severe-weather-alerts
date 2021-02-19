@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.TextUtils.Plurality;
 
 public class ExpectedSnowfallGenerator extends GraphicGenerator {
   public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
@@ -22,7 +23,8 @@ public class ExpectedSnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected String getSubText() {
-    return getSnowfallInches() + " inches";
+    double snowfallAmt = getSnowfallInches();
+    return snowfallAmt + new Plurality(snowfallAmt, " inch", " inches").getText();
   }
 
   private double getSnowfallInches() {
