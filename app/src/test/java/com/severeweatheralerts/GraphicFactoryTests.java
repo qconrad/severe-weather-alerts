@@ -1,8 +1,10 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.ExpectedRainfall;
 import com.severeweatheralerts.Graphics.Types.ExpectedSnowfall;
 import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
 
@@ -23,5 +25,12 @@ public class GraphicFactoryTests {
     WinterWeatherAdvisory winterAlert = new WinterWeatherAdvisory();
     GraphicFactory graphicFactory = new GraphicFactory(winterAlert);
     assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
+  }
+
+  @Test
+  public void getType_TypeIsFlashFloodWatch_ReturnsRainfall() {
+    FlashFloodWatch rainAlert = new FlashFloodWatch();
+    GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
+    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedRainfall);
   }
 }

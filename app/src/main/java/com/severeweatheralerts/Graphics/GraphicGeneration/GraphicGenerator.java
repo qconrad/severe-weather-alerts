@@ -192,11 +192,12 @@ public abstract class GraphicGenerator {
 
   private void parseZones(ArrayList<String> response) {
     for (String zone : response) {
-      ArrayList<GeoJSONPolygon> geometry = null;
-      try { geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry(); }
+      try {
+        ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
+        for (int i = 0; i < geometry.size(); i++)
+          alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+      }
       catch (JSONException e) { e.printStackTrace(); }
-      for (int i = 0; i < geometry.size(); i++)
-        alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
     }
   }
 }

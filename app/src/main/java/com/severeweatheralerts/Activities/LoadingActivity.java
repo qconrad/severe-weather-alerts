@@ -10,6 +10,7 @@ import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.PermissionManager;
@@ -72,7 +73,7 @@ public class LoadingActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
+    new AllNWSPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
       @Override
       public void complete() {
         displayAlerts();

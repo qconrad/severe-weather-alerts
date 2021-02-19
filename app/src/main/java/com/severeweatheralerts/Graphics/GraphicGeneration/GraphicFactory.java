@@ -1,8 +1,10 @@
 package com.severeweatheralerts.Graphics.GraphicGeneration;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.ExpectedRainfall;
 import com.severeweatheralerts.Graphics.Types.ExpectedSnowfall;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 
@@ -19,6 +21,8 @@ public class GraphicFactory {
     ArrayList<GraphicType> types = new ArrayList<>();
     if (alert instanceof WinterWeatherAdvisory)
       types.add(new ExpectedSnowfall());
+    else if (alert instanceof FlashFloodWatch)
+      types.add(new ExpectedRainfall());
     else
       types.add(new AlertArea());
     return types;
