@@ -3,7 +3,9 @@ package com.severeweatheralerts.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.severeweatheralerts.Location.GPSLocation;
@@ -23,7 +25,13 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_fetching_alert_data);
+    setProgressbarColor();
     getAlerts();
+  }
+
+  private void setProgressbarColor() {
+    ProgressBar pb = findViewById(R.id.fetch_progress);
+    pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
 
 
