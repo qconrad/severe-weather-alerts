@@ -44,7 +44,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold.");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext());
+    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext().get(0));
   }
 
   @Test
@@ -54,7 +54,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Slow down and use caution while traveling.");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Slow down and use caution while traveling", statusPicker.getStatus().getSubtext());
+    assertEquals("Slow down and use caution while traveling", statusPicker.getStatus().getSubtext().get(0));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext());
+    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext().get(0));
   }
 
   @Test
@@ -93,5 +93,15 @@ public class StatusPickerTests {
     active.add(wsw);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals(wsw.getIcon(), statusPicker.getStatus().getIcon());
+  }
+
+  @Test
+  public void pickStatus_ActiveAlerts_CorrectNumberOfSubtexts() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("To prevent freezing and possible bursting", statusPicker.getStatus().getSubtext().get(1));
   }
 }

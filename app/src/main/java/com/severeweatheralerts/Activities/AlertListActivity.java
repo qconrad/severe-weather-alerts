@@ -62,7 +62,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void setStatusSubtext() {
     TextView subtext = findViewById(R.id.status_subtext);
-    subtext.setText(status.getSubtext());
+    subtext.setText(status.getSubtext().get(0));
   }
 
   private void setStatusIcon() {

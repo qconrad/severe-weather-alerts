@@ -4,14 +4,16 @@ import android.graphics.Color;
 
 import com.severeweatheralerts.TextUtils.Plurality;
 
+import java.util.ArrayList;
+
 public class ActiveAlerts implements Status {
   private final int activeCount;
-  private final String subText;
+  private final ArrayList<String> subTexts;
   private final int icon;
 
-  public ActiveAlerts(int activeCount, int icon, String subText) {
+  public ActiveAlerts(int activeCount, int icon, ArrayList<String> subTexts) {
     this.activeCount = activeCount;
-    this.subText = subText;
+    this.subTexts = subTexts;
     this.icon = icon;
   }
 
@@ -31,7 +33,7 @@ public class ActiveAlerts implements Status {
   }
 
   @Override
-  public String getSubtext() {
-    return subText;
+  public ArrayList<String> getSubtext() {
+    return subTexts;
   }
 }

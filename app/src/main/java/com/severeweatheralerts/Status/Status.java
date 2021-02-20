@@ -1,8 +1,10 @@
 package com.severeweatheralerts.Status;
 
+import java.util.ArrayList;
+
 public interface Status {
   int getColor();
   int getIcon();
   String getHeadline();
-  String getSubtext();
+  ArrayList<String> getSubtext();
 }

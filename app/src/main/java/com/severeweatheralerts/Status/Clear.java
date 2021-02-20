@@ -4,7 +4,10 @@ import android.graphics.Color;
 
 import com.severeweatheralerts.R;
 
+import java.util.ArrayList;
+
 public class Clear implements Status {
+  protected ArrayList<String> subtexts = new ArrayList<>();
   @Override
   public int getColor() {
     return Color.parseColor("#00AC46");
@@ -21,7 +24,8 @@ public class Clear implements Status {
   }
 
   @Override
-  public String getSubtext() {
-    return "There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.";
+  public ArrayList<String> getSubtext() {
+    subtexts.add("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.");
+    return subtexts;
   }
 }

@@ -2,7 +2,11 @@ package com.severeweatheralerts.Status;
 
 import com.severeweatheralerts.Alerts.Alert;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class StatusPicker {
   private final ArrayList<Alert> inactive;
@@ -17,10 +21,16 @@ public class StatusPicker {
     if (active.size() > 0) {
       if (active.get(0).getInstruction() != null) {
         String[] split = active.get(0).getInstruction().split("\\.");
-        return new ActiveAlerts(active.size(), active.get(0).getIcon(), split[0]);
+        ArrayList<String> strings = new ArrayList<>();
+        for (String sentence : split) {
+          strings.add(sentence.trim());
+        }
+        return new ActiveAlerts(active.size(), active.get(0).getIcon(), strings);
       }
       else {
-        return new ActiveAlerts(active.size(), active.get(0).getIcon(), "Take action");
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("Take action");
+        return new ActiveAlerts(active.size(), active.get(0).getIcon(), strings);
       }
     }
     if (inactive.size() > 0)
