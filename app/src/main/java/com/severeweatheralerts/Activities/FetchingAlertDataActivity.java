@@ -46,4 +46,9 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
     startActivity(alertListIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
+
+  @Override
+  public void onBackPressed() {
+    finishAffinity();
+  }
 }

@@ -93,4 +93,9 @@ public class GettingLocationActivity extends AppCompatActivity {
     loc.setLatitude(deviceLoc.getLatitude());
     loc.setLongitude(deviceLoc.getLongitude());
   }
+
+  @Override
+  public void onBackPressed() {
+    finishAffinity();
+  }
 }
