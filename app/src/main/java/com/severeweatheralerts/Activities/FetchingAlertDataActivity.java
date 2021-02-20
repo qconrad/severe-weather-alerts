@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
+import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
 
@@ -28,7 +29,7 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    new AllNWSPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
       @Override
       public void complete() {
         displayAlerts();
