@@ -128,4 +128,14 @@ public class StatusPickerTests {
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals(0, statusPicker.getStatus().getSubtexts().size());
   }
+
+  @Test
+  public void getStatus_InstructionHasURL_SubtextsCorrect() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("Additional information at weather.gov");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("Additional information at weather.gov", statusPicker.getStatus().getSubtexts().get(0));
+  }
 }
