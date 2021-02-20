@@ -2,6 +2,9 @@ package com.severeweatheralerts;
 
 public class Clear implements Status {
   @Override
+  public void getColor() { }
+
+  @Override
   public int getIcon() {
     return R.drawable.sun;
   }

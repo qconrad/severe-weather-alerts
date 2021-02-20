@@ -11,6 +11,7 @@ public class StatusTests {
     clear.getIcon();
     clear.getHeadline();
     clear.getSubtext();
+    clear.getColor();
   }
 
   @Test
