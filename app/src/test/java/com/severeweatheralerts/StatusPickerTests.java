@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class StatusPickerTests {
   @Test
   public void pickStatus_NoAlerts_StatusIsClear() {
-    StatusPicker statusPicker = new StatusPicker(new ArrayList<Alert>(), new ArrayList<Alert>());
+    StatusPicker statusPicker = new StatusPicker(new ArrayList<>(), new ArrayList<>());
     assertEquals(Clear.class, statusPicker.getStatus().getClass());
   }
 
@@ -25,7 +25,7 @@ public class StatusPickerTests {
   public void pickStatus_HasRecentAlerts_StatusIsClearWithRecent() {
     ArrayList<Alert> recent = new ArrayList<>();
     recent.add(new DefaultAlert());
-    StatusPicker statusPicker = new StatusPicker(new ArrayList<Alert>(), recent);
+    StatusPicker statusPicker = new StatusPicker(new ArrayList<>(), recent);
     assertEquals(ClearWithRecent.class, statusPicker.getStatus().getClass());
   }
 
@@ -96,12 +96,36 @@ public class StatusPickerTests {
   }
 
   @Test
-  public void pickStatus_ActiveAlerts_CorrectNumberOfSubtexts() {
+  public void pickStatus_TwoSentences_SecondStatusCorrect() {
     ArrayList<Alert> active = new ArrayList<>();
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("To prevent freezing and possible bursting", statusPicker.getStatus().getSubtexts().get(1));
+  }
+
+  @Test
+  public void pickStatus_TwoAlerts_ThirdSubtextCorrect() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert1 = new DefaultAlert();
+    defaultAlert1.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
+    DefaultAlert defaultAlert2 = new DefaultAlert();
+    defaultAlert2.setInstruction("A different instruction here.");
+    active.add(defaultAlert1);
+    active.add(defaultAlert2);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("A different instruction here", statusPicker.getStatus().getSubtexts().get(2));
+  }
+
+  @Test
+  public void TwoAlerts_NoInstruction_NoSubtexts() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert1 = new DefaultAlert();
+    DefaultAlert defaultAlert2 = new DefaultAlert();
+    active.add(defaultAlert1);
+    active.add(defaultAlert2);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals(0, statusPicker.getStatus().getSubtexts().size());
   }
 }

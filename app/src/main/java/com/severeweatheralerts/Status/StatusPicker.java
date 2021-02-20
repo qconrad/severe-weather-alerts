@@ -19,19 +19,16 @@ public class StatusPicker {
 
   public Status getStatus() {
     if (active.size() > 0) {
-      if (active.get(0).getInstruction() != null) {
-        String[] split = active.get(0).getInstruction().split("\\.");
-        ArrayList<String> strings = new ArrayList<>();
-        for (String sentence : split) {
-          strings.add(sentence.trim());
+      ArrayList<String> strings = new ArrayList<>();
+        for (int i = 0; i < active.size(); i++) {
+          if (active.get(i).getInstruction() != null) {
+          String[] split = active.get(i).getInstruction().split("\\.");
+          for (String sentence : split) {
+            strings.add(sentence.trim());
+          }
         }
-        return new ActiveAlerts(active.size(), active.get(0).getIcon(), strings);
       }
-      else {
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("Take action");
-        return new ActiveAlerts(active.size(), active.get(0).getIcon(), strings);
-      }
+      return new ActiveAlerts(active.size(), active.get(0).getIcon(), strings);
     }
     if (inactive.size() > 0)
       return new ClearWithRecent();
