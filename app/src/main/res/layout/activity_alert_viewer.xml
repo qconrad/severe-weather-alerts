@@ -86,8 +86,7 @@
                 android:id="@+id/references"
                 android:nestedScrollingEnabled="false"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                tools:targetApi="lollipop">
+                android:layout_width="match_parent">
             </androidx.recyclerview.widget.RecyclerView>
 
             <LinearLayout

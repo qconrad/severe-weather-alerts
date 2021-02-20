@@ -24,14 +24,11 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
-import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
-import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
