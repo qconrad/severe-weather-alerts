@@ -3,16 +3,16 @@ package com.severeweatheralerts;
 public class Clear implements Status {
   @Override
   public int getIcon() {
-    return 0;
+    return R.drawable.sun;
   }
 
   @Override
   public String getHeadline() {
-    return null;
+    return "You're in the clear!";
   }
 
   @Override
   public String getSubtext() {
-    return null;
+    return "There are no active alerts for this location. When hazadour weather is expected, a push notification will be sent and alerts will snow up here.";
   }
 }
