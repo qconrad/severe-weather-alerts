@@ -23,6 +23,7 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.SettingsActivity;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.TextListFade;
@@ -132,6 +133,6 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   public void settingsClick(View view) {
-    Toast.makeText(this, "Settings clicke", Toast.LENGTH_SHORT).show();
+    startActivity(new Intent(AlertListActivity.this, SettingsActivity.class));
   }
 }
