@@ -9,7 +9,8 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="15dp"
     android:id="@+id/reference_card"
-    app:cardElevation="5dp">
+    app:cardElevation="5dp"
+    android:focusable="true">
 
     <TextView
         android:gravity="center"
