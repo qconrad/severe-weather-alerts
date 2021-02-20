@@ -62,11 +62,12 @@ public abstract class GraphicGenerator {
     if (mapTimeParameter != null) fetchMapTimes();
     if (gridParameter != null) fetchGridData();
     if (!alert.hasGeometry()) fetchZones();
+    else finish();
   }
 
   private int fetchesRemaining = 0;
   private void finish() {
-    if (--fetchesRemaining == 0) generateImages();
+    if (--fetchesRemaining <= 0) generateImages();
   }
 
   private void generateImages() {
