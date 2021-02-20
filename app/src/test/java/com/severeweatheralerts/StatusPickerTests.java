@@ -44,7 +44,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold.");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext().get(0));
+    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtexts().get(0));
   }
 
   @Test
@@ -54,7 +54,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Slow down and use caution while traveling.");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Slow down and use caution while traveling", statusPicker.getStatus().getSubtext().get(0));
+    assertEquals("Slow down and use caution while traveling", statusPicker.getStatus().getSubtexts().get(0));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext().get(0));
+    assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtexts().get(0));
   }
 
   @Test
@@ -102,6 +102,6 @@ public class StatusPickerTests {
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
-    assertEquals("To prevent freezing and possible bursting", statusPicker.getStatus().getSubtext().get(1));
+    assertEquals("To prevent freezing and possible bursting", statusPicker.getStatus().getSubtexts().get(1));
   }
 }

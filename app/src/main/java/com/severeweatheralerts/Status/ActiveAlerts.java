@@ -33,7 +33,7 @@ public class ActiveAlerts implements Status {
   }
 
   @Override
-  public ArrayList<String> getSubtext() {
+  public ArrayList<String> getSubtexts() {
     return subTexts;
   }
 }

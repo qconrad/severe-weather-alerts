@@ -24,6 +24,7 @@ import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
+import com.severeweatheralerts.TextListFade;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
@@ -55,14 +56,13 @@ public class AlertListActivity extends AppCompatActivity {
     setStatusIcon();
   }
 
+  private void setStatusSubtext() {
+    new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher)).beginFade();
+  }
+
   private void setStatusHeadline() {
     TextView headline = findViewById(R.id.status_headline);
     headline.setText(status.getHeadline());
-  }
-
-  private void setStatusSubtext() {
-    TextView subtext = findViewById(R.id.status_subtext);
-    subtext.setText(status.getSubtext().get(0));
   }
 
   private void setStatusIcon() {

@@ -80,15 +80,12 @@
                     android:textSize="25sp"
                     android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/status_subtext"
+                <TextSwitcher
+                    android:id="@+id/status_switcher"
+                    android:layout_marginHorizontal="35dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:textSize="15sp"
-                    tools:layout_editor_absoluteX="0dp" />
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,5 +6,5 @@ public interface Status {
   int getColor();
   int getIcon();
   String getHeadline();
-  ArrayList<String> getSubtext();
+  ArrayList<String> getSubtexts();
 }
