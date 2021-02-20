@@ -2,7 +2,6 @@ package com.severeweatheralerts.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +9,6 @@ import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
-import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
@@ -68,25 +65,11 @@ public class GettingLocationActivity extends AppCompatActivity {
   private void setDeviceLocation(Location deviceLoc, android.location.Location location) {
     adaptLocation(deviceLoc, location);
     LocationsDao.addLocation(deviceLoc);
-    getAlerts();
+    fetchAlerts();
   }
 
-  private void getAlerts() {
-    new AllNWSPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
-      @Override
-      public void complete() {
-        displayAlerts();
-      }
-
-      @Override
-      public void error(String message) {
-        Toast.makeText(GettingLocationActivity.this, message, Toast.LENGTH_SHORT).show();
-      }
-    });
-  }
-
-  private void displayAlerts() {
-    Intent alertListIntent = new Intent(GettingLocationActivity.this, AlertListActivity.class);
+  private void fetchAlerts() {
+    Intent alertListIntent = new Intent(GettingLocationActivity.this, FetchingAlertDataActivity.class);
     startActivity(alertListIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
