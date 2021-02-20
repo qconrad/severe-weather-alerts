@@ -5,16 +5,13 @@ import com.severeweatheralerts.Alerts.Alert;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class NotActiveFilter extends AlertFilter{
-  private final Date date;
-
-  public NotActiveFilter(ArrayList<Alert> alerts, Date activeAt) {
-    super(alerts);
-    date = activeAt;
+public class ActiveFilter extends NotActiveFilter{
+  public ActiveFilter(ArrayList<Alert> alerts, Date date) {
+    super(alerts, date);
   }
 
   @Override
   protected boolean shouldFilterAlert(Alert alert) {
-    return alert.activeAt(date);
+    return !super.shouldFilterAlert(alert);
   }
 }
