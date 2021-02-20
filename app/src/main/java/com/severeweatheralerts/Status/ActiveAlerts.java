@@ -2,16 +2,17 @@ package com.severeweatheralerts.Status;
 
 import android.graphics.Color;
 
-import com.severeweatheralerts.R;
 import com.severeweatheralerts.TextUtils.Plurality;
 
 public class ActiveAlerts implements Status {
   private final int activeCount;
   private final String subText;
+  private final int icon;
 
-  public ActiveAlerts(int activeCount, String subText) {
+  public ActiveAlerts(int activeCount, int icon, String subText) {
     this.activeCount = activeCount;
     this.subText = subText;
+    this.icon = icon;
   }
 
   @Override
@@ -21,7 +22,7 @@ public class ActiveAlerts implements Status {
 
   @Override
   public int getIcon() {
-    return R.drawable.hazard;
+    return icon;
   }
 
   @Override

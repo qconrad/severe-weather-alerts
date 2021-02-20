@@ -17,10 +17,10 @@ public class StatusPicker {
     if (active.size() > 0) {
       if (active.get(0).getInstruction() != null) {
         String[] split = active.get(0).getInstruction().split("\\.");
-        return new ActiveAlerts(active.size(), split[0]);
+        return new ActiveAlerts(active.size(), active.get(0).getIcon(), split[0]);
       }
       else {
-        return new ActiveAlerts(active.size(), "Take action");
+        return new ActiveAlerts(active.size(), active.get(0).getIcon(), "Take action");
       }
     }
     if (inactive.size() > 0)

@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Status.ActiveAlerts;
 import com.severeweatheralerts.Status.Clear;
 import com.severeweatheralerts.Status.ClearWithRecent;
@@ -64,5 +65,33 @@ public class StatusPickerTests {
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("Take steps now to protect tender plants from the cold", statusPicker.getStatus().getSubtext());
+  }
+
+  @Test
+  public void pickStatus_ActiveAlerts_IconIsAlert() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals(defaultAlert.getIcon(), statusPicker.getStatus().getIcon());
+  }
+
+  @Test
+  public void pickStatus_ActiveAlerts_IconIsDifferentAlert() {
+    ArrayList<Alert> active = new ArrayList<>();
+    WinterStormWarning wsw = new WinterStormWarning();
+    active.add(wsw);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals(wsw.getIcon(), statusPicker.getStatus().getIcon());
+  }
+
+  @Test
+  public void pickStatus_ActiveAlertsWithInstruction_IconIsAlert() {
+    ArrayList<Alert> active = new ArrayList<>();
+    WinterStormWarning wsw = new WinterStormWarning();
+    wsw.setInstruction("test");
+    active.add(wsw);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals(wsw.getIcon(), statusPicker.getStatus().getIcon());
   }
 }
