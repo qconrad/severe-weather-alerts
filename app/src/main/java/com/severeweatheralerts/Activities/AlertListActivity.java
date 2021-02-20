@@ -2,6 +2,8 @@ package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -25,6 +27,7 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     populateRecyclerView();
+    setBackgroundColor();
     userSync();
   }
 
@@ -52,6 +55,15 @@ public class AlertListActivity extends AppCompatActivity {
     AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(filter(LocationsDao.getLocation(0).getAlerts()));
     alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
     recyclerView.setAdapter(alertRecyclerViewAdapter);
+  }
+
+  private void setBackgroundColor() {
+    int situationSeverityColor = Color.parseColor("#33FF00");
+    View listView = findViewById(R.id.alert_list_view);
+    int topGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.3f);
+    int bottomGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.0f);
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradientStep, bottomGradientStep});
+    listView.setBackground(gd);
   }
 
   @Override
