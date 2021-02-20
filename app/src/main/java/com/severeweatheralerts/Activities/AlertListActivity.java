@@ -13,13 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.AlertListTools.ReplacementFilter;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
-
-import static com.severeweatheralerts.AlertListTools.AlertFilter.filter;
 
 public class AlertListActivity extends AppCompatActivity {
   @Override
@@ -45,14 +44,14 @@ public class AlertListActivity extends AppCompatActivity {
       aO = ActivityOptions.makeSceneTransitionAnimation(AlertListActivity.this, pair1);
       ach.card.setTransitionName("zoom");
     }
-    alertIntent.putExtra("alertID", filter(LocationsDao.getLocation(0).getAlerts()).get(alertIndex).getNwsId());
+    alertIntent.putExtra("alertID", new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter().get(alertIndex).getNwsId());
     startActivity(alertIntent, aO.toBundle());
   }
 
   private void populateRecyclerView() {
     RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(filter(LocationsDao.getLocation(0).getAlerts()));
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter());
     alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
     recyclerView.setAdapter(alertRecyclerViewAdapter);
   }
