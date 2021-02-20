@@ -14,12 +14,25 @@ public class SubtextGenerator {
   }
 
   public ArrayList<String> getStrings() {
-    for (int i = 0; i < alerts.size(); i++) {
-      if (alerts.get(i).getInstruction() != null) {
-        String[] split = alerts.get(i).getInstruction().split("(\\.)([^a-z]|$)");
-        Collections.addAll(strings, split);
-      }
-    }
+    for (int i = 0; i < alerts.size(); i++) getSubtextsFromAlert(alerts.get(i));
     return strings;
+  }
+
+  private void getSubtextsFromAlert(Alert alert) {
+    if (alert.getLargeHeadline() != null) addString(alert.getLargeHeadline());
+    if (alert.getInstruction() != null) addAllSentences(alert);
+  }
+
+  private void addString(String string) {
+    strings.add(string);
+  }
+
+  private void addAllSentences(Alert alert) {
+    String[] split = getSentences(alert.getInstruction());
+    Collections.addAll(strings, split);
+  }
+
+  private String[] getSentences(String text) {
+    return text.split("(\\.)([^a-z]|$)");
   }
 }
