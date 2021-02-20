@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
 public interface Status {
-  void getColor();
+  int getColor();
   int getIcon();
   String getHeadline();
   String getSubtext();

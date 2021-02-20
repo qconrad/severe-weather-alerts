@@ -1,8 +1,12 @@
 package com.severeweatheralerts;
 
+import android.graphics.Color;
+
 public class Clear implements Status {
   @Override
-  public void getColor() { }
+  public int getColor() {
+    return Color.parseColor("#00AC46");
+  }
 
   @Override
   public int getIcon() {
@@ -16,6 +20,6 @@ public class Clear implements Status {
 
   @Override
   public String getSubtext() {
-    return "There are no active alerts for this location. When hazadour weather is expected, a push notification will be sent and alerts will snow up here.";
+    return "There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.";
   }
 }

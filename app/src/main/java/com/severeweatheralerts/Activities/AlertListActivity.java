@@ -2,12 +2,13 @@ package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,19 +22,52 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.Status;
+import com.severeweatheralerts.StatusPicker;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class AlertListActivity extends AppCompatActivity {
+  private ArrayList<Alert> relevantAlerts;
+  private ArrayList<Alert> activeAlerts;
+  private ArrayList<Alert> inactiveAlerts;
+  private Status status;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
+    relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
+    activeAlerts = new ActiveFilter(relevantAlerts, new Date()).filter();
+    inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
+    status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
     populateRecyclerViews();
-    setBackgroundColor();
+    setStatus();
     userSync();
+  }
+
+  private void setStatus() {
+    setBackgroundColor();
+    setStatusHeadline();
+    setStatusSubtext();
+    setStatusIcon();
+  }
+
+  private void setStatusHeadline() {
+    TextView headline = findViewById(R.id.status_headline);
+    headline.setText(status.getHeadline());
+  }
+
+  private void setStatusSubtext() {
+    TextView subtext = findViewById(R.id.status_subtext);
+    subtext.setText(status.getSubtext());
+  }
+
+  private void setStatusIcon() {
+    ImageView icon = findViewById(R.id.status_icon);
+    icon.setImageResource(status.getIcon());
   }
 
   private void userSync() {
@@ -60,18 +94,18 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateActiveRecyclerView() {
-    ArrayList<Alert> activeAlerts = new ActiveFilter(getRelevantAlerts(), new Date()).filter();
+    ArrayList<Alert> activeAlerts = new ActiveFilter(relevantAlerts, new Date()).filter();
     if (activeAlerts.size() > 0) {
       findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
-      populateRecyclerView(findViewById(R.id.active_recycler_view), activeAlerts);
+      populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
     }
   }
 
   private void populateRecentRecyclerView() {
-    ArrayList<Alert> inactiveAlerts = new InactiveFilter(getRelevantAlerts(), new Date()).filter();
+    ArrayList<Alert> inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
     if (inactiveAlerts.size() > 0) {
       findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
-      populateRecyclerView(findViewById(R.id.inactive_recycler_view), inactiveAlerts);
+      populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
     }
   }
 
@@ -82,12 +116,8 @@ public class AlertListActivity extends AppCompatActivity {
     view.setAdapter(alertRecyclerViewAdapter);
   }
 
-  private ArrayList<Alert> getRelevantAlerts() {
-    return new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
-  }
-
   private void setBackgroundColor() {
-    int situationSeverityColor = Color.parseColor("#33FF00");
+    int situationSeverityColor = status.getColor();
     View listView = findViewById(R.id.alert_list_view);
     int topGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.3f);
     int bottomGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.0f);

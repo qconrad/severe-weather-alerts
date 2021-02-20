@@ -62,14 +62,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/situation_icon"
+                    android:id="@+id/status_icon"
                     android:layout_width="match_parent"
                     android:layout_height="75dp"
                     android:src="@drawable/hazard"
                     android:contentDescription="Current Situation Icon" />
 
                 <TextView
-                    android:id="@+id/situation_title"
+                    android:id="@+id/status_headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -80,7 +80,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/situation_subtext"
+                    android:id="@+id/status_subtext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
@@ -106,7 +106,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/active_recycler_view"
+            android:id="@+id/active_alerts_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">
@@ -125,7 +125,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/inactive_recycler_view"
+            android:id="@+id/inactive_alerts_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">

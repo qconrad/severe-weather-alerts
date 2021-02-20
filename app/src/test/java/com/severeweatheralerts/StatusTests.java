@@ -11,7 +11,6 @@ public class StatusTests {
     clear.getIcon();
     clear.getHeadline();
     clear.getSubtext();
-    clear.getColor();
   }
 
   @Test
@@ -29,6 +28,6 @@ public class StatusTests {
   @Test
   public void getSubtext_ClearStatus_CorrectText() {
     Status clear = new Clear();
-    assertEquals("There are no active alerts for this location. When hazadour weather is expected, a push notification will be sent and alerts will snow up here.", clear.getSubtext());
+    assertEquals("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.", clear.getSubtext());
   }
 }
