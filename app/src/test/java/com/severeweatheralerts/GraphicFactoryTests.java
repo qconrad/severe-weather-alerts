@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
+import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.ExpectedRainfall;
@@ -32,5 +34,19 @@ public class GraphicFactoryTests {
     FlashFloodWatch rainAlert = new FlashFloodWatch();
     GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
     assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedRainfall);
+  }
+
+  @Test
+  public void getType_TypeIsWinterStormWarning_ReturnsSnowfall() {
+    WinterStormWarning rainAlert = new WinterStormWarning();
+    GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
+    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
+  }
+
+  @Test
+  public void getType_TypeIsLakeEffectSnowWarning_ReturnsSnowfall() {
+    LakeEffectSnowWarning rainAlert = new LakeEffectSnowWarning();
+    GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
+    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
   }
 }
