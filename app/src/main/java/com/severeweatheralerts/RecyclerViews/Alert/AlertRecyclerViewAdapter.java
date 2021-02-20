@@ -41,7 +41,7 @@ public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHold
     holder.card.setCardBackgroundColor(curAlert.getColorAt(new Date()));
 
     holder.card.setOnClickListener(v -> {
-      if (clickListener != null) clickListener.onCardClick(position, holder);
+      if (clickListener != null) clickListener.onCardClick(curAlert, holder);
     });
   }
 

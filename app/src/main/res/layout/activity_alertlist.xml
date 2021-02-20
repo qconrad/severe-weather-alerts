@@ -103,7 +103,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/alert_recycler_view"
+            android:id="@+id/active_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">
@@ -120,7 +120,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/previous_recycler_view"
+            android:id="@+id/inactive_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false">

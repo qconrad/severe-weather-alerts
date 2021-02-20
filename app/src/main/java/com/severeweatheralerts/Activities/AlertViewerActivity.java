@@ -159,8 +159,8 @@ public class AlertViewerActivity extends AppCompatActivity {
       RecyclerView recyclerView = findViewById(R.id.references);
       recyclerView.setLayoutManager(new LinearLayoutManager(this));
       ReferenceRecyclerViewAdapter referenceRVAdapter = new ReferenceRecyclerViewAdapter(al.getReferences());
-      referenceRVAdapter.setClickListener((position, holder) -> {
-        displayReference(al.getReference(position));
+      referenceRVAdapter.setClickListener((reference, holder) -> {
+        displayReference(reference);
       });
       recyclerView.setAdapter(referenceRVAdapter);
     }

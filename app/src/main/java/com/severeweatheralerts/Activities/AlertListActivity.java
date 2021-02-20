@@ -13,19 +13,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.AlertListTools.ActiveFilter;
+import com.severeweatheralerts.AlertListTools.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.ReplacementFilter;
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class AlertListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    populateRecyclerView();
+    populateRecyclerViews();
     setBackgroundColor();
     userSync();
   }
@@ -34,7 +40,7 @@ public class AlertListActivity extends AppCompatActivity {
     new UserSyncWorkScheduler(this).oneTimeSync();
   }
 
-  private void displayFullAlert(int alertIndex, RecyclerView.ViewHolder holder) {
+  private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
     Intent alertIntent = new Intent(AlertListActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     AlertCardHolder ach = (AlertCardHolder) holder;
@@ -44,16 +50,32 @@ public class AlertListActivity extends AppCompatActivity {
       aO = ActivityOptions.makeSceneTransitionAnimation(AlertListActivity.this, pair1);
       ach.card.setTransitionName("zoom");
     }
-    alertIntent.putExtra("alertID", new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter().get(alertIndex).getNwsId());
+    alertIntent.putExtra("alertID", alert.getNwsId());
     startActivity(alertIntent, aO.toBundle());
   }
 
-  private void populateRecyclerView() {
-    RecyclerView recyclerView = findViewById(R.id.alert_recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter());
+  private void populateRecyclerViews() {
+    populateActiveRecyclerView();
+    populateRecentRecyclerView();
+  }
+
+  private void populateActiveRecyclerView() {
+    populateRecyclerView(findViewById(R.id.active_recycler_view), new ActiveFilter(getRelevantAlerts(), new Date()).filter());
+  }
+
+  private void populateRecentRecyclerView() {
+    populateRecyclerView(findViewById(R.id.inactive_recycler_view), new InactiveFilter(getRelevantAlerts(), new Date()).filter());
+  }
+
+  public void populateRecyclerView(RecyclerView view, ArrayList<Alert> alerts) {
+    view.setLayoutManager(new LinearLayoutManager(this));
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(alerts);
     alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
-    recyclerView.setAdapter(alertRecyclerViewAdapter);
+    view.setAdapter(alertRecyclerViewAdapter);
+  }
+
+  private ArrayList<Alert> getRelevantAlerts() {
+    return new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
   }
 
   private void setBackgroundColor() {

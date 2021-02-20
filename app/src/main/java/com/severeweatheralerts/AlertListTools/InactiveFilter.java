@@ -5,10 +5,10 @@ import com.severeweatheralerts.Alerts.Alert;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class NotActiveFilter extends AlertFilter{
+public class InactiveFilter extends AlertFilter{
   private final Date date;
 
-  public NotActiveFilter(ArrayList<Alert> alerts, Date activeAt) {
+  public InactiveFilter(ArrayList<Alert> alerts, Date activeAt) {
     super(alerts);
     date = activeAt;
   }

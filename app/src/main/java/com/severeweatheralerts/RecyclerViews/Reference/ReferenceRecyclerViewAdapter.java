@@ -40,7 +40,7 @@ public class ReferenceRecyclerViewAdapter extends RecyclerView.Adapter<Reference
     holder.text.setText(new Reference(reference).getText(new Date()));
     holder.card.setCardBackgroundColor(new ReferenceColorChooser(reference).getColorAt(new Date()));
     holder.card.setOnClickListener(v -> {
-      if (clickListener != null) clickListener.onCardClick(position, holder);
+      if (clickListener != null) clickListener.onCardClick(reference, holder);
     });
   }
 

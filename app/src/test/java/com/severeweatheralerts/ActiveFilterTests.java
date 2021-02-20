@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.AlertListTools.ActiveFilter;
-import com.severeweatheralerts.AlertListTools.NotActiveFilter;
+import com.severeweatheralerts.AlertListTools.InactiveFilter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class ActiveFilterTests {
   @Test
   public void emptyList_StaysEmpty() {
-    assertEquals(0, new NotActiveFilter(new ArrayList<Alert>(), null).filter().size());
+    assertEquals(0, new InactiveFilter(new ArrayList<Alert>(), null).filter().size());
   }
 
   @Test
@@ -25,7 +25,7 @@ public class ActiveFilterTests {
     alert.setType(Alert.Type.POST);
     alert.setEndTime(new Date(0));
     alerts.add(alert);
-    assertEquals(1, new NotActiveFilter(alerts, new Date(3)).filter().size());
+    assertEquals(1, new InactiveFilter(alerts, new Date(3)).filter().size());
   }
 
   @Test
@@ -36,7 +36,7 @@ public class ActiveFilterTests {
     alert.setStartTime(new Date(0));
     alert.setEndTime(new Date(2));
     alerts.add(alert);
-    assertEquals(0, new NotActiveFilter(alerts, new Date(1)).filter().size());
+    assertEquals(0, new InactiveFilter(alerts, new Date(1)).filter().size());
   }
 
   @Test
