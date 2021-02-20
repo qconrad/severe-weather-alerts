@@ -18,26 +18,35 @@ public class GeometryParser {
   }
 
   public ArrayList<GeoJSONPolygon> parseGeometry() throws JSONException {
-    GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
-    for (int i = 0; i < getPolygon().length(); i++)
-      geoJSONPolygon.addCoordinate(new GCSCoordinate(
-              getLat(getPolygon().getJSONArray(i)),
-              getLon(getPolygon().getJSONArray(i))));
-    polygons.add(geoJSONPolygon);
+    if (isMultiPolygon()) parseMultipolygon();
+    else parsePolygon();
     return polygons;
   }
 
-  private JSONArray getPolygon() throws JSONException {
-    JSONArray polygon = getCoordinates().getJSONArray(0);
-    if (isMultiPolygon()) polygon = polygon.getJSONArray(0);
-    return polygon;
+  private void parsePolygon() throws JSONException {
+    addPolygon(getGeometryData());
+  }
+
+  private void parseMultipolygon() throws JSONException {
+    for (int currentPolygon = 0; currentPolygon < getGeometryData().length(); currentPolygon++)
+      addPolygon(getGeometryData().getJSONArray(currentPolygon));
+  }
+
+  private void addPolygon(JSONArray polygon) throws JSONException {
+    GeoJSONPolygon geoJSONPolygon = new GeoJSONPolygon();
+    JSONArray coordinates = polygon.getJSONArray(0);
+    for (int i = 0; i < coordinates.length(); i++)
+      geoJSONPolygon.addCoordinate(new GCSCoordinate(
+              getLat(coordinates.getJSONArray(i)),
+              getLon(coordinates.getJSONArray(i))));
+    polygons.add(geoJSONPolygon);
   }
 
   private boolean isMultiPolygon() throws JSONException {
     return geometry.get("type").equals("MultiPolygon");
   }
 
-  private JSONArray getCoordinates() throws JSONException {
+  private JSONArray getGeometryData() throws JSONException {
     return geometry.getJSONArray("coordinates");
   }
 
