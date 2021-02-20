@@ -8,32 +8,24 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.severeweatheralerts.Location.GPSLocation;
-import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
-import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
-
-import java.util.Date;
 
 public class FetchingAlertDataActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_fetching_alert_data);
-    setProgressbarColor();
+    setContentView(R.layout.activity_loading);
     getAlerts();
+    setProgressbarColor();
   }
 
   private void setProgressbarColor() {
     ProgressBar pb = findViewById(R.id.fetch_progress);
     pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
-
 
   private void getAlerts() {
     new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {

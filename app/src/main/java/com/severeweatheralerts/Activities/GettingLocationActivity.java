@@ -1,7 +1,10 @@
 package com.severeweatheralerts.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,9 +21,21 @@ public class GettingLocationActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_getting_location);
+    setContentView(R.layout.activity_loading);
+    setLoadingStatus();
+    setProgressbarColor();
     checkPermissions();
     populateLocations();
+  }
+
+  private void setLoadingStatus() {
+    TextView tv = findViewById(R.id.loading_status);
+    tv.setText("Getting Location");
+  }
+
+  private void setProgressbarColor() {
+    ProgressBar pb = findViewById(R.id.fetch_progress);
+    pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
 
   GPSLocation gps;

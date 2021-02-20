@@ -16,18 +16,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <ProgressBar
+            android:id="@+id/fetch_progress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/location" />
+            android:layout_height="50dp"/>
 
         <TextView
+            android:id="@+id/loading_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="12dp"
-            android:text="Getting location"
+            android:text="Getting latest data"
             android:textSize="20sp" />
 
     </LinearLayout>
