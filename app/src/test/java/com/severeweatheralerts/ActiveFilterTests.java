@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.AlertListTools.ActiveFilter;
-import com.severeweatheralerts.AlertListTools.InactiveFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 

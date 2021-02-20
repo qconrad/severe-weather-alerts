@@ -1,4 +1,4 @@
-package com.severeweatheralerts.AlertListTools;
+package com.severeweatheralerts.AlertListTools.AlertFilters;
 
 import com.severeweatheralerts.Alerts.Alert;
 

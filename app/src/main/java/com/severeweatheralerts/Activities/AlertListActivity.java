@@ -13,9 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.AlertListTools.ActiveFilter;
-import com.severeweatheralerts.AlertListTools.InactiveFilter;
-import com.severeweatheralerts.AlertListTools.ReplacementFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
