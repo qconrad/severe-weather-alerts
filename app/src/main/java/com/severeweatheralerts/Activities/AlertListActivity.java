@@ -60,11 +60,19 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateActiveRecyclerView() {
-    populateRecyclerView(findViewById(R.id.active_recycler_view), new ActiveFilter(getRelevantAlerts(), new Date()).filter());
+    ArrayList<Alert> activeAlerts = new ActiveFilter(getRelevantAlerts(), new Date()).filter();
+    if (activeAlerts.size() > 0) {
+      findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
+      populateRecyclerView(findViewById(R.id.active_recycler_view), activeAlerts);
+    }
   }
 
   private void populateRecentRecyclerView() {
-    populateRecyclerView(findViewById(R.id.inactive_recycler_view), new InactiveFilter(getRelevantAlerts(), new Date()).filter());
+    ArrayList<Alert> inactiveAlerts = new InactiveFilter(getRelevantAlerts(), new Date()).filter();
+    if (inactiveAlerts.size() > 0) {
+      findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
+      populateRecyclerView(findViewById(R.id.inactive_recycler_view), inactiveAlerts);
+    }
   }
 
   public void populateRecyclerView(RecyclerView view, ArrayList<Alert> alerts) {

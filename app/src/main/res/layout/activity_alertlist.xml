@@ -94,12 +94,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/active_alerts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
             android:gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             android:text="Active Alerts"/>
 
 
@@ -111,6 +113,8 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/iactive_alerts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
