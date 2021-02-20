@@ -30,6 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:onClick="settingsClick"
                 android:id="@+id/imageView2"
                 android:padding="5dp"
                 android:layout_width="40dp"

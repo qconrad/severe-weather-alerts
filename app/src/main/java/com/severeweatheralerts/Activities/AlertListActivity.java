@@ -9,6 +9,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -128,5 +129,9 @@ public class AlertListActivity extends AppCompatActivity {
   @Override
   public void onBackPressed() {
     finishAffinity();
+  }
+
+  public void settingsClick(View view) {
+    Toast.makeText(this, "Settings clicke", Toast.LENGTH_SHORT).show();
   }
 }
