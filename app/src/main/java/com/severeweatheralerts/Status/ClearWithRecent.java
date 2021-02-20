@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 public class ClearWithRecent extends Clear {
   @Override

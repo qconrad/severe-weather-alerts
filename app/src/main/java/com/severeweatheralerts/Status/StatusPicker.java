@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 import com.severeweatheralerts.Alerts.Alert;
 

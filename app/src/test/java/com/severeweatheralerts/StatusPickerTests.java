@@ -2,6 +2,9 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Status.Clear;
+import com.severeweatheralerts.Status.ClearWithRecent;
+import com.severeweatheralerts.Status.StatusPicker;
 
 import org.junit.Test;
 

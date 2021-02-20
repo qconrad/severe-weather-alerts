@@ -22,8 +22,8 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
-import com.severeweatheralerts.Status;
-import com.severeweatheralerts.StatusPicker;
+import com.severeweatheralerts.Status.Status;
+import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;

@@ -1,5 +1,9 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Status.Clear;
+import com.severeweatheralerts.Status.ClearWithRecent;
+import com.severeweatheralerts.Status.Status;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

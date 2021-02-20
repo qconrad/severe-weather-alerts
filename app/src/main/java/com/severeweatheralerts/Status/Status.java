@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 public interface Status {
   int getColor();

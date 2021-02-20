@@ -1,6 +1,8 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 import android.graphics.Color;
+
+import com.severeweatheralerts.R;
 
 public class Clear implements Status {
   @Override
