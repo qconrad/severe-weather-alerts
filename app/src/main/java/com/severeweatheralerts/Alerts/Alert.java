@@ -8,17 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Alert implements Comparable<Alert> {
-
-  public Certainty getCertainty() {
-    return certainty;
-  }
-
-  public void setCertainty(Certainty certainty) {
-    this.certainty = certainty;
-  }
-
   public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME; }
   public enum Certainty { UNKNOWN, UNLIKELY, POSSIBLE, LIKELY, OBSERVED }
+  public enum Urgency {UNKNOWN, PAST, FUTURE, EXPECTED, IMMEDIATE }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
   private String nwsId;
@@ -34,6 +26,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
+  private Urgency urgency;
   private Certainty certainty;
   private Alert replacedBy;
   private final ArrayList<Alert> references = new ArrayList<>();
@@ -106,6 +99,12 @@ public abstract class Alert implements Comparable<Alert> {
   public Severity getSeverity() { return severity; }
   public void setSeverity(Severity severity) { this.severity = severity; }
 
+  public Certainty getCertainty() { return certainty; }
+  public void setCertainty(Certainty certainty) { this.certainty = certainty; }
+
+  public Urgency getUrgency() { return urgency; }
+  public void setUrgency(Urgency urgency) { this.urgency = urgency; }
+
   public String getLargeHeadline() { return largeHeadline; }
   public void setSmallHeadline(String smallHeadline) { this.smallHeadline = smallHeadline; }
 
@@ -154,5 +153,4 @@ public abstract class Alert implements Comparable<Alert> {
   public boolean endsBefore(Date date) {
     return date.getTime() < endTime.getTime();
   }
-
 }

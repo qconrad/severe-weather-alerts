@@ -40,6 +40,7 @@ public class AlertAdapter {
     adaptInstruction(ua, al);
     adaptSeverity(ua, al);
     adaptCertainty(ua, al);
+    adaptUrgency(ua, al);
     adaptSender(ua, al);
     adaptSenderCode(ua, al);
     adaptId(ua, al);
@@ -110,6 +111,10 @@ public class AlertAdapter {
 
   private void adaptCertainty(UnadaptedAlert ua, Alert al) {
     al.setCertainty(new CertaintyAdapter(ua.getCertainty()).adaptSeverity());
+  }
+
+  private void adaptUrgency(UnadaptedAlert ua, Alert al) {
+    al.setUrgency(new UrgencyAdapter(ua.getCertainty()).adaptSeverity());
   }
 
   private void adaptInstruction(UnadaptedAlert ua, Alert al) {

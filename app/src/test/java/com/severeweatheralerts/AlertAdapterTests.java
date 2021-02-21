@@ -1054,4 +1054,64 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(Alert.Certainty.OBSERVED, aa.getAdaptedAlerts().get(0).getCertainty());
   }
+
+  @Test
+  public void UnknownUrgency() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Unknown");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.UNKNOWN, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
+
+  @Test
+  public void PastUrgency() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Past");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.PAST, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
+
+  @Test
+  public void FutureUrgency() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Future");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.FUTURE, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
+
+  @Test
+  public void ExpectedUrgency() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Expected");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.EXPECTED, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
+
+  @Test
+  public void ImmediateUrgency() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Immediate");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.IMMEDIATE, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
+
+  @Test
+  public void invalidTextIsUnknown() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("unknown test");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Urgency.UNKNOWN, aa.getAdaptedAlerts().get(0).getUrgency());
+  }
 }
