@@ -33,16 +33,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AlertListActivity extends AppCompatActivity {
-  private ArrayList<Alert> relevantAlerts;
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private Status status;
+
+  private TextListFade textListFade;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
+    ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
     status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
@@ -59,7 +60,8 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void setStatusSubtext() {
-    new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher)).beginFade();
+    textListFade= new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher));
+    textListFade.beginFade();
   }
 
   private void setStatusHeadline() {
@@ -132,5 +134,9 @@ public class AlertListActivity extends AppCompatActivity {
 
   public void settingsClick(View view) {
     startActivity(new Intent(AlertListActivity.this, SettingsActivity.class));
+  }
+
+  public void subTextClick(View view) {
+    textListFade.nextSubtext();
   }
 }

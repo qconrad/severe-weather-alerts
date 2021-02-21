@@ -21,13 +21,14 @@ public class TextFadeInterval {
   }
 
   private void setupSwitchingSchedule() {
-    switchRunnable = this::switchSubtext;
+    switchRunnable = this::nextText;
     switchHandler.post(switchRunnable);
   }
 
-  private void switchSubtext() {
+  public void nextText() {
     textSwitcher.setText(textList.get(curSubtext));
     curSubtext = ++curSubtext % textList.size();
+    switchHandler.removeCallbacks(switchRunnable);
     switchHandler.postDelayed(switchRunnable, interval);
   }
 }

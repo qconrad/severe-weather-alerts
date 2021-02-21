@@ -14,6 +14,7 @@ public class TextListFade {
   private final ArrayList<String> textList;
   private final Context context;
   private final TextSwitcher textSwitcher;
+  TextFadeInterval textFadeInterval;
 
   public TextListFade(Context context, ArrayList<String> textList, TextSwitcher textSwitcher) {
     this.textSwitcher = textSwitcher;
@@ -29,14 +30,37 @@ public class TextListFade {
   }
 
   public void beginFade() {
-    if (textList.size() > 1) new TextFadeInterval(textSwitcher, textList, Constants.STATUS_SUBTEXT_TRANSITION_TIME);
-    if (textList.size() > 0) textSwitcher.setText(textList.get(0));
-    else textSwitcher.setVisibility(View.GONE);
+    if (multipleSubtexts()) fadeText();
+    if (singleSubtext()) setText();
+    else hideSubtext();
+  }
+
+  private boolean singleSubtext() {
+    return textList.size() > 0;
+  }
+
+  private boolean multipleSubtexts() {
+    return textList.size() > 1;
+  }
+
+  private void hideSubtext() {
+    textSwitcher.setVisibility(View.GONE);
+  }
+
+  private void setText() {
+    textSwitcher.setText(textList.get(0));
+  }
+
+  private void fadeText() {
+    textFadeInterval = new TextFadeInterval(textSwitcher, textList, Constants.STATUS_SUBTEXT_TRANSITION_TIME);
   }
 
   private View inflateTextView() {
     LayoutInflater inflater = LayoutInflater.from(context);
-    return (TextView) inflater.inflate(R.layout.status_subtext_layout, null);
+    return inflater.inflate(R.layout.status_subtext_layout, null);
   }
 
+  public void nextSubtext() {
+    if (multipleSubtexts()) textFadeInterval.nextText();
+  }
 }
