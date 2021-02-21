@@ -148,4 +148,14 @@ public class StatusPickerTests {
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("Fog developing overnight", statusPicker.getStatus().getSubtexts().get(0));
   }
+
+  @Test
+  public void getStatus_NewlineProvided_NotInSubtext() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("Fog developing overnight.\n\nAnother instruction.");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("Another instruction", statusPicker.getStatus().getSubtexts().get(1));
+  }
 }

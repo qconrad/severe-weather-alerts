@@ -33,6 +33,6 @@ public class SubtextGenerator {
   }
 
   private String[] getSentences(String text) {
-    return text.split("(\\.)([^a-z]|$)");
+    return text.split("(\\.)([^a-z]|$)\n*");
   }
 }
