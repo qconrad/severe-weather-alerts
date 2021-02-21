@@ -201,6 +201,22 @@ public class JsonParserTests {
   }
 
   @Test
+  public void getUrgency_Correct() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    String result = parsed.get(0).getUrgency();
+    assertEquals("Expected", result);
+  }
+
+  @Test
+  public void getCertainty_Correct() {
+    AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    String result = parsed.get(0).getCertainty();
+    assertEquals("Likely", result);
+  }
+
+  @Test
   public void parseAlerts_SpecialWeatherStatementAndSmallCraftInputGiven_FirstTypeIsUpdate() {
     AlertListParser parser = new AlertListParser(SmallCraftAdvisoryAndSpecialWeatherStatementInput);
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();

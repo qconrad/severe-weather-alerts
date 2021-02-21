@@ -83,6 +83,8 @@ public class AlertListParser {
     propParser.parseEnds();
     propParser.parseNwsHeadline();
     propParser.parseSeverity();
+    propParser.parseCertainty();
+    propParser.parseUrgency();
     propParser.parseZones();
   }
 

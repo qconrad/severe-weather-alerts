@@ -65,12 +65,22 @@ public class AlertPropertyParser {
     if (notNull(instruction)) ua.setInstruction(instruction);
   }
 
-  public void parseSeverity() throws  JSONException {
+  public void parseSeverity() throws JSONException {
     String severity = getProp("severity");
     if (notNull(severity)) ua.setSeverity(severity);
   }
 
-  public void parseType() throws  JSONException {
+  public void parseUrgency() throws JSONException {
+    String urgency = getProp("urgency");
+    if (notNull(urgency)) ua.setUrgency(urgency);
+  }
+
+  public void parseCertainty() throws JSONException {
+    String certainty = getProp("certainty");
+    if (notNull(certainty)) ua.setCertainty(certainty);
+  }
+
+  public void parseType() throws JSONException {
     String type = getProp("messageType");
     if (notNull(type)) ua.setType(type);
   }
