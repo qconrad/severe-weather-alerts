@@ -1,27 +1,33 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="Default Location">
+
+        <SwitchPreferenceCompat
+            app:key="usefixed"
+            app:summary="By default, your device's location will be used. You can save some battery and data by setting a fixed location."
+            app:title="Use Fixed Location" />
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="fixed_location"
+            app:dependency="usefixed"
+            app:title="Location"
             app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            app:title="Severity Preferences"
+            app:summary="Map severities of alerts to notification channels"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+    <PreferenceCategory app:title="More Locations">
+        <Preference
+            app:enabled="false"
+            app:title="Add/Change Other Locations"/>
+    </PreferenceCategory>
+    <PreferenceCategory app:title="Notification Channels">
+        <Preference
+            app:title="Open Notification Channels"
+            app:summary="Change the behavior of how alerts appear and sound"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
