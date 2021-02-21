@@ -8,7 +8,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Alert implements Comparable<Alert> {
-  public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME }
+
+  public Certainty getCertainty() {
+    return certainty;
+  }
+
+  public void setCertainty(Certainty certainty) {
+    this.certainty = certainty;
+  }
+
+  public enum Severity { UNKNOWN, MINOR, MODERATE, SEVERE, EXTREME; }
+  public enum Certainty { UNKNOWN, UNLIKELY, POSSIBLE, LIKELY, OBSERVED }
   public enum Type { POST, UPDATE, CANCEL }
   private String name;
   private String nwsId;
@@ -24,6 +34,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Date endTime;
   private Date expectedUpdateTime;
   private Severity severity;
+  private Certainty certainty;
   private Alert replacedBy;
   private final ArrayList<Alert> references = new ArrayList<>();
   private final ArrayList<Polygon> polygons = new ArrayList<>();
@@ -143,4 +154,5 @@ public abstract class Alert implements Comparable<Alert> {
   public boolean endsBefore(Date date) {
     return date.getTime() < endTime.getTime();
   }
+
 }

@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Adapters;
 
+import com.severeweatheralerts.Alerts.Alert;
+
 import java.util.ArrayList;
 
 public class UnadaptedAlert {
@@ -14,6 +16,7 @@ public class UnadaptedAlert {
   private String ends;
   private String nwsHeadline;
   private String severity;
+  private String certainty;
   private String sender;
   private String senderCode;
   private final ArrayList<String> references = new ArrayList<>();
@@ -45,6 +48,9 @@ public class UnadaptedAlert {
 
   public String getSeverity() { return severity; }
   public void setSeverity(String severity) { this.severity = severity; }
+
+  public void setCertainty(String certainty) { this.certainty = certainty; }
+  public String getCertainty() { return certainty; }
 
   public void setType(String type) { this.type = type; }
   public String getType() { return type; }
@@ -87,4 +93,5 @@ public class UnadaptedAlert {
   public void addZoneLink(String zoneLink) {
     zoneLinks.add(zoneLink);
   }
+
 }

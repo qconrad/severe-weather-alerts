@@ -1004,4 +1004,54 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(nwsHeadline, aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
+
+  @Test
+  public void LikelyCertainty() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Likely");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Certainty.LIKELY, aa.getAdaptedAlerts().get(0).getCertainty());
+  }
+
+  @Test
+  public void UnknownCertainty() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Unknown");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Certainty.UNKNOWN, aa.getAdaptedAlerts().get(0).getCertainty());
+  }
+
+  @Test
+  public void UnlikelyCertainty() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Unlikely");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Certainty.UNLIKELY, aa.getAdaptedAlerts().get(0).getCertainty());
+  }
+
+  @Test
+  public void PossibleCertainty() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Possible");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Certainty.POSSIBLE, aa.getAdaptedAlerts().get(0).getCertainty());
+  }
+
+  @Test
+  public void ObservedCertainty() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setCertainty("Observed");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Certainty.OBSERVED, aa.getAdaptedAlerts().get(0).getCertainty());
+  }
 }
