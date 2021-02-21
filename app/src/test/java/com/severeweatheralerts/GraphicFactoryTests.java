@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -12,41 +13,53 @@ import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 public class GraphicFactoryTests {
   @Test
   public void getType_DefaultGiven_ReturnsAlertArea() {
     DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setType(Alert.Type.POST);
+    defaultAlert.setEndTime(new Date(5));
     GraphicFactory graphicFactory = new GraphicFactory(defaultAlert);
-    assertTrue(graphicFactory.getTypes().get(0) instanceof AlertArea);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), AlertArea.class);
   }
 
   @Test
   public void getType_WinterWeatherAdvisoryGiven_ReturnsSnowfall() {
     WinterWeatherAdvisory winterAlert = new WinterWeatherAdvisory();
+    winterAlert.setType(Alert.Type.POST);
+    winterAlert.setEndTime(new Date(5));
     GraphicFactory graphicFactory = new GraphicFactory(winterAlert);
-    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), ExpectedSnowfall.class);
   }
 
   @Test
   public void getType_TypeIsFlashFloodWatch_ReturnsRainfall() {
     FlashFloodWatch rainAlert = new FlashFloodWatch();
+    rainAlert.setType(Alert.Type.POST);
+    rainAlert.setEndTime(new Date(5));
     GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
-    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedRainfall);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), ExpectedRainfall.class);
   }
 
   @Test
   public void getType_TypeIsWinterStormWarning_ReturnsSnowfall() {
-    WinterStormWarning rainAlert = new WinterStormWarning();
-    GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
-    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
+    WinterStormWarning winterAlert = new WinterStormWarning();
+    winterAlert.setType(Alert.Type.POST);
+    winterAlert.setEndTime(new Date(5));
+    GraphicFactory graphicFactory = new GraphicFactory(winterAlert);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), ExpectedSnowfall.class);
   }
 
   @Test
   public void getType_TypeIsLakeEffectSnowWarning_ReturnsSnowfall() {
     LakeEffectSnowWarning rainAlert = new LakeEffectSnowWarning();
+    rainAlert.setType(Alert.Type.POST);
+    rainAlert.setEndTime(new Date(5));
     GraphicFactory graphicFactory = new GraphicFactory(rainAlert);
-    assertTrue(graphicFactory.getTypes().get(0) instanceof ExpectedSnowfall);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), ExpectedSnowfall.class);
   }
 }

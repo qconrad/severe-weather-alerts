@@ -28,6 +28,7 @@ import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicFactory;
+import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
@@ -89,12 +90,22 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphics() {
-    ArrayList<GraphicType> types = new GraphicFactory(al).getTypes();
-    for (GraphicType type : types) {
-      View graphicView = createGraphicView();
-      displayGraphicTitleAndProgressBar(type, graphicView);
-      generateGraphic(LocationsDao.getLocation(0), type, graphicView);
-    }
+    if (!al.activeAt(new Date())) generateAndDisplayGraphic(new AlertArea());
+    else generateFromFactory();
+  }
+
+  private void generateFromFactory() {
+    for (GraphicType type : getTypes()) generateAndDisplayGraphic(type);
+  }
+
+  private ArrayList<GraphicType> getTypes() {
+    return new GraphicFactory(al).getTypes();
+  }
+
+  private void generateAndDisplayGraphic(GraphicType type) {
+    View graphicView = createGraphicView();
+    displayGraphicTitleAndProgressBar(type, graphicView);
+    generateGraphic(LocationsDao.getLocation(0), type, graphicView);
   }
 
   private void generateGraphic(Location location, GraphicType type, View graphicView) {

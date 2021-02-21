@@ -13,6 +13,7 @@ import com.severeweatheralerts.Graphics.Types.GraphicType;
 import java.util.ArrayList;
 
 public class GraphicFactory {
+  private final ArrayList<GraphicType> types = new ArrayList<>();
   private final Alert alert;
 
   public GraphicFactory(Alert alert) {
@@ -20,7 +21,6 @@ public class GraphicFactory {
   }
 
   public ArrayList<GraphicType> getTypes() {
-    ArrayList<GraphicType> types = new ArrayList<>();
     if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning)
       types.add(new ExpectedSnowfall());
     else if (alert instanceof FlashFloodWatch)
