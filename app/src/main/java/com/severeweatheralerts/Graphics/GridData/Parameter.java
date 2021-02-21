@@ -16,4 +16,8 @@ public class Parameter {
   public ForecastTime get(int i) {
     return forecastTimes.get(i);
   }
+
+  public ArrayList<ForecastTime> getForecastTimes() {
+    return forecastTimes;
+  }
 }
