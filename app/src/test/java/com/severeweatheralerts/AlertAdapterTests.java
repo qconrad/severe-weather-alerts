@@ -1068,7 +1068,7 @@ public class AlertAdapterTests {
   @Test
   public void PastUrgency() {
     UnadaptedAlert ua = new UnadaptedAlert();
-    ua.setCertainty("Past");
+    ua.setUrgency("Past");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -1078,7 +1078,7 @@ public class AlertAdapterTests {
   @Test
   public void FutureUrgency() {
     UnadaptedAlert ua = new UnadaptedAlert();
-    ua.setCertainty("Future");
+    ua.setUrgency("Future");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -1088,7 +1088,7 @@ public class AlertAdapterTests {
   @Test
   public void ExpectedUrgency() {
     UnadaptedAlert ua = new UnadaptedAlert();
-    ua.setCertainty("Expected");
+    ua.setUrgency("Expected");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -1098,7 +1098,7 @@ public class AlertAdapterTests {
   @Test
   public void ImmediateUrgency() {
     UnadaptedAlert ua = new UnadaptedAlert();
-    ua.setCertainty("Immediate");
+    ua.setUrgency("Immediate");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);

@@ -114,7 +114,7 @@ public class AlertAdapter {
   }
 
   private void adaptUrgency(UnadaptedAlert ua, Alert al) {
-    al.setUrgency(new UrgencyAdapter(ua.getCertainty()).adaptSeverity());
+    al.setUrgency(new UrgencyAdapter(ua.getUrgency()).adaptSeverity());
   }
 
   private void adaptInstruction(UnadaptedAlert ua, Alert al) {

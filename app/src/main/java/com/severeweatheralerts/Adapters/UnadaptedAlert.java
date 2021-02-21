@@ -48,6 +48,9 @@ public class UnadaptedAlert {
   public String getSeverity() { return severity; }
   public void setSeverity(String severity) { this.severity = severity; }
 
+  public String getUrgency() { return urgency; }
+  public void setUrgency(String urgency) { this.urgency = urgency; }
+
   public void setCertainty(String certainty) { this.certainty = certainty; }
   public String getCertainty() { return certainty; }
 
@@ -91,13 +94,5 @@ public class UnadaptedAlert {
 
   public void addZoneLink(String zoneLink) {
     zoneLinks.add(zoneLink);
-  }
-
-  public String getUrgency() {
-    return urgency;
-  }
-
-  public void setUrgency(String urgency) {
-    this.urgency = urgency;
   }
 }

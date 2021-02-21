@@ -9,7 +9,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +23,7 @@ import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
 import com.severeweatheralerts.SettingsActivity;
+import com.severeweatheralerts.SeveritySorter;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.TextListFade;
@@ -43,7 +43,7 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
-    activeAlerts = new ActiveFilter(relevantAlerts, new Date()).filter();
+    activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
     status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
     populateRecyclerViews();
