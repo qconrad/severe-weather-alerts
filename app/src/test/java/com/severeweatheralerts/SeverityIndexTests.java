@@ -15,7 +15,7 @@ public class SeverityIndexTests {
     defaultAlert.setUrgency(Alert.Urgency.UNKNOWN);
     defaultAlert.setCertainty(Alert.Certainty.UNKNOWN);
     SeverityIndex severityIndex = new SeverityIndex(defaultAlert);
-    assertEquals(0, severityIndex.calculate());
+    assertEquals(0, severityIndex.get());
   }
 
   @Test
@@ -25,7 +25,7 @@ public class SeverityIndexTests {
     defaultAlert.setUrgency(Alert.Urgency.PAST);
     defaultAlert.setCertainty(Alert.Certainty.UNKNOWN);
     SeverityIndex severityIndex = new SeverityIndex(defaultAlert);
-    assertEquals(1, severityIndex.calculate());
+    assertEquals(1, severityIndex.get());
   }
 
   @Test
@@ -35,7 +35,7 @@ public class SeverityIndexTests {
     defaultAlert.setUrgency(Alert.Urgency.PAST);
     defaultAlert.setCertainty(Alert.Certainty.UNLIKELY);
     SeverityIndex severityIndex = new SeverityIndex(defaultAlert);
-    assertEquals(2, severityIndex.calculate());
+    assertEquals(2, severityIndex.get());
   }
 
   @Test
@@ -45,6 +45,6 @@ public class SeverityIndexTests {
     defaultAlert.setUrgency(Alert.Urgency.PAST);
     defaultAlert.setCertainty(Alert.Certainty.UNLIKELY);
     SeverityIndex severityIndex = new SeverityIndex(defaultAlert);
-    assertEquals(5, severityIndex.calculate());
+    assertEquals(5, severityIndex.get());
   }
 }

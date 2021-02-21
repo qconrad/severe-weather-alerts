@@ -13,7 +13,7 @@ public class SeverityIndex {
     this.severity = alert.getSeverity().ordinal();
   }
 
-  public int calculate() {
+  public int get() {
     return (3 * severity) + urgency + certainty;
   }
 }
