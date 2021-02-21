@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Activities;
 
+import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.TextGeneraters.Time.ReferenceTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
 
@@ -13,6 +14,11 @@ public class ReferenceViewerActivity extends AlertViewerActivity {
   public void onBackPressed() {
     super.onBackPressed();
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+  }
+
+  @Override
+  protected void generateGraphics() {
+    generateAndDisplayGraphic(new AlertArea());
   }
 
   @Override

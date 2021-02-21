@@ -89,7 +89,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private void generateGraphics() {
+  protected void generateGraphics() {
     if (!al.activeAt(new Date())) generateAndDisplayGraphic(new AlertArea());
     else generateFromFactory();
   }
@@ -102,7 +102,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     return new GraphicFactory(al).getTypes();
   }
 
-  private void generateAndDisplayGraphic(GraphicType type) {
+  protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
     generateGraphic(LocationsDao.getLocation(0), type, graphicView);
