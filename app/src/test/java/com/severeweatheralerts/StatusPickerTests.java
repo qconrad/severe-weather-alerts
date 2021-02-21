@@ -158,4 +158,14 @@ public class StatusPickerTests {
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("Another instruction", statusPicker.getStatus().getSubtexts().get(1));
   }
+
+  @Test
+  public void getStatus_URLAllCaps_NotSplit() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("WWW.WEBSITE.COM");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("WWW.WEBSITE.COM", statusPicker.getStatus().getSubtexts().get(0));
+  }
 }
