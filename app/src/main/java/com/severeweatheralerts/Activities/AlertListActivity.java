@@ -96,7 +96,6 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateActiveRecyclerView() {
-    ArrayList<Alert> activeAlerts = new ActiveFilter(relevantAlerts, new Date()).filter();
     if (activeAlerts.size() > 0) {
       findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
       populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
@@ -104,7 +103,6 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateRecentRecyclerView() {
-    ArrayList<Alert> inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
     if (inactiveAlerts.size() > 0) {
       findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
       populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
