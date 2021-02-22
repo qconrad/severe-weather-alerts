@@ -18,12 +18,14 @@ public class ParemeterTrim {
     return parameter;
   }
 
-  public void trimLeft(Date date) {
+  public ParemeterTrim trimLeft(Date date) {
     leftTrim = date;
+    return this;
   }
 
-  public void trimRight(Date date) {
+  public ParemeterTrim trimRight(Date date) {
     rightTrim = date;
+    return this;
   }
 
   private void trim() {

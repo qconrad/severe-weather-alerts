@@ -3,6 +3,7 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
+import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
@@ -68,6 +69,15 @@ public class GraphicFactoryTests {
   @Test
   public void getType_TypeIsWindAdvisory_ReturnsWindGusts() {
     WindAdvisory windAlert = new WindAdvisory();
+    windAlert.setType(Alert.Type.POST);
+    windAlert.setEndTime(new Date(5));
+    TypeFactory graphicFactory = new TypeFactory(windAlert);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
+  }
+
+  @Test
+  public void getType_TypeIsHighWindWarning_ReturnsWindGusts() {
+    HighWindWarning windAlert = new HighWindWarning();
     windAlert.setType(Alert.Type.POST);
     windAlert.setEndTime(new Date(5));
     TypeFactory graphicFactory = new TypeFactory(windAlert);
