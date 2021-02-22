@@ -3,12 +3,12 @@ package com.severeweatheralerts.Graphics.Types;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.GraphicGeneration.ExpectedSnowfallGenerator;
-import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicGenerator;
+import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
+import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Location.Location;
 
-public class ExpectedSnowfall extends AlertArea implements GraphicType {
-  public ExpectedSnowfall() {}
+public class Snowfall extends AlertArea implements GraphicType {
+  public Snowfall() {}
 
   @Override
   public String getTitle() {
@@ -17,6 +17,6 @@ public class ExpectedSnowfall extends AlertArea implements GraphicType {
 
   @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, Location location) {
-    return new ExpectedSnowfallGenerator(context, alert, location);
+    return new SnowfallGenerator(context, alert, location);
   }
 }

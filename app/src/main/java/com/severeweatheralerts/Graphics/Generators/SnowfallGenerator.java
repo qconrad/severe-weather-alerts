@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.GraphicGeneration;
+package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
@@ -11,8 +11,8 @@ import com.severeweatheralerts.TextUtils.Plurality;
 
 import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
 
-public class ExpectedSnowfallGenerator extends GraphicGenerator {
-  public ExpectedSnowfallGenerator(Context context, Alert alert, Location location) {
+public class SnowfallGenerator extends GraphicGenerator {
+  public SnowfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
     mapTimeParameter = "snowamt";
     gridParameter = "snowfallAmount";

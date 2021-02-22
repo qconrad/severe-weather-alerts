@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.GraphicGeneration;
+package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -3,7 +3,7 @@ package com.severeweatheralerts.Graphics.Types;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.GraphicGeneration.GraphicGenerator;
+import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Location.Location;
 
 public interface GraphicType {

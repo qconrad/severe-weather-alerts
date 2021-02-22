@@ -1,13 +1,12 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.GraphicGeneration.SumCalculator;
+import com.severeweatheralerts.Graphics.Generators.SumCalculator;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.GraphicGeneration;
+package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
@@ -11,8 +11,8 @@ import com.severeweatheralerts.TextUtils.Plurality;
 
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
 
-public class ExpectedRainfallGenerator extends GraphicGenerator {
-  public ExpectedRainfallGenerator(Context context, Alert alert, Location location) {
+public class RainfallGenerator extends GraphicGenerator {
+  public RainfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
     mapTimeParameter = "totalqpf";
     gridParameter = "quantitativePrecipitation";
