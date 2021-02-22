@@ -22,11 +22,10 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
-import com.severeweatheralerts.SettingsActivity;
-import com.severeweatheralerts.SeveritySorter;
+import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
-import com.severeweatheralerts.TextListFade;
+import com.severeweatheralerts.Status.TextListFade;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;

@@ -1,12 +1,14 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
-import android.widget.TextView;
 
+
+import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
 

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".Activities.FetchingAlertDataActivity" />
         <activity android:name=".Activities.GettingLocationActivity">

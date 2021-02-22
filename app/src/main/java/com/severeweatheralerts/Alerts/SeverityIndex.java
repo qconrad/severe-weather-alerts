@@ -1,6 +1,4 @@
-package com.severeweatheralerts;
-
-import com.severeweatheralerts.Alerts.Alert;
+package com.severeweatheralerts.Alerts;
 
 public class SeverityIndex {
   private final int urgency;

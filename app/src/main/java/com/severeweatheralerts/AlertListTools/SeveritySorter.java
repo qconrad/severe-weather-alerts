@@ -1,6 +1,7 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.AlertListTools;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.SeverityIndex;
 
 import java.util.ArrayList;
 import java.util.Collections;

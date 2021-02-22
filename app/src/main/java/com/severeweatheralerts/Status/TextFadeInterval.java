@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Status;
 
 import android.os.Handler;
 import android.widget.TextSwitcher;
