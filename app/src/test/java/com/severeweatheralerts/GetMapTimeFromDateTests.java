@@ -1,0 +1,53 @@
+package com.severeweatheralerts;
+
+import com.severeweatheralerts.Graphics.GraphicGeneration.MapTime;
+import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
+
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+public class GetMapTimeFromDateTests {
+  @Test
+  public void emptyList_NullMapTime() {
+    NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(new ArrayList<>(), new Date(0));
+    assertNull(nearestMapTimeFromDate.getMapTime());
+  }
+
+  @Test
+  public void oneMapTimeReturnsThatMapTime() {
+    ArrayList<MapTime> mapTimes = new ArrayList<>();
+    String time = "2021-01-25T00:00";
+    mapTimes.add(new MapTime(time));
+    NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(mapTimes, new Date(0));
+    assertEquals(time, nearestMapTimeFromDate.getMapTime().getString());
+  }
+
+  @Test
+  public void TwoTimes_OneAfterDate() {
+    ArrayList<MapTime> mapTimes = new ArrayList<>();
+    String time = "2021-01-20T00:00";
+    mapTimes.add(new MapTime(time));
+    String time2 = "2021-01-28T00:00";
+    mapTimes.add(new MapTime(time2));
+    NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(mapTimes, new Date(1611814500000L));
+    assertEquals(time2, nearestMapTimeFromDate.getMapTime().getString());
+  }
+
+  @Test
+  public void ThreeTimes_AfterSecondDate() {
+    ArrayList<MapTime> mapTimes = new ArrayList<>();
+    String time = "2021-01-20T00:00";
+    mapTimes.add(new MapTime(time));
+    String time2 = "2021-01-21T00:00";
+    mapTimes.add(new MapTime(time2));
+    String time3 = "2021-01-28T00:00";
+    mapTimes.add(new MapTime(time3));
+    NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(mapTimes, new Date(1611814500000L));
+    assertEquals(time3, nearestMapTimeFromDate.getMapTime().getString());
+  }
+}

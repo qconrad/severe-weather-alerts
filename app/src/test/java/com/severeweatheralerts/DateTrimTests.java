@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.GridData.DateTrim;
+import com.severeweatheralerts.Graphics.GridData.ParemeterTrim;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class DateTrimTests {
   @Test
   public void emptyList_ReturnsEmpty() {
-    DateTrim dateTrim = new DateTrim(new Parameter(new ArrayList<>()));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(new ArrayList<>()));
     assertEquals(0, dateTrim.getTrimmed().getCount());
   }
 
@@ -22,7 +22,7 @@ public class DateTrimTests {
   public void TrimLeft_OneDateRemoved() {
     ArrayList<ForecastTime> times = new ArrayList<>();
     times.add(new ForecastTime(new Date(10), 0.0));
-    DateTrim dateTrim = new DateTrim(new Parameter(times));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(times));
     dateTrim.trimLeft(new Date(15));
     assertEquals(0, dateTrim.getTrimmed().getCount());
   }
@@ -31,7 +31,7 @@ public class DateTrimTests {
   public void TrimLeft_OneDateNotRemoved() {
     ArrayList<ForecastTime> times = new ArrayList<>();
     times.add(new ForecastTime(new Date(10), 0.0));
-    DateTrim dateTrim = new DateTrim(new Parameter(times));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(times));
     dateTrim.trimLeft(new Date(5));
     assertEquals(1, dateTrim.getTrimmed().getCount());
   }
@@ -41,7 +41,7 @@ public class DateTrimTests {
     ArrayList<ForecastTime> times = new ArrayList<>();
     times.add(new ForecastTime(new Date(10), 0.0));
     times.add(new ForecastTime(new Date(15), 0.0));
-    DateTrim dateTrim = new DateTrim(new Parameter(times));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(times));
     dateTrim.trimLeft(new Date(13));
     assertEquals(1, dateTrim.getTrimmed().getCount());
   }
@@ -51,7 +51,7 @@ public class DateTrimTests {
     ArrayList<ForecastTime> times = new ArrayList<>();
     times.add(new ForecastTime(new Date(10), 0.0));
     times.add(new ForecastTime(new Date(15), 0.0));
-    DateTrim dateTrim = new DateTrim(new Parameter(times));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(times));
     dateTrim.trimRight(new Date(13));
     assertEquals(1, dateTrim.getTrimmed().getCount());
   }
@@ -62,7 +62,7 @@ public class DateTrimTests {
     times.add(new ForecastTime(new Date(5), 0.0));
     times.add(new ForecastTime(new Date(10), 0.0));
     times.add(new ForecastTime(new Date(15), 0.0));
-    DateTrim dateTrim = new DateTrim(new Parameter(times));
+    ParemeterTrim dateTrim = new ParemeterTrim(new Parameter(times));
     dateTrim.trimLeft(new Date(8));
     dateTrim.trimRight(new Date(13));
     assertEquals(1, dateTrim.getTrimmed().getCount());

@@ -37,10 +37,10 @@ import java.util.Date;
 
 public abstract class GraphicGenerator {
   private final Context context;
-  private final Alert alert;
   private final Location location;
   private GraphicCompleteListener graphicCompleteListener;
 
+  protected final Alert alert;
   protected ArrayList<String> urls = new ArrayList<>();
   protected Bound bound;
   protected Parameter gridData;
