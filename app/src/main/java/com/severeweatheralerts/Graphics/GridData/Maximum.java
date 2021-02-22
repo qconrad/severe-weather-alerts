@@ -8,13 +8,13 @@ public class Maximum {
   }
 
   public ForecastTime get() {
-    ForecastTime max = null;
+    ForecastTime current = null;
     for (ForecastTime forecastTime : paremeter.getForecastTimes())
-      if (higherMax(max, forecastTime)) max = forecastTime;
-    return max;
+      if (newValue(current, forecastTime)) current = forecastTime;
+    return current;
   }
 
-  private boolean higherMax(ForecastTime max, ForecastTime forecastTime) {
+  protected boolean newValue(ForecastTime max, ForecastTime forecastTime) {
     return max == null || forecastTime.getValue() > max.getValue();
   }
 }
