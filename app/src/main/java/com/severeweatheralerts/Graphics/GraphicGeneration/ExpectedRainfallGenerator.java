@@ -3,6 +3,8 @@ package com.severeweatheralerts.Graphics.GraphicGeneration;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.GridData.ParemeterTrim;
+import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
@@ -18,7 +20,7 @@ public class ExpectedRainfallGenerator extends GraphicGenerator {
 
   @Override
   protected void getURLs() {
-    String dateString = mapTimes.get(mapTimes.size()-1).getString();
+    String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
     urls.add(new URL().getTotalRain(bound, "conus", dateString));
     urls.add(new URL().getTotalRainPoints(bound, "conus", dateString));
     urls.add(new URL().getCountyMap(bound));
@@ -31,6 +33,8 @@ public class ExpectedRainfallGenerator extends GraphicGenerator {
   }
 
   private double getRainfallInches() {
-    return new SumCalculator(gridData).getSum() / 25.4;
+    ParemeterTrim paremeterTrim = new ParemeterTrim(gridData);
+    paremeterTrim.trimRight(alert.getEndTime());
+    return new SumCalculator(paremeterTrim.getTrimmed()).getSum() / 25.4;
   }
 }
