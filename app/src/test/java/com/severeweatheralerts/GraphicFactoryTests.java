@@ -3,6 +3,8 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
+import com.severeweatheralerts.Alerts.NWS.FloodWarning;
+import com.severeweatheralerts.Alerts.NWS.FloodWatch;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
@@ -82,5 +84,14 @@ public class GraphicFactoryTests {
     windAlert.setEndTime(new Date(5));
     TypeFactory graphicFactory = new TypeFactory(windAlert);
     assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
+  }
+
+  @Test
+  public void getType_TypeIsFloodWatch_ReturnsWindGusts() {
+    FloodWatch rainAlert = new FloodWatch();
+    rainAlert.setType(Alert.Type.POST);
+    rainAlert.setEndTime(new Date(5));
+    TypeFactory graphicFactory = new TypeFactory(rainAlert);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), Rainfall.class);
   }
 }
