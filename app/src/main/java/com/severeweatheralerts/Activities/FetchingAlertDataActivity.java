@@ -43,8 +43,7 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void displayAlerts() {
-    Intent alertListIntent = new Intent(FetchingAlertDataActivity.this, AlertListActivity.class);
-    startActivity(alertListIntent);
+    startActivity(new Intent(FetchingAlertDataActivity.this, AlertListActivity.class));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
