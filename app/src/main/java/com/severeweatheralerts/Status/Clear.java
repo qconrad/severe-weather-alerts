@@ -25,7 +25,7 @@ public class Clear implements Status {
 
   @Override
   public ArrayList<String> getSubtexts() {
-    subtexts.add("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.");
+    subtexts.add("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will show up here.");
     return subtexts;
   }
 }

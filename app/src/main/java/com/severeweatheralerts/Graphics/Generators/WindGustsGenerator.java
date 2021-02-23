@@ -7,9 +7,7 @@ import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Maximum;
 import com.severeweatheralerts.Graphics.GridData.ParemeterTrim;
 import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
-import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Location.Location;
-import com.severeweatheralerts.TextUtils.Plurality;
 
 public class WindGustsGenerator extends GraphicGenerator {
   public WindGustsGenerator(Context context, Alert alert, Location location) {

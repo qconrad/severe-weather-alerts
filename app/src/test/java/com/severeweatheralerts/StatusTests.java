@@ -32,13 +32,13 @@ public class StatusTests {
   @Test
   public void getSubtext_ClearStatus_CorrectText() {
     Status clear = new Clear();
-    assertEquals("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.", clear.getSubtexts().get(0));
+    assertEquals("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will show up here.", clear.getSubtexts().get(0));
   }
 
   @Test
   public void getSubtext_ClearWithRecentStatus_CorrectText() {
     Status clear = new ClearWithRecent();
-    assertEquals("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will snow up here.", clear.getSubtexts().get(0));
+    assertEquals("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will show up here.", clear.getSubtexts().get(0));
   }
 
   @Test
