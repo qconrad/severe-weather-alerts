@@ -58,7 +58,7 @@ public class StatusPickerTests {
   }
 
   @Test
-  public void pickStatus_ActiveAlerts_InstructionFirstSetence() {
+  public void pickStatus_ActiveAlerts_InstructionFirstSentence() {
     ArrayList<Alert> active = new ArrayList<>();
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setInstruction("Take steps now to protect tender plants from the cold. To prevent freezing and possible bursting");

@@ -35,7 +35,6 @@ public class AlertListActivity extends AppCompatActivity {
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private Status status;
-
   private TextListFade textListFade;
 
   @Override
@@ -120,7 +119,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void setBackgroundColor() {
     int situationSeverityColor = status.getColor();
     View listView = findViewById(R.id.alert_list_view);
-    int topGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.3f);
+    int topGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.5f);
     int bottomGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.0f);
     GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradientStep, bottomGradientStep});
     listView.setBackground(gd);

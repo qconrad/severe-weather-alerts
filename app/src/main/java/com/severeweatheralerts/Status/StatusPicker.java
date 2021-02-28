@@ -14,10 +14,7 @@ public class StatusPicker {
   }
 
   public Status getStatus() {
-    if (active.size() > 0) return new ActiveAlerts(
-            active.size(),
-            active.get(0).getIcon(),
-            new SubtextGenerator(active).getStrings());
+    if (active.size() > 0) return new ActiveAlerts(active);
     if (inactive.size() > 0) return new ClearWithRecent();
     return new Clear();
   }

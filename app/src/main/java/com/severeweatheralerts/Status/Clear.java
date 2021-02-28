@@ -10,7 +10,7 @@ public class Clear implements Status {
   protected ArrayList<String> subtexts = new ArrayList<>();
   @Override
   public int getColor() {
-    return Color.parseColor("#00AC46");
+    return Color.parseColor("#00ac46");
   }
 
   @Override
