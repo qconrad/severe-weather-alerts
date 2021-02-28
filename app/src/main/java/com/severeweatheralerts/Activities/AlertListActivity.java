@@ -2,6 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -117,12 +118,9 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void setBackgroundColor() {
-    int situationSeverityColor = status.getColor();
-    View listView = findViewById(R.id.alert_list_view);
-    int topGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.5f);
-    int bottomGradientStep = ColorBrightnessChanger.changeBrightness(situationSeverityColor, 0.0f);
-    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradientStep, bottomGradientStep});
-    listView.setBackground(gd);
+    int gradientTop = ColorBrightnessChanger.changeBrightness(status.getColor(), 0.7f);
+    GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {gradientTop, Color.BLACK});
+    findViewById(R.id.alert_list_view).setBackground(gd);
   }
 
   @Override

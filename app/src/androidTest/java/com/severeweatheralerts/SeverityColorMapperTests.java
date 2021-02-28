@@ -38,9 +38,9 @@ public class SeverityColorMapperTests {
   }
 
   @Test
-  public void severityIndexIs17_ColorIsDarkRed() {
+  public void severityIndexIs17_ColorIsRed() {
     SeverityColorMapper severityColorMapper = new SeverityColorMapper(17);
-    assertEquals(Color.parseColor("#780000"), severityColorMapper.getColor());
+    assertEquals(Color.parseColor("#dc0000"), severityColorMapper.getColor());
   }
 
   @Test
@@ -74,13 +74,13 @@ public class SeverityColorMapperTests {
   }
 
   @Test
-  public void severityIndexIsEighteen_ColorIsDarkRed() {
+  public void severityIndexIsEighteen_ColorIsPurple() {
     SeverityColorMapper severityColorMapper = new SeverityColorMapper(18);
-    assertEquals(Color.parseColor("#780000"), severityColorMapper.getColor());
+    assertEquals(Color.parseColor("#b01994"), severityColorMapper.getColor());
   }
 
   @Test
-  public void severityIndexIsEighteen_ColorIsPurple() {
+  public void severityIndexIsTwenty_ColorIsPurple() {
     SeverityColorMapper severityColorMapper = new SeverityColorMapper(20);
     assertEquals(Color.parseColor("#b01994"), severityColorMapper.getColor());
   }

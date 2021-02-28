@@ -10,8 +10,7 @@ public class SeverityColorMapper {
   }
 
   public int getColor() {
-    if (severityIndex >= 19) return purple();
-    else if (severityIndex >= 17) return darkRed();
+    if (severityIndex >= 18) return purple();
     else if (severityIndex >= 15) return red();
     else if (severityIndex >= 13) return orange();
     else if (severityIndex >= 9) return yellow();
@@ -32,10 +31,6 @@ public class SeverityColorMapper {
 
   private int red() {
     return Color.parseColor("#dc0000");
-  }
-
-  private int darkRed() {
-    return Color.parseColor("#780000");
   }
 
   private int purple() {
