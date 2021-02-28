@@ -1114,4 +1114,14 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(Alert.Urgency.UNKNOWN, aa.getAdaptedAlerts().get(0).getUrgency());
   }
+
+  @Test
+  public void instructionIsEmptyString_getInstructionReturnsNull() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setInstruction("");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getInstruction());
+  }
 }

@@ -3,8 +3,8 @@ package com.severeweatheralerts.Adapters;
 import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
 
 public class InstructionAdapter {
-  private String instruction;
-  private String type;
+  private final String instruction;
+  private final String type;
 
   public InstructionAdapter(String instruction, String type) {
     this.instruction = instruction;
@@ -12,8 +12,13 @@ public class InstructionAdapter {
   }
 
   public String adaptInstruction() {
-    if (isCancellation()) return null; // Ignore instructions for cancels
+    if (isNull() || isCancellation()) return null;
     return beautify(instruction);
+  }
+
+  private boolean isNull() {
+    return instruction == null ||
+           instruction.equals("");
   }
 
   private boolean isCancellation() {
