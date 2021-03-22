@@ -93,6 +93,16 @@ public class AlertPropertyParser {
     }
   }
 
+  public void parseExpiredReferences() throws JSONException {
+    if (getParameters().has("expiredReferences")) {
+      String[] expiredReferences = getParameters().getJSONArray("expiredReferences").getString(0).split(",");
+      for (int i = 1; i < expiredReferences.length; i += 2) {
+        String refId = expiredReferences[i];
+        ua.addReferenceId(refId);
+      }
+    }
+  }
+
   private boolean notNull(String expires) {
     return !expires.equals("null");
   }

@@ -73,6 +73,7 @@ public class AlertListParser {
     propParser.parseId();
     propParser.parseType();
     propParser.parseReferences();
+    propParser.parseExpiredReferences();
     propParser.parseDescription();
     propParser.parseInstruction();
     propParser.parseSender();
