@@ -59,13 +59,13 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    if (mapTimeParameter != null) fetchMapTimes();
-    if (gridParameter != null) fetchGridData();
     if (!alert.hasGeometry()) fetchZones();
     else finish();
+    fetchMapTimes();
+    fetchGridData();
   }
 
-  private int fetchesRemaining = 0;
+  private int fetchesRemaining = 3;
   private void finish() {
     if (--fetchesRemaining <= 0) generateImages();
   }
@@ -77,12 +77,10 @@ public abstract class GraphicGenerator {
   }
 
   public void fetchGridData() {
-    fetchesRemaining++;
     fetchPointInfo();
   }
 
   public void fetchMapTimes() {
-    fetchesRemaining++;
     StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, "conus"));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
@@ -138,7 +136,6 @@ public abstract class GraphicGenerator {
   }
 
   protected void fetchZones() {
-    fetchesRemaining++;
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
