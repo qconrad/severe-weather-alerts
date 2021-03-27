@@ -1,11 +1,11 @@
 package com.severeweatheralerts.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import static com.severeweatheralerts.NotificationChannels.createNotificationChannels;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static com.severeweatheralerts.Notifications.NotificationChannels.createNotificationChannels;
 
 public class DefaultActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
