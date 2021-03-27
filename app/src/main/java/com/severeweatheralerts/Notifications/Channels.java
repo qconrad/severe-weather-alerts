@@ -10,7 +10,7 @@ import android.os.Build;
 
 import com.severeweatheralerts.R;
 
-public class NotificationChannels {
+public class Channels {
   public static void createNotificationChannels(Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       Uri sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.getPackageName() + "/" + R.raw.alert_tone);

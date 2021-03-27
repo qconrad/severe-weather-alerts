@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import android.graphics.Color;
 
+import com.severeweatheralerts.Alerts.SeverityColorMapper;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

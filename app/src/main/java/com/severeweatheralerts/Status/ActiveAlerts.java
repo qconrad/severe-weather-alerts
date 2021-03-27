@@ -2,7 +2,7 @@ package com.severeweatheralerts.Status;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.SeverityIndex;
-import com.severeweatheralerts.SeverityColorMapper;
+import com.severeweatheralerts.Alerts.SeverityColorMapper;
 import com.severeweatheralerts.TextUtils.Plurality;
 
 import java.util.ArrayList;

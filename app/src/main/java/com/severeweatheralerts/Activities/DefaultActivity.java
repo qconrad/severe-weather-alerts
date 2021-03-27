@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.severeweatheralerts.Notifications.NotificationChannels.createNotificationChannels;
+import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;
 
 public class DefaultActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
