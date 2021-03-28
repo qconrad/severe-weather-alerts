@@ -26,10 +26,10 @@ public class SnowfallGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
-    layers.add(new Layer(new URL().getTotalSnow(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getTotalSnow(bound, getRegion(), dateString)));
     layers.add(new Layer(new URL().getCountyMap(bound)));
     layers.add(new Layer(getZoneOverlay()));
-    layers.add(new Layer(new URL().getTotalSnowPoints(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getTotalSnowPoints(bound, getRegion(), dateString)));
   }
 
   @Override

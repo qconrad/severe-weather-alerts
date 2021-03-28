@@ -840,7 +840,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
-    String expectedParse = "LOT";
+    String expectedParse = "lot";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getSenderCode());
   }
 
@@ -851,7 +851,7 @@ public class AlertAdapterTests {
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
-    String expectedParse = "ILX";
+    String expectedParse = "ilx";
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getSenderCode());
   }
 

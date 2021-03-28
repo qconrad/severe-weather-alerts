@@ -21,10 +21,10 @@ public class WindGustsGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = new NextMapTimeFromDate(mapTimes, getMaxGust().getDate()).getMapTime().getString();
-    layers.add(new Layer(new URL().getWindGusts(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getWindGusts(bound, getRegion(), dateString)));
     layers.add(new Layer(new URL().getCountyMap(bound)));
     layers.add(new Layer(getZoneOverlay()));
-    layers.add(new Layer(new URL().getWindGustsPoints(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getWindGustsPoints(bound, getRegion(), dateString)));
   }
 
   @Override

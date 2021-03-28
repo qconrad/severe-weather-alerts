@@ -26,10 +26,10 @@ public class RainfallGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
-    layers.add(new Layer(new URL().getTotalRain(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getTotalRain(bound, getRegion(), dateString)));
     layers.add(new Layer(new URL().getCountyMap(bound)));
     layers.add(new Layer(getZoneOverlay()));
-    layers.add(new Layer(new URL().getTotalRainPoints(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getTotalRainPoints(bound, getRegion(), dateString)));
   }
 
   @Override

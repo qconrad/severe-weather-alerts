@@ -15,6 +15,7 @@ import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
+import com.severeweatheralerts.Graphics.GridData.MapRegion;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
@@ -84,7 +85,7 @@ public abstract class GraphicGenerator {
   }
 
   public void fetchMapTimes() {
-    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, "conus"));
+    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, getRegion()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
@@ -179,6 +180,10 @@ public abstract class GraphicGenerator {
 
   protected Bitmap getZoneOverlay() {
     return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap();
+  }
+
+  protected String getRegion() {
+    return new MapRegion(alert.getSenderCode()).get();
   }
 
   protected String getSubText() {
