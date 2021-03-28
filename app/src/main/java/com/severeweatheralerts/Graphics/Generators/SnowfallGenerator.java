@@ -12,6 +12,8 @@ import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
 
+import java.util.Date;
+
 import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
 
 public class SnowfallGenerator extends GraphicGenerator {
@@ -38,6 +40,7 @@ public class SnowfallGenerator extends GraphicGenerator {
 
   private double getSnowfallInches() {
     ParameterTrim parameterTrim = new ParameterTrim(gridData);
+    parameterTrim.trimLeft(new Date());
     parameterTrim.trimRight(alert.getEndTime());
     return new SumCalculator(parameterTrim.getTrimmed()).getSum() / 25.4;
   }

@@ -12,6 +12,8 @@ import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
 
+import java.util.Date;
+
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
 
 public class RainfallGenerator extends GraphicGenerator {
@@ -37,8 +39,9 @@ public class RainfallGenerator extends GraphicGenerator {
   }
 
   private double getRainfallInches() {
-    ParameterTrim paremeterTrim = new ParameterTrim(gridData);
-    paremeterTrim.trimRight(alert.getEndTime());
-    return new SumCalculator(paremeterTrim.getTrimmed()).getSum() / 25.4;
+    ParameterTrim parameterTrim = new ParameterTrim(gridData);
+    parameterTrim.trimLeft(new Date());
+    parameterTrim.trimRight(alert.getEndTime());
+    return new SumCalculator(parameterTrim.getTrimmed()).getSum() / 25.4;
   }
 }

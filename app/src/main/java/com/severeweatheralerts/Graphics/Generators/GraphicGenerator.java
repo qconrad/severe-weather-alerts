@@ -160,11 +160,7 @@ public abstract class GraphicGenerator {
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        Graphic graphic = new Graphic();
-        graphic.setSubtext(getSubText());
-        graphic.setImage(new BitmapCombiner(bitmaps).combine());
-        graphicCompleteListener.onComplete(graphic);
+        returnGraphic((ArrayList<Bitmap>) response);
       }
 
       @Override
@@ -172,6 +168,13 @@ public abstract class GraphicGenerator {
         graphicCompleteListener.onComplete(null);
       }
     });
+  }
+
+  private void returnGraphic(ArrayList<Bitmap> bitmaps) {
+    Graphic graphic = new Graphic();
+    graphic.setSubtext(getSubText());
+    graphic.setImage(new BitmapCombiner(bitmaps).combine());
+    graphicCompleteListener.onComplete(graphic);
   }
 
   protected Bitmap getZoneOverlay() {
