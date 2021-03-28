@@ -54,8 +54,8 @@ public class GraphicFactoryTests {
 
   @Test
   public void getType_TypeIsLakeEffectSnowWarning_ReturnsSnowfall() {
-    LakeEffectSnowWarning rainAlert = new LakeEffectSnowWarning();
-    TypeFactory graphicFactory = new TypeFactory(rainAlert);
+    LakeEffectSnowWarning lakeEffectSnowWarning = new LakeEffectSnowWarning();
+    TypeFactory graphicFactory = new TypeFactory(lakeEffectSnowWarning);
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
   }
 
@@ -106,5 +106,21 @@ public class GraphicFactoryTests {
     LakeWindAdvisory lakeWindAdvisory = new LakeWindAdvisory();
     TypeFactory graphicFactory = new TypeFactory(lakeWindAdvisory);
     assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
+  }
+
+  @Test
+  public void getType_WinterStormWarningWithWind_ReturnsSnowAndWind() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet. Winds gusting as high as 45 mph.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning);
+    assertEquals(graphicFactory.getTypes().get(1).getClass(), WindGusts.class);
+  }
+
+  @Test
+  public void getType_WinterStormWarningWithSnow_ReturnsSnow() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning);
+    assertEquals(1, graphicFactory.getTypes().size());
   }
 }

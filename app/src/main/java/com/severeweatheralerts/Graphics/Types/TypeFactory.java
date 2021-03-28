@@ -24,8 +24,11 @@ public class TypeFactory {
   }
 
   public ArrayList<GraphicType> getTypes() {
-    if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning)
+    if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning) {
       types.add(new Snowfall());
+      if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
+        types.add(new WindGusts());
+    }
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
       types.add(new Rainfall());
     else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
