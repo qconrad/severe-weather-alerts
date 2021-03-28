@@ -29,7 +29,7 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
+    new AllNWSPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
       @Override
       public void complete() {
         displayAlerts();
