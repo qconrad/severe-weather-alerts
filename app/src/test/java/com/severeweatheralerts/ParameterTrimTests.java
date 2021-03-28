@@ -67,4 +67,26 @@ public class ParameterTrimTests {
     dateTrim.trimRight(new Date(13));
     assertEquals(1, dateTrim.getTrimmed().getCount());
   }
+
+  @Test
+  public void leftBoundEqualToTime_NotTrimmed() {
+    ArrayList<ForecastTime> times = new ArrayList<>();
+    times.add(new ForecastTime(new Date(5), 0.0));
+    times.add(new ForecastTime(new Date(10), 0.0));
+    times.add(new ForecastTime(new Date(15), 0.0));
+    ParameterTrim dateTrim = new ParameterTrim(new Parameter(times));
+    dateTrim.trimLeft(new Date(5));
+    assertEquals(3, dateTrim.getTrimmed().getCount());
+  }
+
+  @Test
+  public void rightBoundEqualToTime_NotTrimmed() {
+    ArrayList<ForecastTime> times = new ArrayList<>();
+    times.add(new ForecastTime(new Date(5), 0.0));
+    times.add(new ForecastTime(new Date(10), 0.0));
+    times.add(new ForecastTime(new Date(15), 0.0));
+    ParameterTrim dateTrim = new ParameterTrim(new Parameter(times));
+    dateTrim.trimRight(new Date(15));
+    assertEquals(3, dateTrim.getTrimmed().getCount());
+  }
 }

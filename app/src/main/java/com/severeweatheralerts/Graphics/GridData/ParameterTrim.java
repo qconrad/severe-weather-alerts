@@ -38,10 +38,10 @@ public class ParameterTrim {
   }
 
   private boolean withinRightTrim(ForecastTime time, Date right) {
-    return rightTrim == null || time.getDate().getTime() < right.getTime();
+    return rightTrim == null || time.getDate().getTime() <= right.getTime();
   }
 
   private boolean withinLeftTrim(ForecastTime time, Date left) {
-    return leftTrim == null || time.getDate().getTime() > left.getTime();
+    return leftTrim == null || time.getDate().getTime() >= left.getTime();
   }
 }
