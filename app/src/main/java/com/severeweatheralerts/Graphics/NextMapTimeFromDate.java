@@ -17,7 +17,7 @@ public class NextMapTimeFromDate {
   public MapTime getMapTime() {
     if (mapTimes.size() < 1) return null;
     for (MapTime mapTime : mapTimes)
-      if (mapTime.getDate().after(date)) return mapTime;
+      if (mapTime.getDate().equals(date) || mapTime.getDate().after(date)) return mapTime;
     return lastTime();
   }
 

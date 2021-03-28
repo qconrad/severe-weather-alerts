@@ -11,7 +11,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class GetMapTimeFromDateTests {
+public class NextMapTimeFromDateTests {
   @Test
   public void emptyList_NullMapTime() {
     NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(new ArrayList<>(), new Date(0));
@@ -49,5 +49,16 @@ public class GetMapTimeFromDateTests {
     mapTimes.add(new MapTime(time3));
     NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(mapTimes, new Date(1611814500000L));
     assertEquals(time3, nearestMapTimeFromDate.getMapTime().getString());
+  }
+
+  @Test
+  public void DateIsEqualToMapTime_ThatTimeReturn() {
+    ArrayList<MapTime> mapTimes = new ArrayList<>();
+    String time = "2021-01-28T07:00";
+    mapTimes.add(new MapTime(time));
+    String time2 = "2021-01-29T00:00";
+    mapTimes.add(new MapTime(time2));
+    NextMapTimeFromDate nearestMapTimeFromDate = new NextMapTimeFromDate(mapTimes, new Date(1611817200000L));
+    assertEquals(time, nearestMapTimeFromDate.getMapTime().getString());
   }
 }

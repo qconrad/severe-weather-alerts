@@ -28,7 +28,7 @@ public class URL {
   }
 
   public String getWindGustsPoints(Bound bounds, String region, String date) {
-    return getParameter(bounds, region, date, "windgust.points");
+    return getParameter(bounds, region, date, "windgust.points.english");
   }
 
   public String getSpcOutlook(Bound bounds, String region, String date) {
