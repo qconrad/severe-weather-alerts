@@ -3,13 +3,13 @@ package com.severeweatheralerts.Graphics.GridData;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ParemeterTrim {
+public class ParameterTrim {
   ArrayList<ForecastTime> times = new ArrayList<>();
   private Parameter parameter;
   private Date rightTrim;
   private Date leftTrim;
 
-  public ParemeterTrim(Parameter parameter) {
+  public ParameterTrim(Parameter parameter) {
     this.parameter = parameter;
   }
 
@@ -18,12 +18,12 @@ public class ParemeterTrim {
     return parameter;
   }
 
-  public ParemeterTrim trimLeft(Date date) {
+  public ParameterTrim trimLeft(Date date) {
     leftTrim = date;
     return this;
   }
 
-  public ParemeterTrim trimRight(Date date) {
+  public ParameterTrim trimRight(Date date) {
     rightTrim = date;
     return this;
   }

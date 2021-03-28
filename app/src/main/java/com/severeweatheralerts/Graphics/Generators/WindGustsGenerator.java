@@ -5,7 +5,7 @@ import android.content.Context;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Maximum;
-import com.severeweatheralerts.Graphics.GridData.ParemeterTrim;
+import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
 import com.severeweatheralerts.Location.Location;
 
@@ -36,7 +36,7 @@ public class WindGustsGenerator extends GraphicGenerator {
   private ForecastTime maxGust = null;
   private ForecastTime getMaxGust() {
     if (maxGust == null)
-      maxGust = new Maximum(new ParemeterTrim(gridData)
+      maxGust = new Maximum(new ParameterTrim(gridData)
               .trimLeft(alert.getStartTime())
               .trimRight(alert.getEndTime())
               .getTrimmed())

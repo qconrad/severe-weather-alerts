@@ -19,8 +19,6 @@ import com.severeweatheralerts.Graphics.Types.WindGusts;
 
 import org.junit.Test;
 
-import java.util.Date;
-
 import static org.junit.Assert.assertEquals;
 
 public class GraphicFactoryTests {

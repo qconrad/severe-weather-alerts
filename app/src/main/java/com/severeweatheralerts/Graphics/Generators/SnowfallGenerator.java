@@ -3,7 +3,7 @@ package com.severeweatheralerts.Graphics.Generators;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.GridData.ParemeterTrim;
+import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Location.Location;
@@ -33,8 +33,8 @@ public class SnowfallGenerator extends GraphicGenerator {
   }
 
   private double getSnowfallInches() {
-    ParemeterTrim paremeterTrim = new ParemeterTrim(gridData);
-    paremeterTrim.trimRight(alert.getEndTime());
-    return new SumCalculator(paremeterTrim.getTrimmed()).getSum() / 25.4;
+    ParameterTrim parameterTrim = new ParameterTrim(gridData);
+    parameterTrim.trimRight(alert.getEndTime());
+    return new SumCalculator(parameterTrim.getTrimmed()).getSum() / 25.4;
   }
 }
