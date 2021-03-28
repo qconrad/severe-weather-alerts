@@ -6,6 +6,7 @@ import com.severeweatheralerts.Alerts.NWS.FloodWatch;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
+import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
@@ -97,6 +98,13 @@ public class GraphicFactoryTests {
   public void getType_HighWindWatch_ReturnsWindGusts() {
     HighWindWatch highWindWatch = new HighWindWatch();
     TypeFactory graphicFactory = new TypeFactory(highWindWatch);
+    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
+  }
+
+  @Test
+  public void getType_LakeWindAdvisory_ReturnsWindGusts() {
+    LakeWindAdvisory lakeWindAdvisory = new LakeWindAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(lakeWindAdvisory);
     assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
   }
 }

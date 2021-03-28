@@ -6,6 +6,7 @@ import com.severeweatheralerts.Alerts.NWS.FloodWatch;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
+import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
@@ -27,7 +28,7 @@ public class TypeFactory {
       types.add(new Snowfall());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
       types.add(new Rainfall());
-    else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch)
+    else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
       types.add(new WindGusts());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch)
       types.add(new SPCOutlook());
