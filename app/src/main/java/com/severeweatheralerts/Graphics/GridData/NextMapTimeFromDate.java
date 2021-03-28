@@ -1,6 +1,4 @@
-package com.severeweatheralerts.Graphics;
-
-import com.severeweatheralerts.Graphics.Generators.MapTime;
+package com.severeweatheralerts.Graphics.GridData;
 
 import java.util.ArrayList;
 import java.util.Date;

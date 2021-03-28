@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.Generators.SumCalculator;
+import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 

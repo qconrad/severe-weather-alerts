@@ -1,6 +1,4 @@
-package com.severeweatheralerts.Graphics.Generators;
-
-import com.severeweatheralerts.Graphics.GridData.Parameter;
+package com.severeweatheralerts.Graphics.GridData;
 
 public class SumCalculator {
   private double sum = 0.0;

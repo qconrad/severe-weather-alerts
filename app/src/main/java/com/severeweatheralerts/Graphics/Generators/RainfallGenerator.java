@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
-import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
+import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.Rounder;
+import com.severeweatheralerts.Graphics.GridData.SumCalculator;
+import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
 
@@ -21,9 +24,10 @@ public class RainfallGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
-    urls.add(new URL().getTotalRain(bound, "conus", dateString));
-    urls.add(new URL().getTotalRainPoints(bound, "conus", dateString));
-    urls.add(new URL().getCountyMap(bound));
+    layers.add(new Layer(new URL().getTotalRain(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getCountyMap(bound)));
+    layers.add(new Layer(getZoneOverlay()));
+    layers.add(new Layer(new URL().getTotalRainPoints(bound, "conus", dateString)));
   }
 
   @Override

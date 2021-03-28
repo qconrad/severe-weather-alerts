@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.Generators;
+package com.severeweatheralerts.Graphics.GridData;
 
 import com.severeweatheralerts.TextUtils.DateTimeConverter;
 

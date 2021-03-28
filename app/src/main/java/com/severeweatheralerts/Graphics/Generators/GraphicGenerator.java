@@ -16,6 +16,9 @@ import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.GridData.MapTime;
+import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
@@ -25,7 +28,7 @@ import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
-import com.severeweatheralerts.Networking.FetchServices.ImageListFetch;
+import com.severeweatheralerts.Networking.FetchServices.LayerListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
 
@@ -41,7 +44,7 @@ public abstract class GraphicGenerator {
   private GraphicCompleteListener graphicCompleteListener;
 
   protected final Alert alert;
-  protected ArrayList<String> urls = new ArrayList<>();
+  protected ArrayList<Layer> layers = new ArrayList<>();
   protected Bound bound;
   protected Parameter gridData;
   protected ArrayList<MapTime> mapTimes;
@@ -152,13 +155,12 @@ public abstract class GraphicGenerator {
   }
 
   protected void fetchImages() {
-    ImageListFetch fetchService = new ImageListFetch(context, urls);
+    LayerListFetch fetchService = new LayerListFetch(context, layers);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         ArrayList<Bitmap> bitmaps = (ArrayList<Bitmap>) response;
-        bitmaps.add(new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap());
         Graphic graphic = new Graphic();
         graphic.setSubtext(getSubText());
         graphic.setImage(new BitmapCombiner(bitmaps).combine());
@@ -170,6 +172,10 @@ public abstract class GraphicGenerator {
         graphicCompleteListener.onComplete(null);
       }
     });
+  }
+
+  protected Bitmap getZoneOverlay() {
+    return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap();
   }
 
   protected String getSubText() {

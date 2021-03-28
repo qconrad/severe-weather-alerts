@@ -28,6 +28,7 @@ public class StringListFetch {
   public void fetch(FetchCallback callback) {
     for (i = 0; i < urls.size(); i++) {
       String curUrl = urls.get(i);
+      if (curUrl == null) { fetchedCount++; continue; }
       FetchService fetchService = getFetchService(curUrl);
       fetchService.setUserAgent(userAgent);
       fetchService.fetch(new FetchCallback() {

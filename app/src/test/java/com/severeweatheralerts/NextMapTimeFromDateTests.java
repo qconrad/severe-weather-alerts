@@ -1,7 +1,7 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.Generators.MapTime;
-import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
+import com.severeweatheralerts.Graphics.GridData.MapTime;
+import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 
 import org.junit.Test;
 

@@ -3,6 +3,8 @@ package com.severeweatheralerts.Graphics.Generators;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 
 public class SPCOutlookGenerator extends GraphicGenerator {
@@ -14,8 +16,9 @@ public class SPCOutlookGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = mapTimes.get(0).getString();
-    urls.add(new URL().getSpcOutlook(bound, "conus", dateString));
-    urls.add(new URL().getCountyMap(bound));
-    urls.add(new URL().getSpcOutlookPoints(bound, "conus", dateString));
+    layers.add(new Layer(new URL().getSpcOutlook(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getCountyMap(bound)));
+    layers.add(new Layer(getZoneOverlay()));
+    layers.add(new Layer(new URL().getSpcOutlookPoints(bound, "conus", dateString)));
   }
 }

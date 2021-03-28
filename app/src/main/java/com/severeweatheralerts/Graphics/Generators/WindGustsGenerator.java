@@ -6,7 +6,9 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Maximum;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
-import com.severeweatheralerts.Graphics.NextMapTimeFromDate;
+import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
+import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 
 public class WindGustsGenerator extends GraphicGenerator {
@@ -19,9 +21,10 @@ public class WindGustsGenerator extends GraphicGenerator {
   @Override
   protected void getURLs() {
     String dateString = new NextMapTimeFromDate(mapTimes, getMaxGust().getDate()).getMapTime().getString();
-    urls.add(new URL().getWindGusts(bound, "conus", dateString));
-    urls.add(new URL().getWindGustsPoints(bound, "conus", dateString));
-    urls.add(new URL().getCountyMap(bound));
+    layers.add(new Layer(new URL().getWindGusts(bound, "conus", dateString)));
+    layers.add(new Layer(new URL().getCountyMap(bound)));
+    layers.add(new Layer(getZoneOverlay()));
+    layers.add(new Layer(new URL().getWindGustsPoints(bound, "conus", dateString)));
   }
 
   @Override

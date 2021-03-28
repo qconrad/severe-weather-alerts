@@ -1,6 +1,6 @@
 package com.severeweatheralerts.JSONParsing;
 
-import com.severeweatheralerts.Graphics.Generators.MapTime;
+import com.severeweatheralerts.Graphics.GridData.MapTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
