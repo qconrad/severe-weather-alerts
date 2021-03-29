@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 
@@ -73,5 +74,29 @@ public class MessageAdapterTests {
     mockAlertMessage.put("name", "Tornado Watch");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("Tornado Watch", messageAdapter.getAlert().getName());
+  }
+
+  @Test
+  public void getAlert_AlertTypeProvided_getTypeReturnsPost() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("type", "Alert");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(Alert.Type.POST, messageAdapter.getAlert().getType());
+  }
+
+  @Test
+  public void getAlert_UpdateTypeProvided_TypeIsUpdate() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("type", "Update");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(Alert.Type.UPDATE, messageAdapter.getAlert().getType());
+  }
+
+  @Test
+  public void getAlert_CancelTypeProvided_TypeIsCancel() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("type", "Cancel");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(Alert.Type.CANCEL, messageAdapter.getAlert().getType());
   }
 }

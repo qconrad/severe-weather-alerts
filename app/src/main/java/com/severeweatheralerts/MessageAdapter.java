@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Adapters.TypeAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
 
@@ -17,6 +18,7 @@ public class MessageAdapter {
     alert.setName(alertMessage.get("name"));
     alert.setDescription(alertMessage.get("description"));
     alert.setInstruction(alertMessage.get("instruction"));
+    alert.setType(new TypeAdapter(alertMessage.get("type")).adaptType());
     return alert;
   }
 }
