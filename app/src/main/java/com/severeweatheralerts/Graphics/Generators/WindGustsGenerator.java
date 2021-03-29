@@ -36,14 +36,11 @@ public class WindGustsGenerator extends GraphicGenerator {
     return (int) (getMaxGust().getValue() / 1.609);
   }
 
-  private ForecastTime maxGust = null;
   private ForecastTime getMaxGust() {
-    if (maxGust == null)
-      maxGust = new Maximum(new ParameterTrim(gridData)
+    return new Maximum(new ParameterTrim(gridData)
               .trimLeft(alert.getStartTime())
               .trimRight(alert.getEndTime())
               .getTrimmed())
               .get();
-    return maxGust;
   }
 }

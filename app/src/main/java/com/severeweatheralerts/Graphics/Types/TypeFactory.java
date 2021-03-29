@@ -3,6 +3,9 @@ package com.severeweatheralerts.Graphics.Types;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodWatch;
+import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
+import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -29,6 +32,8 @@ public class TypeFactory {
       if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
         types.add(new WindGusts());
     }
+    else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning)
+      types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
       types.add(new Rainfall());
     else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)

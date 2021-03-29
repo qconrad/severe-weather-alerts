@@ -3,6 +3,9 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodWatch;
+import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
+import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -13,6 +16,7 @@ import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.Lows;
 import com.severeweatheralerts.Graphics.Types.Rainfall;
 import com.severeweatheralerts.Graphics.Types.SPCOutlook;
 import com.severeweatheralerts.Graphics.Types.Snowfall;
@@ -122,5 +126,26 @@ public class GraphicFactoryTests {
     winterStormWarning.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning);
     assertEquals(1, graphicFactory.getTypes().size());
+  }
+
+  @Test
+  public void getType_FrostAdvisoryProvided_ReturnsLows() {
+    FrostAdvisory frostAdvisory = new FrostAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(frostAdvisory);
+    assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FreezeWatchProvided_ReturnsLows() {
+    FreezeWatch freezeWatch = new FreezeWatch();
+    TypeFactory graphicFactory = new TypeFactory(freezeWatch);
+    assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FreezeWarningProvided_ReturnsLows() {
+    FreezeWarning freezeWarning = new FreezeWarning();
+    TypeFactory graphicFactory = new TypeFactory(freezeWarning);
+    assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
   }
 }
