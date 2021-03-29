@@ -19,12 +19,14 @@ public class NotificationSender {
   }
 
   public void send() {
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(alert);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
-            .setContentTitle(alert.getName())
             .setSmallIcon(alert.getIcon())
+            .setContentTitle(alert.getName())
+            .setContentText(notificationContentGenerator.getShortText())
             .setColor(alert.getColor())
-            .setContentText("Content text")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            .setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(notificationContentGenerator.getLongText()));
 
     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
     notificationManager.notify(0, builder.build());
