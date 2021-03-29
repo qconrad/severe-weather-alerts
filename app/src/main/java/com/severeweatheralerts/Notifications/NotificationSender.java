@@ -29,6 +29,6 @@ public class NotificationSender {
                     .bigText(notificationContent.getLongText()));
 
     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-    notificationManager.notify(0, builder.build());
+    notificationManager.notify(alert.getName().hashCode(), builder.build());
   }
 }
