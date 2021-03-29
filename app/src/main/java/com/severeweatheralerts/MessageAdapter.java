@@ -8,6 +8,8 @@ import com.severeweatheralerts.Alerts.AlertFactory;
 
 import java.util.Map;
 
+import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
+
 public class MessageAdapter {
   private final Map<String, String> message;
 
@@ -18,8 +20,8 @@ public class MessageAdapter {
   public Alert getAlert() {
     Alert alert = new AlertFactory().getAlert(message.get("name"));
     alert.setName(message.get("name"));
-    alert.setDescription(new DescriptionHeadlineRemover(message.get("description")).removeHeadlinesFromDescription());
-    alert.setInstruction(message.get("instruction"));
+    alert.setDescription(new DescriptionHeadlineRemover(beautify(message.get("description"))).removeHeadlinesFromDescription());
+    alert.setInstruction(beautify(message.get("instruction")));
     alert.setType(new TypeAdapter(message.get("type")).adaptType());
     HeadlineAdapter headlineAdapter = new HeadlineAdapter(message.get("nwsHeadline"), message.get("description"));
     alert.setLargeHeadline(headlineAdapter.getLargeHeadline());

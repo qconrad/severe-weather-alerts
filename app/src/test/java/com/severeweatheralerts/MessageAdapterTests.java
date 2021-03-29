@@ -156,4 +156,20 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("Text", messageAdapter.getAlert().getDescription());
   }
+
+  @Test
+  public void getAlert_DescriptionProvided_Beautified() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("description", "This is hard wrapped text\nfor some weird reason.");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("This is hard wrapped text for some weird reason.", messageAdapter.getAlert().getDescription());
+  }
+
+  @Test
+  public void getAlert_InstructionProvided_Beautified() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("instruction", "This is hard wrapped text\nfor some weird reason.");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("This is hard wrapped text for some weird reason.", messageAdapter.getAlert().getInstruction());
+  }
 }
