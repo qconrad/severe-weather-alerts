@@ -1,7 +1,7 @@
 package com.severeweatheralerts.Adapters;
 
 public class DescriptionHeadlineRemover {
-  private String description;
+  private final String description;
 
   public DescriptionHeadlineRemover(String description) {
     this.description = description;

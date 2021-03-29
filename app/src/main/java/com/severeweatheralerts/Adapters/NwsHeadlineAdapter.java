@@ -33,10 +33,10 @@ public class NwsHeadlineAdapter {
   }
 
   private String smallHeadlineFormat() {
-    return replaceEllipsesWithCommas(multilineSeperateHeadlines());
+    return replaceEllipsesWithCommas(multilineSeparateHeadlines());
   }
 
-  private String multilineSeperateHeadlines() {
+  private String multilineSeparateHeadlines() {
     return nwsHeadline.replaceAll("\\.\\.\\. \\.\\.\\.", "\n\n");
   }
 

@@ -62,19 +62,9 @@ public class AlertAdapter {
   }
 
   private void adaptHeadlines(UnadaptedAlert ua, Alert al) {
-    adaptNwsHeadline(ua, al);
-    adaptDescriptionHeadline(ua, al);
-  }
-
-  private void adaptDescriptionHeadline(UnadaptedAlert ua, Alert al) {
-    String descHeadline = new DescriptionHeadlineAdapter(ua.getDescription()).adaptDescriptionHeadline();
-    if (descHeadline != null) al.setLargeHeadline(descHeadline);
-  }
-
-  private void adaptNwsHeadline(UnadaptedAlert ua, Alert al) {
-    NwsHeadlineAdapter nwsHa = new NwsHeadlineAdapter(ua.getNwsHeadline());
-    al.setLargeHeadline(nwsHa.adaptNwsHeadlineLarge());
-    al.setSmallHeadline(nwsHa.adaptNwsHeadlineSmall());
+    HeadlineAdapter headlineAdapter = new HeadlineAdapter(ua.getNwsHeadline(), ua.getDescription());
+    al.setLargeHeadline(headlineAdapter.getLargeHeadline());
+    al.setSmallHeadline(headlineAdapter.getSmallHeadline());
   }
 
   private void removeHeadlinesFromDescription(Alert al) {
