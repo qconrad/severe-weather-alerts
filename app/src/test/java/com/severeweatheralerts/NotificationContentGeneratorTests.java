@@ -1,6 +1,9 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
+import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Notifications.NotificationContentGenerator;
 
 import org.junit.Test;
@@ -63,7 +66,7 @@ public class NotificationContentGeneratorTests {
   }
 
   @Test
-  public void getLongText_onlyDescriptionProvided_ShortTextNull() {
+  public void getShortText_onlyDescriptionProvided_ShortTextNull() {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setDescription("This is a description.");
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(defaultAlert);
@@ -71,7 +74,7 @@ public class NotificationContentGeneratorTests {
   }
 
   @Test
-  public void getLongText_largeHeadlineProvided_ShortTextIsThatHeadline() {
+  public void getShortText_largeHeadlineProvided_ShortTextIsThatHeadline() {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setLargeHeadline("Large headline");
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(defaultAlert);
@@ -79,7 +82,7 @@ public class NotificationContentGeneratorTests {
   }
 
   @Test
-  public void getLongText_smallHeadlineProvided_ShortTextIsThatHeadline() {
+  public void getShortText_smallHeadlineProvided_ShortTextIsThatHeadline() {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setSmallHeadline("Small headline");
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(defaultAlert);
@@ -87,11 +90,47 @@ public class NotificationContentGeneratorTests {
   }
 
   @Test
-  public void getLongText_BothHeadlinesProvided_ShortTextIsLargeHeadline() {
+  public void getShortText_BothHeadlinesProvided_ShortTextIsLargeHeadline() {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setLargeHeadline("Large headline");
     defaultAlert.setSmallHeadline("Small headline");
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(defaultAlert);
     assertEquals("Large headline", notificationContentGenerator.getShortText());
+  }
+
+  @Test
+  public void getTitleText_TypeIsPost_TitleIsEventName() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setName("Tornado Warning");
+    tornadoWarning.setType(Alert.Type.POST);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    assertEquals("Tornado Warning", notificationContentGenerator.getTitleText());
+  }
+
+  @Test
+  public void getTitleText_DifferentEvent_TitleIsEventName() {
+    TornadoWatch tornadoWarning = new TornadoWatch();
+    tornadoWarning.setName("Tornado Watch");
+    tornadoWarning.setType(Alert.Type.POST);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    assertEquals("Tornado Watch", notificationContentGenerator.getTitleText());
+  }
+
+  @Test
+  public void getTitleText_TypeIsUpdate_TitleHasUpdateInText() {
+    TornadoWatch tornadoWarning = new TornadoWatch();
+    tornadoWarning.setName("Tornado Watch");
+    tornadoWarning.setType(Alert.Type.UPDATE);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    assertEquals("Tornado Watch Update", notificationContentGenerator.getTitleText());
+  }
+
+  @Test
+  public void getTitleText_TypeIsCancel_TitleIsCorrect() {
+    TornadoWatch tornadoWarning = new TornadoWatch();
+    tornadoWarning.setName("Tornado Watch");
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    assertEquals("Tornado Watch Update", notificationContentGenerator.getTitleText());
   }
 }

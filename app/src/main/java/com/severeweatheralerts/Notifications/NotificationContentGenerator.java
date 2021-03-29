@@ -3,12 +3,16 @@ package com.severeweatheralerts.Notifications;
 import com.severeweatheralerts.Alerts.Alert;
 
 public class NotificationContentGenerator {
+  private final String name;
+  private final Alert.Type type;
   private final String largeHeadline;
   private final String smallHeadline;
   private final String description;
   private final String instruction;
 
   public NotificationContentGenerator(Alert alert) {
+    name = alert.getName();
+    type = alert.getType();
     description = alert.getDescription();
     largeHeadline = alert.getLargeHeadline();
     smallHeadline = alert.getSmallHeadline();
@@ -34,4 +38,8 @@ public class NotificationContentGenerator {
     return largeHeadline != null;
   }
 
+  public String getTitleText() {
+    if (type == Alert.Type.POST) return name;
+    return name + " Update";
+  }
 }
