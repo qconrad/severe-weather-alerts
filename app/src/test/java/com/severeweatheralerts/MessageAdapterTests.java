@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MessageAdapterTests {
   @Test
@@ -98,5 +99,61 @@ public class MessageAdapterTests {
     mockAlertMessage.put("type", "Cancel");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals(Alert.Type.CANCEL, messageAdapter.getAlert().getType());
+  }
+
+  @Test
+  public void getAlert_nwsHeadlineProvided_IsLargeHeadline() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "Big storm coming");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("Big storm coming", messageAdapter.getAlert().getLargeHeadline());
+  }
+
+  @Test
+  public void getAlert_differentNwsHeadlineProvided_IsLargeHeadline() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "A bigger storm coming");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("A bigger storm coming", messageAdapter.getAlert().getLargeHeadline());
+  }
+
+  @Test
+  public void getAlert_differentNwsHeadlineProvided_IsSmallHeadline() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "WINTER STORM WARNING IN EFFECT UNTIL 3AM TODAY");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("WINTER STORM WARNING IN EFFECT UNTIL 3AM TODAY", messageAdapter.getAlert().getSmallHeadline());
+  }
+
+  @Test
+  public void getAlert_differentSmallNwsHeadlineProvided_IsSmallHeadline() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "WINTER STORM WARNING REMAINS IN EFFECT UNTIL 4AM TODAY");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("WINTER STORM WARNING REMAINS IN EFFECT UNTIL 4AM TODAY", messageAdapter.getAlert().getSmallHeadline());
+  }
+
+  @Test
+  public void getAlert_differentSmallNwsHeadlineProvided_LargeHeadlineNull() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "WINTER STORM WARNING REMAINS IN EFFECT UNTIL 4AM TODAY");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNull(messageAdapter.getAlert().getLargeHeadline());
+  }
+
+  @Test
+  public void getAlert_NwsHeadlineProvided_SmallHeadlineNull() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("nwsHeadline", "A bigger storm coming");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNull(messageAdapter.getAlert().getSmallHeadline());
+  }
+
+  @Test
+  public void getAlert_DescriptionHeadlineProvided_RemovedFromDescription() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("description", "...Major storm coming...\n\nText");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("Text", messageAdapter.getAlert().getDescription());
   }
 }
