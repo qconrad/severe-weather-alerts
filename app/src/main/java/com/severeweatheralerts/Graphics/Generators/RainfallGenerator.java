@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Generators;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
@@ -17,10 +18,17 @@ import java.util.Date;
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
 
 public class RainfallGenerator extends GraphicGenerator {
+  private double rainfallAmount;
+
   public RainfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
     mapTimeParameter = "totalqpf";
     gridParameter = "quantitativePrecipitation";
+  }
+
+  @Override
+  protected void gridDataAvailable(Parameter gridData) {
+    rainfallAmount = new Rounder(mmToIn(getRainfall(gridData)), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
   }
 
   @Override
@@ -34,14 +42,18 @@ public class RainfallGenerator extends GraphicGenerator {
 
   @Override
   protected String getSubText() {
-    double rainfallAmt = new Rounder(getRainfallInches(), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
-    return rainfallAmt + new Plurality(rainfallAmt, " inch", " inches").getText();
+    return rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText();
   }
 
-  private double getRainfallInches() {
-    ParameterTrim parameterTrim = new ParameterTrim(gridData);
-    parameterTrim.trimLeft(new Date());
-    parameterTrim.trimRight(alert.getEndTime());
-    return new SumCalculator(parameterTrim.getTrimmed()).getSum() / 25.4;
+  private double mmToIn(double value) {
+    return value / 25.4;
+  }
+
+  private double getRainfall(Parameter gridData) {
+    return new SumCalculator(new ParameterTrim(gridData)
+              .trimLeft(new Date())
+              .trimRight(alert.getEndTime())
+              .getTrimmed())
+              .getSum();
   }
 }

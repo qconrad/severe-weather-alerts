@@ -47,13 +47,13 @@ public abstract class GraphicGenerator {
   protected final Alert alert;
   protected ArrayList<Layer> layers = new ArrayList<>();
   protected Bound bound;
-  protected Parameter gridData;
   protected ArrayList<MapTime> mapTimes;
 
   protected String gridParameter;
   protected String mapTimeParameter;
 
   protected abstract void getURLs();
+  protected void gridDataAvailable(Parameter gridData) {}
 
   public GraphicGenerator(Context context, Alert alert, Location location) {
     this.context = context;
@@ -135,7 +135,7 @@ public abstract class GraphicGenerator {
   }
 
   private void parseGridData(Object response) {
-    try { gridData = new GridDataParser(response.toString()).getParameter(gridParameter); }
+    try { gridDataAvailable(new GridDataParser(response.toString()).getParameter(gridParameter)); }
     catch (JSONException e) { graphicCompleteListener.onComplete(null); }
   }
 

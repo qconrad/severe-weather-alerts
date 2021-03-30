@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Generators;
 import android.content.Context;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
@@ -17,10 +18,17 @@ import java.util.Date;
 import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
 
 public class SnowfallGenerator extends GraphicGenerator {
+  private double snowfallAmount;
+
   public SnowfallGenerator(Context context, Alert alert, Location location) {
     super(context, alert, location);
     mapTimeParameter = "snowamt";
     gridParameter = "snowfallAmount";
+  }
+
+  @Override
+  protected void gridDataAvailable(Parameter gridData) {
+    snowfallAmount = new Rounder(mmToIn(getSnowfall(gridData)), SNOWFALL_AMOUNT_DECIMAL_PLACES).getRounded();
   }
 
   @Override
@@ -34,14 +42,18 @@ public class SnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected String getSubText() {
-    double snowfallAmt = new Rounder(getSnowfallInches(), SNOWFALL_AMOUNT_DECIMAL_PLACES).getRounded();
-    return snowfallAmt + new Plurality(snowfallAmt, " inch", " inches").getText();
+    return snowfallAmount + new Plurality(snowfallAmount, " inch", " inches").getText();
   }
 
-  private double getSnowfallInches() {
-    ParameterTrim parameterTrim = new ParameterTrim(gridData);
-    parameterTrim.trimLeft(new Date());
-    parameterTrim.trimRight(alert.getEndTime());
-    return new SumCalculator(parameterTrim.getTrimmed()).getSum() / 25.4;
+  private double mmToIn(double value) {
+    return value / 25.4;
+  }
+
+  private double getSnowfall(Parameter gridData) {
+    return new SumCalculator(new ParameterTrim(gridData)
+            .trimLeft(new Date())
+            .trimRight(alert.getEndTime())
+            .getTrimmed())
+            .getSum();
   }
 }
