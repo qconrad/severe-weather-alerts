@@ -16,6 +16,7 @@ import com.severeweatheralerts.TextUtils.Plurality;
 import java.util.Date;
 
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
+import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
 
 public class RainfallGenerator extends GraphicGenerator {
   private double rainfallAmount;
@@ -43,10 +44,6 @@ public class RainfallGenerator extends GraphicGenerator {
   @Override
   protected String getSubText() {
     return rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText();
-  }
-
-  private double mmToIn(double value) {
-    return value / 25.4;
   }
 
   private double getRainfall(Parameter gridData) {

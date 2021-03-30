@@ -14,6 +14,8 @@ import com.severeweatheralerts.Location.Location;
 
 import java.util.Date;
 
+import static com.severeweatheralerts.Graphics.UnitConverter.kphToMph;
+
 public class WindGustsGenerator extends GraphicGenerator {
   private ForecastTime maxGust;
 
@@ -40,10 +42,6 @@ public class WindGustsGenerator extends GraphicGenerator {
   @Override
   protected String getSubText() {
     return Math.round(kphToMph(maxGust.getValue())) + " mph";
-  }
-
-  private double kphToMph(double value) {
-    return value / 1.609;
   }
 
   private ForecastTime getMaxGust(Parameter gridData) {

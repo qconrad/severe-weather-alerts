@@ -16,6 +16,7 @@ import com.severeweatheralerts.TextUtils.Plurality;
 import java.util.Date;
 
 import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
+import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
 
 public class SnowfallGenerator extends GraphicGenerator {
   private double snowfallAmount;
@@ -45,15 +46,11 @@ public class SnowfallGenerator extends GraphicGenerator {
     return snowfallAmount + new Plurality(snowfallAmount, " inch", " inches").getText();
   }
 
-  private double mmToIn(double value) {
-    return value / 25.4;
-  }
-
   private double getSnowfall(Parameter gridData) {
     return new SumCalculator(new ParameterTrim(gridData)
-            .trimLeft(new Date())
-            .trimRight(alert.getEndTime())
-            .getTrimmed())
-            .getSum();
+              .trimLeft(new Date())
+              .trimRight(alert.getEndTime())
+              .getTrimmed())
+              .getSum();
   }
 }

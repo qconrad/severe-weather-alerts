@@ -12,6 +12,8 @@ import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 
+import static com.severeweatheralerts.Graphics.UnitConverter.cToF;
+
 public class LowsGenerator extends GraphicGenerator {
   private ForecastTime expectedLow;
 
@@ -38,10 +40,6 @@ public class LowsGenerator extends GraphicGenerator {
   @Override
   protected String getSubText() {
     return Math.round(cToF(expectedLow.getValue())) + "°F";
-  }
-
-  private double cToF(double value) {
-    return value * (9.0/5.0) + 32;
   }
 
   private ForecastTime getLow(Parameter gridData) {
