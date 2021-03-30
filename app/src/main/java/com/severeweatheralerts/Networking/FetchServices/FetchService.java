@@ -2,6 +2,7 @@ package com.severeweatheralerts.Networking.FetchServices;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -18,7 +19,7 @@ public abstract class FetchService {
   }
 
   public void fetch(FetchCallback callback) {
-    addRequestToQueue(getRequestQueue(), getRequest(callback));
+    addRequestToQueue(getRequestQueue(), getRequest(callback).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 3, 1.25f)));
   }
 
   public void setUserAgent(String userAgent) {

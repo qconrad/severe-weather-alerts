@@ -55,6 +55,10 @@ public abstract class GraphicGenerator {
   protected abstract void getURLs();
   protected void gridDataAvailable(Parameter gridData) {}
 
+  protected String getSubText() {
+    return null;
+  }
+
   public GraphicGenerator(Context context, Alert alert, Location location) {
     this.context = context;
     this.alert = alert;
@@ -184,10 +188,6 @@ public abstract class GraphicGenerator {
 
   protected String getRegion() {
     return new MapRegion(alert.getSenderCode()).get();
-  }
-
-  protected String getSubText() {
-    return null;
   }
 
   private MercatorCoordinate getMercatorCoordinate() {
