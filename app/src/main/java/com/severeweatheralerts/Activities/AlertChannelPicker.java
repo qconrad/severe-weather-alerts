@@ -1,47 +1,143 @@
 package com.severeweatheralerts.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.ChannelPreferences;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 
 public class AlertChannelPicker extends AppCompatActivity {
-  LayoutInflater inflater;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
-    inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    View alertPreference = createAlertPreference("Tornado Warning", 0);
-    View alertPreference2 = createAlertPreference("Different Warning", 1);
-    LinearLayout viewById = findViewById(R.id.preference_stack);
-    viewById.addView(alertPreference);
-    viewById.addView(alertPreference2);
+    inflatePreferenceList();
   }
 
-  private View createAlertPreference(String alertName, int index) {
-    View preferenceView = inflater.inflate(R.layout.alert_preference, null);
-    TextView prefText = preferenceView.findViewById(R.id.alert_pref_text);
-    Button postButton = preferenceView.findViewById(R.id.post_button);
-    Button updateButton = preferenceView.findViewById(R.id.update_button);
-    Button cancelButton = preferenceView.findViewById(R.id.cancel_button);
-    postButton.setTag(index);
-    updateButton.setTag(index);
-    cancelButton.setTag(index);
-    ChannelPreferences channelPreferences = new ChannelPreferences();
-    postButton.setText(channelPreferences.getChannel(Alert.Type.POST, alertName).toString());
-    updateButton.setText(channelPreferences.getChannel(Alert.Type.UPDATE, alertName).toString());
-    cancelButton.setText(channelPreferences.getChannel(Alert.Type.CANCEL, alertName).toString());
-    prefText.setText(alertName);
-    return preferenceView;
+  private void inflatePreferenceList() {
+    RecyclerView view = findViewById(R.id.preference_stack);
+    view.setLayoutManager(new LinearLayoutManager(this));
+    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, null);
+    view.setAdapter(preferenceAdapter);
   }
+
+  String[] alerts = {"Tornado Warning",
+          "Volcano Warning",
+          "Extreme Wind Warning",
+          "Hurricane Warning",
+          "Hurricane Force Wind Warning",
+          "Storm Surge Warning",
+          "Tsunami Warning",
+          "Typhoon Warning",
+          "Severe Thunderstorm Warning",
+          "Snow Squall Warning",
+          "Dust Storm Warning",
+          "Blizzard Warning",
+          "Ice Storm Warning",
+          "Tropical Storm Warning",
+          "Storm Warning",
+          "Flash Flood Warning",
+          "Avalanche Warning",
+          "Flood Warning",
+          "Special Marine Warning",
+          "Tornado Watch",
+          "Tsunami Watch",
+          "Blizzard Watch",
+          "Severe Thunderstorm Watch",
+          "Hurricane Watch",
+          "Hurricane Force Wind Watch",
+          "Heavy Freezing Spray Warning",
+          "Lake Effect Snow Warning",
+          "Winter Storm Warning",
+          "Ashfall Warning",
+          "Earthquake Warning",
+          "Extreme Cold Warning",
+          "Wind Chill Warning",
+          "High Wind Warning",
+          "Excessive Heat Warning",
+          "Red Flag Warning",
+          "Extreme Fire Danger",
+          "Special Weather Statement",
+          "Tropical Storm Watch",
+          "Storm Surge Watch",
+          "Storm Watch",
+          "Typhoon Watch",
+          "Lake Effect Snow Watch",
+          "Winter Storm Watch",
+          "Heavy Freezing Spray Watch",
+          "Flash Flood Watch",
+          "Extreme Cold Watch",
+          "Wind Chill Watch",
+          "Excessive Heat Watch",
+          "High Wind Watch",
+          "Flood Watch",
+          "Fire Weather Watch",
+          "Avalanche Watch",
+          "Hard Freeze Warning",
+          "Freeze Warning",
+          "Hard Freeze Watch",
+          "Freeze Watch",
+          "Hurricane Local Statement",
+          "Typhoon Local Statement",
+          "Tropical Depression Local Statement",
+          "Tropical Storm Local Statement",
+          "Tsunami Advisory",
+          "Avalanche Advisory",
+          "Lakeshore Flood Warning",
+          "Coastal Flood Warning",
+          "High Surf Warning",
+          "Lake Effect Snow Advisory",
+          "Winter Weather Advisory",
+          "Freezing Spray Advisory",
+          "Freezing Rain Advisory",
+          "Freezing Fog Advisory",
+          "Heat Advisory",
+          "Wind Chill Advisory",
+          "Wind Advisory",
+          "Blowing Dust Advisory",
+          "Blowing Dust Warning",
+          "Dust Advisory",
+          "Ashfall Advisory",
+          "Dense Smoke Advisory",
+          "Dense Fog Advisory",
+          "Gale Warning",
+          "Hazardous Seas Warning",
+          "Lakeshore Flood Advisory",
+          "Lakeshore Flood Statement",
+          "Coastal Flood Advisory",
+          "Coastal Flood Statement",
+          "Frost Advisory",
+          "High Surf Advisory",
+          "Rip Current Statement",
+          "Beach Hazards Statement",
+          "Marine Weather Statement",
+          "Gale Watch",
+          "Lakeshore Flood Watch",
+          "Hazardous Seas Watch",
+          "Coastal Flood Watch",
+          "Small Craft Advisory",
+          "Flood Advisory",
+          "Lake Wind Advisory",
+          "Brisk Wind Advisory",
+          "Fire Warning",
+          "Evacuation - Immediate",
+          "Civil Danger Warning",
+          "Civil Emergency Message",
+          "Child Abduction Emergency",
+          "Shelter In Place Warning",
+          "Nuclear Power Plant Warning",
+          "Radiological Hazard Warning",
+          "Hazardous Materials Warning",
+          "911 Telephone Outage Emergency",
+          "Administrative Message",
+          "Law Enforcement Warning",
+          "Local Area Emergency",
+          "Low Water Advisory",
+          "Air Quality Alert",
+          "Air Stagnation Advisory",
+          "Short Term Forecast",
+          "Hydrologic Advisory",
+          "Hydrologic Outlook"};
 }
