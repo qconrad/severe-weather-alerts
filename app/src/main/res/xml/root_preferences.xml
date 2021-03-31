@@ -14,20 +14,22 @@
             app:useSimpleSummaryProvider="true" />
 
         <Preference
-            app:title="Severity Preferences"
-            app:summary="Map severities of alerts to notification channels"/>
+            app:title="Notification Preferences"
+            app:key="severepref"
+            app:summary="Map alerts to notification channels"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="More Locations">
-        <Preference
-            app:enabled="false"
-            app:title="Add/Change Other Locations"/>
-    </PreferenceCategory>
     <PreferenceCategory app:title="Notification Channels">
         <Preference
             app:title="Open Notification Channels"
-            app:summary="Change the behavior of how alerts appear and sound"/>
+            app:key="channels"
+            app:summary="Change the behavior of how notifications appear and sound"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="About">
+        <Preference app:title="Privacy Policy" />
+        <Preference app:title="Icon Attribution" />
     </PreferenceCategory>
 
 </PreferenceScreen>
