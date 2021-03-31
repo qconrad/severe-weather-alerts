@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Activities.AlertChannelPicker">
 
+    <LinearLayout
+        android:id="@+id/preference_stack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
