@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.ChannelPreferences;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 
 public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {

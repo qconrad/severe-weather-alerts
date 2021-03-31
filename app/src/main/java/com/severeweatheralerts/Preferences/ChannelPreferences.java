@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Preferences;
 
 import com.severeweatheralerts.Alerts.Alert;
 

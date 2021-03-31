@@ -16,7 +16,7 @@ public class PreferenceHolder extends ViewHolder {
 
   public PreferenceHolder(View view) {
     super(view);
-    alertName = view.findViewById(R.id.alert_pref_text);
+    alertName = view.findViewById(R.id.channel_preference_text);
     post = view.findViewById(R.id.post_button);
     update = view.findViewById(R.id.update_button);
     cancel = view.findViewById(R.id.cancel_button);

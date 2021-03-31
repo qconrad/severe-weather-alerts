@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Preferences;
 
 public enum Channel {
   NONE,
