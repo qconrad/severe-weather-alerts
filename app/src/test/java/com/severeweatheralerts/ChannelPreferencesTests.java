@@ -137,4 +137,32 @@ public class ChannelPreferencesTests {
     channelPreferences.setChannel(0, POST, "Tornado Warning", NONE);
     assertEquals(NONE, channelPreferences.getChannel(0, POST, "Tornado Warning"));
   }
+
+  @Test
+  public void getUserMap_Size0() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    assertEquals(0, channelPreferences.getUserMap().size());
+  }
+
+  @Test
+  public void getUserMap_Size1() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel(0, POST, "Tornado Warning", NONE);
+    assertEquals(1, channelPreferences.getUserMap().size());
+  }
+
+  @Test
+  public void getUserMap_setToDefault_Size0() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel(0, POST, "Tornado Warning", EXTREME);
+    assertEquals(0, channelPreferences.getUserMap().size());
+  }
+
+  @Test
+  public void getUserMap_setToHighThenDefaultDefault_Size0() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel(0, POST, "Tornado Warning", HIGH);
+    channelPreferences.setChannel(0, POST, "Tornado Warning", EXTREME);
+    assertEquals(0, channelPreferences.getUserMap().size());
+  }
 }

@@ -19,11 +19,16 @@ public class ChannelPreferences {
   public Channel getChannel(int locationIndex, Type type, String alertName) {
     String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
     if (userMap.containsKey(preferenceString)) return userMap.get(preferenceString);
-    return getDefault(alertName, type);
+    return getDefaultMapping(alertName, type);
   }
 
-  private Channel getDefault(String name, Type type) {
-    Channel[] alertMap = getAlertMap(name);
+  private void deleteUserMapping(int locationIndex, Type type, String alertName) {
+    String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
+    userMap.remove(preferenceString);
+  }
+
+  private Channel getDefaultMapping(String alertName, Type type) {
+    Channel[] alertMap = getAlertMap(alertName);
     if (alertMap == null) return DEFAULT_UNKNOWN;
     else if (type == UPDATE) return getUpdate(alertMap);
     else if (type == CANCEL) return getCancel(alertMap);
@@ -31,8 +36,13 @@ public class ChannelPreferences {
   }
 
   public void setChannel(int locationIndex, Type type, String alertName, Channel channel) {
-    String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
-    userMap.put(preferenceString, channel);
+    deleteUserMapping(locationIndex, type, alertName);
+    if (getDefaultMapping(alertName, type) != channel)
+      userMap.put(new PreferenceStringGenerator(locationIndex, type, alertName).getString(), channel);
+  }
+
+  public HashMap<String, Channel> getUserMap() {
+    return userMap;
   }
 
   private Channel getPost(Channel[] alertMap) { return alertMap[0]; }
