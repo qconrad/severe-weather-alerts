@@ -17,14 +17,9 @@ public class ChannelPreferences {
   }
 
   public Channel getChannel(int locationIndex, Type type, String alertName) {
-    String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
+    String preferenceString = getPreferenceString(locationIndex, type, alertName);
     if (userMap.containsKey(preferenceString)) return userMap.get(preferenceString);
     return getDefaultMapping(alertName, type);
-  }
-
-  private void deleteUserMapping(int locationIndex, Type type, String alertName) {
-    String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
-    userMap.remove(preferenceString);
   }
 
   private Channel getDefaultMapping(String alertName, Type type) {
@@ -36,9 +31,24 @@ public class ChannelPreferences {
   }
 
   public void setChannel(int locationIndex, Type type, String alertName, Channel channel) {
-    deleteUserMapping(locationIndex, type, alertName);
-    if (getDefaultMapping(alertName, type) != channel)
-      userMap.put(new PreferenceStringGenerator(locationIndex, type, alertName).getString(), channel);
+    if (!isDefaultMapping(type, alertName, channel)) addUserMapping(locationIndex, type, alertName, channel);
+    else deleteUserMapping(locationIndex, type, alertName);
+  }
+
+  private boolean isDefaultMapping(Type type, String alertName, Channel channel) {
+    return getDefaultMapping(alertName, type) == channel;
+  }
+
+  private void addUserMapping(int locationIndex, Type type, String alertName, Channel channel) {
+    userMap.put(getPreferenceString(locationIndex, type, alertName), channel);
+  }
+
+  private void deleteUserMapping(int locationIndex, Type type, String alertName) {
+    userMap.remove(getPreferenceString(locationIndex, type, alertName));
+  }
+
+  private String getPreferenceString(int locationIndex, Type type, String alertName) {
+    return new PreferenceStringGenerator(locationIndex, type, alertName).getString();
   }
 
   public HashMap<String, Channel> getUserMap() {
