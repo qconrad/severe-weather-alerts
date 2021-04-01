@@ -14,15 +14,17 @@ import com.severeweatheralerts.R;
 public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   private final String[] alertList;
   private final ChannelPreferences channelPreferences;
+  private final int locationIndex;
   private PreferenceClickListener clickListener;
 
   public void setClickListener(PreferenceClickListener clickListener) {
     this.clickListener = clickListener;
   }
 
-  public PreferenceAdapter(String[] alertList, ChannelPreferences channelPreferences) {
+  public PreferenceAdapter(String[] alertList, ChannelPreferences channelPreferences, int locationIndex) {
     this.alertList = alertList;
     this.channelPreferences = channelPreferences;
+    this.locationIndex = locationIndex;
   }
 
   @NonNull
@@ -35,6 +37,9 @@ public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   @Override
   public void onBindViewHolder(final PreferenceHolder holder, final int position) {
     holder.alertName.setText(alertList[position]);
+    holder.post.setText(channelPreferences.getChannel(locationIndex, Alert.Type.POST, alertList[position]).toString());
+    holder.update.setText(channelPreferences.getChannel(locationIndex, Alert.Type.UPDATE, alertList[position]).toString());
+    holder.cancel.setText(channelPreferences.getChannel(locationIndex, Alert.Type.CANCEL, alertList[position]).toString());
     holder.post.setOnClickListener(v   -> { if (clickListener != null) clickListener.onClick(Alert.Type.POST, position); });
     holder.update.setOnClickListener(v -> { if (clickListener != null) clickListener.onClick(Alert.Type.UPDATE, position); });
     holder.cancel.setOnClickListener(v -> { if (clickListener != null) clickListener.onClick(Alert.Type.CANCEL, position); });

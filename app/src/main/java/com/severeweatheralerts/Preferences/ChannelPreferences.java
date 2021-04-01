@@ -6,7 +6,7 @@ public class ChannelPreferences {
   public ChannelPreferences() {
   }
 
-  public Channel getChannel(Alert.Type type, String name) {
+  public Channel getChannel(int locationIndex, Alert.Type type, String name) {
     return Channel.HIGH;
   }
 }

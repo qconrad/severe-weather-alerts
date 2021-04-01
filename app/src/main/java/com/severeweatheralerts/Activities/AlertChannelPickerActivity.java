@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 
-public class AlertChannelPicker extends AppCompatActivity {
+public class AlertChannelPickerActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -19,7 +21,10 @@ public class AlertChannelPicker extends AppCompatActivity {
   private void inflatePreferenceList() {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
-    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, null);
+    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, new ChannelPreferences(), 0);
+    preferenceAdapter.setClickListener((type, index) -> {
+      // On click
+    });
     view.setAdapter(preferenceAdapter);
   }
 
