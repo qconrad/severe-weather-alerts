@@ -6,6 +6,8 @@ import com.severeweatheralerts.Alerts.NWS.FloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
 import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -14,6 +16,7 @@ import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 
 import java.util.ArrayList;
@@ -27,12 +30,12 @@ public class TypeFactory {
   }
 
   public ArrayList<GraphicType> getTypes() {
-    if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning) {
+    if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch) {
       types.add(new Snowfall());
       if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
         types.add(new WindGusts());
     }
-    else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning)
+    else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
       types.add(new Rainfall());

@@ -6,6 +6,8 @@ import com.severeweatheralerts.Alerts.NWS.FloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
 import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -14,6 +16,7 @@ import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.Lows;
@@ -146,6 +149,27 @@ public class GraphicFactoryTests {
   public void getType_FreezeWarningProvided_ReturnsLows() {
     FreezeWarning freezeWarning = new FreezeWarning();
     TypeFactory graphicFactory = new TypeFactory(freezeWarning);
+    assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_WinterStormWatch_ReturnsSnowfall() {
+    WinterStormWatch winterStormWatch = new WinterStormWatch();
+    TypeFactory graphicFactory = new TypeFactory(winterStormWatch);
+    assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_HardFreezeWatch_ReturnsLows() {
+    HardFreezeWatch hardFreezeWatch = new HardFreezeWatch();
+    TypeFactory graphicFactory = new TypeFactory(hardFreezeWatch);
+    assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_HardFreezeWarning_ReturnsLows() {
+    HardFreezeWarning hardFreezeWarning = new HardFreezeWarning();
+    TypeFactory graphicFactory = new TypeFactory(hardFreezeWarning);
     assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
   }
 }
