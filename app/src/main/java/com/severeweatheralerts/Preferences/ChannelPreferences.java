@@ -1,7 +1,6 @@
 package com.severeweatheralerts.Preferences;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 import static com.severeweatheralerts.Alerts.Alert.*;
 import static com.severeweatheralerts.Alerts.Alert.Type.*;
@@ -11,12 +10,7 @@ public class ChannelPreferences {
   final Channel DEFAULT_UNKNOWN = MEDIUM;
 
   HashMap<String, Channel[]> defaultMap;
-
-  HashSet<String> noneSet = new HashSet<>();
-  HashSet<String> lowSet = new HashSet<>();
-  HashSet<String> mediumSet = new HashSet<>();
-  HashSet<String> highSet = new HashSet<>();
-  HashSet<String> extremeSet = new HashSet<>();
+  HashMap<String, Channel> userMap = new HashMap<>();
 
   public ChannelPreferences() {
     populateDefaults();
@@ -24,11 +18,7 @@ public class ChannelPreferences {
 
   public Channel getChannel(int locationIndex, Type type, String alertName) {
     String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
-    if (extremeSet.contains(preferenceString)) return EXTREME;
-    else if (highSet.contains(preferenceString)) return HIGH;
-    else if (mediumSet.contains(preferenceString)) return MEDIUM;
-    else if (lowSet.contains(preferenceString)) return LOW;
-    else if (noneSet.contains(preferenceString)) return NONE;
+    if (userMap.containsKey(preferenceString)) return userMap.get(preferenceString);
     return getDefault(alertName, type);
   }
 
@@ -41,15 +31,8 @@ public class ChannelPreferences {
   }
 
   public void setChannel(int locationIndex, Type type, String alertName, Channel channel) {
-    getChannelSet(channel).add(new PreferenceStringGenerator(locationIndex, type, alertName).getString());
-  }
-
-  private HashSet<String> getChannelSet(Channel channel) {
-    if (channel == EXTREME) return extremeSet;
-    else if (channel == HIGH) return highSet;
-    else if (channel == MEDIUM) return mediumSet;
-    else if (channel == LOW) return lowSet;
-    else return noneSet;
+    String preferenceString = new PreferenceStringGenerator(locationIndex, type, alertName).getString();
+    userMap.put(preferenceString, channel);
   }
 
   private Channel getPost(Channel[] alertMap) { return alertMap[0]; }
