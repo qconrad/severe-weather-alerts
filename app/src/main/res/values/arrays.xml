@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="channels">
-        <item>Extreme</item>
-        <item>High</item>
-        <item>Medium</item>
-        <item>Low</item>
         <item>None</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Extreme</item>
     </string-array>
 </resources>
