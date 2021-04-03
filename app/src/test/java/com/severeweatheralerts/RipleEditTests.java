@@ -96,4 +96,30 @@ public class RipleEditTests {
     ripleEdit.horizontalRiple("Tornado Warning", Alert.Type.CANCEL, Channel.LOW);
     assertEquals(Channel.HIGH, channelPreferences.getChannel("Tornado Warning", Alert.Type.UPDATE));
   }
+
+  @Test
+  public void windUpdateSetToExtreme_PostUpgraded() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    RipleEdit ripleEdit = new RipleEdit(channelPreferences);
+    ripleEdit.horizontalRiple("Wind Advisory", Alert.Type.UPDATE, Channel.EXTREME);
+    assertEquals(Channel.EXTREME, channelPreferences.getChannel("Wind Advisory", Alert.Type.POST));
+  }
+
+  @Test
+  public void windCancelSetToExtreme_UpdateUpgraded() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    RipleEdit ripleEdit = new RipleEdit(channelPreferences);
+    ripleEdit.horizontalRiple("Wind Advisory", Alert.Type.CANCEL, Channel.EXTREME);
+    assertEquals(Channel.EXTREME, channelPreferences.getChannel("Wind Advisory", Alert.Type.UPDATE));
+  }
+
+  @Test
+  public void test() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel("Tornado Warning", Alert.Type.CANCEL, Channel.NONE);
+    channelPreferences.setChannel("Tornado Warning", Alert.Type.UPDATE, Channel.MEDIUM);
+    RipleEdit ripleEdit = new RipleEdit(channelPreferences);
+    ripleEdit.horizontalRiple("Wind Advisory", Alert.Type.POST, Channel.LOW);
+    assertEquals(Channel.LOW, channelPreferences.getChannel("Wind Advisory", Alert.Type.UPDATE));
+  }
 }
