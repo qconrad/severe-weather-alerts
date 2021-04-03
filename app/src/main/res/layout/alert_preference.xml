@@ -19,7 +19,7 @@
     <Button
         android:id="@+id/post_button"
         android:layout_width="50dp"
-        android:layout_height="35dp"
+        android:layout_height="match_parent"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/update_button"
@@ -28,7 +28,7 @@
     <Button
         android:id="@+id/update_button"
         android:layout_width="50dp"
-        android:layout_height="35dp"
+        android:layout_height="match_parent"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cancel_button"
@@ -37,7 +37,7 @@
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="50dp"
-        android:layout_height="35dp"
+        android:layout_height="match_parent"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

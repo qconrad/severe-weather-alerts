@@ -8,8 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Preferences.Channel;
+import com.severeweatheralerts.Preferences.ChannelColors;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
+
+import static com.severeweatheralerts.Preferences.ChannelColors.getChannelColor;
 
 public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   private final String[] alertList;
@@ -37,9 +41,15 @@ public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   @Override
   public void onBindViewHolder(final PreferenceHolder holder, final int position) {
     holder.alertName.setText(alertList[position]);
-    holder.post.setText(channelPreferences.getChannel(locationIndex, Alert.Type.POST, alertList[position]).toString());
-    holder.update.setText(channelPreferences.getChannel(locationIndex, Alert.Type.UPDATE, alertList[position]).toString());
-    holder.cancel.setText(channelPreferences.getChannel(locationIndex, Alert.Type.CANCEL, alertList[position]).toString());
+    Channel postChannel   = channelPreferences.getChannel(locationIndex, Alert.Type.POST,   alertList[position]);
+    Channel updateChannel = channelPreferences.getChannel(locationIndex, Alert.Type.UPDATE, alertList[position]);
+    Channel cancelChannel = channelPreferences.getChannel(locationIndex, Alert.Type.CANCEL, alertList[position]);
+    holder.post.setText(postChannel.toString());
+    holder.post.setBackgroundColor(getChannelColor(postChannel));
+    holder.update.setText(updateChannel.toString());
+    holder.update.setBackgroundColor(getChannelColor(updateChannel));
+    holder.cancel.setText(cancelChannel.toString());
+    holder.cancel.setBackgroundColor(getChannelColor(cancelChannel));
     holder.post.setOnClickListener(v   -> { if (clickListener != null) clickListener.onClick(Alert.Type.POST, position); });
     holder.update.setOnClickListener(v -> { if (clickListener != null) clickListener.onClick(Alert.Type.UPDATE, position); });
     holder.cancel.setOnClickListener(v -> { if (clickListener != null) clickListener.onClick(Alert.Type.CANCEL, position); });
