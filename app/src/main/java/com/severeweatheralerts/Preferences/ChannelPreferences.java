@@ -16,8 +16,8 @@ public class ChannelPreferences {
     populateDefaults();
   }
 
-  public Channel getChannel(int locationIndex, Type type, String alertName) {
-    String preferenceString = getPreferenceString(locationIndex, type, alertName);
+  public Channel getChannel(String alertName, Type type) {
+    String preferenceString = getPreferenceString(alertName, type);
     if (userMap.containsKey(preferenceString)) return userMap.get(preferenceString);
     return getDefaultMapping(alertName, type);
   }
@@ -30,25 +30,25 @@ public class ChannelPreferences {
     return getPost(alertMap);
   }
 
-  public void setChannel(int locationIndex, Type type, String alertName, Channel channel) {
-    if (!isDefaultMapping(type, alertName, channel)) addUserMapping(locationIndex, type, alertName, channel);
-    else deleteUserMapping(locationIndex, type, alertName);
+  public void setChannel(String alertName, Type type, Channel channel) {
+    if (!isDefaultMapping(alertName, type, channel)) addUserMapping(alertName, type, channel);
+    else deleteUserMapping(alertName, type);
   }
 
-  private boolean isDefaultMapping(Type type, String alertName, Channel channel) {
+  private boolean isDefaultMapping(String alertName, Type type, Channel channel) {
     return getDefaultMapping(alertName, type) == channel;
   }
 
-  private void addUserMapping(int locationIndex, Type type, String alertName, Channel channel) {
-    userMap.put(getPreferenceString(locationIndex, type, alertName), channel);
+  private void addUserMapping(String alertName, Type type, Channel channel) {
+    userMap.put(getPreferenceString(alertName, type), channel);
   }
 
-  private void deleteUserMapping(int locationIndex, Type type, String alertName) {
-    userMap.remove(getPreferenceString(locationIndex, type, alertName));
+  private void deleteUserMapping(String alertName, Type type) {
+    userMap.remove(getPreferenceString(alertName, type));
   }
 
-  private String getPreferenceString(int locationIndex, Type type, String alertName) {
-    return new PreferenceStringGenerator(locationIndex, type, alertName).getString();
+  private String getPreferenceString(String alertName, Type type) {
+    return new PreferenceStringGenerator(alertName, type).getString();
   }
 
   public HashMap<String, Channel> getUserMap() {

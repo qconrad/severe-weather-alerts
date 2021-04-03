@@ -17,17 +17,15 @@ import static com.severeweatheralerts.Preferences.ChannelColors.getChannelColor;
 public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   private final String[] alertList;
   private final ChannelPreferences channelPreferences;
-  private final int locationIndex;
   private PreferenceClickListener clickListener;
 
   public void setClickListener(PreferenceClickListener clickListener) {
     this.clickListener = clickListener;
   }
 
-  public PreferenceAdapter(String[] alertList, ChannelPreferences channelPreferences, int locationIndex) {
+  public PreferenceAdapter(String[] alertList, ChannelPreferences channelPreferences) {
     this.alertList = alertList;
     this.channelPreferences = channelPreferences;
-    this.locationIndex = locationIndex;
   }
 
   @NonNull
@@ -40,9 +38,9 @@ public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
   @Override
   public void onBindViewHolder(final PreferenceHolder holder, final int position) {
     holder.alertName.setText(alertList[position]);
-    Channel postChannel   = channelPreferences.getChannel(locationIndex, Alert.Type.POST,   alertList[position]);
-    Channel updateChannel = channelPreferences.getChannel(locationIndex, Alert.Type.UPDATE, alertList[position]);
-    Channel cancelChannel = channelPreferences.getChannel(locationIndex, Alert.Type.CANCEL, alertList[position]);
+    Channel postChannel   = channelPreferences.getChannel(alertList[position], Alert.Type.POST);
+    Channel updateChannel = channelPreferences.getChannel(alertList[position], Alert.Type.UPDATE);
+    Channel cancelChannel = channelPreferences.getChannel(alertList[position], Alert.Type.CANCEL);
     holder.post.setText(postChannel.toString());
     holder.post.setBackgroundColor(getChannelColor(postChannel));
     holder.update.setText(updateChannel.toString());
