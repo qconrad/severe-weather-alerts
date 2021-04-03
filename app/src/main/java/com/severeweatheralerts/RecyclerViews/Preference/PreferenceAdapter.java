@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Preferences.Channel;
-import com.severeweatheralerts.Preferences.ChannelColors;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 
