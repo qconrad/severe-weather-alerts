@@ -11,6 +11,7 @@ import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
+import com.severeweatheralerts.RipleEdit;
 
 public class AlertChannelPickerActivity extends AppCompatActivity {
   @Override
@@ -29,7 +30,7 @@ public class AlertChannelPickerActivity extends AppCompatActivity {
       new AlertDialog.Builder(this)
               .setTitle("Select a channel")
              .setItems(R.array.channels, (dialogInterface, i) -> {
-               channelPreferences.setChannel(alerts[index], type, Channel.values()[4-i]);
+               new RipleEdit(channelPreferences).horizontalRiple(alerts[index], type, Channel.values()[4-i]);
                preferenceAdapter.notifyItemChanged(index);
               }).create().show();
     });
