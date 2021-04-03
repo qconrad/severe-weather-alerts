@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
@@ -21,9 +22,11 @@ public class AlertChannelPickerActivity extends AppCompatActivity {
   private void inflatePreferenceList() {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
-    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, new ChannelPreferences(), 0);
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences, 0);
     preferenceAdapter.setClickListener((type, index) -> {
-      // On click
+      channelPreferences.setChannel(0, type, alerts[index], Channel.EXTREME);
+      preferenceAdapter.notifyItemChanged(index);
     });
     view.setAdapter(preferenceAdapter);
   }
