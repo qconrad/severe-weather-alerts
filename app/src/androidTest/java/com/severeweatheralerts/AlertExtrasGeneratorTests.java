@@ -238,4 +238,30 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("Different Small Headline", alertBundleAdapter.addExtras().getExtras().getString("smallHeadline"));
   }
+
+  @Test
+  public void returnsInstruction() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setInstruction("Instruction");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Instruction", alertBundleAdapter.addExtras().getExtras().getString("instruction"));
+  }
+
+  @Test
+  public void returnsDifferentInstruction() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setInstruction("Different Instruction");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Different Instruction", alertBundleAdapter.addExtras().getExtras().getString("instruction"));
+  }
 }

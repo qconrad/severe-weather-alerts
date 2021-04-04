@@ -18,6 +18,7 @@ public class BundleAlertAdapter {
     Alert alert = new AlertFactory().getAlert(bundle.getString("name"));
     alert.setName(bundle.getString("name"));
     alert.setDescription(bundle.getString("description"));
+    alert.setInstruction(bundle.getString("instruction"));
     alert.setLargeHeadline(bundle.getString("largeHeadline"));
     alert.setSmallHeadline(bundle.getString("smallHeadline"));
     alert.setSentTime(new Date(bundle.getLong("sent")));

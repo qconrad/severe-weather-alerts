@@ -177,4 +177,20 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("Different Small Headline", bundleAlertAdapter.getAlert().getSmallHeadline());
   }
+
+  @Test
+  public void returnsInstruction() {
+    Bundle bundle = new Bundle();
+    bundle.putString("instruction", "Instruction");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Instruction", bundleAlertAdapter.getAlert().getInstruction());
+  }
+
+  @Test
+  public void returnsDifferentInstruction() {
+    Bundle bundle = new Bundle();
+    bundle.putString("instruction", "Different Instruction");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Different Instruction", bundleAlertAdapter.getAlert().getInstruction());
+  }
 }
