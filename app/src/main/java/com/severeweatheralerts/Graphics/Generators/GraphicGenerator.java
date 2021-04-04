@@ -100,7 +100,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        graphicCompleteListener.onComplete(null);
+        throwError();
       }
     });
   }
@@ -116,7 +116,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        graphicCompleteListener.onComplete(null);
+        throwError();
       }
     });
   }
@@ -133,17 +133,18 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        graphicCompleteListener.onComplete(null);
+        throwError();
       }
     });
   }
 
   private void parseGridData(Object response) {
     try { gridDataAvailable(new GridDataParser(response.toString()).getParameter(gridParameter)); }
-    catch (JSONException e) { graphicCompleteListener.onComplete(null); }
+    catch (JSONException e) { throwError(); }
   }
 
   protected void fetchZones() {
+    if (alert.getZoneLinkCount() == 0) finish();
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
@@ -154,9 +155,13 @@ public abstract class GraphicGenerator {
       }
 
       @Override public void error(VolleyError error) {
-        graphicCompleteListener.onComplete(null);
+        throwError();
       }
     });
+  }
+
+  private void throwError() {
+    graphicCompleteListener.onComplete(null);
   }
 
   protected void fetchImages() {
@@ -170,7 +175,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        graphicCompleteListener.onComplete(null);
+        throwError();
       }
     });
   }
