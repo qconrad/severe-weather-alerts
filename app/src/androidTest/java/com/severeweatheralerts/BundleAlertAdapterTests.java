@@ -3,6 +3,8 @@ package com.severeweatheralerts;
 import android.os.Bundle;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
+import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 
 import org.junit.Test;
 
@@ -126,5 +128,21 @@ public class BundleAlertAdapterTests {
     bundle.putString("description", "Different Test");
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("Different Test", bundleAlertAdapter.getAlert().getDescription());
+  }
+
+  @Test
+  public void returnsCorrectType() {
+    Bundle bundle = new Bundle();
+    bundle.putString("name", "Tornado Warning");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(TornadoWarning.class, bundleAlertAdapter.getAlert().getClass());
+  }
+
+  @Test
+  public void returnsDifferentType() {
+    Bundle bundle = new Bundle();
+    bundle.putString("name", "Tornado Watch");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(TornadoWatch.class, bundleAlertAdapter.getAlert().getClass());
   }
 }

@@ -3,7 +3,7 @@ package com.severeweatheralerts;
 import android.os.Bundle;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.AlertFactory;
 
 import java.util.Date;
 
@@ -15,15 +15,15 @@ public class BundleAlertAdapter {
   }
 
   public Alert getAlert() {
-    DefaultAlert defaultAlert = new DefaultAlert();
-    defaultAlert.setName(bundle.getString("name"));
-    defaultAlert.setDescription(bundle.getString("description"));
-    defaultAlert.setSentTime(new Date(bundle.getLong("sent")));
-    defaultAlert.setStartTime(new Date(bundle.getLong("start")));
-    defaultAlert.setEndTime(new Date(bundle.getLong("ends")));
+    Alert alert = new AlertFactory().getAlert(bundle.getString("name"));
+    alert.setName(bundle.getString("name"));
+    alert.setDescription(bundle.getString("description"));
+    alert.setSentTime(new Date(bundle.getLong("sent")));
+    alert.setStartTime(new Date(bundle.getLong("start")));
+    alert.setEndTime(new Date(bundle.getLong("ends")));
     String type = bundle.getString("type");;
-    if (type != null) defaultAlert.setType(Alert.Type.valueOf(type));
-    defaultAlert.setSenderCode(bundle.getString("senderCode"));
-    return defaultAlert;
+    if (type != null) alert.setType(Alert.Type.valueOf(type));
+    alert.setSenderCode(bundle.getString("senderCode"));
+    return alert;
   }
 }
