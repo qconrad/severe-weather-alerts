@@ -35,49 +35,49 @@ public class BundleAlertAdapterTests {
   @Test
   public void returnsCorrectSent() {
     Bundle bundle = new Bundle();
-    bundle.putInt("sent", 3000);
+    bundle.putLong("sent", 3000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(3000, bundleAlertAdapter.getAlert().getSentTime().getTime());
+    assertEquals(3000L, bundleAlertAdapter.getAlert().getSentTime().getTime());
   }
 
   @Test
   public void sentDifferent_returnsCorrectSent() {
     Bundle bundle = new Bundle();
-    bundle.putInt("sent", 4000);
+    bundle.putLong("sent", 4000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(4000, bundleAlertAdapter.getAlert().getSentTime().getTime());
+    assertEquals(4000L, bundleAlertAdapter.getAlert().getSentTime().getTime());
   }
 
   @Test
   public void returnsStart() {
     Bundle bundle = new Bundle();
-    bundle.putInt("start", 3000);
+    bundle.putLong("start", 3000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(3000, bundleAlertAdapter.getAlert().getStartTime().getTime());
+    assertEquals(3000L, bundleAlertAdapter.getAlert().getStartTime().getTime());
   }
 
   @Test
   public void startDifferent_returnsStart() {
     Bundle bundle = new Bundle();
-    bundle.putInt("start", 4000);
+    bundle.putLong("start", 4000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(4000, bundleAlertAdapter.getAlert().getStartTime().getTime());
+    assertEquals(4000L, bundleAlertAdapter.getAlert().getStartTime().getTime());
   }
 
   @Test
   public void returnsEnd() {
     Bundle bundle = new Bundle();
-    bundle.putInt("ends", 3000);
+    bundle.putLong("ends", 3000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(3000, bundleAlertAdapter.getAlert().getEndTime().getTime());
+    assertEquals(3000L, bundleAlertAdapter.getAlert().getEndTime().getTime());
   }
 
   @Test
   public void differentEnd_returnsEnd() {
     Bundle bundle = new Bundle();
-    bundle.putInt("ends", 4000);
+    bundle.putLong("ends", 4000L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
-    assertEquals(4000, bundleAlertAdapter.getAlert().getEndTime().getTime());
+    assertEquals(4000L, bundleAlertAdapter.getAlert().getEndTime().getTime());
   }
 
   @Test
