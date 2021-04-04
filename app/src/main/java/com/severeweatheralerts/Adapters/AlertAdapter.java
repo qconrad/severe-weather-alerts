@@ -72,7 +72,7 @@ public class AlertAdapter {
   }
 
   private void adaptEndTime(UnadaptedAlert ua, Alert al) {
-    al.setEndTime(new EndTimeAdapater(ua.getEnds(), ua.getExpires()).adaptEndTime());
+    al.setEndTime(new EndTimeAdapter(ua.getEnds(), ua.getExpires()).adaptEndTime());
   }
 
   private void adaptStartTime(UnadaptedAlert ua, Alert al) {

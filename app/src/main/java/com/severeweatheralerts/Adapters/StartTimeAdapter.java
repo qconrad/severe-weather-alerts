@@ -5,7 +5,7 @@ import java.util.Date;
 import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringToDate;
 
 public class StartTimeAdapter {
-  private String onsetTime;
+  private final String onsetTime;
 
   public StartTimeAdapter(String onsetTime) {
     this.onsetTime = onsetTime;

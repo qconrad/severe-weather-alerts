@@ -4,11 +4,11 @@ import java.util.Date;
 
 import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringToDate;
 
-public class EndTimeAdapater {
-  private String endTime;
-  private String expireTime;
+public class EndTimeAdapter {
+  private final String endTime;
+  private final String expireTime;
 
-  public EndTimeAdapater(String endTime, String expireTime) {
+  public EndTimeAdapter(String endTime, String expireTime) {
     this.endTime = endTime;
     this.expireTime = expireTime;
   }
