@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import android.content.Intent;
 
+import com.severeweatheralerts.Adapters.TypeAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 
 public class AlertExtrasGenerator {
@@ -18,6 +19,7 @@ public class AlertExtrasGenerator {
             .putExtra("sent", (int)alert.getSentTime().getTime())
             .putExtra("start", (int)alert.getStartTime().getTime())
             .putExtra("ends", (int)alert.getEndTime().getTime())
+            .putExtra("type", alert.getType().toString())
             .putExtra("senderCode", alert.getSenderCode());
   }
 }
