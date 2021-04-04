@@ -30,7 +30,7 @@ public class AlertChannelPickerActivity extends AppCompatActivity {
       new AlertDialog.Builder(this)
               .setTitle("Select a channel")
              .setItems(R.array.channels, (dialogInterface, i) -> {
-               new RippleEdit(channelPreferences, alerts).verticalRipple(index, type, Channel.values()[i]);
+               new RippleEdit(channelPreferences).verticalRipple(alerts, index, type, Channel.values()[i]);
                preferenceAdapter.notifyDataSetChanged();
               }).create().show();
     });

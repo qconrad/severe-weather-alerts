@@ -9,11 +9,9 @@ import static com.severeweatheralerts.Alerts.Alert.Type.POST;
 
 public class RippleEdit {
   private final ChannelPreferences channelPreferences;
-  private final String[] alertList;
 
-  public RippleEdit(ChannelPreferences channelPreferences, String[] alertList) {
+  public RippleEdit(ChannelPreferences channelPreferences) {
     this.channelPreferences = channelPreferences;
-    this.alertList = alertList;
   }
 
   public void horizontalRipple(String alertName, Type type, Channel channel) {
@@ -28,7 +26,7 @@ public class RippleEdit {
       channelPreferences.setChannel(alertName, POST, channel);
   }
 
-  public void verticalRipple(int index, Type type, Channel channel) {
+  public void verticalRipple(String[] alertList, int index, Type type, Channel channel) {
     channelPreferences.setChannel(alertList[index], type, channel);
     horizontalRipple(alertList[index], type, channel);
     for (int i = 0; i < alertList.length; i++) {
