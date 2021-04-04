@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 public class MessageAdapterTests {
@@ -171,5 +172,37 @@ public class MessageAdapterTests {
     mockAlertMessage.put("instruction", "This is hard wrapped text\nfor some weird reason.");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("This is hard wrapped text for some weird reason.", messageAdapter.getAlert().getInstruction());
+  }
+
+  @Test
+  public void getAlert_sentProvided_Parsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("sent", "2021-04-04T09:06:21+00:00");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNotNull(messageAdapter.getAlert().getSentTime());
+  }
+
+  @Test
+  public void getAlert_onsetProvided_Parsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("onset", "2021-04-04T09:06:21+00:00");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNotNull(messageAdapter.getAlert().getStartTime());
+  }
+
+  @Test
+  public void getAlert_endProvided_Parsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("ends", "2021-04-04T09:06:21+00:00");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNotNull(messageAdapter.getAlert().getEndTime());
+  }
+
+  @Test
+  public void getAlert_expiresProvided_Parsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("expires", "2021-04-04T09:06:21+00:00");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNotNull(messageAdapter.getAlert().getEndTime());
   }
 }

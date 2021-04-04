@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import android.os.Bundle;
+
 import com.severeweatheralerts.Alerts.Alert;
 
 import org.junit.Test;
