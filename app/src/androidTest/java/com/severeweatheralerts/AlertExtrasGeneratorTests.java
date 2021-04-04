@@ -113,4 +113,16 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals(2000, alertBundleAdapter.addExtras().getExtras().getInt("ends"));
   }
+
+  @Test
+  public void returnsSenderCode() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setSenderCode("lot");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("lot", alertBundleAdapter.addExtras().getExtras().getString("senderCode"));
+  }
 }

@@ -6,7 +6,6 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
 import java.util.Date;
-import java.util.Map;
 
 public class BundleAlertAdapter {
   private final Bundle bundle;
@@ -21,6 +20,7 @@ public class BundleAlertAdapter {
     defaultAlert.setSentTime(new Date(bundle.getInt("sent")));
     defaultAlert.setStartTime(new Date(bundle.getInt("start")));
     defaultAlert.setEndTime(new Date(bundle.getInt("ends")));
+    defaultAlert.setSenderCode(bundle.getString("senderCode"));
     return defaultAlert;
   }
 }

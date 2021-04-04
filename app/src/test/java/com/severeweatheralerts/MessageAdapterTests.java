@@ -205,4 +205,20 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertNotNull(messageAdapter.getAlert().getEndTime());
   }
+
+  @Test
+  public void getAlert_senderCodeParsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("senderCode", "LOT");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("lot", messageAdapter.getAlert().getSenderCode());
+  }
+
+  @Test
+  public void getAlert_differentSenderCodeParsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("senderCode", "ILX");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("ilx", messageAdapter.getAlert().getSenderCode());
+  }
 }

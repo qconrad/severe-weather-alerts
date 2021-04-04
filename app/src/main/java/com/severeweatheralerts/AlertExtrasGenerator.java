@@ -17,6 +17,7 @@ public class AlertExtrasGenerator {
     return resultIntent.putExtra("name", alert.getName())
             .putExtra("sent", (int)alert.getSentTime().getTime())
             .putExtra("start", (int)alert.getStartTime().getTime())
-            .putExtra("ends", (int)alert.getEndTime().getTime());
+            .putExtra("ends", (int)alert.getEndTime().getTime())
+            .putExtra("senderCode", alert.getSenderCode());
   }
 }

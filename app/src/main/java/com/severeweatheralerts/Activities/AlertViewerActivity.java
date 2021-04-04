@@ -292,7 +292,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void setSender() {
     TextView sender = findViewById(R.id.sender);
-    sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode().toLowerCase() + ">" + al.getSender()));
+    sender.setText(Html.fromHtml("<a href=https://www.weather.gov/" + al.getSenderCode() + ">" + al.getSender()));
     sender.setMovementMethod(LinkMovementMethod.getInstance());
   }
 

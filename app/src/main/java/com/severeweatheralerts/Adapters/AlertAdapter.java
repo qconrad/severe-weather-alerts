@@ -120,8 +120,7 @@ public class AlertAdapter {
   }
 
   private void adaptSenderCode(UnadaptedAlert ua, Alert al) {
-    if (ua.getSenderCode() != null)
-      al.setSenderCode(ua.getSenderCode().toLowerCase());
+    al.setSenderCode(new SenderCodeAdapter(ua.getSenderCode()).adapterSenderCode());
   }
 
   private void adaptId(UnadaptedAlert ua, Alert al) {

@@ -77,4 +77,20 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(4000, bundleAlertAdapter.getAlert().getEndTime().getTime());
   }
+
+  @Test
+  public void senderCode() {
+    Bundle bundle = new Bundle();
+    bundle.putString("senderCode", "lot");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("lot", bundleAlertAdapter.getAlert().getSenderCode());
+  }
+
+  @Test
+  public void differentSenderCodeParsed() {
+    Bundle bundle = new Bundle();
+    bundle.putString("senderCode", "ilx");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("ilx", bundleAlertAdapter.getAlert().getSenderCode());
+  }
 }
