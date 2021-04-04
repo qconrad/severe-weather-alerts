@@ -145,4 +145,36 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(TornadoWatch.class, bundleAlertAdapter.getAlert().getClass());
   }
+
+  @Test
+  public void returnsLargeHeadline() {
+    Bundle bundle = new Bundle();
+    bundle.putString("largeHeadline", "Large Headline");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Large Headline", bundleAlertAdapter.getAlert().getLargeHeadline());
+  }
+
+  @Test
+  public void returnsDifferentLargeHeadline() {
+    Bundle bundle = new Bundle();
+    bundle.putString("largeHeadline", "Different Large Headline");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Different Large Headline", bundleAlertAdapter.getAlert().getLargeHeadline());
+  }
+
+  @Test
+  public void returnsSmallHeadline() {
+    Bundle bundle = new Bundle();
+    bundle.putString("smallHeadline", "Small Headline");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Small Headline", bundleAlertAdapter.getAlert().getSmallHeadline());
+  }
+
+  @Test
+  public void returnsDifferentSmallHeadline() {
+    Bundle bundle = new Bundle();
+    bundle.putString("smallHeadline", "Different Small Headline");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("Different Small Headline", bundleAlertAdapter.getAlert().getSmallHeadline());
+  }
 }
