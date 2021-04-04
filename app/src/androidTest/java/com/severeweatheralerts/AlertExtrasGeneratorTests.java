@@ -73,7 +73,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals(3000, alertBundleAdapter.addExtras().getExtras().getInt("sent"));
+    assertEquals(3000L, alertBundleAdapter.addExtras().getExtras().getLong("sent"));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals(4000, alertBundleAdapter.addExtras().getExtras().getInt("sent"));
+    assertEquals(4000L, alertBundleAdapter.addExtras().getExtras().getLong("sent"));
   }
 
   @Test
@@ -97,7 +97,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals(3000, alertBundleAdapter.addExtras().getExtras().getInt("start"));
+    assertEquals(3000L, alertBundleAdapter.addExtras().getExtras().getLong("start"));
   }
 
   @Test
@@ -109,7 +109,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals(3001, alertBundleAdapter.addExtras().getExtras().getInt("start"));
+    assertEquals(3001L, alertBundleAdapter.addExtras().getExtras().getLong("start"));
   }
 
   @Test
@@ -121,7 +121,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals(2000, alertBundleAdapter.addExtras().getExtras().getInt("ends"));
+    assertEquals(2000L, alertBundleAdapter.addExtras().getExtras().getLong("ends"));
   }
 
   @Test
