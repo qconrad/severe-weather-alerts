@@ -37,6 +37,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
+        <activity android:name=".Activities.NotificationViewer" />
         <service
             android:name=".Notifications.MessagingService"
             android:exported="false">
