@@ -16,6 +16,7 @@ public class AlertExtrasGenerator {
 
   public Intent addExtras() {
     return resultIntent.putExtra("name", alert.getName())
+            .putExtra("description", alert.getDescription())
             .putExtra("sent", alert.getSentTime().getTime())
             .putExtra("start", alert.getStartTime().getTime())
             .putExtra("ends", alert.getEndTime().getTime())

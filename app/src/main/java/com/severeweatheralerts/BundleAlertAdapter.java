@@ -17,6 +17,7 @@ public class BundleAlertAdapter {
   public Alert getAlert() {
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setName(bundle.getString("name"));
+    defaultAlert.setDescription(bundle.getString("description"));
     defaultAlert.setSentTime(new Date(bundle.getLong("sent")));
     defaultAlert.setStartTime(new Date(bundle.getLong("start")));
     defaultAlert.setEndTime(new Date(bundle.getLong("ends")));
