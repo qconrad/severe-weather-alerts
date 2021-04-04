@@ -20,6 +20,8 @@ public class BundleAlertAdapter {
     defaultAlert.setSentTime(new Date(bundle.getInt("sent")));
     defaultAlert.setStartTime(new Date(bundle.getInt("start")));
     defaultAlert.setEndTime(new Date(bundle.getInt("ends")));
+    String type = bundle.getString("type");;
+    if (type != null) defaultAlert.setType(Alert.Type.valueOf(type));
     defaultAlert.setSenderCode(bundle.getString("senderCode"));
     return defaultAlert;
   }

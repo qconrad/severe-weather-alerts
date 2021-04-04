@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import android.os.Bundle;
 
+import com.severeweatheralerts.Alerts.Alert;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -92,5 +94,21 @@ public class BundleAlertAdapterTests {
     bundle.putString("senderCode", "ilx");
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("ilx", bundleAlertAdapter.getAlert().getSenderCode());
+  }
+
+  @Test
+  public void typeParsed() {
+    Bundle bundle = new Bundle();
+    bundle.putString("type", "UPDATE");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(Alert.Type.UPDATE, bundleAlertAdapter.getAlert().getType());
+  }
+
+  @Test
+  public void differentTypeParsed() {
+    Bundle bundle = new Bundle();
+    bundle.putString("type", "CANCEL");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(Alert.Type.CANCEL, bundleAlertAdapter.getAlert().getType());
   }
 }
