@@ -186,4 +186,56 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("Different Test", alertBundleAdapter.addExtras().getExtras().getString("description"));
   }
+
+  @Test
+  public void returnsLargeHeadline() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setLargeHeadline("Large Headline");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Large Headline", alertBundleAdapter.addExtras().getExtras().getString("largeHeadline"));
+  }
+
+  @Test
+  public void returnsDifferentLargeHeadline() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setLargeHeadline("Different Large Headline");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Different Large Headline", alertBundleAdapter.addExtras().getExtras().getString("largeHeadline"));
+  }
+
+  @Test
+  public void returnsSmallHeadline() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setSmallHeadline("Small Headline");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Small Headline", alertBundleAdapter.addExtras().getExtras().getString("smallHeadline"));
+  }
+
+  @Test
+  public void returnsDifferentSmallHeadline() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setSmallHeadline("Different Small Headline");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("Different Small Headline", alertBundleAdapter.addExtras().getExtras().getString("smallHeadline"));
+  }
 }
