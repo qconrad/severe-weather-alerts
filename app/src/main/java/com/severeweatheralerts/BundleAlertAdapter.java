@@ -1,20 +1,26 @@
 package com.severeweatheralerts;
 
+import android.os.Bundle;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 
+import java.util.Date;
 import java.util.Map;
 
 public class BundleAlertAdapter {
-  private final Map<String, String> map;
+  private final Bundle bundle;
 
-  public BundleAlertAdapter(Map<String, String> map) {
-    this.map = map;
+  public BundleAlertAdapter(Bundle bundle) {
+    this.bundle = bundle;
   }
 
   public Alert getAlert() {
     DefaultAlert defaultAlert = new DefaultAlert();
-    defaultAlert.setName(map.get("name"));
+    defaultAlert.setName(bundle.getString("name"));
+    defaultAlert.setSentTime(new Date(bundle.getInt("sent")));
+    defaultAlert.setStartTime(new Date(bundle.getInt("start")));
+    defaultAlert.setEndTime(new Date(bundle.getInt("ends")));
     return defaultAlert;
   }
 }
