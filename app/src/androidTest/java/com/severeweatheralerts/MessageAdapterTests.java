@@ -269,4 +269,31 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("https://api.weather.gov/zones/fire/SDZ004", messageAdapter.getAlert().getZone(1));
   }
+
+  @Test
+  public void getAlert_PolygonCountCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("polygonType", "Polygon");
+    mockAlertMessage.put("polygon", "[[[-89.55,30.2],[-89.64,30.18],[-89.9,30.669999999999998],[-89.76,30.669999999999998],[-89.55,30.2]]]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(1, messageAdapter.getAlert().getPolygonCount());
+  }
+
+  @Test
+  public void getAlert_CoordinateCountCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("polygonType", "Polygon");
+    mockAlertMessage.put("polygon", "[[[-89.55,30.2],[-89.64,30.18],[-89.9,30.669999999999998],[-89.76,30.669999999999998],[-89.55,30.2]]]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(5, messageAdapter.getAlert().getPolygon(0).getCoordinateCount());
+  }
+
+  @Test
+  public void getAlert_SecondPolygonCorrectCoordinates() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("polygonType", "MultiPolygon");
+    mockAlertMessage.put("polygon", "[[[[-89.55,30.2],[-89.64,30.18],[-89.9,30.669999999999998],[-89.76,30.669999999999998],[-89.55,30.2]]],[[[1,2]]]]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(1, messageAdapter.getAlert().getPolygon(1).getCoordinateCount());
+  }
 }

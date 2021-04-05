@@ -2,17 +2,22 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Adapters.DescriptionHeadlineRemover;
 import com.severeweatheralerts.Adapters.EndTimeAdapter;
+import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.HeadlineAdapter;
+import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Adapters.SendTimeAdapter;
 import com.severeweatheralerts.Adapters.SenderCodeAdapter;
 import com.severeweatheralerts.Adapters.StartTimeAdapter;
 import com.severeweatheralerts.Adapters.TypeAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.JSONParsing.GeometryParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
@@ -38,15 +43,26 @@ public class MessageAdapter {
     HeadlineAdapter headlineAdapter = new HeadlineAdapter(message.get("nwsHeadline"), message.get("description"));
     alert.setLargeHeadline(headlineAdapter.getLargeHeadline());
     alert.setSmallHeadline(headlineAdapter.getSmallHeadline());
-    String zones = message.get("zones");
-    if (zones != null) {
+    if (message.get("polygonType") != null) {
+      String geometryString = "{ type: '" + message.get("polygonType") + "', coordinates: " + message.get("polygon") + "}";
       try {
-        JSONArray jsonArray = new JSONArray(zones);
-        for (int i = 0; i < jsonArray.length(); i++) {
-          alert.addZoneLink("https://api.weather.gov/zones/" + jsonArray.getString(i));
-        }
+        ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(geometryString)).parseGeometry();
+        for (int i = 0; i < geometry.size(); i++)
+          alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
       } catch (JSONException e) {
         e.printStackTrace();
+      }
+    } else {
+      String zones = message.get("zones");
+      if (zones != null) {
+        try {
+          JSONArray jsonArray = new JSONArray(zones);
+          for (int i = 0; i < jsonArray.length(); i++) {
+            alert.addZoneLink("https://api.weather.gov/zones/" + jsonArray.getString(i));
+          }
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
       }
     }
     return alert;
