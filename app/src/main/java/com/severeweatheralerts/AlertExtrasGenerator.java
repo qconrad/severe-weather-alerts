@@ -24,6 +24,7 @@ public class AlertExtrasGenerator {
             .putExtra("start", alert.getStartTime().getTime())
             .putExtra("ends", alert.getEndTime().getTime())
             .putExtra("type", alert.getType().toString())
+            .putExtra("sender", alert.getSender())
             .putExtra("senderCode", alert.getSenderCode());
   }
 }

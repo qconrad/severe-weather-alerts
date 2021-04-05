@@ -27,6 +27,7 @@ public class BundleAlertAdapter {
     String type = bundle.getString("type");;
     if (type != null) alert.setType(Alert.Type.valueOf(type));
     alert.setSenderCode(bundle.getString("senderCode"));
+    alert.setSender(bundle.getString("sender"));
     return alert;
   }
 }

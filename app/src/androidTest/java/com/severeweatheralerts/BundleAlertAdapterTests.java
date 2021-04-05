@@ -193,4 +193,20 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("Different Instruction", bundleAlertAdapter.getAlert().getInstruction());
   }
+
+  @Test
+  public void returnsSender() {
+    Bundle bundle = new Bundle();
+    bundle.putString("sender", "NWS Chicago IL");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("NWS Chicago IL", bundleAlertAdapter.getAlert().getSender());
+  }
+
+  @Test
+  public void returnsDifferentSender() {
+    Bundle bundle = new Bundle();
+    bundle.putString("sender", "NWS Lincoln IL");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("NWS Lincoln IL", bundleAlertAdapter.getAlert().getSender());
+  }
 }

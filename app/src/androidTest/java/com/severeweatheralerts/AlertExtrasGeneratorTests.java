@@ -264,4 +264,30 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("Different Instruction", alertBundleAdapter.addExtras().getExtras().getString("instruction"));
   }
+
+  @Test
+  public void returnsSender() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setSender("NWS Chicago IL");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("NWS Chicago IL", alertBundleAdapter.addExtras().getExtras().getString("sender"));
+  }
+
+  @Test
+  public void returnsDifferentSender() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setSender("NWS Lincoln IL");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("NWS Lincoln IL", alertBundleAdapter.addExtras().getExtras().getString("sender"));
+  }
 }

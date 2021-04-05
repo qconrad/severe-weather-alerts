@@ -221,4 +221,20 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("ilx", messageAdapter.getAlert().getSenderCode());
   }
+
+  @Test
+  public void getAlert_senderNameParsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("senderName", "NWS Chicago IL");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("NWS Chicago IL", messageAdapter.getAlert().getSender());
+  }
+
+  @Test
+  public void getAlert_differentSenderNameParsed() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("senderName", "NWS Lincoln IL");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("NWS Lincoln IL", messageAdapter.getAlert().getSender());
+  }
 }

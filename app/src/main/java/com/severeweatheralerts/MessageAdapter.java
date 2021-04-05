@@ -31,6 +31,7 @@ public class MessageAdapter {
     alert.setEndTime(new EndTimeAdapter(message.get("ends"), message.get("expires")).adaptEndTime());
     alert.setType(new TypeAdapter(message.get("type")).adaptType());
     alert.setSenderCode(new SenderCodeAdapter(message.get("senderCode")).adapterSenderCode());
+    alert.setSender(message.get("senderName"));
     HeadlineAdapter headlineAdapter = new HeadlineAdapter(message.get("nwsHeadline"), message.get("description"));
     alert.setLargeHeadline(headlineAdapter.getLargeHeadline());
     alert.setSmallHeadline(headlineAdapter.getSmallHeadline());
