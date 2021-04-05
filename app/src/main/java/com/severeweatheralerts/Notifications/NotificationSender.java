@@ -33,6 +33,7 @@ public class NotificationSender {
     NotificationContentGenerator notificationContent = new NotificationContentGenerator(alert);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
             .setSmallIcon(alert.getIcon())
+            .setAutoCancel(true)
             .setContentTitle(notificationContent.getTitleText())
             .setContentText(notificationContent.getShortText())
             .setContentIntent(resultPendingIntent)
