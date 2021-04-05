@@ -8,6 +8,8 @@ import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -208,5 +210,15 @@ public class BundleAlertAdapterTests {
     bundle.putString("sender", "NWS Lincoln IL");
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("NWS Lincoln IL", bundleAlertAdapter.getAlert().getSender());
+  }
+
+  @Test
+  public void returnsZoneLink() {
+    Bundle bundle = new Bundle();
+    ArrayList<String> zones = new ArrayList<>();
+    zones.add("zone");
+    bundle.putStringArrayList("zones", zones);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(1, bundleAlertAdapter.getAlert().getZoneLinkCount());
   }
 }

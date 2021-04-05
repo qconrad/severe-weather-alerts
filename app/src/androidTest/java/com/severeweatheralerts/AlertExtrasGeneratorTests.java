@@ -290,4 +290,18 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("NWS Lincoln IL", alertBundleAdapter.addExtras().getExtras().getString("sender"));
   }
+
+  @Test
+  public void returnsFirstZoneLink() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.addZoneLink("link1");
+    tornadoWarning.addZoneLink("link2");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("link1", alertBundleAdapter.addExtras().getExtras().getStringArrayList("zones").get(0));
+  }
 }

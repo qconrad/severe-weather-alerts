@@ -22,6 +22,7 @@ public class AlertExtrasGenerator {
             .putExtra("smallHeadline", alert.getSmallHeadline())
             .putExtra("sent", alert.getSentTime().getTime())
             .putExtra("start", alert.getStartTime().getTime())
+            .putExtra("zones", alert.getZones())
             .putExtra("ends", alert.getEndTime().getTime())
             .putExtra("type", alert.getType().toString())
             .putExtra("sender", alert.getSender())

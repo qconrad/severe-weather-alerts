@@ -237,4 +237,36 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("NWS Lincoln IL", messageAdapter.getAlert().getSender());
   }
+
+  @Test
+  public void getAlert_ZoneCountCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("zones", "[\"fire/SDZ003\",\"fire/SDZ004\",\"fire/SDZ005\",\"fire/SDZ009\",\"fire/SDZ010\",\"fire/SDZ015\"]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(6, messageAdapter.getAlert().getZoneLinkCount());
+  }
+
+  @Test
+  public void getAlert_DifferentZoneCountCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("zones", "[\"fire/SDZ003\",\"fire/SDZ004\",\"fire/SDZ005\",\"fire/SDZ009\",\"fire/SDZ010\"]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(5, messageAdapter.getAlert().getZoneLinkCount());
+  }
+
+  @Test
+  public void getAlert_FirstZoneCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("zones", "[\"fire/SDZ003\",\"fire/SDZ004\",\"fire/SDZ005\",\"fire/SDZ009\",\"fire/SDZ010\"]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/zones/fire/SDZ003", messageAdapter.getAlert().getZone(0));
+  }
+
+  @Test
+  public void getAlert_SecondZoneCorrect() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("zones", "[\"fire/SDZ003\",\"fire/SDZ004\",\"fire/SDZ005\",\"fire/SDZ009\",\"fire/SDZ010\"]");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/zones/fire/SDZ004", messageAdapter.getAlert().getZone(1));
+  }
 }

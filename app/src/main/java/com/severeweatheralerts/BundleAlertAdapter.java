@@ -28,6 +28,7 @@ public class BundleAlertAdapter {
     if (type != null) alert.setType(Alert.Type.valueOf(type));
     alert.setSenderCode(bundle.getString("senderCode"));
     alert.setSender(bundle.getString("sender"));
+    alert.setZoneLinks(bundle.getStringArrayList("zones"));
     return alert;
   }
 }

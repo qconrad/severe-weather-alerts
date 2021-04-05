@@ -31,7 +31,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Alert replacedBy;
   private final ArrayList<Alert> references = new ArrayList<>();
   private final ArrayList<Polygon> polygons = new ArrayList<>();
-  private final ArrayList<String> zoneLinks = new ArrayList<>();
+  private ArrayList<String> zoneLinks = new ArrayList<>();
 
   public Alert() {}
 
@@ -78,6 +78,8 @@ public abstract class Alert implements Comparable<Alert> {
   public void addZoneLink(String link) { zoneLinks.add(link); }
   public String getZone(int i) { return zoneLinks.get(i); }
   public ArrayList<String> getZones() { return zoneLinks; }
+  public void setZoneLinks(ArrayList<String> zoneLinks) { this.zoneLinks = zoneLinks; }
+
 
   public void setReplacedBy(Alert replacedBy) {
     this.replacedBy = replacedBy;
