@@ -100,7 +100,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        throwError();
+        throwError("Error getting available map times");
       }
     });
   }
@@ -116,7 +116,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        throwError();
+        throwError("Error getting zone info");
       }
     });
   }
@@ -133,14 +133,14 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        throwError();
+        throwError("Error getting grid data");
       }
     });
   }
 
   private void parseGridData(Object response) {
     try { gridDataAvailable(new GridDataParser(response.toString()).getParameter(gridParameter)); }
-    catch (JSONException e) { throwError(); }
+    catch (JSONException e) { throwError("Error parsing grid data"); }
   }
 
   protected void fetchZones() {
@@ -155,13 +155,13 @@ public abstract class GraphicGenerator {
       }
 
       @Override public void error(VolleyError error) {
-        throwError();
+        throwError("Error fetching alert zones");
       }
     });
   }
 
-  private void throwError() {
-    graphicCompleteListener.onComplete(null);
+  protected void throwError(String message) {
+    graphicCompleteListener.error(message);
   }
 
   protected void fetchImages() {
@@ -175,7 +175,7 @@ public abstract class GraphicGenerator {
 
       @Override
       public void error(VolleyError error) {
-        throwError();
+        throwError("Error fetching images");
       }
     });
   }

@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
@@ -109,13 +110,19 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphic(Location location, GraphicType type, View graphicView) {
-    type.getGenerator(this, al, location).generate(graphic -> {
-      if (graphic == null) displaySubtext(graphicView, "Error while generating this graphic");
-      else {
+    type.getGenerator(this, al, location).generate(new GraphicCompleteListener() {
+      @Override
+      public void onComplete(Graphic graphic) {
         if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
         displayImage(graphicView, graphic);
+        hideProgressBar(graphicView);
       }
-      hideProgressBar(graphicView);
+
+      @Override
+      public void error(String message) {
+        displaySubtext(graphicView, message);
+        hideProgressBar(graphicView);
+      }
     });
   }
 

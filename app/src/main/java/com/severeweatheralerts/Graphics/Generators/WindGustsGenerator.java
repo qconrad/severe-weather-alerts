@@ -27,6 +27,7 @@ public class WindGustsGenerator extends GraphicGenerator {
 
   @Override
   protected void gridDataAvailable(Parameter gridData) {
+    if (gridData.getCount() < 1) throwError("Gusts not available");
     maxGust = getMaxGust(gridData);
   }
 
