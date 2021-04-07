@@ -1,14 +1,17 @@
 package com.severeweatheralerts.JSONParsing;
 
 import com.severeweatheralerts.Graphics.GridData.MapTime;
+import com.severeweatheralerts.TextUtils.DateTimeConverter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MapTimeParser {
-  private JSONArray dateTimeJson = null;
+  protected JSONArray dateTimeJson = null;
   private ArrayList<MapTime> mapTimes;
 
   public MapTimeParser(String times) {
@@ -27,10 +30,14 @@ public class MapTimeParser {
   }
 
   private void addMapTime(int i) throws JSONException {
-    mapTimes.add(new MapTime(getDateString(i)));
+    mapTimes.add(new MapTime(getDateFromString(getDateString(i)), getDateString(i)));
   }
 
-  private String getDateString(int i) throws JSONException {
+  protected Date getDateFromString(String string) {
+    return DateTimeConverter.convertStringToDate(string, "yyyy-MM-dd'T'HH:mm", TimeZone.getTimeZone("UTC"));
+  }
+
+  protected String getDateString(int i) throws JSONException {
     return dateTimeJson.getJSONArray(i).getString(0);
   }
 
