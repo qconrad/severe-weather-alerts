@@ -28,7 +28,7 @@ public class NotificationSender {
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
     stackBuilder.addNextIntentWithParentStack(resultIntent);
     new AlertExtrasGenerator(alert, resultIntent).addExtras();
-    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
 
     NotificationContentGenerator notificationContent = new NotificationContentGenerator(alert);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
