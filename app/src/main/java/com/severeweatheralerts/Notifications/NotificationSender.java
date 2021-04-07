@@ -24,24 +24,26 @@ public class NotificationSender {
   }
 
   public void send() {
-    Intent resultIntent = new Intent(context, NotificationViewer.class);
-    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-    stackBuilder.addNextIntentWithParentStack(resultIntent);
-    new AlertExtrasGenerator(alert, resultIntent).addExtras();
-    PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
-
     NotificationContentGenerator notificationContent = new NotificationContentGenerator(alert);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
             .setSmallIcon(alert.getIcon())
             .setAutoCancel(true)
             .setContentTitle(notificationContent.getTitleText())
             .setContentText(notificationContent.getShortText())
-            .setContentIntent(resultPendingIntent)
+            .setContentIntent(getPendingIntent())
             .setColor(alert.getColor())
             .setStyle(new NotificationCompat.BigTextStyle()
                     .bigText(notificationContent.getLongText()));
 
     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
     notificationManager.notify(alert.getName().hashCode(), builder.build());
+  }
+
+  private PendingIntent getPendingIntent() {
+    Intent viewerIntent = new Intent(context, NotificationViewer.class);
+    new AlertExtrasGenerator(alert, viewerIntent).addExtras();
+    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+    stackBuilder.addNextIntentWithParentStack(viewerIntent);
+    return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
   }
 }

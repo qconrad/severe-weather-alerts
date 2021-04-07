@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Activities.AlertChannelPickerActivity"></activity>
+        <activity android:name=".Activities.AlertChannelPickerActivity" />
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
-        <activity android:name=".Activities.NotificationViewer" />
+        <activity android:name=".Activities.NotificationViewer"
+            android:parentActivityName=".Activities.AlertListActivity"/>
         <service
             android:name=".Notifications.MessagingService"
             android:exported="false">
