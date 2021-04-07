@@ -84,8 +84,13 @@ public abstract class GraphicGenerator {
     fetchImages();
   }
 
+  protected void throwError(String message) {
+    graphicCompleteListener.error(message);
+  }
+
   public void fetchGridData() {
-    fetchPointInfo();
+    if (gridParameter != null) fetchPointInfo();
+    else finish();
   }
 
   public void fetchMapTimes() {
@@ -158,10 +163,6 @@ public abstract class GraphicGenerator {
         throwError("Error fetching alert zones");
       }
     });
-  }
-
-  protected void throwError(String message) {
-    graphicCompleteListener.error(message);
   }
 
   protected void fetchImages() {
