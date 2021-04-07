@@ -55,6 +55,14 @@ public class URL {
     return "https://digital.weather.gov/scripts/get_multivt.php?&grid=ndfd&elmt=" + type + "&region=" + region;
   }
 
+  public String getRadarMapTimes() {
+    return "https://api.rainviewer.com/public/maps.json";
+  }
+
+  public String getRadarImage(String date, String zoomLevel, String lat, String lon) {
+    return "https://tilecache.rainviewer.com/v2/radar/" + date + "/512/" + zoomLevel + "/" + lat + "/" + lon + "/6/1_1.png";
+  }
+
   public String getPointInfo(double lat, double lon) {
     return "https://api.weather.gov/points/" + lat + "," + lon;
   }

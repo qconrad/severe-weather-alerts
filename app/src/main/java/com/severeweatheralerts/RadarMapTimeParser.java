@@ -17,6 +17,6 @@ public class RadarMapTimeParser extends MapTimeParser {
 
   @Override
   protected Date getDateFromString(String string) {
-    return new Date(Long.parseLong(string));
+    return new Date(Long.parseLong(string) * 1000L);
   }
 }

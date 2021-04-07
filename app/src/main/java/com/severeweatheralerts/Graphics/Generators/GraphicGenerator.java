@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class GraphicGenerator {
-  private final Context context;
+  protected final Context context;
   private final Location location;
   private GraphicCompleteListener graphicCompleteListener;
 
@@ -74,7 +74,7 @@ public abstract class GraphicGenerator {
   }
 
   private int fetchesRemaining = 3;
-  private void finish() {
+  protected void finish() {
     if (--fetchesRemaining <= 0) generateImages();
   }
 

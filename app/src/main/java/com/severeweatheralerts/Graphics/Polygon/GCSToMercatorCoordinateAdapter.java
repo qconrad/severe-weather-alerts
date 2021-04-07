@@ -2,8 +2,10 @@ package com.severeweatheralerts.Graphics.Polygon;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 
+import static com.severeweatheralerts.Adapters.CoordinateAdapter.lat2y;
+import static com.severeweatheralerts.Adapters.CoordinateAdapter.lon2x;
+
 public class GCSToMercatorCoordinateAdapter {
-  final static double RADIUS = 6378137.0;
   private final GCSCoordinate gcsCoordinate;
   MercatorCoordinate mercatorCoordinate;
 
@@ -26,13 +28,5 @@ public class GCSToMercatorCoordinateAdapter {
 
   private double getY() {
     return lat2y(gcsCoordinate.getLat());
-  }
-
-  private static double lat2y(double aLat) {
-    return Math.log(Math.tan(Math.PI / 4 + Math.toRadians(aLat) / 2)) * RADIUS;
-  }
-
-  private static double lon2x(double aLong) {
-    return Math.toRadians(aLong) * RADIUS;
   }
 }
