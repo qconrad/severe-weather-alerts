@@ -221,4 +221,92 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(1, bundleAlertAdapter.getAlert().getZoneLinkCount());
   }
+
+  @Test
+  public void returnsPolygonCount() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[25.0, 25.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(1, bundleAlertAdapter.getAlert().getPolygonCount());
+  }
+
+  @Test
+  public void returnsTwoPolygons() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[25.0, 25.0]],[[25.0, 25.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(2, bundleAlertAdapter.getAlert().getPolygonCount());
+  }
+
+  @Test
+  public void returnsCorrectXCoordinate() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[25.0, 25.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(25.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(0).getX(), 0.001);
+  }
+
+  @Test
+  public void returnsCorrectYCoordinate() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[25.0, 25.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(25.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(0).getY(), 0.001);
+  }
+
+  @Test
+  public void returnsDifferentCorrectXCoordinate() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 25.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(24.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(0).getX(), 0.001);
+  }
+
+  @Test
+  public void returnsDifferentCorrectYCoordinate() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(23.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(0).getY(), 0.001);
+  }
+
+  @Test
+  public void returnsTwoCoordinates() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0],[25.0, 23.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(2, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinateCount());
+  }
+
+  @Test
+  public void secondCoordinateXCorrect() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0],[25.0, 23.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(25.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(1).getX(), 0.001);
+  }
+
+  @Test
+  public void secondCoordinateYCorrect() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0],[25.0, 22.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(22.0, bundleAlertAdapter.getAlert().getPolygon(0).getCoordinate(1).getY(), 0.001);
+  }
+
+  @Test
+  public void secondPolygonCoordinateXCorrect() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0]],[[20.0, 15.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(20.0, bundleAlertAdapter.getAlert().getPolygon(1).getCoordinate(0).getX(), 0.001);
+  }
+
+  @Test
+  public void secondPolygonCoordinateYCorrect() {
+    Bundle bundle = new Bundle();
+    bundle.putString("polygons", "[[[24.0, 23.0]],[[20.0, 15.0]]]");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(15.0, bundleAlertAdapter.getAlert().getPolygon(1).getCoordinate(0).getY(), 0.001);
+  }
 }
