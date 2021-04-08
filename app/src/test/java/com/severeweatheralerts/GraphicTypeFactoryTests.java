@@ -12,7 +12,9 @@ import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
+import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
+import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
@@ -20,6 +22,7 @@ import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.Lows;
+import com.severeweatheralerts.Graphics.Types.Radar;
 import com.severeweatheralerts.Graphics.Types.Rainfall;
 import com.severeweatheralerts.Graphics.Types.SPCOutlook;
 import com.severeweatheralerts.Graphics.Types.Snowfall;
@@ -30,7 +33,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class GraphicFactoryTests {
+public class GraphicTypeFactoryTests {
   @Test
   public void getType_DefaultGiven_ReturnsAlertArea() {
     DefaultAlert defaultAlert = new DefaultAlert();
@@ -171,5 +174,26 @@ public class GraphicFactoryTests {
     HardFreezeWarning hardFreezeWarning = new HardFreezeWarning();
     TypeFactory graphicFactory = new TypeFactory(hardFreezeWarning);
     assertEquals(Lows.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_StormWarning_RadarReturned() {
+    SevereThunderstormWarning svrWarn = new SevereThunderstormWarning();
+    TypeFactory graphicFactory = new TypeFactory(svrWarn);
+    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_TornadoWarning_RadarReturn() {
+    TornadoWarning torWarn = new TornadoWarning();
+    TypeFactory graphicFactory = new TypeFactory(torWarn);
+    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_TornadoWatch_SecondIsRadar() {
+    TornadoWatch torWatch = new TornadoWatch();
+    TypeFactory graphicFactory = new TypeFactory(torWatch);
+    assertEquals(Radar.class, graphicFactory.getTypes().get(1).getClass());
   }
 }
