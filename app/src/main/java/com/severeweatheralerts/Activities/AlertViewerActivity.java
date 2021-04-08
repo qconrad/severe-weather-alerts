@@ -69,7 +69,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private Location getLocation(int locationIndex) {
-    return LocationsDao.getLocationList().get(locationIndex);
+    return LocationsDao.getLocation(locationIndex);
   }
 
   private void populateUIWithAlertData() {

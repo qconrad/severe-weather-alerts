@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import io.paperdb.Paper;
+
 import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;
 
 public class DefaultActivity extends AppCompatActivity {
@@ -12,5 +14,6 @@ public class DefaultActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     createNotificationChannels(this);
     startActivity(new Intent(DefaultActivity.this, GettingLocationActivity.class));
+    Paper.init(this);
   }
 }

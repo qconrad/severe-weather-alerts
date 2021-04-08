@@ -42,6 +42,7 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
+    setLocationName(0);
     ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
@@ -49,6 +50,11 @@ public class AlertListActivity extends AppCompatActivity {
     populateRecyclerViews();
     setStatus();
     userSync();
+  }
+
+  private void setLocationName(int index) {
+    TextView locationName = findViewById(R.id.location_name);
+    locationName.setText(LocationsDao.getLocation(index).getName());
   }
 
   private void setStatus() {
@@ -59,7 +65,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void setStatusSubtext() {
-    textListFade= new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher));
+    textListFade = new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher));
     textListFade.beginFade();
   }
 

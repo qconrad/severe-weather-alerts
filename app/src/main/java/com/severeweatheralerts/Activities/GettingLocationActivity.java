@@ -30,7 +30,7 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void setLoadingStatus() {
     TextView tv = findViewById(R.id.loading_status);
-    tv.setText("Getting Location");
+    tv.setText(R.string.location_fetch_text);
   }
 
   private void setProgressbarColor() {
@@ -40,10 +40,10 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   GPSLocation gps;
   private void populateLocations() {
-    Location deviceLoc = new Location();
+    Location deviceLocation = new Location("Current Location");
     android.location.Location lastKnown = new LastKnownLocation(this).getLocation();
-    if (notNull(lastKnown) && notOutdated(lastKnown)) setDeviceLocation(deviceLoc, lastKnown);
-    else useGPS(deviceLoc);
+    if (notNull(lastKnown) && notOutdated(lastKnown)) setDefaultLocation(deviceLocation, lastKnown);
+    else useGPS(deviceLocation);
   }
 
   private boolean notOutdated(android.location.Location lastKnown) {
@@ -55,7 +55,7 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private int getLastKnownExpireTimeMS() {
-    return 1000*60*45; // 45 minutes
+    return 1000*60*20; // 20 minutes
   }
 
   private void useGPS(Location deviceLoc) {
@@ -66,7 +66,7 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void useLocation(Location deviceLoc, android.location.Location location) {
     gps.stopUpdates();
-    setDeviceLocation(deviceLoc, location);
+    setDefaultLocation(deviceLoc, location);
   }
 
   protected boolean accurateEnough(android.location.Location location) {
@@ -77,9 +77,9 @@ public class GettingLocationActivity extends AppCompatActivity {
     if (!PermissionManager.hasLocationPermissions(this)) PermissionManager.requestLocationPermissions(this);
   }
 
-  private void setDeviceLocation(Location deviceLoc, android.location.Location location) {
-    adaptLocation(deviceLoc, location);
-    LocationsDao.addLocation(deviceLoc);
+  private void setDefaultLocation(Location defaultLocation, android.location.Location location) {
+    adaptLocation(defaultLocation, location);
+    LocationsDao.setDefaultLocation(defaultLocation);
     fetchAlerts();
   }
 
