@@ -72,4 +72,16 @@ public class LocationObjectTests {
     loc.setName("Different Name");
     assertEquals("Different Name", loc.getName());
   }
+
+  @Test
+  public void nameConstructor() {
+    Location loc = new Location("Even More Different Name");
+    assertEquals("Even More Different Name", loc.getName());
+  }
+
+  @Test
+  public void differentNameConstructor() {
+    Location loc = new Location("Different Name");
+    assertEquals("Different Name", loc.getName());
+  }
 }

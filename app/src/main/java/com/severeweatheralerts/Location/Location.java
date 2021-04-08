@@ -14,7 +14,11 @@ public class Location {
     alerts = new ArrayList<>();
   }
 
-  public Object getName() {
+  public Location(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
     return name;
   }
 
