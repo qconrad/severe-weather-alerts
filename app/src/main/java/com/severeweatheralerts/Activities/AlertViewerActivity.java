@@ -86,8 +86,8 @@ public class AlertViewerActivity extends AppCompatActivity {
       setNextUpdate();
       setTitleCardColor();
       setBackgroundColor();
-      new Thread(this::populateReferences).start();
-      new Thread(this::generateGraphics).start();
+      populateReferences();
+      generateGraphics();
     }
   }
 
