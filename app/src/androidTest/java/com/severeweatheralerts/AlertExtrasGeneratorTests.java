@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class AlertExtrasGeneratorTests {
   @Test
@@ -316,7 +317,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
-    assertEquals("[[]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+    assertNull(alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
   @Test

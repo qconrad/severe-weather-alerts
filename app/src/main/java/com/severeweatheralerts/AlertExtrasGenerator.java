@@ -44,6 +44,6 @@ public class AlertExtrasGenerator {
       }
       return "[" + polygonString + "]";
     }
-    return "[[]]";
+    return null;
   }
 }
