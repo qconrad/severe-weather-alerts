@@ -6,7 +6,6 @@ import com.severeweatheralerts.Location.LocationsDao;
 import org.junit.Before;
 import org.junit.Test;
 
-
 import static org.junit.Assert.assertEquals;
 
 public class LocationDaoTests {

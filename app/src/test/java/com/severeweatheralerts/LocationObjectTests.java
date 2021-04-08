@@ -58,4 +58,18 @@ public class LocationObjectTests {
     loc.setLongitude(-87.0);
     assertEquals(-87.0, loc.getLongitude(), 0.001);
   }
+
+  @Test
+  public void getName_ReturnsSetName() {
+    Location loc = makeLocation();
+    loc.setName("Name");
+    assertEquals("Name", loc.getName());
+  }
+
+  @Test
+  public void getName_ReturnsDifferentSetName() {
+    Location loc = makeLocation();
+    loc.setName("Different Name");
+    assertEquals("Different Name", loc.getName());
+  }
 }
