@@ -3,12 +3,15 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Preferences.Channel;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class LocationObjectTests {
   private Location makeLocation() {
@@ -83,5 +86,26 @@ public class LocationObjectTests {
   public void differentNameConstructor() {
     Location loc = new Location("Different Name");
     assertEquals("Different Name", loc.getName());
+  }
+
+  @Test
+  public void channelPreferencesReturned() {
+    Location loc = new Location();
+    assertEquals(Channel.EXTREME, loc.getChannelPreferences().getChannel("Tornado Warning", Alert.Type.POST));
+  }
+
+  @Test
+  public void preferencesGiven_channelPreferencesReturned() {
+    Location loc = new Location();
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel("Tornado Warning", Alert.Type.POST, Channel.HIGH);
+    loc.setChannelPreferences(channelPreferences);
+    assertEquals(Channel.HIGH, loc.getChannelPreferences().getChannel("Tornado Warning", Alert.Type.POST));
+  }
+
+  @Test
+  public void nameConstructorUsed_AlertsNotNull() {
+    Location loc = new Location("Name");
+    assertNotNull(loc.getAlerts());
   }
 }

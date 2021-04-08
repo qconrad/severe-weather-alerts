@@ -1,6 +1,7 @@
 package com.severeweatheralerts.Location;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 
 import java.util.ArrayList;
 
@@ -9,12 +10,15 @@ public class Location {
   private double latitude;
   private double longitude;
   ArrayList<Alert> alerts;
+  ChannelPreferences channelPreferences;
 
   public Location() {
     alerts = new ArrayList<>();
+    channelPreferences = new ChannelPreferences();
   }
 
   public Location(String name) {
+    this();
     this.name = name;
   }
 
@@ -28,7 +32,6 @@ public class Location {
   public ArrayList<Alert> getAlerts() {
     return alerts;
   }
-
 
   public void setLatitude(double longitude) {
     this.latitude = longitude;
@@ -51,5 +54,13 @@ public class Location {
 
   public void setAlerts(ArrayList<Alert> alertList) {
     this.alerts = alertList;
+  }
+
+  public ChannelPreferences getChannelPreferences() {
+    return channelPreferences;
+  }
+
+  public void setChannelPreferences(ChannelPreferences channelPreferences) {
+    this.channelPreferences = channelPreferences;
   }
 }
