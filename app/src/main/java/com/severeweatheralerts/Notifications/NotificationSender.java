@@ -44,6 +44,6 @@ public class NotificationSender {
     new AlertExtrasGenerator(alert, viewerIntent).addExtras();
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
     stackBuilder.addNextIntentWithParentStack(viewerIntent);
-    return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+    return stackBuilder.getPendingIntent(alert.getName().hashCode(), PendingIntent.FLAG_UPDATE_CURRENT);
   }
 }
