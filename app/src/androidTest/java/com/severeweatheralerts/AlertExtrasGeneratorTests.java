@@ -5,6 +5,8 @@ import android.content.Intent;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
 
 import org.junit.Test;
 
@@ -303,5 +305,97 @@ public class AlertExtrasGeneratorTests {
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("link1", alertBundleAdapter.addExtras().getExtras().getStringArrayList("zones").get(0));
+  }
+
+  @Test
+  public void returnsPolygonString() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+  }
+
+  @Test
+  public void returnsOneCoordinate() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(25, 25));
+    tornadoWarning.addPolygon(polygon);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[[25.0, 25.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+  }
+
+  @Test
+  public void returnsDifferentXCoordinate() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(24, 25));
+    tornadoWarning.addPolygon(polygon);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[[24.0, 25.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+  }
+
+  @Test
+  public void returnsDifferentYCoordinate() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(24, 24));
+    tornadoWarning.addPolygon(polygon);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[[24.0, 24.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+  }
+
+  @Test
+  public void returnsSecondCoordinate() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(24, 24));
+    polygon.addCoordinate(new MercatorCoordinate(20, 21));
+    tornadoWarning.addPolygon(polygon);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[[24.0, 24.0],[20.0, 21.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
+  }
+
+  @Test
+  public void returnsTwoPolygons() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Polygon polygon = new Polygon();
+    polygon.addCoordinate(new MercatorCoordinate(24, 24));
+    polygon.addCoordinate(new MercatorCoordinate(20, 21));
+    Polygon polygon2 = new Polygon();
+    polygon2.addCoordinate(new MercatorCoordinate(15, 15));
+    tornadoWarning.addPolygon(polygon);
+    tornadoWarning.addPolygon(polygon2);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("[[[24.0, 24.0],[20.0, 21.0]],[[15.0, 15.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 }
