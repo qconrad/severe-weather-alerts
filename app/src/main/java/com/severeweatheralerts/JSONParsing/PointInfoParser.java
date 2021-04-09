@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class PointInfoParser {
-  private JSONObject pointJson;
   private String forecastGridLink;
 
   public PointInfoParser(String pointInfoJson) {
@@ -13,8 +12,8 @@ public class PointInfoParser {
   }
 
   private void parseInfo(String pointInfoJson) throws JSONException {
-     pointJson = new JSONObject(pointInfoJson);
-     forecastGridLink = pointJson.getJSONObject("properties").getString("forecastGridData");
+    JSONObject pointJson = new JSONObject(pointInfoJson);
+    forecastGridLink = pointJson.getJSONObject("properties").getString("forecastGridData");
   }
 
   public String getForecastGridLink() {
