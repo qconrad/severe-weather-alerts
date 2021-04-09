@@ -7,11 +7,14 @@ import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.MessageAdapter;
 import com.severeweatheralerts.Preferences.Channel;
 
+import io.paperdb.Paper;
+
 import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelString;
 
 public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
+    Paper.init(this);
     if (remoteMessage.getData().size() > 0) {
       MessageAdapter messageAdapter = new MessageAdapter(remoteMessage.getData());
       Alert alert = messageAdapter.getAlert();

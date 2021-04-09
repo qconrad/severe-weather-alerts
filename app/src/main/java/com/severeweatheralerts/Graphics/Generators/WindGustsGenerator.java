@@ -11,7 +11,6 @@ import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.URL;
-import com.severeweatheralerts.Location.Location;
 
 import java.util.Date;
 

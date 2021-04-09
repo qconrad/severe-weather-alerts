@@ -6,7 +6,6 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.RadarGenerator;
-import com.severeweatheralerts.Location.Location;
 
 public class Radar extends AlertArea implements GraphicType {
   public Radar() {}

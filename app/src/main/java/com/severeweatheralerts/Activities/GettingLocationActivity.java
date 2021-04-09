@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
@@ -40,7 +39,6 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   GPSLocation gps;
   private void populateLocations() {
-    Location deviceLocation = new Location("Current Location");
     android.location.Location lastKnown = new LastKnownLocation(this).getLocation();
     if (notNull(lastKnown) && notOutdated(lastKnown)) setDefaultLocation(lastKnown);
     else useGPS();

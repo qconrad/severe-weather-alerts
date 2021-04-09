@@ -9,7 +9,6 @@ import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.URL;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.RadarMapTimeParser;

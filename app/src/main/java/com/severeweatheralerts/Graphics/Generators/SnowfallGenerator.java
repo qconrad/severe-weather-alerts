@@ -11,7 +11,6 @@ import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.URL;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.TextUtils.Plurality;
 
 import java.util.Date;
