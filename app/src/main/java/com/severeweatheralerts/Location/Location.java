@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Location;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 public class Location {
   private String name;
+  private GCSCoordinate coordinate;
   private double latitude;
   private double longitude;
   ArrayList<Alert> alerts;
@@ -62,5 +64,13 @@ public class Location {
 
   public void setChannelPreferences(ChannelPreferences channelPreferences) {
     this.channelPreferences = channelPreferences;
+  }
+
+  public void setCoordinate(GCSCoordinate coordinate) {
+    this.coordinate = coordinate;
+  }
+
+  public GCSCoordinate getCoordinate() {
+    return coordinate;
   }
 }

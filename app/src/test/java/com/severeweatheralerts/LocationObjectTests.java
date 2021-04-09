@@ -1,5 +1,6 @@
 package com.severeweatheralerts;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Location.Location;
@@ -51,15 +52,22 @@ public class LocationObjectTests {
   @Test
   public void getLat_LatProvided_CorrectReturn() {
     Location loc = makeLocation();
-    loc.setLatitude(41.0);
-    assertEquals(41.0, loc.getLatitude(), 0.001);
+    loc.setCoordinate(new GCSCoordinate(41.0, 0.0));
+    assertEquals(41.0, loc.getCoordinate().getLat(), 0.001);
   }
 
   @Test
-  public void getLat_LongProvided_CorrectReturn() {
+  public void getLong_LongProvided_CorrectReturn() {
     Location loc = makeLocation();
-    loc.setLongitude(-87.0);
-    assertEquals(-87.0, loc.getLongitude(), 0.001);
+    loc.setCoordinate(new GCSCoordinate(41.0, -87.0));
+    assertEquals(-87.0, loc.getCoordinate().getLong(), 0.001);
+  }
+
+  @Test
+  public void getLong_DifferentLongProvided_CorrectReturn() {
+    Location loc = makeLocation();
+    loc.setCoordinate(new GCSCoordinate(41.0, -88.0));
+    assertEquals(-88.0, loc.getCoordinate().getLong(), 0.001);
   }
 
   @Test
