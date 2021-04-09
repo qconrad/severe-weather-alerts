@@ -62,7 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showSeverityPreferences() {
-      Intent alertListIntent = new Intent(getActivity(), AlertChannelPickerActivity.class);
+      Intent alertListIntent = new Intent(getActivity(), ChannelPreferencesActivity.class);
       startActivity(alertListIntent);
     }
 

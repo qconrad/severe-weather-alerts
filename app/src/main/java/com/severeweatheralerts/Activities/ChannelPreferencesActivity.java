@@ -7,24 +7,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 import com.severeweatheralerts.RippleEdit;
 
-public class AlertChannelPickerActivity extends AppCompatActivity {
+public class ChannelPreferencesActivity extends AppCompatActivity {
+  ChannelPreferences channelPreferences;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
+    channelPreferences = LocationsDao.getChannelPreferences(0);
     inflatePreferenceList();
   }
 
   private void inflatePreferenceList() {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
-    ChannelPreferences channelPreferences = new ChannelPreferences();
     PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
     preferenceAdapter.setClickListener((type, index) -> {
       new AlertDialog.Builder(this)
@@ -35,6 +37,12 @@ public class AlertChannelPickerActivity extends AppCompatActivity {
               }).create().show();
     });
     view.setAdapter(preferenceAdapter);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    LocationsDao.setChannelPreferences(0, channelPreferences);
   }
 
   String[] alerts = {"Tornado Warning",

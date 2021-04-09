@@ -43,7 +43,7 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     setLocationName(0);
-    ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getLocation(0).getAlerts()).filter();
+    ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getAlerts(0)).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
     status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
@@ -54,7 +54,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void setLocationName(int index) {
     TextView locationName = findViewById(R.id.location_name);
-    locationName.setText(LocationsDao.getLocation(index).getName());
+    locationName.setText(LocationsDao.getName(index));
   }
 
   private void setStatus() {

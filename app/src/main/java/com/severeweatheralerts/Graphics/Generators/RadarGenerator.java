@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Generators;
 import android.content.Context;
 
 import com.android.volley.VolleyError;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bound;
@@ -24,7 +25,7 @@ import static com.severeweatheralerts.Adapters.CoordinateAdapter.y2lat;
 public class RadarGenerator extends GraphicGenerator {
   private final double ZOOM_BUFFER = 0.8;
 
-  public RadarGenerator(Context context, Alert alert, Location location) {
+  public RadarGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
   }
 

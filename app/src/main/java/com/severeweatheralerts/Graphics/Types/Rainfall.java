@@ -2,6 +2,7 @@ package com.severeweatheralerts.Graphics.Types;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.RainfallGenerator;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
@@ -16,7 +17,7 @@ public class Rainfall extends AlertArea implements GraphicType {
   }
 
   @Override
-  public GraphicGenerator getGenerator(Context context, Alert alert, Location location) {
+  public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
     return new RainfallGenerator(context, alert, location);
   }
 }

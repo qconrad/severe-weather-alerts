@@ -2,6 +2,7 @@ package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Minimum;
@@ -17,7 +18,7 @@ import static com.severeweatheralerts.Graphics.UnitConverter.cToF;
 public class LowsGenerator extends GraphicGenerator {
   private ForecastTime expectedLow;
 
-  public LowsGenerator(Context context, Alert alert, Location location) {
+  public LowsGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     mapTimeParameter = "mint";
     gridParameter = "minTemperature";

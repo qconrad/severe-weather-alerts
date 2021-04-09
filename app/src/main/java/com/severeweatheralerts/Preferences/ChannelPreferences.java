@@ -9,8 +9,8 @@ import static com.severeweatheralerts.Preferences.Channel.*;
 public class ChannelPreferences {
   final Channel DEFAULT_UNKNOWN = MEDIUM;
 
-  HashMap<String, Channel[]> defaultMap;
-  HashMap<String, Channel> userMap = new HashMap<>();
+  private final HashMap<String, Channel[]> defaultMap = new HashMap<>();
+  private final HashMap<String, Channel> userMap = new HashMap<>();
 
   public ChannelPreferences() {
     populateDefaults();
@@ -61,7 +61,6 @@ public class ChannelPreferences {
   private Channel[] getAlertMap(String name) { return defaultMap.get(name); }
 
   private void populateDefaults() {
-    defaultMap = new HashMap<>();
     defaultMap.put("Tornado Warning",                     new Channel[]{EXTREME, HIGH,   HIGH});
     defaultMap.put("Volcano Warning",                     new Channel[]{EXTREME, HIGH,   HIGH});
     defaultMap.put("Extreme Wind Warning",                new Channel[]{EXTREME, HIGH,   HIGH});

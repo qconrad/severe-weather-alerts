@@ -54,7 +54,7 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getLocations() {
-    return new JSONLocationString(LocationsDao.getLocationList()).getString();
+    return new JSONLocationString(LocationsDao.getCoordinateList()).getString();
   }
 
   private boolean failure(Task<String> task) {

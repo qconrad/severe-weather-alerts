@@ -2,6 +2,7 @@ package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Maximum;
@@ -19,7 +20,7 @@ import static com.severeweatheralerts.Graphics.UnitConverter.kphToMph;
 public class WindGustsGenerator extends GraphicGenerator {
   private ForecastTime maxGust;
 
-  public WindGustsGenerator(Context context, Alert alert, Location location) {
+  public WindGustsGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     mapTimeParameter = "windgust";
     gridParameter = "windGust";

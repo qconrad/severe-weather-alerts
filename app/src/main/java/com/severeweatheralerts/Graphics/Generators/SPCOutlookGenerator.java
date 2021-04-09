@@ -2,13 +2,14 @@ package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Location.Location;
 
 public class SPCOutlookGenerator extends GraphicGenerator {
-  public SPCOutlookGenerator(Context context, Alert alert, Location location) {
+  public SPCOutlookGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     mapTimeParameter = "convoutlook";
   }

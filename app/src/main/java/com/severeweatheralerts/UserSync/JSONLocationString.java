@@ -1,13 +1,13 @@
 package com.severeweatheralerts.UserSync;
 
-import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 
 import java.util.ArrayList;
 
 public class JSONLocationString {
-  private final ArrayList<Location> locationList;
+  private final ArrayList<GCSCoordinate> locationList;
 
-  public JSONLocationString(ArrayList<Location> locationList) {
+  public JSONLocationString(ArrayList<GCSCoordinate> locationList) {
     this.locationList = locationList;
   }
 
@@ -28,16 +28,16 @@ public class JSONLocationString {
     if (shouldAddComma(i)) locArr.append(",");
   }
 
-  private String getArrayString(Location loc) {
+  private String getArrayString(GCSCoordinate loc) {
     return "[" + getLong(loc) + "," + getLat(loc) + "]";
   }
 
-  private double getLat(Location loc) {
-    return new DecimalTrimmer(loc.getLatitude()).trim(getTrimCount());
+  private double getLat(GCSCoordinate loc) {
+    return new DecimalTrimmer(loc.getLat()).trim(getTrimCount());
   }
 
-  private double getLong(Location loc) {
-    return new DecimalTrimmer(loc.getLongitude()).trim(getTrimCount());
+  private double getLong(GCSCoordinate loc) {
+    return new DecimalTrimmer(loc.getLong()).trim(getTrimCount());
   }
 
   protected int getTrimCount() {

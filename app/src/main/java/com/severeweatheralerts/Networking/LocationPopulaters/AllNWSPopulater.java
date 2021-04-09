@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.AlertAdapter;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 
 public class AllNWSPopulater {
   private final Context context;
-  protected Location location;
+  protected GCSCoordinate location;
 
-  public AllNWSPopulater(Location location, Context context) {
+  public AllNWSPopulater(GCSCoordinate location, Context context) {
     this.location = location;
     this.context = context;
   }
@@ -40,8 +41,7 @@ public class AllNWSPopulater {
   }
 
   private void setAlertsAndCallback(String response, PopulateCallback populateCallback) {
-    setAlertsForLocation(convertDataToAlerts(response));
-    populateCallback.complete();
+    populateCallback.complete(convertDataToAlerts(response));
   }
 
   private void handleError(VolleyError error, PopulateCallback populateCallback) {
@@ -53,10 +53,6 @@ public class AllNWSPopulater {
 
   private String getUserAgent() {
     return Constants.USER_AGENT;
-  }
-
-  private void setAlertsForLocation(ArrayList<Alert> alerts) {
-    location.setAlerts(alerts);
   }
 
   private ArrayList<Alert> convertDataToAlerts(String alertData) {

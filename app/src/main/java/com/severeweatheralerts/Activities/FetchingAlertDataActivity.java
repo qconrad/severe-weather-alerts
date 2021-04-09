@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
+
+import java.util.ArrayList;
 
 public class FetchingAlertDataActivity extends AppCompatActivity {
   @Override
@@ -28,9 +31,10 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    new FromLocationPointPopulater(LocationsDao.getLocation(0), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(LocationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
       @Override
-      public void complete() {
+      public void complete(ArrayList<Alert> alerts) {
+        LocationsDao.setAlerts(0, alerts);
         displayAlerts();
       }
 

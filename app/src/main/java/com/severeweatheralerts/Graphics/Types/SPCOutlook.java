@@ -2,6 +2,7 @@ package com.severeweatheralerts.Graphics.Types;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.SPCOutlookGenerator;
@@ -17,7 +18,7 @@ public class SPCOutlook extends AlertArea implements GraphicType {
   }
 
   @Override
-  public GraphicGenerator getGenerator(Context context, Alert alert, Location location) {
+  public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
     return new SPCOutlookGenerator(context, alert, location);
   }
 }

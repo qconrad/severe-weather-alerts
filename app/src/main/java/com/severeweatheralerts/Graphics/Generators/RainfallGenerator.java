@@ -2,6 +2,7 @@ package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
@@ -21,7 +22,7 @@ import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
 public class RainfallGenerator extends GraphicGenerator {
   private double rainfallAmount;
 
-  public RainfallGenerator(Context context, Alert alert, Location location) {
+  public RainfallGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     mapTimeParameter = "totalqpf";
     gridParameter = "quantitativePrecipitation";

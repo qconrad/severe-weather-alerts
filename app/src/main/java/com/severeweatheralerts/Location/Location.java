@@ -9,10 +9,8 @@ import java.util.ArrayList;
 public class Location {
   private String name;
   private GCSCoordinate coordinate;
-  private double latitude;
-  private double longitude;
-  ArrayList<Alert> alerts;
-  ChannelPreferences channelPreferences;
+  private transient ArrayList<Alert> alerts;
+  private ChannelPreferences channelPreferences;
 
   public Location() {
     alerts = new ArrayList<>();
@@ -33,22 +31,6 @@ public class Location {
   }
   public ArrayList<Alert> getAlerts() {
     return alerts;
-  }
-
-  public void setLatitude(double longitude) {
-    this.latitude = longitude;
-  }
-
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
-  }
-
-  public double getLatitude() {
-    return latitude;
-  }
-
-  public double getLongitude() {
-    return longitude;
   }
   public void addAlert(Alert alert) {
     alerts.add(alert);

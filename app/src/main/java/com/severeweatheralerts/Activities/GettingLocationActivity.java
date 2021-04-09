@@ -42,8 +42,8 @@ public class GettingLocationActivity extends AppCompatActivity {
   private void populateLocations() {
     Location deviceLocation = new Location("Current Location");
     android.location.Location lastKnown = new LastKnownLocation(this).getLocation();
-    if (notNull(lastKnown) && notOutdated(lastKnown)) setDefaultLocation(deviceLocation, lastKnown);
-    else useGPS(deviceLocation);
+    if (notNull(lastKnown) && notOutdated(lastKnown)) setDefaultLocation(lastKnown);
+    else useGPS();
   }
 
   private boolean notOutdated(android.location.Location lastKnown) {
@@ -58,15 +58,15 @@ public class GettingLocationActivity extends AppCompatActivity {
     return 1000*60*20; // 20 minutes
   }
 
-  private void useGPS(Location deviceLoc) {
+  private void useGPS() {
     gps = new GPSLocation(this, location -> {
-      if (accurateEnough(location)) useLocation(deviceLoc, location);
+      if (accurateEnough(location)) useLocation(location);
     }).startUpdates();
   }
 
-  private void useLocation(Location deviceLoc, android.location.Location location) {
+  private void useLocation(android.location.Location location) {
     gps.stopUpdates();
-    setDefaultLocation(deviceLoc, location);
+    setDefaultLocation(location);
   }
 
   protected boolean accurateEnough(android.location.Location location) {
@@ -77,9 +77,8 @@ public class GettingLocationActivity extends AppCompatActivity {
     if (!PermissionManager.hasLocationPermissions(this)) PermissionManager.requestLocationPermissions(this);
   }
 
-  private void setDefaultLocation(Location defaultLocation, android.location.Location location) {
-    adaptLocation(defaultLocation, location);
-    LocationsDao.setDefaultLocation(defaultLocation);
+  private void setDefaultLocation(android.location.Location location) {
+    LocationsDao.setDefaultLocation("Current Location", location.getLatitude(), location.getLongitude());
     fetchAlerts();
   }
 
@@ -87,11 +86,6 @@ public class GettingLocationActivity extends AppCompatActivity {
     Intent alertListIntent = new Intent(GettingLocationActivity.this, FetchingAlertDataActivity.class);
     startActivity(alertListIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-  }
-
-  private void adaptLocation(Location loc, android.location.Location deviceLoc) {
-    loc.setLatitude(deviceLoc.getLatitude());
-    loc.setLongitude(deviceLoc.getLongitude());
   }
 
   @Override

@@ -41,7 +41,7 @@ import java.util.Date;
 
 public abstract class GraphicGenerator {
   protected final Context context;
-  private final Location location;
+  private final GCSCoordinate location;
   private GraphicCompleteListener graphicCompleteListener;
 
   protected final Alert alert;
@@ -59,7 +59,7 @@ public abstract class GraphicGenerator {
     return null;
   }
 
-  public GraphicGenerator(Context context, Alert alert, Location location) {
+  public GraphicGenerator(Context context, Alert alert, GCSCoordinate location) {
     this.context = context;
     this.alert = alert;
     this.location = location;
@@ -111,7 +111,7 @@ public abstract class GraphicGenerator {
   }
 
   private void fetchPointInfo() {
-    StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLatitude(), location.getLongitude()));
+    StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLat(), location.getLong()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
@@ -197,8 +197,7 @@ public abstract class GraphicGenerator {
   }
 
   private MercatorCoordinate getMercatorCoordinate() {
-    GCSCoordinate lonLat = new GCSCoordinate(location.getLatitude(), location.getLongitude());
-    return new GCSToMercatorCoordinateAdapter(lonLat).getCoordinate();
+    return new GCSToMercatorCoordinateAdapter(location).getCoordinate();
   }
 
   protected Bound getBound() {

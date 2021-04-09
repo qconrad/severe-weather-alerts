@@ -24,6 +24,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
@@ -65,11 +66,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private ArrayList<Alert> getAlerts(int locationIndex) {
-    return getLocation(locationIndex).getAlerts();
-  }
-
-  private Location getLocation(int locationIndex) {
-    return LocationsDao.getLocation(locationIndex);
+    return LocationsDao.getAlerts(locationIndex);
   }
 
   private void populateUIWithAlertData() {
@@ -107,10 +104,10 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    generateGraphic(getLocation(locationIndex), type, graphicView);
+    generateGraphic(LocationsDao.getCoordinate(locationIndex), type, graphicView);
   }
 
-  private void generateGraphic(Location location, GraphicType type, View graphicView) {
+  private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {
     type.getGenerator(this, al, location).generate(new GraphicCompleteListener() {
       @Override
       public void onComplete(Graphic graphic) {
