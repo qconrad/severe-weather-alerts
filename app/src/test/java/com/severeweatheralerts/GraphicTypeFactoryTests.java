@@ -1,5 +1,7 @@
 package com.severeweatheralerts;
 
+import android.widget.GridLayout;
+
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodWatch;
@@ -14,9 +16,14 @@ import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
+import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
+import com.severeweatheralerts.Alerts.NWS.SpecialWeatherStatement;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
+import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
@@ -27,6 +34,7 @@ import com.severeweatheralerts.Graphics.Types.Rainfall;
 import com.severeweatheralerts.Graphics.Types.SPCOutlook;
 import com.severeweatheralerts.Graphics.Types.Snowfall;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
+import com.severeweatheralerts.Graphics.Types.WindChill;
 import com.severeweatheralerts.Graphics.Types.WindGusts;
 
 import org.junit.Test;
@@ -195,5 +203,41 @@ public class GraphicTypeFactoryTests {
     TornadoWatch torWatch = new TornadoWatch();
     TypeFactory graphicFactory = new TypeFactory(torWatch);
     assertEquals(Radar.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_WindChillAdvisory_WindChills() {
+    WindChillAdvisory windChillAdvisory = new WindChillAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(windChillAdvisory);
+    assertEquals(WindChill.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_WindChillWatch_WindChills() {
+    WindChillWatch windChillWatch = new WindChillWatch();
+    TypeFactory graphicFactory = new TypeFactory(windChillWatch);
+    assertEquals(WindChill.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_WindChillWarning_WindChills() {
+    WindChillWarning windChillWarning = new WindChillWarning();
+    TypeFactory graphicFactory = new TypeFactory(windChillWarning);
+    assertEquals(WindChill.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_SpecialMarineWarning_Radar() {
+    SpecialMarineWarning specialMarineWarning = new SpecialMarineWarning();
+    TypeFactory graphicFactory = new TypeFactory(specialMarineWarning);
+    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_SpecialWeatherStatementWithStorms_Radar() {
+    SpecialWeatherStatement specialWeatherStatement = new SpecialWeatherStatement();
+    specialWeatherStatement.setDescription("At 235 AM CDT, a strong thunderstorm was located near Petit Bois\\nIsland, or 9 miles south of Moss Point, moving northeast at 35 mph.\\n\\nWinds in excess of 30 mph and half inch hail are possible with this\\nstorm.\\n\\nLocations impacted include...\\nMoss Point, Escatawpa, Gautier and Helena.\\n\\nTorrential rainfall is also occurring with this storm, and may cause\\nlocalized flooding. Do not drive your vehicle through flooded\\nroadways.\\n\\nFrequent cloud to ground lightning is occurring with this storm.\\nLightning can strike 10 miles away from a thunderstorm. Seek a safe\\nshelter inside a building or vehicle.\\n\\nThis storm may intensify, so be certain to monitor local radio\\nstations and available television stations for additional information\\nand possible warnings from the National Weather Service.");
+    TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement);
+    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

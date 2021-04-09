@@ -14,9 +14,13 @@ import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
+import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
+import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
@@ -37,7 +41,9 @@ public class TypeFactory {
       if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
         types.add(new WindGusts());
     }
-    else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning)
+    else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
+      types.add(new WindChill());
+    else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm"))
       types.add(new Radar());
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
