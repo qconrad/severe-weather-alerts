@@ -9,7 +9,6 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 
 import com.severeweatheralerts.Activities.NotificationViewer;
-import com.severeweatheralerts.AlertExtrasGenerator;
 import com.severeweatheralerts.Alerts.Alert;
 
 public class NotificationSender {

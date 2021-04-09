@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Notifications;
 
 import com.severeweatheralerts.Adapters.DescriptionHeadlineRemover;
 import com.severeweatheralerts.Adapters.EndTimeAdapter;

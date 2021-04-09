@@ -7,6 +7,7 @@ import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Notifications.AlertExtrasGenerator;
 
 import org.junit.Test;
 

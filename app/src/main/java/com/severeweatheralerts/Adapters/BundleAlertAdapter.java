@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Adapters;
 
 import android.os.Bundle;
 

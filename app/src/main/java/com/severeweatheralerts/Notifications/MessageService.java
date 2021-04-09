@@ -4,7 +4,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.MessageAdapter;
 import com.severeweatheralerts.Preferences.Channel;
 
 import io.paperdb.Paper;

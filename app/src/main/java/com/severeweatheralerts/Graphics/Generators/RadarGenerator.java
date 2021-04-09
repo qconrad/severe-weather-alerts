@@ -11,7 +11,7 @@ import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
-import com.severeweatheralerts.RadarMapTimeParser;
+import com.severeweatheralerts.JSONParsing.RadarMapTimeParser;
 import com.severeweatheralerts.TimeFormatters.AbsoluteTimeFormatter;
 
 import java.util.Date;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Adapters.BundleAlertAdapter;
 
 import org.junit.Test;
 

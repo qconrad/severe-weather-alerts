@@ -12,7 +12,7 @@ import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
-import com.severeweatheralerts.RippleEdit;
+import com.severeweatheralerts.Preferences.RippleEdit;
 
 public class ChannelPreferencesActivity extends AppCompatActivity {
   ChannelPreferences channelPreferences;

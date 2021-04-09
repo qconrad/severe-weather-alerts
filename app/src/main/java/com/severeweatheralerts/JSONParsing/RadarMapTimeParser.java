@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.JSONParsing;
 
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
 

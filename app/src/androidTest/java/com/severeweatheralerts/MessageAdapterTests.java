@@ -3,6 +3,7 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Notifications.MessageAdapter;
 
 import org.junit.Test;
 

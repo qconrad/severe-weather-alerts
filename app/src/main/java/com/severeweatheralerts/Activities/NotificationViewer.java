@@ -2,7 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.os.Bundle;
 
-import com.severeweatheralerts.BundleAlertAdapter;
+import com.severeweatheralerts.Adapters.BundleAlertAdapter;
 
 import io.paperdb.Paper;
 

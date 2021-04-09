@@ -3,6 +3,7 @@ package com.severeweatheralerts;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
+import com.severeweatheralerts.Preferences.RippleEdit;
 
 import org.junit.Test;
 
