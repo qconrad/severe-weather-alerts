@@ -13,11 +13,8 @@ import com.severeweatheralerts.Networking.AsyncPost;
 import com.severeweatheralerts.Location.LocationsDao;
 
 public class UserSyncWorker extends Worker {
-  private final Context context;
-
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
-    this.context = context;
   }
 
   @NonNull
@@ -42,15 +39,15 @@ public class UserSyncWorker extends Worker {
 
   private void postToken(Task<String> task) {
     if (failure(task)) return;
-    new AsyncPost(getUrl(), getSyncData(task)).execute();
+    new AsyncPost(getURL(), getSyncData(task)).execute();
   }
 
   private String getSyncData(Task<String> task) {
     return new UserSyncJSONGenerator(getToken(task)).getLocationsString(getLocations());
   }
 
-  protected String getUrl() {
-    return "https://us-central1-severe-weather-alerts.cloudfunctions.net/userupdate";
+  protected String getURL() {
+    return "https://us-central1-severe-weather-alerts.cloudfunctions.net/usersync";
   }
 
   private String getLocations() {
