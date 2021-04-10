@@ -1,6 +1,5 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.UserSync.JSONLocationString;
 import com.severeweatheralerts.UserSync.UserSyncJSONGenerator;
 
@@ -15,7 +14,7 @@ public class UserSyncJSONGeneratorTests {
   public void getString_TokenAndBuildProvided_TokenAndBuildInString() {
     String token = "0123456789abc";
     UserSyncJSONGenerator userSyncJSONGenerator = new UserSyncJSONGenerator(token);
-    String output = userSyncJSONGenerator.getLocationsString(new JSONLocationString(new ArrayList<GCSCoordinate>()).getString());
+    String output = userSyncJSONGenerator.getLocationsString(new JSONLocationString(new ArrayList<>()).getString());
     assertEquals("{\"token\":\"0123456789abc\",\"locations\":[[]]}", output);
   }
 }

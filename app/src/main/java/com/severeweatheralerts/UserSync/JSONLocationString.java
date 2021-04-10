@@ -29,7 +29,7 @@ public class JSONLocationString {
   }
 
   private String getArrayString(GCSCoordinate loc) {
-    return "[" + getLong(loc) + "," + getLat(loc) + "]";
+    return "[" + getLat(loc) + "," + getLong(loc) + "]";
   }
 
   private double getLat(GCSCoordinate loc) {
