@@ -46,7 +46,7 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getSyncData(Task<String> task) {
-    return new UserSyncJSONGenerator(getToken(task), BuildNumber.get(context)).getLocationsString(getLocations());
+    return new UserSyncJSONGenerator(getToken(task)).getLocationsString(getLocations());
   }
 
   protected String getUrl() {
