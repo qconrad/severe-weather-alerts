@@ -32,13 +32,12 @@
             android:parentActivityName=".Activities.AlertListActivity">
             <intent-filter>
                 <action android:name="alertviewer" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
         <activity android:name=".Activities.NotificationViewer"
-            android:parentActivityName=".Activities.AlertListActivity"/>
+            android:parentActivityName=".Activities.FetchingAlertDataActivity"/>
         <service
             android:name=".Notifications.MessageService"
             android:exported="false">
