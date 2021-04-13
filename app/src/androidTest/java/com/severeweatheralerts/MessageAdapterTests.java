@@ -297,4 +297,13 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals(1, messageAdapter.getAlert().getPolygon(1).getCoordinateCount());
   }
+
+  @Test
+  public void getAlert_ExpiresGiven_NextUpdateTime() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("expires", "2021-04-04T09:06:21+00:00");
+    mockAlertMessage.put("ends", "2021-04-04T09:06:21+00:00");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNotNull(messageAdapter.getAlert().getExpectedUpdateTime());
+  }
 }

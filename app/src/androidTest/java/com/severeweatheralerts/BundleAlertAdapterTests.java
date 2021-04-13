@@ -310,4 +310,12 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(15.0, bundleAlertAdapter.getAlert().getPolygon(1).getCoordinate(0).getY(), 0.001);
   }
+
+  @Test
+  public void expectedUpdateTime() {
+    Bundle bundle = new Bundle();
+    bundle.putLong("expectedUpdate", 1500L);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(1500L, bundleAlertAdapter.getAlert().getExpectedUpdateTime().getTime());
+  }
 }

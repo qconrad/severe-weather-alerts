@@ -15,7 +15,7 @@ public class AlertExtrasGenerator {
   }
 
   public Intent addExtras() {
-    return resultIntent.putExtra("name", alert.getName())
+    Intent intent = resultIntent.putExtra("name", alert.getName())
             .putExtra("description", alert.getDescription())
             .putExtra("instruction", alert.getInstruction())
             .putExtra("largeHeadline", alert.getLargeHeadline())
@@ -28,6 +28,8 @@ public class AlertExtrasGenerator {
             .putExtra("polygons", getPolygonString())
             .putExtra("sender", alert.getSender())
             .putExtra("senderCode", alert.getSenderCode());
+    if (alert.getExpectedUpdateTime() != null) intent.putExtra("expectedUpdate", alert.getExpectedUpdateTime().getTime());
+    return intent;
   }
 
   private String getPolygonString() {

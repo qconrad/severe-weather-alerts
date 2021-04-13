@@ -5,8 +5,8 @@ import java.util.Date;
 import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringToDate;
 
 public class ExpectedUpdateTimeAdapter {
-  private String expireTime;
-  private String endTime;
+  private final String expireTime;
+  private final String endTime;
 
   public ExpectedUpdateTimeAdapter(String endTime, String expireTime) {
     this.endTime = endTime;

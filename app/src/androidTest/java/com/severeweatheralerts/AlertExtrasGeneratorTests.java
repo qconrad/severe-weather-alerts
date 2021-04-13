@@ -400,4 +400,17 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("[[[24.0, 24.0],[20.0, 21.0]],[[15.0, 15.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
+
+  @Test
+  public void expectedUpdateTime() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setExpectedUpdateTime(new Date(15000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals(15000L, alertBundleAdapter.addExtras().getExtras().getLong("expectedUpdate"));
+  }
 }

@@ -2,6 +2,7 @@ package com.severeweatheralerts.Notifications;
 
 import com.severeweatheralerts.Adapters.DescriptionHeadlineRemover;
 import com.severeweatheralerts.Adapters.EndTimeAdapter;
+import com.severeweatheralerts.Adapters.ExpectedUpdateTimeAdapter;
 import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.HeadlineAdapter;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
@@ -37,6 +38,7 @@ public class MessageAdapter {
     alert.setSentTime(new SendTimeAdapter(message.get("sent")).adaptSendTime());
     alert.setStartTime(new StartTimeAdapter(message.get("onset")).adaptStartTime());
     alert.setEndTime(new EndTimeAdapter(message.get("ends"), message.get("expires")).adaptEndTime());
+    alert.setExpectedUpdateTime(new ExpectedUpdateTimeAdapter(message.get("ends"), message.get("expires")).adaptUpdateExpectedTime());
     alert.setType(new TypeAdapter(message.get("type")).adaptType());
     alert.setSenderCode(new SenderCodeAdapter(message.get("senderCode")).adapterSenderCode());
     alert.setSender(message.get("senderName"));
