@@ -38,4 +38,6 @@
     <string name="location_fetch_text">Getting Location</string>
     <string name="recent_alerts">Recent Alerts</string>
     <string name="active_alerts">Active Alerts</string>
+    <string name="location_name">Give this location a name</string>
+    <string name="location_text_entry">Enter address, town, or postcode</string>
 </resources>
