@@ -5,6 +5,8 @@ import com.severeweatheralerts.JSONParsing.GeocodeParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class GeocodeParserTests {
   @Test
@@ -75,5 +77,33 @@ public class GeocodeParserTests {
     String geocodeString = "{\"standard\":{\"addresst\":\"Main St\",\"city\":\"Des Monies\",\"prov\":\"US\",\"stnumber\":\"1234\",\"countryname\":\"United States of America\",\"postal\":\"61000\",\"confidence\":\"0.90\"},\"longt\":\"-88.68808\",\"alt\":{\"loc\":{\"longt\":\"-88.745393\",\"prov\":\"IL\",\"city\":\"Chicago\",\"postal\":\"60804\",\"score\":\"20\",\"latt\":\"42.841697\"}},\"elevation\":{},\"latt\":\"42.85013\"}";
     GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
     assertEquals("61000", geocodeParser.getPostal());
+  }
+
+  @Test
+  public void doesNotHaveError() {
+    String geocodeString = "{\"standard\":{\"addresst\":\"Main St\",\"city\":\"Des Monies\",\"prov\":\"US\",\"stnumber\":\"1234\",\"countryname\":\"United States of America\",\"postal\":\"61000\",\"confidence\":\"0.90\"},\"longt\":\"-88.68808\",\"alt\":{\"loc\":{\"longt\":\"-88.745393\",\"prov\":\"IL\",\"city\":\"Chicago\",\"postal\":\"60804\",\"score\":\"20\",\"latt\":\"42.841697\"}},\"elevation\":{},\"latt\":\"42.85013\"}";
+    GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
+    assertFalse(geocodeParser.hasError());
+  }
+
+  @Test
+  public void hasError() {
+    String geocodeString = "{\"error\":{\"description\":\"Your request produced no suggestions.\",\"code\":\"018\"}}";
+    GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
+    assertTrue(geocodeParser.hasError());
+  }
+
+  @Test
+  public void getError() {
+    String geocodeString = "{\"error\":{\"description\":\"Your request produced no suggestions.\",\"code\":\"018\"}}";
+    GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
+    assertEquals("Your request produced no suggestions.", geocodeParser.getError());
+  }
+
+  @Test
+  public void getDifferentError() {
+    String geocodeString = "{\"error\":{\"description\":\"Your request produced suggestions.\",\"code\":\"018\"}}";
+    GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
+    assertEquals("Your request produced suggestions.", geocodeParser.getError());
   }
 }

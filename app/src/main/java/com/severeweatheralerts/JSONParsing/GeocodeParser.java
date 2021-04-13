@@ -4,22 +4,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GeocodeParser {
+  private boolean hasError;
   private String postal;
   private String address;
   private String city;
   private double longitude;
   private double latitude;
-  private JSONObject geocode;
+  private String error;
 
   public GeocodeParser(String geocodeString) {
     try {
-      geocode = new JSONObject(geocodeString);
-      latitude = geocode.getDouble("latt");
-      longitude = geocode.getDouble("longt");
-      city = geocode.getJSONObject("standard").getString("city");
-      postal = geocode.getJSONObject("standard").getString("postal");
-      address = geocode.getJSONObject("standard").getString("stnumber") + " " +
-              geocode.getJSONObject("standard").getString("addresst");
+      JSONObject geocode = new JSONObject(geocodeString);
+      if (geocode.has("error")) {
+        hasError = true;
+        error = geocode.getJSONObject("error").getString("description");
+      } else {
+        latitude = geocode.getDouble("latt");
+        longitude = geocode.getDouble("longt");
+        city = geocode.getJSONObject("standard").getString("city");
+        postal = geocode.getJSONObject("standard").getString("postal");
+        address = geocode.getJSONObject("standard").getString("stnumber") + " " +
+                geocode.getJSONObject("standard").getString("addresst");
+      }
     }
     catch (JSONException e) { e.printStackTrace(); }
   }
@@ -42,5 +48,13 @@ public class GeocodeParser {
 
   public String getPostal() {
     return postal;
+  }
+
+  public boolean hasError() {
+    return hasError;
+  }
+
+  public String getError() {
+    return error;
   }
 }
