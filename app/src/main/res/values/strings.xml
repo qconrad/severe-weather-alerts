@@ -36,4 +36,6 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="location_fetch_text">Getting Location</string>
+    <string name="recent_alerts">Recent Alerts</string>
+    <string name="active_alerts">Active Alerts</string>
 </resources>
