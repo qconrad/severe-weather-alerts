@@ -39,7 +39,8 @@ public class NotificationContentGenerator {
   }
 
   public String getTitleText() {
-    if (type == Alert.Type.POST) return name;
-    return name + " Update";
+    if (type == Alert.Type.UPDATE) return name + " Update";
+    if (type == Alert.Type.CANCEL) return name + " Cancellation";
+    return name;
   }
 }

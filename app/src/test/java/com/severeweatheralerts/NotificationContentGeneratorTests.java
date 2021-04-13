@@ -131,6 +131,6 @@ public class NotificationContentGeneratorTests {
     tornadoWarning.setName("Tornado Watch");
     tornadoWarning.setType(Alert.Type.CANCEL);
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
-    assertEquals("Tornado Watch Update", notificationContentGenerator.getTitleText());
+    assertEquals("Tornado Watch Cancellation", notificationContentGenerator.getTitleText());
   }
 }
