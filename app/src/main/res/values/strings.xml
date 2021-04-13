@@ -40,4 +40,7 @@
     <string name="active_alerts">Active Alerts</string>
     <string name="location_name">Give this location a name</string>
     <string name="location_text_entry">Enter address, town, or postcode</string>
+    <string name="location_search">Search</string>
+    <string name="use_location_button">Use This Location</string>
+    <string name="location_cancel_button">Cancel</string>
 </resources>
