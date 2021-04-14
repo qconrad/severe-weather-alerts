@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class GeocodeParserTests {
@@ -77,6 +78,13 @@ public class GeocodeParserTests {
     String geocodeString = "{\"standard\":{\"addresst\":\"Main St\",\"city\":\"Des Monies\",\"prov\":\"US\",\"stnumber\":\"1234\",\"countryname\":\"United States of America\",\"postal\":\"61000\",\"confidence\":\"0.90\"},\"longt\":\"-88.68808\",\"alt\":{\"loc\":{\"longt\":\"-88.745393\",\"prov\":\"IL\",\"city\":\"Chicago\",\"postal\":\"60804\",\"score\":\"20\",\"latt\":\"42.841697\"}},\"elevation\":{},\"latt\":\"42.85013\"}";
     GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
     assertEquals("61000", geocodeParser.getPostal());
+  }
+
+  @Test
+  public void getPostal_EmptyObject_ReturnsNull() {
+    String geocodeString = "{\"standard\":{\"addresst\":\"Main St\",\"city\":\"Des Monies\",\"prov\":\"US\",\"stnumber\":\"1234\",\"countryname\":\"United States of America\",\"postal\":\"{}\",\"confidence\":\"0.90\"},\"longt\":\"-88.68808\",\"alt\":{\"loc\":{\"longt\":\"-88.745393\",\"prov\":\"IL\",\"city\":\"Chicago\",\"postal\":\"{}\",\"score\":\"20\",\"latt\":\"42.841697\"}},\"elevation\":{},\"latt\":\"42.85013\"}";
+    GeocodeParser geocodeParser = new GeocodeParser(geocodeString);
+    assertNull(geocodeParser.getPostal());
   }
 
   @Test

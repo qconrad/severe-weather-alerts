@@ -22,7 +22,9 @@ public class GeocodeParser {
         latitude = geocode.getDouble("latt");
         longitude = geocode.getDouble("longt");
         city = geocode.getJSONObject("standard").getString("city");
-        postal = geocode.getJSONObject("standard").getString("postal");
+        if (!geocode.getJSONObject("standard").getString("postal").equals("{}")) {
+          postal = geocode.getJSONObject("standard").getString("postal");
+        }
         address = geocode.getJSONObject("standard").getString("stnumber") + " " +
                 geocode.getJSONObject("standard").getString("addresst");
       }
