@@ -43,4 +43,6 @@
     <string name="location_search">Search</string>
     <string name="use_location_button">Use This Location</string>
     <string name="location_cancel_button">Cancel</string>
+    <string name="clear_button_text">Clear</string>
+    <string name="use_current_location_button">Use Current Location</string>
 </resources>
