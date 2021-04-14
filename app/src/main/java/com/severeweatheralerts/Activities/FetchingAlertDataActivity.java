@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
@@ -23,6 +26,9 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
     setContentView(R.layout.activity_loading);
     getAlerts();
     setProgressbarColor();
+    new UserSyncWorkScheduler(this).oneTimeSync();
+    GCSCoordinate coordinate = LocationsDao.getCoordinate(0);
+    new GeofenceManager(this).setGeofence(coordinate.getLat(), coordinate.getLong(), 400);
   }
 
   private void setProgressbarColor() {

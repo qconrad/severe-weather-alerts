@@ -16,6 +16,7 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".LocationPicker" android:noHistory="true" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
+        <receiver android:name=".GeofenceReceiver"/>
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

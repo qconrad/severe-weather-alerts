@@ -27,11 +27,16 @@ public class LocationsDao {
 
   public static void setDefaultLocation(String name, double latitude, double longitude) {
     getLocations();
-    Location location;
-    if (locations.size() > 0) location = locations.get(0);
-    else location = new Location();
-    location.setName(name);
-    location.setCoordinate(new GCSCoordinate(latitude, longitude));
+    if (locations.size() > 0) locations.add(new Location());
+    locations.get(0).setName(name);
+    locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
+    saveToFile();
+  }
+
+  public static void updateDefaultLocation(double latitude, double longitude) {
+    getLocations();
+    if (locations.size() > 0) locations.add(new Location());
+    locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
     saveToFile();
   }
 

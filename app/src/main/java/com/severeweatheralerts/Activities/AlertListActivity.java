@@ -49,7 +49,6 @@ public class AlertListActivity extends AppCompatActivity {
     status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
     populateRecyclerViews();
     setStatus();
-    userSync();
   }
 
   private void setLocationName(int index) {
@@ -77,10 +76,6 @@ public class AlertListActivity extends AppCompatActivity {
   private void setStatusIcon() {
     ImageView icon = findViewById(R.id.status_icon);
     icon.setImageResource(status.getIcon());
-  }
-
-  private void userSync() {
-    new UserSyncWorkScheduler(this).oneTimeSync();
   }
 
   private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
