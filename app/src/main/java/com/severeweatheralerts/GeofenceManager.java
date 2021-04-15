@@ -24,13 +24,31 @@ public class GeofenceManager {
     geofencingClient = LocationServices.getGeofencingClient(context);
   }
 
-  public void setGeofence(double lat, double lon, float radius) {
+  public void setMovingGeofence(double lat, double lon, float radius, int dwellTimeMS) {
     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
     geofencingClient.removeGeofences(getGeofencePendingIntent());
-    geofencingClient.addGeofences(getGeofencingRequest(lat, lon, radius), getGeofencePendingIntent());
+    geofencingClient.addGeofences(getMovingRequest(lat, lon, radius, dwellTimeMS), getGeofencePendingIntent());
   }
 
-  private GeofencingRequest getGeofencingRequest(double lat, double lon, float radius) {
+  public void setStationaryGeofence(double lat, double lon, float radius) {
+    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+    geofencingClient.removeGeofences(getGeofencePendingIntent());
+    geofencingClient.addGeofences(getStationaryRequest(lat, lon, radius), getGeofencePendingIntent());
+  }
+
+  private GeofencingRequest getMovingRequest(double lat, double lon, float radius, int dwellTimeMS) {
+    ArrayList<Geofence> geofenceList = new ArrayList<>();
+    geofenceList.add(new Geofence.Builder()
+            .setRequestId("locationChangeUpdate")
+            .setCircularRegion(lat, lon, radius)
+            .setExpirationDuration(-1)
+            .setLoiteringDelay(dwellTimeMS)
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_EXIT | Geofence.GEOFENCE_TRANSITION_DWELL)
+            .build());
+    return buildRequest(geofenceList);
+  }
+
+  private GeofencingRequest getStationaryRequest(double lat, double lon, float radius) {
     ArrayList<Geofence> geofenceList = new ArrayList<>();
     geofenceList.add(new Geofence.Builder()
             .setRequestId("locationChangeUpdate")
@@ -38,9 +56,12 @@ public class GeofenceManager {
             .setExpirationDuration(-1)
             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_EXIT)
             .build());
+    return buildRequest(geofenceList);
+  }
 
+  private GeofencingRequest buildRequest(ArrayList<Geofence> geofenceList) {
     GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-    builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+    builder.setInitialTrigger(Geofence.GEOFENCE_TRANSITION_DWELL);
     builder.addGeofences(geofenceList);
     return builder.build();
   }
