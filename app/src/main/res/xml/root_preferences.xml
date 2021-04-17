@@ -4,14 +4,14 @@
 
         <SwitchPreferenceCompat
             app:key="usefixed"
-            app:summary="By default, your device's location will be used. You can save some battery and data by setting a fixed location."
+            app:summary="If disabled, your device's location will be used. You can save some battery and data by setting a fixed location."
             app:title="Use Fixed Location" />
 
-        <EditTextPreference
-            app:key="fixed_location"
+        <Preference
+            app:key="fixedloc"
             app:dependency="usefixed"
-            app:title="Location"
-            app:useSimpleSummaryProvider="true" />
+            app:title="Fixed Location"
+            app:summary="Not set" />
 
         <Preference
             app:title="Notification Preferences"
