@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +14,9 @@ import com.severeweatheralerts.JSONParsing.GeocodeParser;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
+import com.severeweatheralerts.R;
 
-public class LocationPicker extends AppCompatActivity {
+public class LocationPickerActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class LocationPicker extends AppCompatActivity {
 
       @Override
       public void error(VolleyError error) {
-        Toast.makeText(LocationPicker.this, "An error occurred while looking up location", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LocationPickerActivity.this, "An error occurred while looking up location", Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.INVISIBLE);
       }
     });

@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Location.Geofencing;
 
 import android.Manifest;
 import android.app.PendingIntent;

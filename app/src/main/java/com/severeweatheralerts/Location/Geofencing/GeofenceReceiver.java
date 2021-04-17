@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Location.Geofencing;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

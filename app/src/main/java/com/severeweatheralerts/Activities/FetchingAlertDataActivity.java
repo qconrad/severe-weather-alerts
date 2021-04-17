@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.GeofenceManager;
+import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
