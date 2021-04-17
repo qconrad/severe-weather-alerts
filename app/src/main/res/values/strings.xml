@@ -45,4 +45,8 @@
     <string name="location_cancel_button">Cancel</string>
     <string name="clear_button_text">Clear</string>
     <string name="use_current_location_button">Use Current Location</string>
+    <string name="this_device_s_location">This Device\'s Location</string>
+    <string name="custom_set_location">Custom Set Location</string>
+    <string name="where_should_alerts_be_for">Where should alerts be for?</string>
+    <string name="welcome">Welcome!</string>
 </resources>

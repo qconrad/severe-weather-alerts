@@ -14,9 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Activities.LocationPickerActivity" android:noHistory="true" />
+        <activity android:name=".FirstRunActivity" />
+        <activity
+            android:name=".Activities.LocationPickerActivity"
+            android:noHistory="true" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
-        <receiver android:name=".Location.Geofencing.GeofenceReceiver"/>
+        <receiver android:name=".Location.Geofencing.GeofenceReceiver" />
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,4 +52,5 @@
             </intent-filter>
         </service>
     </application>
+
 </manifest>
