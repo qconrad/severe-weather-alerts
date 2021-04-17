@@ -3,7 +3,6 @@ package com.severeweatheralerts.Networking.LocationPopulaters;
 import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Location.Location;
 
 public class FromLocationPointPopulater extends AllNWSPopulater {
   public FromLocationPointPopulater(GCSCoordinate location, Context context) {
