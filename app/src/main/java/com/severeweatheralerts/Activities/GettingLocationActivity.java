@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
 import java.util.Date;
@@ -23,7 +22,6 @@ public class GettingLocationActivity extends AppCompatActivity {
     setContentView(R.layout.activity_loading);
     setLoadingStatus();
     setProgressbarColor();
-    checkPermissions();
     populateLocations();
   }
 
@@ -69,10 +67,6 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   protected boolean accurateEnough(android.location.Location location) {
     return location.getAccuracy() < 100;
-  }
-
-  private void checkPermissions() {
-    if (!PermissionManager.hasLocationPermissions(this)) PermissionManager.requestLocationPermissions(this);
   }
 
   private void setDefaultLocation(android.location.Location location) {

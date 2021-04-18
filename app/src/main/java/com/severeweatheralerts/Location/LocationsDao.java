@@ -27,7 +27,7 @@ public class LocationsDao {
 
   public static void setDefaultLocation(String name, double latitude, double longitude) {
     getLocations();
-    if (locations.size() > 0) locations.add(new Location());
+    if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setName(name);
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
     saveToFile();

@@ -18,11 +18,11 @@ public class PermissionManager {
     ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
   }
 
-  private static boolean hasFineLocation(Context context) {
+  public static boolean hasFineLocation(Context context) {
     return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
   }
 
-  private static boolean hasCoarseLocation(Context context) {
+  public static boolean hasCoarseLocation(Context context) {
     return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
   }
 
