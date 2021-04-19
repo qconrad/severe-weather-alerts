@@ -12,9 +12,11 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
+import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -33,6 +35,13 @@ public class SettingsActivity extends AppCompatActivity {
       actionBar.setDisplayHomeAsUpEnabled(true);
     }
   }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if (PermissionManager.hasLocationPermissions(this)) startActivity(new Intent(SettingsActivity.this, GettingLocationActivity.class));
+  }
+
 
   public static class SettingsFragment extends PreferenceFragmentCompat {
     @Override
@@ -55,18 +64,19 @@ public class SettingsActivity extends AppCompatActivity {
       Preference usefixed = findPreference("usefixed");
       if (usefixed != null) {
         usefixed.setOnPreferenceChangeListener((preference, newValue) -> {
-          if ((Boolean) newValue) startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
+          if ((Boolean) newValue) {
+            new GeofenceManager(getContext()).removeGeofences();
+            LocationsDao.setName(0, "Fixed Location");
+            findPreference("fixedloc").setSummary("Default Location");
+            startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
+          }
           else {
             if (!PermissionManager.hasLocationPermissions(getActivity())) PermissionManager.requestLocationPermissions(getActivity());
+            else startActivity(new Intent(getActivity(), GettingLocationActivity.class));
           }
           return true;
         });
       }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-      super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void createSeverityPreferencesListener() {
@@ -119,6 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
       if (resultCode == Activity.RESULT_OK) {
         Bundle extras = data.getExtras();
         LocationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
+        new UserSyncWorkScheduler(getContext()).oneTimeSync();
         startActivity(new Intent(getActivity(), FetchingAlertDataActivity.class));
       }
     }

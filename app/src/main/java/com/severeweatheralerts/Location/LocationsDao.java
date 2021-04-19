@@ -33,6 +33,12 @@ public class LocationsDao {
     saveToFile();
   }
 
+  public static void setName(int index, String name) {
+    getLocations();
+    locations.get(index).setName(name);
+    saveToFile();
+  }
+
   public static void updateDefaultLocation(double latitude, double longitude) {
     getLocations();
     if (locations.size() > 0) locations.add(new Location());

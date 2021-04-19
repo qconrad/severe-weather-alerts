@@ -15,6 +15,7 @@ import com.severeweatheralerts.Activities.FetchingAlertDataActivity;
 import com.severeweatheralerts.Activities.GettingLocationActivity;
 import com.severeweatheralerts.Activities.LocationPickerActivity;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class FirstRunActivity extends AppCompatActivity {
 
@@ -84,6 +85,7 @@ public class FirstRunActivity extends AppCompatActivity {
       Bundle extras = data.getExtras();
       LocationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
+      new UserSyncWorkScheduler(this).oneTimeSync();
       startActivity(new Intent(FirstRunActivity.this, FetchingAlertDataActivity.class));
       updateFirstRun();
     }

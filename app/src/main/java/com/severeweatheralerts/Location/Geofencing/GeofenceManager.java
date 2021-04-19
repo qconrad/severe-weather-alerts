@@ -35,6 +35,9 @@ public class GeofenceManager {
     geofencingClient.removeGeofences(getGeofencePendingIntent());
     geofencingClient.addGeofences(getStationaryRequest(lat, lon, radius), getGeofencePendingIntent());
   }
+  public void removeGeofences() {
+    geofencingClient.removeGeofences(getGeofencePendingIntent());
+  }
 
   private GeofencingRequest getMovingRequest(double lat, double lon, float radius, int dwellTimeMS) {
     ArrayList<Geofence> geofenceList = new ArrayList<>();
