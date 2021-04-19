@@ -2,6 +2,8 @@ package com.severeweatheralerts.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,6 +87,18 @@ public class LocationPickerActivity extends AppCompatActivity {
   double lon;
 
   public void useLocation(View view) {
-    LocationsDao.setDefaultLocation("name", lat, lon);
+    TextView nameEt = findViewById(R.id.location_name_et);
+    String name = nameEt.getText().toString();
+    if (name.equals("")) {
+      Toast.makeText(this, "Enter a name for this location", Toast.LENGTH_SHORT).show();
+      return;
+    }
+    else if (name.length() > 15) {
+      Toast.makeText(this, "This name is too long. Try picking a shorter one.", Toast.LENGTH_SHORT).show();
+      return;
+    }
+    Intent intent = new Intent().putExtra("name", name).putExtra("lat", lat).putExtra("lon", lon);
+    setResult(Activity.RESULT_OK, intent);
+    finish();
   }
 }

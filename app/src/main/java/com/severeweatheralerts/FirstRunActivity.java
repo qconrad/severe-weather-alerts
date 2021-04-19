@@ -1,16 +1,20 @@
 package com.severeweatheralerts;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.severeweatheralerts.Activities.FetchingAlertDataActivity;
 import com.severeweatheralerts.Activities.GettingLocationActivity;
 import com.severeweatheralerts.Activities.LocationPickerActivity;
+import com.severeweatheralerts.Location.LocationsDao;
 
 public class FirstRunActivity extends AppCompatActivity {
 
@@ -25,7 +29,7 @@ public class FirstRunActivity extends AppCompatActivity {
   }
 
   public void customSet(View view) {
-    startActivity(new Intent(FirstRunActivity.this, LocationPickerActivity.class));
+    startActivityForResult(new Intent(FirstRunActivity.this, LocationPickerActivity.class), 0);
   }
 
   public void thisDevice(View view) {
@@ -66,10 +70,22 @@ public class FirstRunActivity extends AppCompatActivity {
       AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
       alertDialog.setTitle("Location Permission Needed");
       alertDialog.setMessage("If the location permission is not accepted, this device's location cannot be determined. You can alternatively enter a fixed location.");
-      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) -> startActivity(new Intent(FirstRunActivity.this, LocationPickerActivity.class)));
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) -> startActivityForResult(new Intent(FirstRunActivity.this, LocationPickerActivity.class), 0));
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
       alertDialog.show();
 
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode == Activity.RESULT_OK) {
+      Bundle extras = data.getExtras();
+      LocationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
+      PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
+      startActivity(new Intent(FirstRunActivity.this, FetchingAlertDataActivity.class));
+      updateFirstRun();
     }
   }
 
