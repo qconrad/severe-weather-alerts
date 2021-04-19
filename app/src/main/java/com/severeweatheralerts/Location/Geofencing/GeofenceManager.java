@@ -1,17 +1,15 @@
 package com.severeweatheralerts.Location.Geofencing;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
+import com.severeweatheralerts.PermissionManager;
 
 import java.util.ArrayList;
 
@@ -24,14 +22,16 @@ public class GeofenceManager {
     geofencingClient = LocationServices.getGeofencingClient(context);
   }
 
+  @SuppressLint("MissingPermission")
   public void setMovingGeofence(double lat, double lon, float radius, int dwellTimeMS) {
-    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+    if (!PermissionManager.hasLocationPermissions(context)) return;
     geofencingClient.removeGeofences(getGeofencePendingIntent());
     geofencingClient.addGeofences(getMovingRequest(lat, lon, radius, dwellTimeMS), getGeofencePendingIntent());
   }
 
+  @SuppressLint("MissingPermission")
   public void setStationaryGeofence(double lat, double lon, float radius) {
-    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) return;
+    if (!PermissionManager.hasLocationPermissions(context)) return;
     geofencingClient.removeGeofences(getGeofencePendingIntent());
     geofencingClient.addGeofences(getStationaryRequest(lat, lon, radius), getGeofencePendingIntent());
   }
