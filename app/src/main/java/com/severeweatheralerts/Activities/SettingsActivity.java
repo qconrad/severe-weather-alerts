@@ -3,21 +3,18 @@ package com.severeweatheralerts.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
+import androidx.preference.SwitchPreference;
 
-import com.severeweatheralerts.FirstRunActivity;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
-
-import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -49,7 +46,27 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void createClickListeners() {
       createChannelListener();
+      createdUseFixedListener();
+      createdFixedLocationListener();
       createSeverityPreferencesListener();
+    }
+
+    private void createdUseFixedListener() {
+      Preference usefixed = findPreference("usefixed");
+      if (usefixed != null) {
+        usefixed.setOnPreferenceChangeListener((preference, newValue) -> {
+          if ((Boolean) newValue) startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
+          else {
+            if (!PermissionManager.hasLocationPermissions(getActivity())) PermissionManager.requestLocationPermissions(getActivity());
+          }
+          return true;
+        });
+      }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+      super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void createSeverityPreferencesListener() {
@@ -64,13 +81,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void createChannelListener() {
       Preference channels = findPreference("channels");
-      Preference fixedloc = findPreference("fixedloc");
       if (channels != null) {
         channels.setOnPreferenceClickListener(preference -> {
           showNotificationChannels();
           return true;
         });
       }
+    }
+
+    private void createdFixedLocationListener() {
+      Preference fixedloc = findPreference("fixedloc");
       if (fixedloc != null) {
         fixedloc.setOnPreferenceClickListener(preference -> {
           startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
@@ -79,7 +99,7 @@ public class SettingsActivity extends AppCompatActivity {
       }
     }
 
-    private void showSeverityPreferences() {
+  private void showSeverityPreferences() {
       Intent alertListIntent = new Intent(getActivity(), ChannelPreferencesActivity.class);
       startActivity(alertListIntent);
     }
