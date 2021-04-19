@@ -31,10 +31,12 @@ public class GeofenceReceiver extends BroadcastReceiver {
       new UserSyncWorkScheduler(context).oneTimeSync();
     } else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
       gpsLocation = new GPSLocation(context, location -> {
-        if (location.getAccuracy() < 200) gpsLocation.stopUpdates();
-        LocationsDao.updateDefaultLocation(location.getLatitude(), location.getLongitude());
-        new GeofenceManager(context).setStationaryGeofence(location.getLatitude(), location.getLongitude(), 500);
-        new UserSyncWorkScheduler(context).oneTimeSync();
+        if (location.getAccuracy() < 200) {
+          gpsLocation.stopUpdates();
+          LocationsDao.updateDefaultLocation(location.getLatitude(), location.getLongitude());
+          new GeofenceManager(context).setStationaryGeofence(location.getLatitude(), location.getLongitude(), 500);
+          new UserSyncWorkScheduler(context).oneTimeSync();
+        }
       }).startUpdates();
     }
   }
