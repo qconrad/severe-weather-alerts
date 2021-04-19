@@ -1,13 +1,13 @@
 package com.severeweatheralerts;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.Activities.GettingLocationActivity;
 import com.severeweatheralerts.Activities.LocationPickerActivity;
@@ -18,11 +18,10 @@ public class FirstRunActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_first_run);
-    updateFirstRun();
   }
 
   private void updateFirstRun() {
-    getSharedPreferences("status", Context.MODE_PRIVATE).edit().putBoolean("first_run", false).apply();
+    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("first_run", false).apply();
   }
 
   public void customSet(View view) {
@@ -30,7 +29,10 @@ public class FirstRunActivity extends AppCompatActivity {
   }
 
   public void thisDevice(View view) {
-    if (PermissionManager.hasLocationPermissions(this)) startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+    if (PermissionManager.hasLocationPermissions(this)) {
+      startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+      updateFirstRun();
+    }
     else showDisclaimer();
   }
 
@@ -46,6 +48,9 @@ public class FirstRunActivity extends AppCompatActivity {
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (PermissionManager.hasLocationPermissions(this)) startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+    if (PermissionManager.hasLocationPermissions(this)) {
+      startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+      updateFirstRun();
+    }
   }
 }

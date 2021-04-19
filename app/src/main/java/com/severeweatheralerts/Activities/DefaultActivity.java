@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.FirstRunActivity;
 
@@ -17,7 +18,7 @@ public class DefaultActivity extends AppCompatActivity {
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    sharedPref = getSharedPreferences("status", MODE_PRIVATE);
+    sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     createNotificationChannels(this);
     Paper.init(this);
     if (isFirstRun()) startActivity(new Intent(DefaultActivity.this, FirstRunActivity.class));
@@ -30,6 +31,6 @@ public class DefaultActivity extends AppCompatActivity {
   }
 
   private boolean isUsingFixedLocation() {
-    return sharedPref.getBoolean("use_fixed", false);
+    return sharedPref.getBoolean("usefixed", false);
   }
 }

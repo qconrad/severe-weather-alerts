@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.preference.PreferenceManager;
+
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
@@ -21,6 +23,6 @@ public class BootReceiver extends BroadcastReceiver {
   }
 
   private boolean usingFixedLocation(Context context) {
-    return context.getSharedPreferences("status", Context.MODE_PRIVATE).getBoolean("usefixed", false);
+    return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("usefixed", false);
   }
 }

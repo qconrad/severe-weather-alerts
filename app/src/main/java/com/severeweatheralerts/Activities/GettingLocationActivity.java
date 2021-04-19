@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
