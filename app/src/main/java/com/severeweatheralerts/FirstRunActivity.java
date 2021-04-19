@@ -65,8 +65,8 @@ public class FirstRunActivity extends AppCompatActivity {
     } else {
       AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
       alertDialog.setTitle("Location Permission Needed");
-      alertDialog.setMessage("If the location permission is not accepted, this device's location cannot be determined. You can alternatively enter a custom set location.");
-      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter custom location", (dialog, which) -> startActivity(new Intent(FirstRunActivity.this, LocationPickerActivity.class)));
+      alertDialog.setMessage("If the location permission is not accepted, this device's location cannot be determined. You can alternatively enter a fixed location.");
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) -> startActivity(new Intent(FirstRunActivity.this, LocationPickerActivity.class)));
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
       alertDialog.show();
 

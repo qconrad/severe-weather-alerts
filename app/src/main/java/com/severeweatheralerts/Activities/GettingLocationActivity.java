@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.severeweatheralerts.FirstRunActivity;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
@@ -22,9 +24,13 @@ public class GettingLocationActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
-    setLoadingStatus();
-    setProgressbarColor();
-    populateLocations();
+    if (!PermissionManager.hasLocationPermissions(this))
+      startActivity(new Intent(GettingLocationActivity.this, FirstRunActivity.class));
+    else {
+      setLoadingStatus();
+      setProgressbarColor();
+      populateLocations();
+    }
   }
 
   private void setLoadingStatus() {
