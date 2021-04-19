@@ -51,6 +51,31 @@ public class FirstRunActivity extends AppCompatActivity {
     if (PermissionManager.hasLocationPermissions(this)) {
       startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
       updateFirstRun();
+    } else if (PermissionManager.hasFineLocation(this)) {
+      AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
+      alertDialog.setTitle("Are you sure?");
+      alertDialog.setMessage("You choose to not allow background location usage. Alerts will still work but will use the location from the last time the app was opened.");
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
+      alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Allow background location", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "This is what I want", (dialog, which) -> {
+        startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+        updateFirstRun();
+      });
+      alertDialog.show();
+    } else {
+      AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
+      alertDialog.setTitle("Location Permission Needed");
+      alertDialog.setMessage("If the location permission is not accepted, this device's location cannot be determined. You can alternatively enter a custom set location.");
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter custom location", (dialog, which) -> startActivity(new Intent(FirstRunActivity.this, LocationPickerActivity.class)));
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
+      alertDialog.show();
+
     }
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    finishAffinity();
   }
 }
