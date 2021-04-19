@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.GPSLocation;
+import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.Date;
 
@@ -71,7 +74,13 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void setDefaultLocation(android.location.Location location) {
     LocationsDao.setDefaultLocation("Current Location", location.getLatitude(), location.getLongitude());
+    syncLocation(location);
     fetchAlerts();
+  }
+
+  private void syncLocation(android.location.Location location) {
+    new UserSyncWorkScheduler(this).oneTimeSync();
+    new GeofenceManager(this).setStationaryGeofence(location.getLatitude(), location.getLongitude(), 500);
   }
 
   private void fetchAlerts() {

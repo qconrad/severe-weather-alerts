@@ -26,9 +26,6 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
     setContentView(R.layout.activity_loading);
     getAlerts();
     setProgressbarColor();
-    new UserSyncWorkScheduler(this).oneTimeSync();
-    GCSCoordinate coordinate = LocationsDao.getCoordinate(0);
-    new GeofenceManager(this).setStationaryGeofence(coordinate.getLat(), coordinate.getLong(), 500);
   }
 
   private void setProgressbarColor() {

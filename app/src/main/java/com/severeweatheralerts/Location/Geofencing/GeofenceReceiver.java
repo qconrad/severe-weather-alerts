@@ -18,11 +18,8 @@ public class GeofenceReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     Paper.init(context);
-
     GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
-
     int geofenceTransition = geofencingEvent.getGeofenceTransition();
-
     if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
       Location location = geofencingEvent.getTriggeringLocation();
       float radius = Math.max(600 * location.getSpeed(), 5000);
