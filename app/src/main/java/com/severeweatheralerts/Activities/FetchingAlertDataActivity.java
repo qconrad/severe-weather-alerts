@@ -1,21 +1,17 @@
 package com.severeweatheralerts.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
@@ -43,13 +39,20 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
 
       @Override
       public void error(String message) {
-        Toast.makeText(FetchingAlertDataActivity.this, message, Toast.LENGTH_SHORT).show();
+        displayError(message);
       }
     });
   }
 
   private void displayAlerts() {
     startActivity(new Intent(FetchingAlertDataActivity.this, AlertListActivity.class));
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+  }
+
+  private void displayError(String message) {
+    Intent intent = new Intent(FetchingAlertDataActivity.this, ErrorActivity.class);
+    intent.putExtra("errorMessage", message);
+    startActivity(intent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 

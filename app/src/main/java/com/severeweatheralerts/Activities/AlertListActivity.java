@@ -18,16 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
+import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
-import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.Status.TextListFade;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +34,6 @@ import java.util.Date;
 public class AlertListActivity extends AppCompatActivity {
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
-  private Status status;
   private TextListFade textListFade;
 
   @Override
@@ -43,12 +41,19 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     setLocationName(0);
+    sortAndFilterAlerts();
+    populateRecyclerViews();
+    setStatus(getStatus());
+  }
+
+  protected Status getStatus() {
+    return new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
+  }
+
+  private void sortAndFilterAlerts() {
     ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getAlerts(0)).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
-    status = new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
-    populateRecyclerViews();
-    setStatus();
   }
 
   private void setLocationName(int index) {
@@ -56,26 +61,26 @@ public class AlertListActivity extends AppCompatActivity {
     locationName.setText(LocationsDao.getName(index));
   }
 
-  private void setStatus() {
-    setBackgroundColor();
-    setStatusHeadline();
-    setStatusSubtext();
-    setStatusIcon();
+  private void setStatus(Status status) {
+    setBackgroundColor(status.getColor());
+    setStatusHeadline(status.getHeadline());
+    setStatusSubtext(status.getSubtexts());
+    setStatusIcon(status.getIcon());
   }
 
-  private void setStatusSubtext() {
-    textListFade = new TextListFade(this, status.getSubtexts(), findViewById(R.id.status_switcher));
+  private void setStatusSubtext(ArrayList<String> subtexts) {
+    textListFade = new TextListFade(this, subtexts, findViewById(R.id.status_switcher));
     textListFade.beginFade();
   }
 
-  private void setStatusHeadline() {
-    TextView headline = findViewById(R.id.status_headline);
-    headline.setText(status.getHeadline());
+  private void setStatusHeadline(String headline) {
+    TextView headlineView = findViewById(R.id.status_headline);
+    headlineView.setText(headline);
   }
 
-  private void setStatusIcon() {
-    ImageView icon = findViewById(R.id.status_icon);
-    icon.setImageResource(status.getIcon());
+  private void setStatusIcon(int icon) {
+    ImageView iconView = findViewById(R.id.status_icon);
+    iconView.setImageResource(icon);
   }
 
   private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
@@ -118,8 +123,8 @@ public class AlertListActivity extends AppCompatActivity {
     view.setAdapter(alertRecyclerViewAdapter);
   }
 
-  private void setBackgroundColor() {
-    int gradientTop = ColorBrightnessChanger.changeBrightness(status.getColor(), 0.7f);
+  private void setBackgroundColor(int color) {
+    int gradientTop = ColorBrightnessChanger.changeBrightness(color, 0.7f);
     GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {gradientTop, Color.BLACK});
     findViewById(R.id.alert_list_view).setBackground(gd);
   }

@@ -15,8 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".AttributionActivity"></activity>
-
+        <activity android:name=".AttributionActivity" />
+        <activity android:name=".Activities.ErrorActivity" />
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
