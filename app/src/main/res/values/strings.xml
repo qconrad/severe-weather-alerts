@@ -51,4 +51,5 @@
     <string name="welcome">Welcome!</string>
     <string name="location_disclaimer">This app will collect your device\'s approximate location to send alert notifications, even when the app is closed.</string>
     <string name="discalimer_title">Background Location Access</string>
+    <string name="privacy_policy_link">https://github.com/qconrad/severe-weather-alerts/blob/main/privacy.md</string>
 </resources>

@@ -28,8 +28,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="About">
-        <Preference app:title="Privacy Policy" />
-        <Preference app:title="Icon Attribution" />
+        <Preference app:key="privacy" app:title="Privacy Policy" />
+        <Preference app:key="attrib" app:title="Attributions" />
     </PreferenceCategory>
 
 </PreferenceScreen>

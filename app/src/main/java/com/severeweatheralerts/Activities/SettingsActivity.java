@@ -2,6 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,8 +11,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreference;
 
+import com.severeweatheralerts.AttributionActivity;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
@@ -57,7 +58,19 @@ public class SettingsActivity extends AppCompatActivity {
       createChannelListener();
       createdUseFixedListener();
       createdFixedLocationListener();
+      createAttributionListener();
+      createPrivacyPolicyListener();
       createSeverityPreferencesListener();
+    }
+
+    private void createAttributionListener() {
+      Preference attributions = findPreference("attrib");
+      if (attributions != null) {
+        attributions.setOnPreferenceClickListener(preference -> {
+          startActivity(new Intent(getActivity(), AttributionActivity.class));
+          return true;
+        });
+      }
     }
 
     private void createdUseFixedListener() {
@@ -109,7 +122,19 @@ public class SettingsActivity extends AppCompatActivity {
       }
     }
 
-  private void showSeverityPreferences() {
+    private void createPrivacyPolicyListener() {
+      Preference privacy = findPreference("privacy");
+      if (privacy != null) {
+        privacy.setOnPreferenceClickListener(preference -> {
+          Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getActivity().getString(R.string.privacy_policy_link)));
+          startActivity(browserIntent);
+          return true;
+        });
+      }
+    }
+
+
+    private void showSeverityPreferences() {
       Intent alertListIntent = new Intent(getActivity(), ChannelPreferencesActivity.class);
       startActivity(alertListIntent);
     }

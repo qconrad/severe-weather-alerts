@@ -15,20 +15,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <receiver android:name=".BootReceiver" android:enabled="true" android:exported="true">
+        <activity android:name=".AttributionActivity"></activity>
+
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".FirstRunActivity" />
         <activity
             android:name=".Activities.LocationPickerActivity"
             android:noHistory="true" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
+
         <receiver android:name=".Location.Geofencing.GeofenceReceiver" />
+
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,6 +52,7 @@
             android:parentActivityName=".Activities.AlertListActivity">
             <intent-filter>
                 <action android:name="alertviewer" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -50,6 +60,7 @@
         <activity
             android:name=".Activities.NotificationViewer"
             android:parentActivityName=".Activities.FetchingAlertDataActivity" />
+
         <service
             android:name=".Notifications.MessageService"
             android:exported="false">
