@@ -26,7 +26,7 @@ public class ActiveAlerts implements Status {
 
   @Override
   public String getHeadline() {
-    return activeAlerts.size() + " Active " + new Plurality((double)activeAlerts.size(), "Alert", "Alerts").getText();
+    return activeAlerts.size() + " Active " + new Plurality(activeAlerts.size(), "Alert", "Alerts").getText();
   }
 
   @Override

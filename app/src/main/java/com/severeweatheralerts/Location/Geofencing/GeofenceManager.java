@@ -64,7 +64,7 @@ public class GeofenceManager {
 
   private GeofencingRequest buildRequest(ArrayList<Geofence> geofenceList) {
     GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-    builder.setInitialTrigger(Geofence.GEOFENCE_TRANSITION_DWELL);
+    builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_DWELL);
     builder.addGeofences(geofenceList);
     return builder.build();
   }
@@ -73,5 +73,4 @@ public class GeofenceManager {
     Intent intent = new Intent(context, GeofenceReceiver.class);
     return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
   }
-
 }
