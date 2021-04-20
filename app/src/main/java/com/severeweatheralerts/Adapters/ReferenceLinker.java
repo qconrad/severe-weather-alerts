@@ -8,6 +8,7 @@ import java.util.Collections;
 public class ReferenceLinker {
   private final ArrayList<UnadaptedAlert> unadaptedAlerts;
   private final ArrayList<Alert> adaptedAlerts;
+  private final ArrayList<Alert> toDelete = new ArrayList<>();
   public ReferenceLinker(ArrayList<UnadaptedAlert> unadaptedAlerts, ArrayList<Alert> adaptedAlerts) {
     this.unadaptedAlerts = unadaptedAlerts;
     this.adaptedAlerts = adaptedAlerts;
@@ -15,37 +16,50 @@ public class ReferenceLinker {
 
   public ArrayList<Alert> linkReferences() {
     for (int i = 0; i < unadaptedAlerts.size(); i++)
-      checkReferences(i);
+      checkReferences(unadaptedAlerts.get(i), adaptedAlerts.get(i));
+    deleteNestedCancels();
     return adaptedAlerts;
   }
 
-  private void checkReferences(int i) {
-    if (notReplaced(adaptedAlerts.get(i))) {
-      linkReferences(i);
+  private void deleteNestedCancels() {
+    for (Alert alert : toDelete) adaptedAlerts.remove(alert);
+  }
+
+  private void checkReferences(UnadaptedAlert uaAlert, Alert alert) {
+    if (notReplaced(alert)) linkAlertReferences(uaAlert, alert);
+  }
+
+  private void linkAlertReferences(UnadaptedAlert next, Alert alert) {
+    for (String reference : next.getReferences()) checkReference(reference, alert);
+    Collections.sort(alert.getReferences());
+  }
+
+  private void checkReference(String referenceID, Alert alert) {
+    Alert reference = findAlertById(referenceID);
+    if (notNull(reference)) conditionallyLink(alert, reference);
+  }
+
+  private void conditionallyLink(Alert alert, Alert reference) {
+    if (nestedCancel(reference.getReplacedBy())) {
+      if (reference.getReplacedBy().getType() == Alert.Type.CANCEL) {
+        toDelete.add(reference.getReplacedBy());
+        linkReference(alert, reference);
+      } else toDelete.add(alert);
     }
+    else if (sameType(alert, reference)) linkReference(alert, reference);
   }
 
-  private void linkReferences(int i) {
-    for (int r = 0; r < unadaptedAlerts.get(i).getReferenceCount(); r++) {
-      checkReference(i, r);
-    }
-    Collections.sort(adaptedAlerts.get(i).getReferences());
+  private boolean nestedCancel(Alert replacedBy) {
+    return replacedBy != null;
   }
 
-  private void checkReference(int i, int r) {
-    Alert reference = findAlertById(unadaptedAlerts.get(i).getReference(r));
-    if (notNull(reference) && sameType(i, reference))
-      linkReference(i, reference);
-  }
-
-  private void linkReference(int i, Alert reference) {
-    Alert alert = adaptedAlerts.get(i);
+  private void linkReference(Alert alert, Alert reference) {
     alert.addReference(reference);
     reference.setReplacedBy(alert);
   }
 
-  private boolean sameType(int i, Alert reference) {
-    return adaptedAlerts.get(i).getClass().equals(reference.getClass());
+  private boolean sameType(Alert alert, Alert reference) {
+    return alert.getClass().equals(reference.getClass());
   }
 
   private boolean notReplaced(Alert reference) {
@@ -63,7 +77,7 @@ public class ReferenceLinker {
   }
 
   private boolean notNull(Alert alert) {
-    return alert != null;
+    return nestedCancel(alert);
   }
 
   private boolean hasId(Alert alert) {

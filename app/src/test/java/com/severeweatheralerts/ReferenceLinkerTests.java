@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ReferenceLinkerTests {
@@ -204,5 +205,125 @@ public class ReferenceLinkerTests {
     adaptedAlerts.add(adaptedReference);
     ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertEquals(adaptedAlert, linked.get(1).getReplacedBy());
+  }
+
+  @Test
+  public void updateAndCancelPointToSamePost_PostReplacedByUpdate() {
+    UnadaptedAlert update = new UnadaptedAlert();
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    UnadaptedAlert post = new UnadaptedAlert();
+
+    update.addReferenceId("postID");
+    cancel.addReferenceId("postID");
+    post.setId("postID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(update);
+    unAdaptedAlerts.add(cancel);
+    unAdaptedAlerts.add(post);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert updateAlert = new DefaultAlert();
+    updateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert cancelAlert = new DefaultAlert();
+    cancelAlert.setType(Alert.Type.CANCEL);
+    DefaultAlert postAlert = new DefaultAlert();
+
+    postAlert.setNwsId("postID");
+    adaptedAlerts.add(updateAlert);
+    adaptedAlerts.add(cancelAlert);
+    adaptedAlerts.add(postAlert);
+    new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(updateAlert, postAlert.getReplacedBy());
+  }
+
+  @Test
+  public void updateAndCancelPointToSamePost_CancelDeleted() {
+    UnadaptedAlert update = new UnadaptedAlert();
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    UnadaptedAlert post = new UnadaptedAlert();
+
+    update.addReferenceId("postID");
+    cancel.addReferenceId("postID");
+    post.setId("postID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(update);
+    unAdaptedAlerts.add(cancel);
+    unAdaptedAlerts.add(post);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert updateAlert = new DefaultAlert();
+    updateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert cancelAlert = new DefaultAlert();
+    cancelAlert.setType(Alert.Type.CANCEL);
+    DefaultAlert postAlert = new DefaultAlert();
+
+    postAlert.setNwsId("postID");
+    adaptedAlerts.add(updateAlert);
+    adaptedAlerts.add(cancelAlert);
+    adaptedAlerts.add(postAlert);
+    ArrayList<Alert> linked = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(2, linked.size());
+  }
+
+  @Test
+  public void updateAndCancelPointToSamePost_OrderSwitched_PostReplacedByUpdate() {
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    UnadaptedAlert update = new UnadaptedAlert();
+    UnadaptedAlert post = new UnadaptedAlert();
+
+    cancel.addReferenceId("postID");
+    update.addReferenceId("postID");
+    post.setId("postID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(cancel);
+    unAdaptedAlerts.add(update);
+    unAdaptedAlerts.add(post);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert updateAlert = new DefaultAlert();
+    updateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert cancelAlert = new DefaultAlert();
+    cancelAlert.setType(Alert.Type.CANCEL);
+    DefaultAlert postAlert = new DefaultAlert();
+
+    postAlert.setNwsId("postID");
+    adaptedAlerts.add(cancelAlert);
+    adaptedAlerts.add(updateAlert);
+    adaptedAlerts.add(postAlert);
+    new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(updateAlert, postAlert.getReplacedBy());
+  }
+
+  @Test
+  public void updateAndCancelPointToSamePost_OrderSwitched_CancelledRemoved() {
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    UnadaptedAlert update = new UnadaptedAlert();
+    UnadaptedAlert post = new UnadaptedAlert();
+
+    cancel.addReferenceId("postID");
+    update.addReferenceId("postID");
+    post.setId("postID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(cancel);
+    unAdaptedAlerts.add(update);
+    unAdaptedAlerts.add(post);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert updateAlert = new DefaultAlert();
+    updateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert cancelAlert = new DefaultAlert();
+    cancelAlert.setType(Alert.Type.CANCEL);
+    DefaultAlert postAlert = new DefaultAlert();
+
+    postAlert.setNwsId("postID");
+    adaptedAlerts.add(cancelAlert);
+    adaptedAlerts.add(updateAlert);
+    adaptedAlerts.add(postAlert);
+    ArrayList<Alert> alerts = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(updateAlert, alerts.get(0));
   }
 }

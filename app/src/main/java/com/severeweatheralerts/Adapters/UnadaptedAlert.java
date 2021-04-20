@@ -61,8 +61,8 @@ public class UnadaptedAlert {
   public String getId() { return id; }
 
   public void addReferenceId(String referenceId) { references.add(referenceId); }
+  public ArrayList<String> getReferences() { return references; }
   public String getReference(int index) { return references.get(index); }
-
   public int getReferenceCount() { return references.size(); }
 
   public void setSender(String sender) { this.sender = sender; }
