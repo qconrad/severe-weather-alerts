@@ -24,7 +24,7 @@ public class GettingLocationActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
-    if (!PermissionManager.hasLocationPermissions(this))
+    if (!PermissionManager.hasCoarseLocation(this))
       startActivity(new Intent(GettingLocationActivity.this, FirstRunActivity.class));
     else {
       setLoadingStatus();

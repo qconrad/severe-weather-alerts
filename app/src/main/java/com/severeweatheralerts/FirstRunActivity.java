@@ -43,7 +43,7 @@ public class FirstRunActivity extends AppCompatActivity {
 
   private void showDisclaimer() {
     AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
-    alertDialog.setTitle(getString(R.string.discalimer_title));
+    alertDialog.setTitle(getString(R.string.disclaimer_title));
     alertDialog.setMessage(getString(R.string.location_disclaimer));
     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
@@ -58,8 +58,8 @@ public class FirstRunActivity extends AppCompatActivity {
       updateFirstRun();
     } else if (PermissionManager.hasFineLocation(this)) {
       AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
-      alertDialog.setTitle("Are you sure?");
-      alertDialog.setMessage("You choose to not allow background location usage. Alerts will still work but will use the location from the last time the app was opened.");
+      alertDialog.setTitle(getString(R.string.background_deny_title));
+      alertDialog.setMessage(getString(R.string.background_deny_message));
       alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
       alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Allow background location", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "This is what I want", (dialog, which) -> {
@@ -69,8 +69,8 @@ public class FirstRunActivity extends AppCompatActivity {
       alertDialog.show();
     } else {
       AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
-      alertDialog.setTitle("Location Permission Needed");
-      alertDialog.setMessage("If the location permission is not accepted, this device's location cannot be determined. You can alternatively enter a fixed location.");
+      alertDialog.setTitle(getString(R.string.location_deny_title));
+      alertDialog.setMessage(getString(R.string.location_deny_message));
       alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) -> startActivityForResult(new Intent(FirstRunActivity.this, LocationPickerActivity.class), 0));
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
       alertDialog.show();

@@ -30,16 +30,11 @@
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="location_fetch_text">Getting Location</string>
     <string name="recent_alerts">Recent Alerts</string>
     <string name="active_alerts">Active Alerts</string>
     <string name="location_name">Give this location a name</string>
-    <string name="location_text_entry">Enter address, town, or postcode</string>
+    <string name="location_text_entry">Enter address, town, or zipcode</string>
     <string name="location_search">Search</string>
     <string name="use_location_button">Use This Location</string>
     <string name="location_cancel_button">Cancel</string>
@@ -50,6 +45,10 @@
     <string name="where_should_alerts_be_for">Where should alerts be for?</string>
     <string name="welcome">Welcome!</string>
     <string name="location_disclaimer">This app will collect your device\'s approximate location to send alert notifications, even when the app is closed.</string>
-    <string name="discalimer_title">Background Location Access</string>
+    <string name="disclaimer_title">Background Location Access</string>
     <string name="privacy_policy_link">https://github.com/qconrad/severe-weather-alerts/blob/main/privacy.md</string>
+    <string name="background_deny_title">Are you sure?</string>
+    <string name="background_deny_message">You choose to not allow background location usage. Alerts will still work but will use the location from the last time the app was opened.</string>
+    <string name="location_deny_title">Location Permission Needed</string>
+    <string name="location_deny_message">Without this permission, alerts can not be sent for this location. Are you sure you want to deny this permission? You can alternatively enter a fixed location.</string>
 </resources>
