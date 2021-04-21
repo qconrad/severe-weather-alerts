@@ -25,7 +25,6 @@ public class DefaultActivity extends AppCompatActivity {
     if (isFirstRun()) startActivity(new Intent(DefaultActivity.this, FirstRunActivity.class));
     else if (isUsingFixedLocation()) startActivity(new Intent(DefaultActivity.this, FetchingAlertDataActivity.class));
     else startActivity(new Intent(DefaultActivity.this, GettingLocationActivity.class));
-    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private boolean isFirstRun() {
