@@ -71,8 +71,10 @@ public class FirstRunActivity extends AppCompatActivity {
       AlertDialog alertDialog = new AlertDialog.Builder(FirstRunActivity.this).create();
       alertDialog.setTitle(getString(R.string.location_deny_title));
       alertDialog.setMessage(getString(R.string.location_deny_message));
-      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) -> startActivityForResult(new Intent(FirstRunActivity.this, LocationPickerActivity.class), 0));
-      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Enter fixed location", (dialog, which) ->
+              startActivityForResult(new Intent(FirstRunActivity.this, LocationPickerActivity.class), 0));
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Accept location permission", (dialog, which) ->
+              PermissionManager.requestLocationPermissions(this));
       alertDialog.show();
 
     }

@@ -84,7 +84,7 @@ public class AlertViewerActivity extends AppCompatActivity {
       setTitleCardColor();
       setBackgroundColor();
       populateReferences();
-      new Thread(this::generateGraphics).start();
+      generateGraphics();
     }
   }
 
@@ -108,7 +108,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {
-    type.getGenerator(this, al, location).generate(new GraphicCompleteListener() {
+    GraphicCompleteListener graphicCompleteListener = new GraphicCompleteListener() {
       @Override
       public void onComplete(Graphic graphic) {
         if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
@@ -121,7 +121,8 @@ public class AlertViewerActivity extends AppCompatActivity {
         displaySubtext(graphicView, message);
         hideProgressBar(graphicView);
       }
-    });
+    };
+    new Thread(() -> type.getGenerator(this, al, location).generate(graphicCompleteListener)).start();
   }
 
   private void displayImage(View graphicView, Graphic graphic) {
