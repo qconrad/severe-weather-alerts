@@ -99,7 +99,8 @@ public abstract class GraphicGenerator {
       @Override
       public void success(Object response) {
         mapTimes = new MapTimeParser(response.toString()).getMapTimes();
-        finish();
+        if (mapTimes == null || mapTimes.size() == 0) throwError("Times for this graphic unavailable");
+        else finish();
       }
 
       @Override
