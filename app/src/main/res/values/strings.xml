@@ -51,4 +51,10 @@
     <string name="background_deny_message">You choose to not allow background location usage. Alerts will still work but will use the location from the last time the app was opened.</string>
     <string name="location_deny_title">Location Permission Needed</string>
     <string name="location_deny_message">Without this permission, alerts can not be sent for this location. Are you sure you want to deny this permission? You can alternatively enter a fixed location.</string>
+    <string name="default_channel_behavior">Default Channel Behavior</string>
+    <string name="restore_defaults">Restore Defaults</string>
+    <string name="ripple_edit">Ripple Edit</string>
+    <string name="post">Post</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
 </resources>

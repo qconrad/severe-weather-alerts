@@ -52,7 +52,7 @@
             android:text="Audible" />
     </TableRow>
 
-    <TableRow android:background="#5f3dc4">
+    <TableRow android:background="#9c36b5">
         <TextView
             android:textSize="15sp"
             android:layout_column="0"

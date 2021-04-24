@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activities.ChannelPreferencesActivity">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Default Channel Behavior"
+        android:textColor="#FFF"
+        android:text="@string/default_channel_behavior"
         android:textStyle="bold"
         android:layout_gravity="center"/>
 
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="restoreDefaults"
-        android:text="Restore Defaults"/>
+        android:text="@string/restore_defaults"/>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/ripple_switch"
@@ -34,7 +35,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ripple Edit"/>
+        android:text="@string/ripple_edit"/>
 
     <LinearLayout
         android:layout_gravity="end"
@@ -45,19 +46,19 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Post"/>
+            android:text="@string/post"/>
 
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Update"/>
+            android:text="@string/update"/>
 
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
 
     </LinearLayout>
 
