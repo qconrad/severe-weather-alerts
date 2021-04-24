@@ -141,4 +141,8 @@ public class AlertListActivity extends AppCompatActivity {
   public void subTextClick(View view) {
     textListFade.nextSubtext();
   }
+
+  public void refreshClick(View view) {
+    startActivity(new Intent(AlertListActivity.this, FetchingAlertDataActivity.class));
+  }
 }

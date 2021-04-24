@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/alert_list_view"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -13,42 +14,60 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:id="@+id/refresh_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:contentDescription="refresh"
+                android:focusable="true"
+                android:onClick="refreshClick"
+                android:padding="5dp"
+                android:src="@drawable/refresh"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/location_name"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/location_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:textStyle="bold"
                 android:textSize="25sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:onClick="settingsClick"
                 android:id="@+id/imageView2"
-                android:padding="5dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:clickable="true"
+                android:contentDescription="settings"
+                android:focusable="true"
+                android:onClick="settingsClick"
+                android:padding="5dp"
                 android:src="@drawable/ic_settings"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:focusable="true" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:visibility="gone"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_settings"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
