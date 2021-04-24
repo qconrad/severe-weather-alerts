@@ -1,21 +1,25 @@
 package com.severeweatheralerts.Activities;
 
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.os.Bundle;
-
+import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
+import com.severeweatheralerts.Preferences.RippleEdit;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
-import com.severeweatheralerts.Preferences.RippleEdit;
 
 public class ChannelPreferencesActivity extends AppCompatActivity {
   ChannelPreferences channelPreferences;
+  PreferenceAdapter preferenceAdapter;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -26,17 +30,33 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
 
   private void inflatePreferenceList() {
     RecyclerView view = findViewById(R.id.preference_stack);
+    SwitchCompat rippleSwitch = findViewById(R.id.ripple_switch);
     view.setLayoutManager(new LinearLayoutManager(this));
-    PreferenceAdapter preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
+    preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
     preferenceAdapter.setClickListener((type, index) -> {
       new AlertDialog.Builder(this)
               .setTitle("Select a channel")
-             .setItems(R.array.channels, (dialogInterface, i) -> {
-               new RippleEdit(channelPreferences).verticalRipple(alerts, index, type, Channel.values()[i]);
-               preferenceAdapter.notifyDataSetChanged();
+              .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
+                if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
+                else alertEdit(type, index, channelIndex);
               }).create().show();
     });
     view.setAdapter(preferenceAdapter);
+  }
+
+  private void alertEdit(Alert.Type type, int index, int channelIndex) {
+    new RippleEdit(channelPreferences).horizontalRipple(alerts[index], type, Channel.values()[channelIndex]);
+    preferenceAdapter.notifyItemChanged(index);
+  }
+
+  private void rippleEdit(Alert.Type type, int index, int channelIndex) {
+    new RippleEdit(channelPreferences).verticalRipple(alerts, index, type, Channel.values()[channelIndex]);
+    preferenceAdapter.notifyDataSetChanged();
+  }
+
+  public void restoreDefaults(View view) {
+    channelPreferences.resetToDefaults();
+    preferenceAdapter.notifyDataSetChanged();
   }
 
   @Override

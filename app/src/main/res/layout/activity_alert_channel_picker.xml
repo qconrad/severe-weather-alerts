@@ -25,9 +25,12 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="restoreDefaults"
         android:text="Restore Defaults"/>
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/ripple_switch"
+        android:checked="true"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

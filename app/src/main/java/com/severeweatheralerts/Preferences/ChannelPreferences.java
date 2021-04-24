@@ -55,6 +55,10 @@ public class ChannelPreferences {
     return userMap;
   }
 
+  public void resetToDefaults() {
+    userMap.clear();
+  }
+
   private Channel getPost(Channel[] alertMap) { return alertMap[0]; }
   private Channel getUpdate(Channel[] alertMap) { return alertMap[1]; }
   private Channel getCancel(Channel[] alertMap) { return alertMap[2]; }

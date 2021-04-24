@@ -151,4 +151,12 @@ public class ChannelPreferencesTests {
     channelPreferences.setChannel("Tornado Warning", POST, EXTREME);
     assertEquals(0, channelPreferences.getUserMap().size());
   }
+
+  @Test
+  public void getUserMap_resetToDefaults() {
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    channelPreferences.setChannel("Tornado Warning", POST, HIGH);
+    channelPreferences.resetToDefaults();
+    assertEquals(0, channelPreferences.getUserMap().size());
+  }
 }
