@@ -66,13 +66,13 @@ public abstract class GraphicGenerator {
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    if (!alert.hasGeometry()) fetchZones();
-    else finish();
-    fetchMapTimes();
+    if (!alert.hasGeometry() && alert.getZoneLinkCount() > 0) fetchZones();
     fetchGridData();
+    fetchMapTimes();
+    finish();
   }
 
-  private int fetchesRemaining = 3;
+  int fetchesRemaining = 1;
   protected void finish() {
     if (--fetchesRemaining <= 0) generateImages();
   }
@@ -89,10 +89,11 @@ public abstract class GraphicGenerator {
 
   public void fetchGridData() {
     if (gridParameter != null) fetchPointInfo();
-    else finish();
   }
 
   public void fetchMapTimes() {
+    if (mapTimeParameter == null) return;
+    fetchesRemaining++;
     StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, getRegion()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
@@ -111,6 +112,7 @@ public abstract class GraphicGenerator {
   }
 
   private void fetchPointInfo() {
+    fetchesRemaining++;
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLat(), location.getLong()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
@@ -149,7 +151,7 @@ public abstract class GraphicGenerator {
   }
 
   protected void fetchZones() {
-    if (alert.getZoneLinkCount() == 0) finish();
+    fetchesRemaining++;
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {

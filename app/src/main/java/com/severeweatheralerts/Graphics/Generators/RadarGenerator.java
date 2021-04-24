@@ -30,6 +30,7 @@ public class RadarGenerator extends GraphicGenerator {
 
   @Override
   public void fetchMapTimes() {
+    fetchesRemaining++;
     StringFetchService fetchService = new StringFetchService(context, new URL().getRadarMapTimes());
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
