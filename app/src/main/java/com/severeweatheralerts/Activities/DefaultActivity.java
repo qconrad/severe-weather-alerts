@@ -7,9 +7,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.severeweatheralerts.FirstRunActivity;
-import com.severeweatheralerts.R;
-
 import io.paperdb.Paper;
 
 import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;

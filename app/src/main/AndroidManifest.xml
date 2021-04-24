@@ -26,7 +26,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".FirstRunActivity" />
+        <activity android:name=".Activities.FirstRunActivity" />
         <activity
             android:name=".Activities.LocationPickerActivity"
             android:noHistory="true" />

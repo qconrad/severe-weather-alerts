@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,10 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.severeweatheralerts.Activities.FetchingAlertDataActivity;
-import com.severeweatheralerts.Activities.GettingLocationActivity;
-import com.severeweatheralerts.Activities.LocationPickerActivity;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.PermissionManager;
+import com.severeweatheralerts.R;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class FirstRunActivity extends AppCompatActivity {
