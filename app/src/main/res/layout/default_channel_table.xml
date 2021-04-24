@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TableRow android:background="#868e96">
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="0"
+            android:text="None" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="1"
+            android:gravity="center"
+            android:text="Do not send" />
+    </TableRow>
+
+    <TableRow android:background="#2b8a3e">
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="0"
+            android:text="Low" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="1"
+            android:gravity="center"
+            android:text="Collapsed at bottom" />
+    </TableRow>
+
+    <TableRow android:background="#ccaa2f">
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="0"
+            android:text="Medium" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="1"
+            android:gravity="center"
+            android:text="Silent" />
+    </TableRow>
+
+    <TableRow android:background="#c92a2a">
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="0"
+            android:text="High" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="1"
+            android:gravity="center"
+            android:text="Audible" />
+    </TableRow>
+
+    <TableRow android:background="#5f3dc4">
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="0"
+            android:text="Extreme" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_column="1"
+            android:gravity="center"
+            android:text="Blaring loud" />
+    </TableRow>
+</TableLayout>
+
