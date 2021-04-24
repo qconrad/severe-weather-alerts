@@ -63,12 +63,8 @@ public class URL {
     return "https://digital.weather.gov/scripts/get_multivt.php?&grid=ndfd&elmt=" + type + "&region=" + region;
   }
 
-  public String getRadarMapTimes() {
-    return "https://api.rainviewer.com/public/maps.json";
-  }
-
-  public String getRadarImage(String date, String zoomLevel, String lat, String lon) {
-    return "https://tilecache.rainviewer.com/v2/radar/" + date + "/512/" + zoomLevel + "/" + lat + "/" + lon + "/6/1_1.png";
+  public String getRadarImage(Bound bounds) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/conus/conus_bref_qcd/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=conus_bref_qcd&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
   }
 
   public String getPointInfo(double lat, double lon) {

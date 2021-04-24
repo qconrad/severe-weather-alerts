@@ -29,20 +29,6 @@
             android:textStyle="bold"
             android:textColor="#FFF"
             android:textSize="18sp"
-            android:text="Rain Viewer"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Doppler radar data for storm related alerts is made possible by rainviewer.com"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="#FFF"
-            android:textSize="18sp"
             android:text="The Noun Project"/>
 
         <TextView
