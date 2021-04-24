@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.severeweatheralerts.AttributionActivity;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
