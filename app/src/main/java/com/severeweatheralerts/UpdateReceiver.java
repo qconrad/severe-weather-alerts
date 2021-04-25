@@ -37,7 +37,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 
     SharedPreferences.Editor editor = preferences.edit();
     editor.clear();
-    if (LocationsDao.getCoordinateList().size() > 0) {
+    if (LocationsDao.hasLocations()) {
       editor.putBoolean("first_run", false);
       new UserSyncWorkScheduler(context).oneTimeSync();
     }

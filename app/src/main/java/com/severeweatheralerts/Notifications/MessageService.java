@@ -28,6 +28,7 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onNewToken(@NonNull String s) {
     super.onNewToken(s);
-    new UserSyncWorkScheduler(this).oneTimeSync();
+    Paper.init(this);
+    if (LocationsDao.hasLocations()) new UserSyncWorkScheduler(this).oneTimeSync();
   }
 }

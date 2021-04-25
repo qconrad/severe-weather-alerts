@@ -25,6 +25,11 @@ public class LocationsDao {
     Paper.book().write("locations", locations);
   }
 
+  public static boolean hasLocations() {
+    getLocations();
+    return locations.size() > 0;
+  }
+
   public static void setDefaultLocation(String name, double latitude, double longitude) {
     getLocations();
     if (locations.size() < 1) locations.add(new Location());
