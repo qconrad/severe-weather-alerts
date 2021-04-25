@@ -34,7 +34,7 @@ public class LocationPickerActivity extends AppCompatActivity {
     ProgressBar progressBar = findViewById(R.id.location_search_progress);
     progressBar.setVisibility(View.VISIBLE);
     String search = text.replace(" ", "+");
-    new StringFetchService(this, "https://geocode.xyz/" + search + "?json=1").fetch(new FetchCallback() {
+    new StringFetchService(this, "https://geocode.xyz/" + search + "?json=1&region=US").fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         GeocodeParser geocodeParser = new GeocodeParser(response.toString());
