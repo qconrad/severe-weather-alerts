@@ -21,7 +21,7 @@ public class NextUpdate {
   }
 
   public String getText(Date time) {
-    if (hasText() && !isCancel()) {
+    if (hasText()) {
       if (alert.isLikelyLastUpdate()) return "Likely to be the last update";
       return "Next update expected by " + new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime(), timeZone).getFormattedString();
     }
