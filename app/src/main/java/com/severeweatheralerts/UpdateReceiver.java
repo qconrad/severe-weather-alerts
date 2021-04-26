@@ -8,9 +8,13 @@ import android.location.Location;
 
 import androidx.preference.PreferenceManager;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
+
+import static com.severeweatheralerts.Constants.STATIONARY_RADIUS;
 
 public class UpdateReceiver extends BroadcastReceiver {
   @Override
@@ -18,6 +22,14 @@ public class UpdateReceiver extends BroadcastReceiver {
     if (!intent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) return;
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
     if (oldVersion(preferences)) adaptToNewVersion(context, preferences);
+    setGeofence(context, preferences);
+  }
+
+  private void setGeofence(Context context, SharedPreferences preferences) {
+    if (preferences.getBoolean("use_fixed", false) && LocationsDao.getInstance(context).hasLocations()) {
+      GCSCoordinate loc = LocationsDao.getInstance(context).getCoordinate(0);
+      new GeofenceManager(context).setStationaryGeofence(loc.getLat(), loc.getLong(), STATIONARY_RADIUS);
+    }
   }
 
   private boolean oldVersion(SharedPreferences preferences) {
