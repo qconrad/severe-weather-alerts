@@ -11,6 +11,9 @@ import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
+import static com.severeweatheralerts.Constants.STATIONARY_RADIUS;
+import static com.severeweatheralerts.Constants.SYNC_DWELL_TIME;
+
 public class GeofenceReceiver extends BroadcastReceiver {
   private GPSLocation gpsLocation;
   @Override
@@ -21,7 +24,7 @@ public class GeofenceReceiver extends BroadcastReceiver {
     if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
       Location location = geofencingEvent.getTriggeringLocation();
       float radius = Math.max(600 * location.getSpeed(), 5000);
-      new GeofenceManager(context).setMovingGeofence(location.getLatitude(), location.getLongitude(), radius, 1200000);
+      new GeofenceManager(context).setMovingGeofence(location.getLatitude(), location.getLongitude(), radius, SYNC_DWELL_TIME);
       locationsDao.updateDefaultLocation(location.getLatitude(), location.getLongitude());
       new UserSyncWorkScheduler(context).oneTimeSync();
     } else if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL) {
@@ -29,7 +32,7 @@ public class GeofenceReceiver extends BroadcastReceiver {
         if (location.getAccuracy() < 200) {
           gpsLocation.stopUpdates();
           locationsDao.updateDefaultLocation(location.getLatitude(), location.getLongitude());
-          new GeofenceManager(context).setStationaryGeofence(location.getLatitude(), location.getLongitude(), 500);
+          new GeofenceManager(context).setStationaryGeofence(location.getLatitude(), location.getLongitude(), STATIONARY_RADIUS);
           new UserSyncWorkScheduler(context).oneTimeSync();
         }
       }).startUpdates();

@@ -18,6 +18,8 @@ import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.Date;
 
+import static com.severeweatheralerts.Constants.STATIONARY_RADIUS;
+
 public class GettingLocationActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void syncLocation(android.location.Location location) {
     new UserSyncWorkScheduler(this).oneTimeSync();
-    new GeofenceManager(this).setStationaryGeofence(location.getLatitude(), location.getLongitude(), 500);
+    new GeofenceManager(this).setStationaryGeofence(location.getLatitude(), location.getLongitude(), STATIONARY_RADIUS);
   }
 
   private void fetchAlerts() {
