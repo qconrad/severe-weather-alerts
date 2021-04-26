@@ -40,6 +40,7 @@ public class NotificationSender {
 
   private PendingIntent getPendingIntent() {
     Intent viewerIntent = new Intent(context, NotificationViewer.class);
+    viewerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     new AlertExtrasGenerator(alert, viewerIntent).addExtras();
     TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
     stackBuilder.addNextIntentWithParentStack(viewerIntent);
