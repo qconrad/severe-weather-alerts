@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Preferences.Channel;
+import com.severeweatheralerts.Preferences.ChannelIdString;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 
@@ -41,11 +42,11 @@ public class PreferenceAdapter extends RecyclerView.Adapter<PreferenceHolder> {
     Channel postChannel   = channelPreferences.getChannel(alertList[position], Alert.Type.POST);
     Channel updateChannel = channelPreferences.getChannel(alertList[position], Alert.Type.UPDATE);
     Channel cancelChannel = channelPreferences.getChannel(alertList[position], Alert.Type.CANCEL);
-    holder.post.setText(postChannel.toString());
+    holder.post.setText(ChannelIdString.getChannelString(postChannel).toUpperCase());
     holder.post.setBackgroundColor(getChannelColor(postChannel));
-    holder.update.setText(updateChannel.toString());
+    holder.update.setText(ChannelIdString.getChannelString(updateChannel).toUpperCase());
     holder.update.setBackgroundColor(getChannelColor(updateChannel));
-    holder.cancel.setText(cancelChannel.toString());
+    holder.cancel.setText(ChannelIdString.getChannelString(cancelChannel).toUpperCase());
     holder.cancel.setBackgroundColor(getChannelColor(cancelChannel));
     holder.post.setOnClickListener(v   -> { if (clickListener != null) clickListener.onClick(Alert.Type.POST, position); });
     holder.update.setOnClickListener(v -> { if (clickListener != null) clickListener.onClick(Alert.Type.UPDATE, position); });

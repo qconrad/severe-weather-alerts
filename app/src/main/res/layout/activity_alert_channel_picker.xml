@@ -44,17 +44,20 @@
 
         <TextView
             android:layout_width="50dp"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/post"/>
 
         <TextView
+            android:textSize="12sp"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/update"/>
 
         <TextView
+            android:textSize="12sp"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
