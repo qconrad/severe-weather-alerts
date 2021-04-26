@@ -4,12 +4,9 @@ import android.os.Bundle;
 
 import com.severeweatheralerts.Adapters.BundleAlertAdapter;
 
-import io.paperdb.Paper;
-
 public class NotificationViewer extends AlertViewerActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    Paper.init(this);
     super.onCreate(savedInstanceState);
   }
 

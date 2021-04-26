@@ -40,8 +40,9 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    setLocationName(0);
-    sortAndFilterAlerts();
+    LocationsDao locationsDao = new LocationsDao(this);
+    setLocationName(locationsDao.getName(0));
+    sortAndFilterAlerts(locationsDao.getAlerts(0));
     populateRecyclerViews();
     setStatus(getStatus());
   }
@@ -50,15 +51,15 @@ public class AlertListActivity extends AppCompatActivity {
     return new StatusPicker(activeAlerts, inactiveAlerts).getStatus();
   }
 
-  private void sortAndFilterAlerts() {
-    ArrayList<Alert> relevantAlerts = new ReplacementFilter(LocationsDao.getAlerts(0)).filter();
+  private void sortAndFilterAlerts(ArrayList<Alert> alerts) {
+    ArrayList<Alert> relevantAlerts = new ReplacementFilter(alerts).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
   }
 
-  private void setLocationName(int index) {
+  private void setLocationName(String name) {
     TextView locationName = findViewById(R.id.location_name);
-    locationName.setText(LocationsDao.getName(index));
+    locationName.setText(name);
   }
 
   private void setStatus(Status status) {

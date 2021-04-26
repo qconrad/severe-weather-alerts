@@ -13,8 +13,11 @@ import com.severeweatheralerts.Networking.AsyncPost;
 import com.severeweatheralerts.Location.LocationsDao;
 
 public class UserSyncWorker extends Worker {
+  private final LocationsDao dao;
+
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
+    this.dao = new LocationsDao(context);
   }
 
   @NonNull
@@ -51,7 +54,7 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getLocations() {
-    return new JSONLocationString(LocationsDao.getCoordinateList()).getString();
+    return new JSONLocationString(dao.getCoordinateList()).getString();
   }
 
   private boolean failure(Task<String> task) {

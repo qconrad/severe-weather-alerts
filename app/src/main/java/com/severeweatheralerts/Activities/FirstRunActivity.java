@@ -84,7 +84,7 @@ public class FirstRunActivity extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode == Activity.RESULT_OK) {
       Bundle extras = data.getExtras();
-      LocationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
+      new LocationsDao(this).setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
       new UserSyncWorkScheduler(this).oneTimeSync();
       startActivity(new Intent(FirstRunActivity.this, FetchingAlertDataActivity.class));

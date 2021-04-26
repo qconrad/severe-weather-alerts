@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Location;
 
+import android.content.Context;
+
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Adapters.LocationToCoordinateListAdapter;
 import com.severeweatheralerts.Alerts.Alert;
@@ -11,78 +13,67 @@ import io.paperdb.Paper;
 
 public class LocationsDao {
   private static ArrayList<Location> locations;
-  private LocationsDao() {}
-
-  private static void getLocations() {
-    if (locations == null) getLocationsFromFile();
+  public LocationsDao(Context context) {
+    Paper.init(context);
+    getLocationsFromFile();
   }
 
-  private static void getLocationsFromFile() {
+  private void getLocationsFromFile() {
     locations = Paper.book().read("locations", new ArrayList<>());
   }
 
-  private static void saveToFile() {
+  private void saveToFile() {
     Paper.book().write("locations", locations);
   }
 
-  public static boolean hasLocations() {
-    getLocations();
+  public boolean hasLocations() {
     return locations.size() > 0;
   }
 
-  public static void setDefaultLocation(String name, double latitude, double longitude) {
-    getLocations();
+  public void setDefaultLocation(String name, double latitude, double longitude) {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setName(name);
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
     saveToFile();
   }
 
-  public static void setName(int index, String name) {
-    getLocations();
+  public void setName(int index, String name) {
     locations.get(index).setName(name);
     saveToFile();
   }
 
-  public static void updateDefaultLocation(double latitude, double longitude) {
-    getLocations();
+  public void updateDefaultLocation(double latitude, double longitude) {
     if (locations.size() > 0) locations.add(new Location());
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
     saveToFile();
   }
 
-  public static void setChannelPreferences(int locationIndex, ChannelPreferences channelPreferences) {
+  public void setChannelPreferences(int locationIndex, ChannelPreferences channelPreferences) {
     locations.get(locationIndex).setChannelPreferences(channelPreferences);
     saveToFile();
   }
 
-  public static ArrayList<Alert> getAlerts(int locationIndex) {
-    getLocations();
+  public ArrayList<Alert> getAlerts(int locationIndex) {
     return locations.get(locationIndex).getAlerts();
   }
 
-  public static GCSCoordinate getCoordinate(int locationIndex) {
-    getLocations();
+  public GCSCoordinate getCoordinate(int locationIndex) {
     return locations.get(locationIndex).getCoordinate();
   }
 
-  public static ChannelPreferences getChannelPreferences(int locationIndex) {
-    getLocations();
+  public ChannelPreferences getChannelPreferences(int locationIndex) {
     return locations.get(locationIndex).getChannelPreferences();
   }
 
-  public static String getName(int locationIndex) {
-    getLocations();
+  public String getName(int locationIndex) {
     return locations.get(locationIndex).getName();
   }
 
-  public static ArrayList<GCSCoordinate> getCoordinateList() {
-    getLocations();
+  public ArrayList<GCSCoordinate> getCoordinateList() {
     return new LocationToCoordinateListAdapter(locations).getCoordinates();
   }
 
-  public static void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
-    getLocations();
+  public void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
     locations.get(locationIndex).setAlerts(alerts);
   }
 }

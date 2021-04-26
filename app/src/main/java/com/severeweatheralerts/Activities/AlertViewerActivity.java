@@ -48,11 +48,13 @@ import java.util.TimeZone;
 public class AlertViewerActivity extends AppCompatActivity {
   protected Alert al;
   protected int locationIndex;
+  private LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_viewer);
+    locationsDao = new LocationsDao(this);
 
     makeStatusBarTransparent();
     getAlertFromExtras(getIntent().getExtras());
@@ -66,7 +68,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private ArrayList<Alert> getAlerts(int locationIndex) {
-    return LocationsDao.getAlerts(locationIndex);
+    return locationsDao.getAlerts(locationIndex);
   }
 
   private void populateUIWithAlertData() {
@@ -104,7 +106,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    generateGraphic(LocationsDao.getCoordinate(locationIndex), type, graphicView);
+    generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView);
   }
 
   private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {

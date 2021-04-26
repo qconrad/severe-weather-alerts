@@ -19,7 +19,6 @@ import com.severeweatheralerts.R;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class SettingsActivity extends AppCompatActivity {
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,11 +43,13 @@ public class SettingsActivity extends AppCompatActivity {
 
 
   public static class SettingsFragment extends PreferenceFragmentCompat {
+    private LocationsDao locationsDao;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+      locationsDao = new LocationsDao(getContext());
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
       if (findPreference("usefixed").isEnabled()) {
-        findPreference("fixedloc").setSummary(LocationsDao.getName(0));
+        findPreference("fixedloc").setSummary(locationsDao.getName(0));
       }
       createClickListeners();
     }
@@ -78,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
         usefixed.setOnPreferenceChangeListener((preference, newValue) -> {
           if ((Boolean) newValue) {
             new GeofenceManager(getContext()).removeGeofences();
-            LocationsDao.setName(0, "Fixed Location");
+            locationsDao.setName(0, "Fixed Location");
             findPreference("fixedloc").setSummary("Default Location");
             startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
           }
@@ -152,7 +153,7 @@ public class SettingsActivity extends AppCompatActivity {
       super.onActivityResult(requestCode, resultCode, data);
       if (resultCode == Activity.RESULT_OK) {
         Bundle extras = data.getExtras();
-        LocationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
+        locationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
         new UserSyncWorkScheduler(getContext()).oneTimeSync();
         startActivity(new Intent(getActivity(), FetchingAlertDataActivity.class));
       }

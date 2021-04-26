@@ -18,13 +18,15 @@ import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 
 public class ChannelPreferencesActivity extends AppCompatActivity {
-  ChannelPreferences channelPreferences;
-  PreferenceAdapter preferenceAdapter;
+  private ChannelPreferences channelPreferences;
+  private PreferenceAdapter preferenceAdapter;
+  private LocationsDao locationsDao;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
-    channelPreferences = LocationsDao.getChannelPreferences(0);
+    locationsDao = new LocationsDao(this);
+    channelPreferences = locationsDao.getChannelPreferences(0);
     inflatePreferenceList();
   }
 
@@ -62,7 +64,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    LocationsDao.setChannelPreferences(0, channelPreferences);
+    locationsDao.setChannelPreferences(0, channelPreferences);
   }
 
   String[] alerts = {"Tornado Warning",
