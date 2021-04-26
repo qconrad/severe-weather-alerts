@@ -30,7 +30,7 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void getAlerts() {
-    LocationsDao locationsDao = new LocationsDao(this);
+    LocationsDao locationsDao = LocationsDao.getInstance(this);
     new FromLocationPointPopulater(locationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {

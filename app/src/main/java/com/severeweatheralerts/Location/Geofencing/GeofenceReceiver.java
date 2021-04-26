@@ -11,13 +11,11 @@ import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
-import io.paperdb.Paper;
-
 public class GeofenceReceiver extends BroadcastReceiver {
   private GPSLocation gpsLocation;
   @Override
   public void onReceive(Context context, Intent intent) {
-    LocationsDao locationsDao = new LocationsDao(context);
+    LocationsDao locationsDao = LocationsDao.getInstance(context);
     GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
     int geofenceTransition = geofencingEvent.getGeofenceTransition();
     if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {

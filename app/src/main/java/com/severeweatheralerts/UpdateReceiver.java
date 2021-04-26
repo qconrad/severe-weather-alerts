@@ -25,7 +25,7 @@ public class UpdateReceiver extends BroadcastReceiver {
   }
 
   private void adaptToNewVersion(Context context, SharedPreferences preferences) {
-    LocationsDao dao = new LocationsDao(context);
+    LocationsDao dao = LocationsDao.getInstance(context);
     if (PermissionManager.hasCoarseLocation(context)) {
       Location lastLocation = new LastKnownLocation(context).getLocation();
       if (lastLocation != null) setLocation(dao, lastLocation.getLatitude(), lastLocation.getLongitude());
@@ -35,7 +35,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 
     SharedPreferences.Editor editor = preferences.edit();
     editor.clear();
-    if (new LocationsDao(context).hasLocations()) {
+    if (LocationsDao.getInstance(context).hasLocations()) {
       editor.putBoolean("first_run", false);
       new UserSyncWorkScheduler(context).oneTimeSync();
     }

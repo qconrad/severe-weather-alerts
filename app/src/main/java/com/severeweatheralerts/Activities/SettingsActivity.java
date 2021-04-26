@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     private LocationsDao locationsDao;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-      locationsDao = new LocationsDao(getContext());
+      locationsDao = LocationsDao.getInstance(getContext());
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
       if (findPreference("usefixed").isEnabled()) {
         findPreference("fixedloc").setSummary(locationsDao.getName(0));

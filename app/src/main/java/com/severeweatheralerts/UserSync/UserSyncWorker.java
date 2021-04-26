@@ -17,7 +17,7 @@ public class UserSyncWorker extends Worker {
 
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
-    this.dao = new LocationsDao(context);
+    this.dao = LocationsDao.getInstance(context);
   }
 
   @NonNull

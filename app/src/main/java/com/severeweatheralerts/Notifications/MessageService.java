@@ -17,7 +17,7 @@ public class MessageService extends FirebaseMessagingService {
     if (remoteMessage.getData().size() > 0) {
       MessageAdapter messageAdapter = new MessageAdapter(remoteMessage.getData());
       Alert alert = messageAdapter.getAlert();
-      Channel channel = new LocationsDao(this).getChannelPreferences(0).getChannel(alert.getName(), alert.getType());
+      Channel channel = LocationsDao.getInstance(this).getChannelPreferences(0).getChannel(alert.getName(), alert.getType());
       if (channel != Channel.NONE) new NotificationSender(this, alert, getChannelString(channel)).send();
     }
   }
@@ -25,6 +25,6 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onNewToken(@NonNull String s) {
     super.onNewToken(s);
-    if (new LocationsDao(this).hasLocations()) new UserSyncWorkScheduler(this).oneTimeSync();
+    if (LocationsDao.getInstance(this).hasLocations()) new UserSyncWorkScheduler(this).oneTimeSync();
   }
 }

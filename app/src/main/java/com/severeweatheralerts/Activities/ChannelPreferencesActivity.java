@@ -25,7 +25,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
-    locationsDao = new LocationsDao(this);
+    locationsDao = LocationsDao.getInstance(this);
     channelPreferences = locationsDao.getChannelPreferences(0);
     inflatePreferenceList();
   }

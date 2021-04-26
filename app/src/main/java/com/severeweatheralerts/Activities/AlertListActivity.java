@@ -40,7 +40,7 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    LocationsDao locationsDao = new LocationsDao(this);
+    LocationsDao locationsDao = LocationsDao.getInstance(this);
     setLocationName(locationsDao.getName(0));
     sortAndFilterAlerts(locationsDao.getAlerts(0));
     populateRecyclerViews();

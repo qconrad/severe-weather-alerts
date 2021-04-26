@@ -12,10 +12,17 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 
 public class LocationsDao {
-  private static ArrayList<Location> locations;
-  public LocationsDao(Context context) {
+  private ArrayList<Location> locations;
+  private static LocationsDao instance;
+
+  private LocationsDao(Context context) {
     Paper.init(context);
     getLocationsFromFile();
+  }
+
+  public static LocationsDao getInstance(Context context) {
+    if (instance == null) instance = new LocationsDao(context);
+    return instance;
   }
 
   private void getLocationsFromFile() {
