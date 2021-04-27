@@ -1,7 +1,5 @@
 package com.severeweatheralerts;
 
-import android.widget.GridLayout;
-
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodWatch;
@@ -29,7 +27,7 @@ import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.Lows;
-import com.severeweatheralerts.Graphics.Types.Radar;
+import com.severeweatheralerts.Graphics.Types.LocalRadar;
 import com.severeweatheralerts.Graphics.Types.Rainfall;
 import com.severeweatheralerts.Graphics.Types.SPCOutlook;
 import com.severeweatheralerts.Graphics.Types.Snowfall;
@@ -188,21 +186,21 @@ public class GraphicTypeFactoryTests {
   public void getType_StormWarning_RadarReturned() {
     SevereThunderstormWarning svrWarn = new SevereThunderstormWarning();
     TypeFactory graphicFactory = new TypeFactory(svrWarn);
-    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 
   @Test
   public void getType_TornadoWarning_RadarReturn() {
     TornadoWarning torWarn = new TornadoWarning();
     TypeFactory graphicFactory = new TypeFactory(torWarn);
-    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 
   @Test
   public void getType_TornadoWatch_SecondIsRadar() {
     TornadoWatch torWatch = new TornadoWatch();
     TypeFactory graphicFactory = new TypeFactory(torWatch);
-    assertEquals(Radar.class, graphicFactory.getTypes().get(1).getClass());
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(1).getClass());
   }
 
   @Test
@@ -230,7 +228,7 @@ public class GraphicTypeFactoryTests {
   public void getType_SpecialMarineWarning_Radar() {
     SpecialMarineWarning specialMarineWarning = new SpecialMarineWarning();
     TypeFactory graphicFactory = new TypeFactory(specialMarineWarning);
-    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 
   @Test
@@ -238,6 +236,6 @@ public class GraphicTypeFactoryTests {
     SpecialWeatherStatement specialWeatherStatement = new SpecialWeatherStatement();
     specialWeatherStatement.setDescription("At 235 AM CDT, a strong thunderstorm was located near Petit Bois\\nIsland, or 9 miles south of Moss Point, moving northeast at 35 mph.\\n\\nWinds in excess of 30 mph and half inch hail are possible with this\\nstorm.\\n\\nLocations impacted include...\\nMoss Point, Escatawpa, Gautier and Helena.\\n\\nTorrential rainfall is also occurring with this storm, and may cause\\nlocalized flooding. Do not drive your vehicle through flooded\\nroadways.\\n\\nFrequent cloud to ground lightning is occurring with this storm.\\nLightning can strike 10 miles away from a thunderstorm. Seek a safe\\nshelter inside a building or vehicle.\\n\\nThis storm may intensify, so be certain to monitor local radio\\nstations and available television stations for additional information\\nand possible warnings from the National Weather Service.");
     TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement);
-    assertEquals(Radar.class, graphicFactory.getTypes().get(0).getClass());
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

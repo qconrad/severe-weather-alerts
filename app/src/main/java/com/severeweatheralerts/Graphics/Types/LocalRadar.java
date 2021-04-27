@@ -5,10 +5,10 @@ import android.content.Context;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Generators.RadarGenerator;
+import com.severeweatheralerts.Graphics.Generators.LocalRadarGenerator;
 
-public class Radar extends AlertArea implements GraphicType {
-  public Radar() {}
+public class LocalRadar extends AlertArea implements GraphicType {
+  public LocalRadar() {}
 
   @Override
   public String getTitle() {
@@ -17,6 +17,6 @@ public class Radar extends AlertArea implements GraphicType {
 
   @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
-    return new RadarGenerator(context, alert, location);
+    return new LocalRadarGenerator(context, alert, location);
   }
 }

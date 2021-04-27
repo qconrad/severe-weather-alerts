@@ -8,11 +8,15 @@ import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.Graphics.URL;
+import com.severeweatheralerts.JSONParsing.PointInfoParser;
 
 import java.util.ArrayList;
 
-public class RadarGenerator extends GraphicGenerator {
-  public RadarGenerator(Context context, Alert alert, GCSCoordinate location) {
+public class LocalRadarGenerator extends GraphicGenerator {
+  private ArrayList<Polygon> polygons;
+  private String radarStation;
+
+  public LocalRadarGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
   }
 
@@ -20,13 +24,28 @@ public class RadarGenerator extends GraphicGenerator {
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     super.generate(graphicCompleteListener);
     getAlertPolygons();
+    getPointInfo();
+  }
+
+  @Override
+  protected void pointInfo(String response) {
+    radarStation = new PointInfoParser(response).getRadarStation().toLowerCase();
+    fetchFinished();
   }
 
   @Override
   protected void alertPolygons(ArrayList<Polygon> polygons) {
+    this.polygons = polygons;
+  }
+
+  private void fetchFinished() {
+    if (polygons != null && radarStation != null) generateLayers();
+  }
+
+  private void generateLayers() {
     Bounds bounds = getBounds(polygons);
     ArrayList<Layer> layers = new ArrayList<>();
-    layers.add(new Layer(new URL().getRadarImage(bounds)));
+    layers.add(new Layer(new URL().getLocalRadarImage(bounds, radarStation)));
     layers.add(new Layer(new URL().getCountyMap(bounds)));
     layers.add(new Layer(getZoneOverlay(bounds)));
     generateGraphicFromLayers(layers);
