@@ -4,46 +4,80 @@ import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.Bounds.Bounds;
+import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.Graphics.Rounder;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.URL;
+import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.TextUtils.Plurality;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
 import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
 
 public class RainfallGenerator extends GraphicGenerator {
-  private double rainfallAmount;
+  private ArrayList<Polygon> polygons;
+  private ArrayList<MapTime> mapTimes;
+  private boolean subTextSet;
 
   public RainfallGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
-    mapTimeParameter = "totalqpf";
-    gridParameter = "quantitativePrecipitation";
   }
 
   @Override
-  protected void gridDataAvailable(Parameter gridData) {
-    rainfallAmount = new Rounder(mmToIn(getRainfall(gridData)), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
+  public void generate(GraphicCompleteListener graphicCompleteListener) {
+    super.generate(graphicCompleteListener);
+    getAlertPolygons();
+    getMapTimes("totalqpf");
+    getPointInfo();
   }
 
   @Override
-  protected void getURLs() {
+  protected void alertPolygons(ArrayList<Polygon> polygons) {
+    this.polygons = polygons;
+    fetchFinish();
+  }
+
+  @Override
+  protected void pointInfo(String response) {
+    getForecast(new PointInfoParser(response).getForecastGridLink(), "quantitativePrecipitation");
+  }
+
+  @Override
+  protected void forecast(Parameter forecast) {
+    double rainfallAmount = new Rounder(mmToIn(getRainfall(forecast)), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
+    setSubtext(rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText());
+    subTextSet = true;
+    fetchFinish();
+  }
+
+  @Override
+  protected void mapTimes(ArrayList<MapTime> mapTimes) {
+    this.mapTimes = mapTimes;
+    fetchFinish();
+  }
+
+  private void fetchFinish() {
+    if (polygons != null && mapTimes != null && subTextSet) generateLayers();
+  }
+
+  private void generateLayers() {
+    Bounds bounds = getBounds(polygons);
+    ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
-    layers.add(new Layer(new URL().getTotalRain(bound, getRegion(), dateString)));
-    layers.add(new Layer(new URL().getCountyMap(bound)));
-    layers.add(new Layer(getZoneOverlay()));
-    layers.add(new Layer(new URL().getTotalRainPoints(bound, getRegion(), dateString)));
-  }
-
-  @Override
-  protected String getSubText() {
-    return rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText();
+    layers.add(new Layer(new URL().getTotalRain(bounds, getRegion(), dateString)));
+    layers.add(new Layer(new URL().getCountyMap(bounds)));
+    layers.add(new Layer(getZoneOverlay(bounds)));
+    layers.add(new Layer(new URL().getTotalRainPoints(bounds, getRegion(), dateString)));
+    generateGraphicFromLayers(layers);
   }
 
   private double getRainfall(Parameter gridData) {

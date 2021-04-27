@@ -4,9 +4,8 @@ import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
 
 public class Snowfall extends AlertArea implements GraphicType {
   public Snowfall() {}

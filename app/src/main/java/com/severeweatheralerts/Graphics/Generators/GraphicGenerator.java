@@ -12,16 +12,16 @@ import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
 import com.severeweatheralerts.Graphics.BitmapTools.ZoneDrawer;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
-import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GridData.MapRegion;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.MapTimeParser;
-import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
@@ -39,69 +39,63 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class GraphicGenerator {
-  protected final Context context;
   private final GCSCoordinate location;
   private GraphicCompleteListener graphicCompleteListener;
+  private final Graphic graphic;
 
+  protected final Context context;
   protected final Alert alert;
-  protected ArrayList<Layer> layers = new ArrayList<>();
-  protected Bound bound;
-  protected ArrayList<MapTime> mapTimes;
 
-  protected String gridParameter;
-  protected String mapTimeParameter;
-
-  protected abstract void getURLs();
-  protected void gridDataAvailable(Parameter gridData) {}
-
-  protected String getSubText() {
-    return null;
-  }
+  protected void forecast(Parameter gridData) {}
+  protected void mapTimes(ArrayList<MapTime> mapTimes) {}
+  protected void pointInfo(String response) {}
+  protected void alertPolygons(ArrayList<Polygon> polygons) {}
 
   public GraphicGenerator(Context context, Alert alert, GCSCoordinate location) {
     this.context = context;
     this.alert = alert;
     this.location = location;
+    graphic = new Graphic();
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     this.graphicCompleteListener = graphicCompleteListener;
-    if (!alert.hasGeometry() && alert.getZoneLinkCount() > 0) fetchZones();
-    fetchGridData();
-    fetchMapTimes();
-    finish();
   }
 
-  int fetchesRemaining = 1;
-  protected void finish() {
-    if (--fetchesRemaining <= 0) generateImages();
-  }
+  protected void getAlertPolygons() {
+    if (alert.hasGeometry()) alertPolygons(alert.getPolygons());
+    else if (alert.getZoneLinkCount() <= 0) throwError("This alert does not have zone data");
+    StringListFetch fetchService = new StringListFetch(context, alert.getZones());
+    fetchService.setUserAgent(Constants.USER_AGENT);
+    fetchService.fetch(new FetchCallback() {
+      @Override
+      public void success(Object response) {
+        parseZones((ArrayList<String>) response);
+      }
 
-  private void generateImages() {
-    bound = getBound();
-    getURLs();
-    fetchImages();
+      @Override public void error(VolleyError error) {
+        throwError("Error fetching alert zones");
+      }
+    });
   }
 
   protected void throwError(String message) {
     graphicCompleteListener.error(message);
   }
 
-  public void fetchGridData() {
-    if (gridParameter != null) fetchPointInfo();
+  protected void setSubtext(String subtext) {
+    graphic.setSubtext(subtext);
   }
 
-  public void fetchMapTimes() {
-    if (mapTimeParameter == null) return;
-    fetchesRemaining++;
-    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(mapTimeParameter, getRegion()));
+  protected void getMapTimes(String parameter) {
+    StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(parameter, getRegion()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        mapTimes = new MapTimeParser(response.toString()).getMapTimes();
+        ArrayList<MapTime> mapTimes = new MapTimeParser(response.toString()).getMapTimes();
         if (mapTimes == null || mapTimes.size() == 0) throwError("Times for this graphic unavailable");
-        else finish();
+        else mapTimes(mapTimes);
       }
 
       @Override
@@ -111,14 +105,13 @@ public abstract class GraphicGenerator {
     });
   }
 
-  private void fetchPointInfo() {
-    fetchesRemaining++;
+  protected void getPointInfo() {
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLat(), location.getLong()));
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        getForecastGridData(new PointInfoParser(response.toString()).getForecastGridLink());
+        pointInfo((String)response);
       }
 
       @Override
@@ -128,46 +121,28 @@ public abstract class GraphicGenerator {
     });
   }
 
-  public void getForecastGridData(String gridDataURL) {
+  public void getForecast(String gridDataURL, String parameter) {
     StringFetchService fetchService = new StringFetchService(context, gridDataURL);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
-        parseGridData(response);
-        finish();
+        parseForecast(response, parameter);
       }
 
       @Override
       public void error(VolleyError error) {
-        throwError("Error getting grid data");
+        throwError("Error getting forecast");
       }
     });
   }
 
-  private void parseGridData(Object response) {
-    try { gridDataAvailable(new GridDataParser(response.toString()).getParameter(gridParameter)); }
+  private void parseForecast(Object response, String parameter) {
+    try { forecast(new GridDataParser(response.toString()).getParameter(parameter)); }
     catch (JSONException e) { throwError("Error parsing grid data"); }
   }
 
-  protected void fetchZones() {
-    fetchesRemaining++;
-    StringListFetch fetchService = new StringListFetch(context, alert.getZones());
-    fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
-      @Override
-      public void success(Object response) {
-        parseZones((ArrayList<String>) response);
-        finish();
-      }
-
-      @Override public void error(VolleyError error) {
-        throwError("Error fetching alert zones");
-      }
-    });
-  }
-
-  protected void fetchImages() {
+  protected void generateGraphicFromLayers(ArrayList<Layer> layers) {
     LayerListFetch fetchService = new LayerListFetch(context, layers);
     fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.fetch(new FetchCallback() {
@@ -184,14 +159,12 @@ public abstract class GraphicGenerator {
   }
 
   private void returnGraphic(ArrayList<Bitmap> bitmaps) {
-    Graphic graphic = new Graphic();
-    graphic.setSubtext(getSubText());
     graphic.setImage(new BitmapCombiner(bitmaps).combine());
     graphicCompleteListener.onComplete(graphic);
   }
 
-  protected Bitmap getZoneOverlay() {
-    return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bound, getMercatorCoordinate()).getBitmap();
+  protected Bitmap getZoneOverlay(Bounds bounds) {
+    return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, getMercatorCoordinate()).getBitmap();
   }
 
   protected String getRegion() {
@@ -202,19 +175,21 @@ public abstract class GraphicGenerator {
     return new GCSToMercatorCoordinateAdapter(location).getCoordinate();
   }
 
-  protected Bound getBound() {
-    Bound bounds = new PolygonListBoundCalculator(alert.getPolygons()).getBounds();
+  protected Bounds getBounds(ArrayList<Polygon> polygons) {
+    Bounds bounds = new PolygonListBoundCalculator(polygons).getBounds();
     bounds = new AspectRatioEqualizer(bounds).equalize();
     bounds = new BoundMargin(bounds, Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
     return bounds;
   }
 
+  int fetchedZones = 0;
   private void parseZones(ArrayList<String> response) {
     for (String zone : response) {
       try {
         ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
         for (int i = 0; i < geometry.size(); i++)
           alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+        if (++fetchedZones == alert.getZoneLinkCount()) alertPolygons(alert.getPolygons());
       }
       catch (JSONException e) { e.printStackTrace(); }
     }

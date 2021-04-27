@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
-import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinateToPointAdapter;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
@@ -16,14 +16,14 @@ import java.util.ArrayList;
 
 public class ZoneDrawer {
   private final int color;
-  private final Bound bounds;
+  private final Bounds bounds;
   private final ArrayList<Polygon> polygons;
   private final Paint paint;
   private final Bitmap bitmap;
   private final Canvas canvas;
   private final MercatorCoordinate location;
 
-  public ZoneDrawer(ArrayList<Polygon> polygons, int color, Bound bounds, MercatorCoordinate location) {
+  public ZoneDrawer(ArrayList<Polygon> polygons, int color, Bounds bounds, MercatorCoordinate location) {
     this.color = color;
     this.polygons = polygons;
     this.bounds = bounds;

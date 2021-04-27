@@ -1,30 +1,30 @@
 package com.severeweatheralerts.Graphics.Bounds;
 
 public class AspectRatioEqualizer {
-  private final Bound bounds;
+  private final Bounds bounds;
   private final boolean widerThanTall;
   private final double width;
   private final double height;
 
-  public AspectRatioEqualizer(Bound bounds) {
+  public AspectRatioEqualizer(Bounds bounds) {
     this.bounds = bounds;
     width = bounds.getRight() - bounds.getLeft();
     height = bounds.getTop() - bounds.getBottom();
     widerThanTall = width > height;
   }
 
-  public Bound equalize() {
+  public Bounds equalize() {
     if (widerThanTall) return equalizeHeight();
     else return equalizeWidth();
   }
 
-  private Bound equalizeWidth() {
+  private Bounds equalizeWidth() {
     double axisDifference = (height - width) / 2;
-    return new Bound(bounds.getTop(), bounds.getRight() + axisDifference, bounds.getBottom(), bounds.getLeft() - axisDifference);
+    return new Bounds(bounds.getTop(), bounds.getRight() + axisDifference, bounds.getBottom(), bounds.getLeft() - axisDifference);
   }
 
-  private Bound equalizeHeight() {
+  private Bounds equalizeHeight() {
     double axisDifference = (width - height) / 2;
-    return new Bound(bounds.getTop() + axisDifference, bounds.getRight(), bounds.getBottom() - axisDifference, bounds.getLeft());
+    return new Bounds(bounds.getTop() + axisDifference, bounds.getRight(), bounds.getBottom() - axisDifference, bounds.getLeft());
   }
 }

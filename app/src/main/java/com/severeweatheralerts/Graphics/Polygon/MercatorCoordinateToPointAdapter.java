@@ -2,14 +2,14 @@ package com.severeweatheralerts.Graphics.Polygon;
 
 import android.graphics.Point;
 
-import com.severeweatheralerts.Graphics.Bounds.Bound;
+import com.severeweatheralerts.Graphics.Bounds.Bounds;
 
 public class MercatorCoordinateToPointAdapter {
-  private final Bound bounds;
+  private final Bounds bounds;
   private final int length;
   private final int height;
 
-  public MercatorCoordinateToPointAdapter(Bound bounds, int length, int height) {
+  public MercatorCoordinateToPointAdapter(Bounds bounds, int length, int height) {
     this.bounds = bounds;
     this.length = length;
     this.height = height;

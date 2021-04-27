@@ -4,20 +4,20 @@ import com.severeweatheralerts.Graphics.Polygon.Polygon;
 
 public class BoundCalculator {
   private final Polygon polygon;
-  private Bound bounds = new Bound();
+  private Bounds bounds = new Bounds();
 
   public BoundCalculator(Polygon polygon) {
     this.polygon = polygon;
     calculateBounds();
   }
 
-  public BoundCalculator(Polygon polygon, Bound bounds) {
+  public BoundCalculator(Polygon polygon, Bounds bounds) {
     this.polygon = polygon;
     this.bounds = bounds;
     calculateBounds();
   }
 
-  public Bound getBounds() {
+  public Bounds getBounds() {
     return bounds;
   }
 
@@ -32,6 +32,6 @@ public class BoundCalculator {
       top = Math.max(top, polygon.getCoordinate(i).getY());
       right = Math.max(right, polygon.getCoordinate(i).getX());
     }
-    bounds = new Bound(top, right, bottom, left);
+    bounds = new Bounds(top, right, bottom, left);
   }
 }
