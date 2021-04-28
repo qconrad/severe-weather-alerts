@@ -306,4 +306,21 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertNotNull(messageAdapter.getAlert().getExpectedUpdateTime());
   }
+
+  @Test
+  public void getAlert_DescriptionAdaptedCorrectly() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("description", "CCA\n\nTest");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("Test", messageAdapter.getAlert().getDescription());
+  }
+
+  @Test
+  public void getAlert_TypeIsCancel_InstructionNull() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("type", "Cancel");
+    mockAlertMessage.put("instruction", "CCA\n\nTest");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertNull(messageAdapter.getAlert().getInstruction());
+  }
 }

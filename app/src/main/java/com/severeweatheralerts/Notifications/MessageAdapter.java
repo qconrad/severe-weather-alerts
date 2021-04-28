@@ -1,10 +1,12 @@
 package com.severeweatheralerts.Notifications;
 
+import com.severeweatheralerts.Adapters.DescriptionAdapter;
 import com.severeweatheralerts.Adapters.DescriptionHeadlineRemover;
 import com.severeweatheralerts.Adapters.EndTimeAdapter;
 import com.severeweatheralerts.Adapters.ExpectedUpdateTimeAdapter;
 import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.HeadlineAdapter;
+import com.severeweatheralerts.Adapters.InstructionAdapter;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Adapters.SendTimeAdapter;
 import com.severeweatheralerts.Adapters.SenderCodeAdapter;
@@ -21,8 +23,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
-
 public class MessageAdapter {
   private final Map<String, String> message;
 
@@ -33,8 +33,8 @@ public class MessageAdapter {
   public Alert getAlert() {
     Alert alert = new AlertFactory().getAlert(message.get("name"));
     alert.setName(message.get("name"));
-    alert.setDescription(new DescriptionHeadlineRemover(beautify(message.get("description"))).removeHeadlinesFromDescription());
-    alert.setInstruction(beautify(message.get("instruction")));
+    alert.setDescription(new DescriptionHeadlineRemover(new DescriptionAdapter(message.get("description")).adaptDescription()).removeHeadlinesFromDescription());
+    alert.setInstruction(new InstructionAdapter(message.get("instruction"), message.get("type")).adaptInstruction());
     alert.setSentTime(new SendTimeAdapter(message.get("sent")).adaptSendTime());
     alert.setStartTime(new StartTimeAdapter(message.get("onset")).adaptStartTime());
     alert.setEndTime(new EndTimeAdapter(message.get("ends"), message.get("expires")).adaptEndTime());

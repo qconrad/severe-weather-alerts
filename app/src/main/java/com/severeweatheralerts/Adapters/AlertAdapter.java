@@ -2,9 +2,11 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.TextUtils.RegExMatcher;
 
 import java.util.ArrayList;
 
+import static com.severeweatheralerts.TextUtils.RegExMatcher.*;
 import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
 
 public class AlertAdapter {
@@ -88,11 +90,7 @@ public class AlertAdapter {
   }
 
   private void adaptDescription(UnadaptedAlert ua, Alert al) {
-    if (notNullOrEmpty(ua.getDescription())) al.setDescription(beautify(ua.getDescription()));
-  }
-
-  private boolean notNullOrEmpty(String text) {
-    return text != null && !text.equals("");
+    al.setDescription(new DescriptionAdapter(ua.getDescription()).adaptDescription());
   }
 
   private void adaptSeverity(UnadaptedAlert ua, Alert al) {

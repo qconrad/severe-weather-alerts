@@ -1124,4 +1124,34 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertNull(aa.getAdaptedAlerts().get(0).getInstruction());
   }
+
+  @Test
+  public void descriptionHasCodeAtBeginning_Removed() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("CCA\n\nThis is a test alert");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("This is a test alert", aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void descriptionHasDifferentCodeAtBeginning_Removed() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("CCB\n\nThis is a test alert");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("This is a test alert", aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void descriptionHasCodeNotAtBeginning_NotRemoved() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("This is a test alert\n\nCCB\n\nMore");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("This is a test alert\n\nCCB\n\nMore", aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }
