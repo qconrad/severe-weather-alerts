@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class BundleAlertAdapterTests {
   @Test
@@ -317,5 +318,12 @@ public class BundleAlertAdapterTests {
     bundle.putLong("expectedUpdate", 1500L);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(1500L, bundleAlertAdapter.getAlert().getExpectedUpdateTime().getTime());
+  }
+
+  @Test
+  public void noExpectedUpdateTime_returnsNull() {
+    Bundle bundle = new Bundle();
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertNull(bundleAlertAdapter.getAlert().getExpectedUpdateTime());
   }
 }

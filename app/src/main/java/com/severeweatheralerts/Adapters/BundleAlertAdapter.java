@@ -29,7 +29,8 @@ public class BundleAlertAdapter {
     alert.setSentTime(new Date(bundle.getLong("sent")));
     alert.setStartTime(new Date(bundle.getLong("start")));
     alert.setEndTime(new Date(bundle.getLong("ends")));
-    alert.setExpectedUpdateTime(new Date(bundle.getLong("expectedUpdate")));
+    long expectedUpdate = bundle.getLong("expectedUpdate");
+    if (expectedUpdate != 0) alert.setExpectedUpdateTime(new Date(expectedUpdate));
     adaptPolygons(alert);
     String type = bundle.getString("type");;
     if (type != null) alert.setType(Alert.Type.valueOf(type));
