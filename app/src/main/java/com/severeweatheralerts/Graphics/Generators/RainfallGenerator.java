@@ -1,9 +1,11 @@
 package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
@@ -70,12 +72,13 @@ public class RainfallGenerator extends GraphicGenerator {
   }
 
   private void generateLayers() {
-    Bounds bounds = getBounds(polygons);
+    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
     ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
     layers.add(new Layer(new URL().getTotalRain(bounds, getRegion(), dateString)));
     layers.add(new Layer(new URL().getCountyMap(bounds)));
     layers.add(new Layer(getZoneOverlay(bounds)));
+    layers.add(new Layer(getLocationPointOverlay(bounds, Color.YELLOW)));
     layers.add(new Layer(new URL().getTotalRainPoints(bounds, getRegion(), dateString)));
     generateGraphicFromLayers(layers);
   }

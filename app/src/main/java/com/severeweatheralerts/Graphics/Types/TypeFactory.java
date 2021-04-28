@@ -51,7 +51,6 @@ public class TypeFactory {
       types.add(new WindGusts());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
-      types.add(new CompositeRadar());
     }
     else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm"))
       types.add(new LocalRadar());

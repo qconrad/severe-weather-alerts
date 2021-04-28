@@ -10,6 +10,7 @@ import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
+import com.severeweatheralerts.Graphics.BitmapTools.LocationDrawer;
 import com.severeweatheralerts.Graphics.BitmapTools.ZoneDrawer;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
@@ -164,21 +165,25 @@ public abstract class GraphicGenerator {
   }
 
   protected Bitmap getZoneOverlay(Bounds bounds) {
-    return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds, getMercatorCoordinate()).getBitmap();
+    return new ZoneDrawer(alert.getPolygons(), alert.getColorAt(new Date()), bounds).getBitmap();
+  }
+
+  protected Bitmap getLocationPointOverlay(Bounds bounds, int color) {
+    return new LocationDrawer(bounds, getMercatorCoordinate(), color).getBitmap();
   }
 
   protected String getRegion() {
     return new MapRegion(alert.getSenderCode()).get();
   }
 
-  private MercatorCoordinate getMercatorCoordinate() {
+  protected MercatorCoordinate getMercatorCoordinate() {
     return new GCSToMercatorCoordinateAdapter(location).getCoordinate();
   }
 
-  protected Bounds getBounds(ArrayList<Polygon> polygons) {
+  protected Bounds getBounds(ArrayList<Polygon> polygons, double marginPercentage) {
     Bounds bounds = new PolygonListBoundCalculator(polygons).getBounds();
     bounds = new AspectRatioEqualizer(bounds).equalize();
-    bounds = new BoundMargin(bounds, Constants.DEFAULT_GRAPHIC_MARGIN).getBounds();
+    bounds = new BoundMargin(bounds, marginPercentage).getBounds();
     return bounds;
   }
 

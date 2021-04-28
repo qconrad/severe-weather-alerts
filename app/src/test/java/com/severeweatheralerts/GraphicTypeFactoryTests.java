@@ -166,13 +166,6 @@ public class GraphicTypeFactoryTests {
   }
 
   @Test
-  public void getType_TornadoWatch_SecondIsRadar() {
-    TornadoWatch torWatch = new TornadoWatch();
-    TypeFactory graphicFactory = new TypeFactory(torWatch);
-    assertEquals(CompositeRadar.class, graphicFactory.getTypes().get(1).getClass());
-  }
-
-  @Test
   public void getType_WindChillAdvisory_WindChills() {
     WindChillAdvisory windChillAdvisory = new WindChillAdvisory();
     TypeFactory graphicFactory = new TypeFactory(windChillAdvisory);
