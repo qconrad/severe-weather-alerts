@@ -169,7 +169,7 @@ public class GraphicTypeFactoryTests {
   public void getType_TornadoWatch_SecondIsRadar() {
     TornadoWatch torWatch = new TornadoWatch();
     TypeFactory graphicFactory = new TypeFactory(torWatch);
-    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(1).getClass());
+    assertEquals(CompositeRadar.class, graphicFactory.getTypes().get(1).getClass());
   }
 
   @Test

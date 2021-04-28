@@ -63,7 +63,7 @@ public class URL {
     return "https://digital.weather.gov/scripts/get_multivt.php?&grid=ndfd&elmt=" + type + "&region=" + region;
   }
 
-  public String getRadarImage(Bounds bounds) {
+  public String getCompositeRadarImage(Bounds bounds) {
     return "https://opengeo.ncep.noaa.gov/geoserver/conus/conus_bref_qcd/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=conus_bref_qcd&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
   }
 
