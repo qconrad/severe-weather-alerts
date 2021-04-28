@@ -1,11 +1,13 @@
 package com.severeweatheralerts.Activities;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,18 +23,23 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   private ChannelPreferences channelPreferences;
   private PreferenceAdapter preferenceAdapter;
   private LocationsDao locationsDao;
+  private SharedPreferences sharedPref;
+  private SwitchCompat rippleSwitch;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
     locationsDao = LocationsDao.getInstance(this);
     channelPreferences = locationsDao.getChannelPreferences(0);
+    sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
+    rippleSwitch = findViewById(R.id.ripple_switch);
+    rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
     inflatePreferenceList();
   }
 
   private void inflatePreferenceList() {
     RecyclerView view = findViewById(R.id.preference_stack);
-    SwitchCompat rippleSwitch = findViewById(R.id.ripple_switch);
     view.setLayoutManager(new LinearLayoutManager(this));
     preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
     preferenceAdapter.setClickListener((type, index) -> {
@@ -65,6 +72,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     locationsDao.setChannelPreferences(0, channelPreferences);
+    sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
   }
 
   String[] alerts = {"Tornado Warning",
