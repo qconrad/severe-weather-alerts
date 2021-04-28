@@ -14,11 +14,11 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 
 import java.util.ArrayList;
 
-public class LocalRadarGenerator extends GraphicGenerator {
+public class RadarRainfallGenerator extends GraphicGenerator {
   private ArrayList<Polygon> polygons;
   private String radarStation;
 
-  public LocalRadarGenerator(Context context, Alert alert, GCSCoordinate location) {
+  public RadarRainfallGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
   }
 
@@ -47,7 +47,7 @@ public class LocalRadarGenerator extends GraphicGenerator {
   private void generateLayers() {
     Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
     ArrayList<Layer> layers = new ArrayList<>();
-    layers.add(new Layer(new URL().getRadarReflectivity(bounds, radarStation)));
+    layers.add(new Layer(new URL().getRadarRainfall(bounds, radarStation)));
     layers.add(new Layer(new URL().getCountyMap(bounds)));
     layers.add(new Layer(getZoneOverlay(bounds)));
     layers.add(new Layer(getLocationPointOverlay(bounds, Color.YELLOW)));

@@ -67,8 +67,12 @@ public class URL {
     return "https://opengeo.ncep.noaa.gov/geoserver/conus/conus_bref_qcd/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=conus_bref_qcd&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
   }
 
-  public String getLocalRadarImage(Bounds bounds, String radarStation) {
-    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_bref_raw/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_bref_raw &WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
+  public String getRadarReflectivity(Bounds bounds, String radarStation) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_bref_raw/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_bref_raw&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
+  }
+
+  public String getRadarRainfall(Bounds bounds, String radarStation) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_bdsa/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_bdsa&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop();
   }
 
   public String getPointInfo(double lat, double lon) {

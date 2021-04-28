@@ -203,9 +203,53 @@ public class GraphicTypeFactoryTests {
 
   @Test
   public void getType_FlashFloodWatchWithThunderstormsMentioned_ExpectedRainfall() {
-    FlashFloodWatch specialWeatherStatement = new FlashFloodWatch();
-    specialWeatherStatement.setDescription("The National Weather Service in Springfield has issued a\\n\\n* Flash Flood Watch for portions of central Missouri, east\\ncentral Missouri, south central Missouri, and southwest\\nMissouri, including the following areas, in central Missouri,\\nPulaski. In east central Missouri, Phelps. In south central\\nMissouri, Dent, Howell, Oregon, Shannon, and Texas. In\\nsouthwest Missouri, Barry, Christian, Douglas, Greene,\\nLaclede, Lawrence, McDonald, Newton, Ozark, Stone, Taney,\\nWebster, and Wright.\\n\\n* From midnight CDT tonight through Thursday morning\\n\\n* Excessive rainfall amounts ranging from 1.5 to 4 inches. The\\nhighest amounts are expected to occur along and south of the\\nInterstate 44 corridor. Training thunderstorms containing high\\nrainfall rates will be possible, leading to rapid onset\\nflooding.\\n\\n* Rapid onset flooding could lead to numerous impassable roadways.\\nLow lying areas along flashy streams could also experience\\nflooding. Flashy urban flooding will also be possible.");
-    TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement);
+    FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
+    flashFloodWatch.setDescription("The National Weather Service in Springfield has issued a\\n\\n* Flash Flood Watch for portions of central Missouri, east\\ncentral Missouri, south central Missouri, and southwest\\nMissouri, including the following areas, in central Missouri,\\nPulaski. In east central Missouri, Phelps. In south central\\nMissouri, Dent, Howell, Oregon, Shannon, and Texas. In\\nsouthwest Missouri, Barry, Christian, Douglas, Greene,\\nLaclede, Lawrence, McDonald, Newton, Ozark, Stone, Taney,\\nWebster, and Wright.\\n\\n* From midnight CDT tonight through Thursday morning\\n\\n* Excessive rainfall amounts ranging from 1.5 to 4 inches. The\\nhighest amounts are expected to occur along and south of the\\nInterstate 44 corridor. Training thunderstorms containing high\\nrainfall rates will be possible, leading to rapid onset\\nflooding.\\n\\n* Rapid onset flooding could lead to numerous impassable roadways.\\nLow lying areas along flashy streams could also experience\\nflooding. Flashy urban flooding will also be possible.");
+    TypeFactory graphicFactory = new TypeFactory(flashFloodWatch);
     assertEquals(Rainfall.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FloodAdvisory_RadarRainfall() {
+    FloodAdvisory floodAdvisory = new FloodAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(floodAdvisory);
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_FloodAdvisory_LocalRadar() {
+    FloodAdvisory floodAdvisory = new FloodAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(floodAdvisory);
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FloodWarning_LocalRadar() {
+    FloodWarning floodWarning = new FloodWarning();
+    TypeFactory graphicFactory = new TypeFactory(floodWarning);
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_FlashFloodWarning_LocalRadar() {
+    FlashFloodWarning floodWarning = new FlashFloodWarning();
+    TypeFactory graphicFactory = new TypeFactory(floodWarning);
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_SevereThunderstormWarningWithTorrentialRain_LocalRadar() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    severeThunderstormWarning.setInstruction("Torrential rainfall is occurring with this storm, and may lead to\\nflash flooding. Do not drive your vehicle through flooded roadways.");
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning);
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_SevereThunderstormWarning_NoRainfall() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    severeThunderstormWarning.setInstruction("Move to the lowest floor...");
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning);
+    assertEquals(1, graphicFactory.getTypes().size());
   }
 }
