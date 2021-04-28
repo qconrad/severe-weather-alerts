@@ -1,39 +1,8 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
-import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
-import com.severeweatheralerts.Alerts.NWS.FloodWatch;
-import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
-import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
-import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
-import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
-import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
-import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
-import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
-import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
-import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
-import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
-import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
-import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
-import com.severeweatheralerts.Alerts.NWS.SpecialWeatherStatement;
-import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
-import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
-import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
-import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
-import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
-import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
-import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
-import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
-import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
-import com.severeweatheralerts.Graphics.Types.AlertArea;
-import com.severeweatheralerts.Graphics.Types.Lows;
-import com.severeweatheralerts.Graphics.Types.LocalRadar;
-import com.severeweatheralerts.Graphics.Types.Rainfall;
-import com.severeweatheralerts.Graphics.Types.SPCOutlook;
-import com.severeweatheralerts.Graphics.Types.Snowfall;
-import com.severeweatheralerts.Graphics.Types.TypeFactory;
-import com.severeweatheralerts.Graphics.Types.WindChill;
-import com.severeweatheralerts.Graphics.Types.WindGusts;
+import com.severeweatheralerts.Alerts.NWS.*;
+import com.severeweatheralerts.Graphics.Types.*;
 
 import org.junit.Test;
 
@@ -237,5 +206,13 @@ public class GraphicTypeFactoryTests {
     specialWeatherStatement.setDescription("At 235 AM CDT, a strong thunderstorm was located near Petit Bois\\nIsland, or 9 miles south of Moss Point, moving northeast at 35 mph.\\n\\nWinds in excess of 30 mph and half inch hail are possible with this\\nstorm.\\n\\nLocations impacted include...\\nMoss Point, Escatawpa, Gautier and Helena.\\n\\nTorrential rainfall is also occurring with this storm, and may cause\\nlocalized flooding. Do not drive your vehicle through flooded\\nroadways.\\n\\nFrequent cloud to ground lightning is occurring with this storm.\\nLightning can strike 10 miles away from a thunderstorm. Seek a safe\\nshelter inside a building or vehicle.\\n\\nThis storm may intensify, so be certain to monitor local radio\\nstations and available television stations for additional information\\nand possible warnings from the National Weather Service.");
     TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement);
     assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FlashFloodWatchWithThunderstormsMentioned_ExpectedRainfall() {
+    FlashFloodWatch specialWeatherStatement = new FlashFloodWatch();
+    specialWeatherStatement.setDescription("The National Weather Service in Springfield has issued a\\n\\n* Flash Flood Watch for portions of central Missouri, east\\ncentral Missouri, south central Missouri, and southwest\\nMissouri, including the following areas, in central Missouri,\\nPulaski. In east central Missouri, Phelps. In south central\\nMissouri, Dent, Howell, Oregon, Shannon, and Texas. In\\nsouthwest Missouri, Barry, Christian, Douglas, Greene,\\nLaclede, Lawrence, McDonald, Newton, Ozark, Stone, Taney,\\nWebster, and Wright.\\n\\n* From midnight CDT tonight through Thursday morning\\n\\n* Excessive rainfall amounts ranging from 1.5 to 4 inches. The\\nhighest amounts are expected to occur along and south of the\\nInterstate 44 corridor. Training thunderstorms containing high\\nrainfall rates will be possible, leading to rapid onset\\nflooding.\\n\\n* Rapid onset flooding could lead to numerous impassable roadways.\\nLow lying areas along flashy streams could also experience\\nflooding. Flashy urban flooding will also be possible.");
+    TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement);
+    assertEquals(Rainfall.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

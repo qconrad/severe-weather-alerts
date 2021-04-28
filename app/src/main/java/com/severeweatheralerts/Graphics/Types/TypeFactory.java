@@ -43,8 +43,6 @@ public class TypeFactory {
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
-    else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm"))
-      types.add(new LocalRadar());
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
@@ -55,6 +53,8 @@ public class TypeFactory {
       types.add(new SPCOutlook());
       types.add(new LocalRadar());
     }
+    else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm"))
+      types.add(new LocalRadar());
     else
       types.add(new AlertArea());
     return types;
