@@ -29,16 +29,12 @@
         </receiver>
         <activity android:name=".Activities.FirstRunActivity" />
         <activity
-            android:name=".Activities.LocationPickerActivity"
-            android:noHistory="true" />
+            android:name=".Activities.LocationPickerActivity" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
-
         <receiver android:name=".Location.Geofencing.GeofenceReceiver" />
-
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,15 +49,12 @@
             android:parentActivityName=".Activities.AlertListActivity">
             <intent-filter>
                 <action android:name="alertviewer" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
         <activity
-            android:name=".Activities.NotificationViewer"
-            android:parentActivityName=".Activities.FetchingAlertDataActivity" />
-
+            android:name=".Activities.NotificationViewer" android:noHistory="true"/>
         <service
             android:name=".Notifications.MessageService"
             android:exported="false">
