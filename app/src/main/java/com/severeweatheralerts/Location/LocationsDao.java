@@ -30,7 +30,9 @@ public class LocationsDao {
   }
 
   private void saveToFile() {
-    Paper.book().write("locations", locations);
+    synchronized (this) {
+      Paper.book().write("locations", locations);
+    }
   }
 
   public boolean hasLocations() {
