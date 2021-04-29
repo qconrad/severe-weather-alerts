@@ -34,12 +34,12 @@ public class LocationPickerActivity extends AppCompatActivity {
     ProgressBar progressBar = findViewById(R.id.location_search_progress);
     progressBar.setVisibility(View.VISIBLE);
     String search = text.replace(" ", "+");
+    Button searchBtn = findViewById(R.id.location_search_button);
     new StringFetchService(this, "https://geocode.xyz/" + search + "?json=1&region=US").fetch(new FetchCallback() {
       @Override
       public void success(Object response) {
         GeocodeParser geocodeParser = new GeocodeParser(response.toString());
-        Button search = findViewById(R.id.location_search_button);
-        search.setEnabled(false);
+        searchBtn.setEnabled(false);
         Button clear = findViewById(R.id.clear_button);
         clear.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
@@ -63,6 +63,7 @@ public class LocationPickerActivity extends AppCompatActivity {
       @Override
       public void error(VolleyError error) {
         Toast.makeText(LocationPickerActivity.this, "An error occurred while looking up location", Toast.LENGTH_SHORT).show();
+        searchBtn.setEnabled(true);
         progressBar.setVisibility(View.INVISIBLE);
       }
     });
