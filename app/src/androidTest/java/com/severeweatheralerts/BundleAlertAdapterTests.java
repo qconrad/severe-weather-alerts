@@ -326,4 +326,20 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertNull(bundleAlertAdapter.getAlert().getExpectedUpdateTime());
   }
+
+  @Test
+  public void idGiven_idParsed() {
+    Bundle bundle = new Bundle();
+    bundle.putString("id", "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", bundleAlertAdapter.getAlert().getNwsId());
+  }
+
+  @Test
+  public void differentIdGiven_idParsed() {
+    Bundle bundle = new Bundle();
+    bundle.putString("id", "https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", bundleAlertAdapter.getAlert().getNwsId());
+  }
 }

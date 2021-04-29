@@ -22,6 +22,7 @@ public class BundleAlertAdapter {
   public Alert getAlert() {
     Alert alert = new AlertFactory().getAlert(bundle.getString("name"));
     alert.setName(bundle.getString("name"));
+    alert.setNwsId(bundle.getString("id"));
     alert.setDescription(bundle.getString("description"));
     alert.setInstruction(bundle.getString("instruction"));
     alert.setLargeHeadline(bundle.getString("largeHeadline"));
