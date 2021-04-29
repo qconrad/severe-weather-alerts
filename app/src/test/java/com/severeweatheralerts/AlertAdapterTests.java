@@ -1174,4 +1174,14 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
   }
+
+  @Test
+  public void columnLocations_ChangedToCommas() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("Some locations that will experience flash flooding include...\nFort Smith...                      Van Buren...\nMcalester...                       Sallisaw...\nPoteau...                          Ozark...\nWilburton...                       Stigler...\nCharleston...                      Greenwood...\nAlma...                            Barling...\nPocola...                          Muldrow...\nHeavener...                        Roland...\nLavaca...                          Spiro...\nHartshorne...                      Krebs...\n\nAdditional rainfall");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("Some locations that will experience flash flooding include...\nFort Smith, Van Buren, Mcalester, Sallisaw, Poteau, Ozark, Wilburton, Stigler, Charleston, Greenwood, Alma, Barling, Pocola, Muldrow, Heavener, Roland, Lavaca, Spiro, Hartshorne, Krebs.\n\nAdditional rainfall", aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }
