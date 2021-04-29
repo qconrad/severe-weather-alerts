@@ -34,8 +34,8 @@ public class WindGustsGenerator extends GraphicGenerator {
   }
 
   @Override
-  protected void generateGraphicFromLayers(ArrayList<Layer> layers) {
-    super.generateGraphicFromLayers(layers);
+  public void generate(GraphicCompleteListener graphicCompleteListener) {
+    super.generate(graphicCompleteListener);
     getAlertPolygons();
     getMapTimes("windgust");
     getPointInfo();
