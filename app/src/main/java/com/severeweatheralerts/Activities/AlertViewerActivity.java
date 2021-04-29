@@ -169,7 +169,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     titleTv.setText(text);
   }
 
-  private void populateReferences() {
+  protected void populateReferences() {
     boolean hasReferences = al.getReferences().size() > 0;
     if (hasReferences) {
       View referencesLabel = findViewById(R.id.references_label);

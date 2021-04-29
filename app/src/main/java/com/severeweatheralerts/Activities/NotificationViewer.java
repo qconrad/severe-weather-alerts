@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.severeweatheralerts.Adapters.BundleAlertAdapter;
+import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
@@ -30,10 +31,17 @@ public class NotificationViewer extends AlertViewerActivity {
       public void complete(ArrayList<Alert> alerts) {
         locationsDao.setAlerts(0, alerts);
         alertsFetched = true;
+        fillMissingData(new AlertFinder(alerts).findAlertByID(al.getNwsId()));
       }
       @Override
       public void error(String message) { }
     });
+  }
+
+  private void fillMissingData(Alert alert) {
+    if (alert == null) return;
+    al = alert;
+    populateReferences();
   }
 
   @Override
