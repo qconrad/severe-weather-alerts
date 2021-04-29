@@ -33,6 +33,7 @@ public class MessageAdapter {
   public Alert getAlert() {
     Alert alert = new AlertFactory().getAlert(message.get("name"));
     alert.setName(message.get("name"));
+    alert.setNwsId(message.get("id"));
     alert.setDescription(new DescriptionHeadlineRemover(new DescriptionAdapter(message.get("description")).adaptDescription()).removeHeadlinesFromDescription());
     alert.setInstruction(new InstructionAdapter(message.get("instruction"), message.get("type")).adaptInstruction());
     alert.setSentTime(new SendTimeAdapter(message.get("sent")).adaptSendTime());

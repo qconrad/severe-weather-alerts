@@ -323,4 +323,20 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertNull(messageAdapter.getAlert().getInstruction());
   }
+
+  @Test
+  public void getAlert_IdGiven_IDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", messageAdapter.getAlert().getNwsId());
+  }
+
+  @Test
+  public void getAlert_DifferentIdGiven_IDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid:2.49.0.2.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.2.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", messageAdapter.getAlert().getNwsId());
+  }
 }
