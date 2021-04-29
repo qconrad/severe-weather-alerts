@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Adapters;
 
+import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ReferenceLinker {
   }
 
   private void checkReference(String referenceID, Alert alert) {
-    Alert reference = findAlertById(referenceID);
+    Alert reference = new AlertFinder(adaptedAlerts).findAlertByID(referenceID);
     if (notNull(reference)) conditionallyLink(alert, reference);
   }
 
@@ -66,21 +67,7 @@ public class ReferenceLinker {
     return !reference.isReplaced();
   }
 
-  private Alert findAlertById(String id) {
-    for (int i = 0; i < adaptedAlerts.size(); i++)
-      if (idsMatch(id, i)) return adaptedAlerts.get(i);
-    return null;
-  }
-
-  private boolean idsMatch(String id, int i) {
-    return hasId(adaptedAlerts.get(i)) && adaptedAlerts.get(i).getNwsId().equals(id);
-  }
-
   private boolean notNull(Alert alert) {
     return nestedCancel(alert);
-  }
-
-  private boolean hasId(Alert alert) {
-    return alert.getNwsId() != null;
   }
 }

@@ -14,9 +14,13 @@ public class AlertFinder {
   public Alert findAlertByID(String id) {
     for (int i = 0; i < alerts.size(); i++) {
       Alert curAlert = alerts.get(i);
-      if (matchingIDs(id, curAlert)) return curAlert;
+      if (hasId(alerts.get(i)) && matchingIDs(id, curAlert)) return curAlert;
     }
     return null;
+  }
+
+  private boolean hasId(Alert alert) {
+    return alert.getNwsId() != null;
   }
 
   private boolean matchingIDs(String id, Alert alert) {
