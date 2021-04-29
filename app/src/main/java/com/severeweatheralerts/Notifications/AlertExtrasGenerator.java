@@ -16,6 +16,7 @@ public class AlertExtrasGenerator {
 
   public Intent addExtras() {
     Intent intent = resultIntent.putExtra("name", alert.getName())
+            .putExtra("id", alert.getNwsId())
             .putExtra("description", alert.getDescription())
             .putExtra("instruction", alert.getInstruction())
             .putExtra("largeHeadline", alert.getLargeHeadline())

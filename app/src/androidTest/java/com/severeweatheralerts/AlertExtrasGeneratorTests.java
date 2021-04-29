@@ -413,4 +413,32 @@ public class AlertExtrasGeneratorTests {
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals(15000L, alertBundleAdapter.addExtras().getExtras().getLong("expectedUpdate"));
   }
+
+  @Test
+  public void idParsing() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setExpectedUpdateTime(new Date(15000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setNwsId("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", alertBundleAdapter.addExtras().getExtras().getString("id"));
+  }
+
+  @Test
+  public void differentIdParsing() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setSentTime(new Date(4000));
+    tornadoWarning.setStartTime(new Date(3001));
+    tornadoWarning.setEndTime(new Date(2000));
+    tornadoWarning.setExpectedUpdateTime(new Date(15000));
+    tornadoWarning.setType(Alert.Type.CANCEL);
+    tornadoWarning.setNwsId("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", alertBundleAdapter.addExtras().getExtras().getString("id"));
+  }
 }
