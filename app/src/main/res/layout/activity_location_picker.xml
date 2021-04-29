@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/location_name"
-        android:inputType="textPersonName"
+        android:inputType="textCapWords"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="-4dp" />
 
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="@string/location_text_entry"
-        android:inputType="textPostalAddress"
+        android:inputType="textCapWords"
         app:layout_constraintTop_toBottomOf="@+id/location_name_et" />
 
     <Button

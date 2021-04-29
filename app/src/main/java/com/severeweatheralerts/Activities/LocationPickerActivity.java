@@ -1,7 +1,5 @@
 package com.severeweatheralerts.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.JSONParsing.GeocodeParser;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
