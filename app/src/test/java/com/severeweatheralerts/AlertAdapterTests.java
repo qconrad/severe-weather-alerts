@@ -1154,4 +1154,24 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals("This is a test alert\n\nCCB\n\nMore", aa.getAdaptedAlerts().get(0).getDescription());
   }
+
+  @Test
+  public void columnLocations_NotInHeadline() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("At 225 AM CDT, Doppler radar was tracking strong thunderstorms along\na line extending from near Danville to 8 miles southeast of Fourche\nValley to 6 miles east of Mount Ida to 7 miles south of Norman.\nMovement was east at 40 mph.\n\nHalf inch hail and winds in excess of 40 mph will be possible with\nthese storms.\n\nLocations impacted include...\nHot Springs...                    Russellville...\nHot Springs Village...            Morrilton...\nDanville...                       Perryville...\nMount Ida...                      Dardanelle...\nAtkins...                         Pottsville...\nOla...                            Oppelo...\nMountain Pine...                  Norman...\nPerry...                          Adona...\nSequoya Park...                   Meyers...\nJessieville...                    Petit Jean River WMA...\n\nA Tornado Watch remains in effect until 800 AM CDT for central,\nwestern and southwestern Arkansas.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
+  }
+
+  @Test
+  public void differentColumnLocations_NotInHeadline() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("At 243 AM CDT, Doppler radar and automated rain gauges indicated\nthunderstorms producing heavy rain across the warned area. Between 2\nand 5 inches of rain have fallen. Flash flooding is ongoing or\nexpected to begin shortly.\n\nHAZARD...Flash flooding caused by thunderstorms.\n\nSOURCE...Doppler radar and automated gauges.\n\nIMPACT...Flooding of small creeks and streams, urban areas,\nhighways, streets and underpasses as well as other\ndrainage and low lying areas.\n\nSome locations that will experience flash flooding include...\nFort Smith...                      Van Buren...\nMcalester...                       Sallisaw...\nPoteau...                          Ozark...\nWilburton...                       Stigler...\nCharleston...                      Greenwood...\nAlma...                            Barling...\nPocola...                          Muldrow...\nHeavener...                        Roland...\nLavaca...                          Spiro...\nHartshorne...                      Krebs...\n\nAdditional rainfall amounts of 1 to 3 inches are possible in the\nwarned area, mainly across parts of Sebastian and Franklin counties.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getLargeHeadline());
+  }
 }

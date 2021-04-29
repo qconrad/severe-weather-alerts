@@ -6,7 +6,7 @@ import static com.severeweatheralerts.TextUtils.RegExMatcher.match;
 import static com.severeweatheralerts.TextUtils.TitleCaseConverter.toTitleCase;
 
 public class DescriptionHeadlineAdapter {
-  private String description;
+  private final String description;
 
   public DescriptionHeadlineAdapter(String description) {
     this.description = description;
@@ -38,7 +38,12 @@ public class DescriptionHeadlineAdapter {
   }
 
   private ArrayList<String> matchHeadlines(String text) {
-    return match("\\.\\.\\.[^\n](\n|.)*?\\.\\.\\.\\n\\n", text);
+    return removeColumnLocationsFromMatch(match("\\.\\.\\.[^\n](\n|.)*?\\.\\.\\.\\n\\n", text));
+  }
+
+  private ArrayList<String> removeColumnLocationsFromMatch(ArrayList<String> match) {
+    if (match.size() > 0 && match.get(0).contains("   ")) match.remove(0);
+    return match;
   }
 
   private String combineAllHeadlines(ArrayList<String> headlineList) {
