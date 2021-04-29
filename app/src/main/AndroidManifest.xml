@@ -54,7 +54,7 @@
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
         <activity
-            android:name=".Activities.NotificationViewer" android:noHistory="true"/>
+            android:name=".Activities.NotificationViewer"/>
         <service
             android:name=".Notifications.MessageService"
             android:exported="false">
