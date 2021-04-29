@@ -29,10 +29,9 @@ import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Graphic;
-import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
-import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
@@ -48,7 +47,7 @@ import java.util.TimeZone;
 public class AlertViewerActivity extends AppCompatActivity {
   protected Alert al;
   protected int locationIndex;
-  private LocationsDao locationsDao;
+  protected LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
