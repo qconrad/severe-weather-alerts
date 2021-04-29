@@ -18,7 +18,7 @@ public abstract class FetchService {
   }
 
   public void fetch(FetchCallback callback) {
-    addRequestToQueue(getRequestQueue(), getRequest(callback).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 3, 1.25f)));
+    addRequestToQueue(getRequestQueue(), getRequest(callback).setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 3, 1.5f)));
   }
 
   public void setUserAgent(String userAgent) {
