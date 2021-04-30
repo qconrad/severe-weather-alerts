@@ -98,4 +98,14 @@ public class AlertTests {
     assertEquals(1.0, da.getPolygon(0).getCoordinate(0).getX(), 0.0001);
     assertEquals(2.0, da.getPolygon(0).getCoordinate(0).getY(), 0.0001);
   }
+
+  @Test
+  public void test() {
+    DefaultAlert da = new DefaultAlert();
+    da.setEndTime(new Date(10));
+    da.setType(Alert.Type.POST);
+    da.activeAt(new Date(0));
+    da.setDiscontinuedAt(new Date(0));
+    assertFalse(da.activeAt(new Date(1)));
+  }
 }

@@ -15,11 +15,20 @@ public class AlertTime implements TimeGenerator {
   }
 
   public boolean hasCenterTime() {
-    return alert.getType() == Alert.Type.CANCEL;
+    return isCancel() || isDiscontinued();
   }
 
   public String getCenterTime() {
+    if (isDiscontinued()) return "Exited area " + getDiscontinuedTime() + " ago";
     return "Cancelled " + getSendTime() + " ago";
+  }
+
+  private boolean isDiscontinued() {
+    return alert.getDiscontinuedAt() != null;
+  }
+
+  private String getDiscontinuedTime() {
+    return new RelativeTimeFormatter(date, alert.getDiscontinuedAt()).getFormattedString();
   }
 
   private String getSendTime() {
@@ -39,7 +48,7 @@ public class AlertTime implements TimeGenerator {
   }
 
   public boolean hasRightTime() {
-    return hasLeftTime();
+    return !hasCenterTime();
   }
 
   public String getLeftTime() {
@@ -50,6 +59,10 @@ public class AlertTime implements TimeGenerator {
 
   private boolean isUpdate() {
     return alert.getType() == Alert.Type.UPDATE;
+  }
+
+  private boolean isCancel() {
+    return alert.getType() == Alert.Type.CANCEL;
   }
 
   public String getRightTime() {
