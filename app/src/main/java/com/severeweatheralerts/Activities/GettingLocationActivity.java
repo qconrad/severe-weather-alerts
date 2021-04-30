@@ -90,7 +90,7 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private void fetchAlerts() {
-    Intent alertListIntent = new Intent(GettingLocationActivity.this, FetchingAlertDataActivity.class);
+    Intent alertListIntent = new Intent(GettingLocationActivity.this, GettingLatestDataActivity.class);
     startActivity(alertListIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }

@@ -14,7 +14,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
@@ -26,7 +25,6 @@ import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.TestAlert;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -190,7 +188,7 @@ public class SettingsActivity extends AppCompatActivity {
         Bundle extras = data.getExtras();
         locationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
         new UserSyncWorkScheduler(getContext()).oneTimeSync();
-        startActivity(new Intent(getActivity(), FetchingAlertDataActivity.class));
+        startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
       }
     }
   }

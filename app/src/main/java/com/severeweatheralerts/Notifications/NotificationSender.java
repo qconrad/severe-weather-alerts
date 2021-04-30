@@ -3,10 +3,10 @@ package com.severeweatheralerts.Notifications;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.TaskStackBuilder;
 
 import com.severeweatheralerts.Activities.NotificationViewer;
 import com.severeweatheralerts.Alerts.Alert;
@@ -27,6 +27,8 @@ public class NotificationSender {
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
             .setSmallIcon(alert.getIcon())
             .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setContentTitle(notificationContent.getTitleText())
             .setContentText(notificationContent.getShortText())
             .setContentIntent(getPendingIntent())

@@ -87,7 +87,7 @@ public class FirstRunActivity extends AppCompatActivity {
       LocationsDao.getInstance(this).setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
       new UserSyncWorkScheduler(this).oneTimeSync();
-      startActivity(new Intent(FirstRunActivity.this, FetchingAlertDataActivity.class));
+      startActivity(new Intent(FirstRunActivity.this, GettingLatestDataActivity.class));
       updateFirstRun();
     }
   }

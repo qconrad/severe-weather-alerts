@@ -17,7 +17,7 @@ public class DefaultActivity extends AppCompatActivity {
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     createNotificationChannels(this);
     if (isFirstRun()) startActivity(new Intent(DefaultActivity.this, FirstRunActivity.class));
-    else if (isUsingFixedLocation()) startActivity(new Intent(DefaultActivity.this, FetchingAlertDataActivity.class));
+    else if (isUsingFixedLocation()) startActivity(new Intent(DefaultActivity.this, GettingLatestDataActivity.class));
     else startActivity(new Intent(DefaultActivity.this, GettingLocationActivity.class));
   }
 

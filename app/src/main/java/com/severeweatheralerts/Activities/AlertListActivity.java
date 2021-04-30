@@ -144,6 +144,6 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   public void refreshClick(View view) {
-    startActivity(new Intent(AlertListActivity.this, FetchingAlertDataActivity.class));
+    startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
   }
 }

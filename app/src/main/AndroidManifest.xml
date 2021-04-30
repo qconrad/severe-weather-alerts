@@ -41,7 +41,7 @@
         <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".Activities.FetchingAlertDataActivity" />
+        <activity android:name=".Activities.GettingLatestDataActivity" />
         <activity android:name=".Activities.GettingLocationActivity" />
         <activity android:name=".Activities.AlertListActivity" />
         <activity

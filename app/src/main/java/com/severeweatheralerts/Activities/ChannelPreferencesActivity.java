@@ -2,8 +2,10 @@ package com.severeweatheralerts.Activities;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -30,12 +32,22 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
+    checkIfDeviceSupportsChannels();
     locationsDao = LocationsDao.getInstance(this);
     channelPreferences = locationsDao.getChannelPreferences(0);
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     rippleSwitch = findViewById(R.id.ripple_switch);
     rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
     inflatePreferenceList();
+  }
+
+  private void checkIfDeviceSupportsChannels() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+      TextView tv = findViewById(R.id.channel_behavior_title);
+      tv.setText(R.string.channels_not_supported);
+      findViewById(R.id.no_channels_message).setVisibility(View.VISIBLE);
+      findViewById(R.id.channel_table).setVisibility(View.GONE);
+    }
   }
 
   private void inflatePreferenceList() {

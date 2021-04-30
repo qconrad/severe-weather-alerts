@@ -6,7 +6,7 @@ import java.util.TimeZone;
 
 public class DateTimeConverter {
   public static Date convertStringToDate(String dateTimeString) {
-    return convertStringToDate(dateTimeString, "yyyy-MM-dd'T'HH:mm:ssX", null);
+    return convertStringToDate(dateTimeString, "yyyy-MM-dd'T'HH:mm:ssZ", null);
   }
 
   public static Date convertStringToDate(String dateTimeString, String format, TimeZone timeZone) {

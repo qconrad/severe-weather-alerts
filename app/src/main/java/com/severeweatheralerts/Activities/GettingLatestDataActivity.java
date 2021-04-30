@@ -9,13 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
 
-public class FetchingAlertDataActivity extends AppCompatActivity {
+public class GettingLatestDataActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -46,12 +47,12 @@ public class FetchingAlertDataActivity extends AppCompatActivity {
   }
 
   private void displayAlerts() {
-    startActivity(new Intent(FetchingAlertDataActivity.this, AlertListActivity.class));
+    startActivity(new Intent(GettingLatestDataActivity.this, AlertListActivity.class));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void displayError(String message) {
-    Intent intent = new Intent(FetchingAlertDataActivity.this, ErrorActivity.class);
+    Intent intent = new Intent(GettingLatestDataActivity.this, ErrorActivity.class);
     intent.putExtra("errorMessage", message);
     startActivity(intent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
