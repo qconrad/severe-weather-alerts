@@ -86,6 +86,8 @@ public class AlertListParser {
     propParser.parseSeverity();
     propParser.parseCertainty();
     propParser.parseUrgency();
+    propParser.parseReplacedBy();
+    propParser.parseReplacedAt();
     propParser.parseZones();
   }
 

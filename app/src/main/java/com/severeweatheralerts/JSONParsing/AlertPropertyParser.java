@@ -103,8 +103,8 @@ public class AlertPropertyParser {
     }
   }
 
-  private boolean notNull(String expires) {
-    return !expires.equals("null");
+  private boolean notNull(String string) {
+    return !string.equals("null");
   }
 
   private String getProp(String event) throws JSONException {
@@ -135,5 +135,16 @@ public class AlertPropertyParser {
 
   private JSONArray getZones() throws JSONException {
     return props.getJSONArray("affectedZones");
+  }
+
+  public void parseReplacedBy() throws JSONException {
+    if (props.has("replacedBy")) {
+      String replacedBy = props.getString("replacedBy");
+      ua.setReplacedBy(replacedBy.substring(31));
+    }
+  }
+
+  public void parseReplacedAt() throws JSONException {
+    if (props.has("replacedAt")) ua.setReplacedAt(props.getString("replacedAt"));
   }
 }

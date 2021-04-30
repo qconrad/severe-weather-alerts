@@ -18,8 +18,10 @@ public class UnadaptedAlert {
   private String urgency;
   private String sender;
   private String senderCode;
+  private String replacedBy;
+  private String replacedAt;
   private final ArrayList<String> references = new ArrayList<>();
-  private ArrayList<String> zoneLinks = new ArrayList<>();
+  private final ArrayList<String> zoneLinks = new ArrayList<>();
 
   public void setName(String name) { this.name = name; }
   public String getName() { return name; }
@@ -94,5 +96,21 @@ public class UnadaptedAlert {
 
   public void addZoneLink(String zoneLink) {
     zoneLinks.add(zoneLink);
+  }
+
+  public String getReplacedBy() {
+    return replacedBy;
+  }
+
+  public void setReplacedBy(String replacedBy) {
+    this.replacedBy = replacedBy;
+  }
+
+  public String getReplacedAt() {
+    return replacedAt;
+  }
+
+  public void setReplacedAt(String replacedAt) {
+    this.replacedAt = replacedAt;
   }
 }
