@@ -38,6 +38,7 @@ public class RadarRainfallGenerator extends GraphicGenerator {
   @Override
   protected void alertPolygons(ArrayList<Polygon> polygons) {
     this.polygons = polygons;
+    fetchFinished();
   }
 
   private void fetchFinished() {

@@ -53,6 +53,7 @@ public class LowsGenerator extends GraphicGenerator {
   @Override
   protected void mapTimes(ArrayList<MapTime> mapTimes) {
     this.mapTimes = mapTimes;
+    fetchFinish();
   }
 
   @Override

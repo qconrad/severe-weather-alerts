@@ -49,6 +49,12 @@ public class RainfallGenerator extends GraphicGenerator {
   }
 
   @Override
+  protected void mapTimes(ArrayList<MapTime> mapTimes) {
+    this.mapTimes = mapTimes;
+    fetchFinish();
+  }
+
+  @Override
   protected void pointInfo(String response) {
     getForecast(new PointInfoParser(response).getForecastGridLink(), "quantitativePrecipitation");
   }
@@ -58,12 +64,6 @@ public class RainfallGenerator extends GraphicGenerator {
     double rainfallAmount = new Rounder(mmToIn(getRainfall(forecast)), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
     setSubtext(rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText());
     subTextSet = true;
-    fetchFinish();
-  }
-
-  @Override
-  protected void mapTimes(ArrayList<MapTime> mapTimes) {
-    this.mapTimes = mapTimes;
     fetchFinish();
   }
 

@@ -15,7 +15,6 @@ import com.severeweatheralerts.Graphics.URL;
 import java.util.ArrayList;
 
 public class SPCOutlookGenerator extends GraphicGenerator {
-  private ArrayList<MapTime> mapTimes;
 
   public SPCOutlookGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
@@ -29,11 +28,6 @@ public class SPCOutlookGenerator extends GraphicGenerator {
 
   @Override
   protected void mapTimes(ArrayList<MapTime> mapTimes) {
-    this.mapTimes = mapTimes;
-    generateLayers();
-  }
-
-  private void generateLayers() {
     MercatorCoordinate loc = getMercatorCoordinate();
     double margin = 400000;
     Bounds bounds = new Bounds(loc.getY()+margin,loc.getX()+margin,loc.getY()-margin,loc.getX()-margin);
