@@ -16,6 +16,7 @@ public class AlertAdapter {
   public AlertAdapter(ArrayList<UnadaptedAlert> unadaptedAlerts) {
     this.unadaptedAlerts = unadaptedAlerts;
     adaptAlerts();
+    checkForDiscontinuedAlerts();
     linkReferences();
   }
 
@@ -29,6 +30,10 @@ public class AlertAdapter {
 
   private void linkReferences() {
     alerts = new ReferenceLinker(unadaptedAlerts, alerts).linkReferences();
+  }
+
+  private void checkForDiscontinuedAlerts() {
+    alerts = new DiscontinuationChecker(unadaptedAlerts, alerts).getAlerts();
   }
 
   private Alert generateObject(String name) {

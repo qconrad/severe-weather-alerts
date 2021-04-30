@@ -29,6 +29,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Urgency urgency;
   private Certainty certainty;
   private Alert replacedBy;
+  private Date discontinuedAt;
   private final ArrayList<Alert> references = new ArrayList<>();
   private final ArrayList<Polygon> polygons = new ArrayList<>();
   private ArrayList<String> zoneLinks = new ArrayList<>();
@@ -87,6 +88,14 @@ public abstract class Alert implements Comparable<Alert> {
 
   public Alert getReplacedBy() {
     return replacedBy;
+  }
+
+  public void setDiscontinuedAt(Date discontinuedAt) {
+    this.discontinuedAt = discontinuedAt;
+  }
+
+  public Date getDiscontinuedAt() {
+    return discontinuedAt;
   }
 
   public String getName() { return name; }

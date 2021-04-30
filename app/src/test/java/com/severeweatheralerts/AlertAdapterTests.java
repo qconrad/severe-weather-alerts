@@ -8,6 +8,7 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
+import com.severeweatheralerts.TextUtils.DateTimeConverter;
 
 import org.junit.Test;
 
@@ -1183,5 +1184,58 @@ public class AlertAdapterTests {
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals("Some locations that will experience flash flooding include...\nFort Smith, Van Buren, Mcalester, Sallisaw, Poteau, Ozark, Wilburton, Stigler, Charleston, Greenwood, Alma, Barling, Pocola, Muldrow, Heavener, Roland, Lavaca, Spiro, Hartshorne, Krebs.\n\nAdditional rainfall", aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void replacedByNonExistentAlert_DiscontinuedAt() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    pa.setReplacedAt("2021-04-29T19:10:00-0500");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1619741400000L, aa.getAdaptedAlerts().get(0).getDiscontinuedAt().getTime());
+  }
+
+  @Test
+  public void replacedByNonExistentAlert_TimeDifferent_DiscontinuedAt() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    pa.setReplacedAt("2021-04-29T18:10:00-0500");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1619737800000L, aa.getAdaptedAlerts().get(0).getDiscontinuedAt().getTime());
+  }
+
+  @Test
+  public void replacedByAlertInList_DiscontinuedNull() {
+    UnadaptedAlert update = new UnadaptedAlert();
+    update.setId("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    UnadaptedAlert post = new UnadaptedAlert();
+    post.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    post.setReplacedAt("2021-04-29T18:10:00-0500");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(post);
+    alerts.add(update);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getDiscontinuedAt());
+  }
+
+  @Test
+  public void replacedByAlertInList_DDiscontinuedNull() {
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    cancel.setId("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    UnadaptedAlert update = new UnadaptedAlert();
+    update.setId("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    UnadaptedAlert post = new UnadaptedAlert();
+    post.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.3.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    post.setReplacedAt("2021-04-29T18:10:00-0500");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(cancel);
+    alerts.add(update);
+    alerts.add(post);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(1619737800000L, aa.getAdaptedAlerts().get(2).getDiscontinuedAt().getTime());
   }
 }
