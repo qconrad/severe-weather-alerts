@@ -187,16 +187,15 @@ public abstract class GraphicGenerator {
     return bounds;
   }
 
-  int fetchedZones = 0;
   private void parseZones(ArrayList<String> response) {
     for (String zone : response) {
       try {
         ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
         for (int i = 0; i < geometry.size(); i++)
           alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
-        if (++fetchedZones == alert.getZoneLinkCount()) alertPolygons(alert.getPolygons());
       }
       catch (JSONException e) { e.printStackTrace(); }
     }
+    alertPolygons(alert.getPolygons());
   }
 }
