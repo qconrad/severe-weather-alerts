@@ -17,12 +17,12 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Activities.AttributionActivity" />
         <activity android:name=".Activities.ErrorActivity" />
-        <receiver android:name=".BootReceiver">
+        <receiver android:name=".BroadcastReceivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".UpdateReceiver">
+        <receiver android:name=".BroadcastReceivers.UpdateReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>

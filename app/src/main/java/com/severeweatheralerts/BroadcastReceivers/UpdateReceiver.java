@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.BroadcastReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +12,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import static com.severeweatheralerts.Constants.STATIONARY_RADIUS;

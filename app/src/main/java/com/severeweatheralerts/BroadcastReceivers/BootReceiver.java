@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.BroadcastReceivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
