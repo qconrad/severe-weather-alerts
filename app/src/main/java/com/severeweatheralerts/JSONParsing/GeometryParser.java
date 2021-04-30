@@ -10,26 +10,36 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class GeometryParser {
-  private final JSONObject geometry;
+  private final JSONObject geometryInput;
   ArrayList<GeoJSONPolygon> polygons = new ArrayList<>();
 
   public GeometryParser(JSONObject geometry) {
-    this.geometry = geometry;
+    this.geometryInput = geometry;
   }
 
   public ArrayList<GeoJSONPolygon> parseGeometry() throws JSONException {
-    if (isMultiPolygon()) parseMultipolygon();
-    else parsePolygon();
+    if (isGeometryCollection(geometryInput)) parseGeometryCollection();
+    else parseSingleGeometry(geometryInput);
     return polygons;
   }
 
-  private void parsePolygon() throws JSONException {
-    addPolygon(getGeometryData());
+  private void parseGeometryCollection() throws JSONException {
+    for (int i = 0; i < geometryInput.getJSONArray("geometries").length(); i++)
+      parseSingleGeometry(geometryInput.getJSONArray("geometries").getJSONObject(i));
   }
 
-  private void parseMultipolygon() throws JSONException {
-    for (int currentPolygon = 0; currentPolygon < getGeometryData().length(); currentPolygon++)
-      addPolygon(getGeometryData().getJSONArray(currentPolygon));
+  private void parseSingleGeometry(JSONObject geometry) throws JSONException {
+    if (isMultiPolygon(geometry)) parseMultipolygon(geometry);
+    else parsePolygon(geometry);
+  }
+
+  private void parsePolygon(JSONObject geometry) throws JSONException {
+    addPolygon(getGeometryData(geometry));
+  }
+
+  private void parseMultipolygon(JSONObject geometry) throws JSONException {
+    for (int currentPolygon = 0; currentPolygon < getGeometryData(geometry).length(); currentPolygon++)
+      addPolygon(getGeometryData(geometry).getJSONArray(currentPolygon));
   }
 
   private void addPolygon(JSONArray polygon) throws JSONException {
@@ -42,11 +52,15 @@ public class GeometryParser {
     polygons.add(geoJSONPolygon);
   }
 
-  private boolean isMultiPolygon() throws JSONException {
+  private boolean isMultiPolygon(JSONObject geometry) throws JSONException {
     return geometry.get("type").equals("MultiPolygon");
   }
 
-  private JSONArray getGeometryData() throws JSONException {
+  private boolean isGeometryCollection(JSONObject geometry) throws JSONException {
+    return geometry.get("type").equals("GeometryCollection");
+  }
+
+  private JSONArray getGeometryData(JSONObject geometry) throws JSONException {
     return geometry.getJSONArray("coordinates");
   }
 
