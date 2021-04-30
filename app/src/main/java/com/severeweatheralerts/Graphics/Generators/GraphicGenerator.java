@@ -64,7 +64,7 @@ public abstract class GraphicGenerator {
   }
 
   protected void getAlertPolygons() {
-    if (alert.hasGeometry()) alertPolygons(alert.getPolygons());
+    if (alert.hasGeometry()) { alertPolygons(alert.getPolygons()); return; }
     else if (alert.getZoneLinkCount() <= 0) throwError("This alert does not have zone data");
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
