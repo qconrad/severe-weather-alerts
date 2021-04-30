@@ -9,11 +9,11 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class AllNWSPopulater {
@@ -47,6 +47,8 @@ public class AllNWSPopulater {
   private void handleError(VolleyError error, PopulateCallback populateCallback) {
     if (error instanceof ServerError)
       populateCallback.error(context.getString(R.string.server_error));
+    if (error.getCause() instanceof UnknownHostException)
+      populateCallback.error(context.getString(R.string.check_internet));
     else
       populateCallback.error(context.getString(R.string.unknown_alert_error) + error.getMessage());
   }

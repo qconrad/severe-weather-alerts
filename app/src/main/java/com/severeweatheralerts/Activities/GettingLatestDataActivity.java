@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Networking.LocationPopulaters.AllNWSPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;

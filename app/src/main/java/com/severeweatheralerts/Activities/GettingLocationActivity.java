@@ -1,7 +1,9 @@
 package com.severeweatheralerts.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,10 +30,31 @@ public class GettingLocationActivity extends AppCompatActivity {
     if (!PermissionManager.hasCoarseLocation(this))
       startActivity(new Intent(GettingLocationActivity.this, FirstRunActivity.class));
     else {
+      LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+      checkIfLocationsServicesAreEnabled(lm);
       setLoadingStatus();
       setProgressbarColor();
       populateLocations();
     }
+  }
+
+  private void checkIfLocationsServicesAreEnabled(LocationManager lm) {
+    if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+      if (LocationsDao.getInstance(this).hasLocations()) {
+        LocationsDao.getInstance(this).setName(0, "Last Known Location");
+        fetchAlerts();
+      } else {
+        LocationsDao.getInstance(this).setDefaultLocation("No Location", 0, 0);
+        displayError("Location services disabled");
+      }
+    }
+  }
+
+  private void displayError(String message) {
+    Intent intent = new Intent(GettingLocationActivity.this, ErrorActivity.class);
+    intent.putExtra("errorMessage", message);
+    startActivity(intent);
+    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void setLoadingStatus() {

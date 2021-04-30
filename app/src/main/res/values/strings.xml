@@ -59,4 +59,5 @@
     <string name="cancel">Cancel</string>
     <string name="no_channel_disclaimer">It looks like your using an older version of android which does not support notification channels. Alerts will still work but low, medium, high, and extreme alerts will all use your default notification sound and appear the same way. You can still disable the notification using the none channel.</string>
     <string name="channels_not_supported">Notification Channels Not Supported</string>
+    <string name="check_internet">Check your internet connection</string>
 </resources>
