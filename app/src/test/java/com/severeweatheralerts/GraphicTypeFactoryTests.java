@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.*;
+import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Graphics.Types.*;
 
 import org.junit.Test;
@@ -251,5 +253,19 @@ public class GraphicTypeFactoryTests {
     severeThunderstormWarning.setInstruction("Move to the lowest floor...");
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning);
     assertEquals(1, graphicFactory.getTypes().size());
+  }
+
+  @Test
+  public void mediumTestAlert_noGraphics() {
+    MediumPriorityTest mediumPriorityTest = new MediumPriorityTest();
+    TypeFactory graphicFactory = new TypeFactory(mediumPriorityTest);
+    assertEquals(0, graphicFactory.getTypes().size());
+  }
+
+  @Test
+  public void highTestAlert_noGraphics() {
+    HighPriorityTest highPriorityTest = new HighPriorityTest();
+    TypeFactory graphicFactory = new TypeFactory(highPriorityTest);
+    assertEquals(0, graphicFactory.getTypes().size());
   }
 }

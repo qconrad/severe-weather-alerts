@@ -27,6 +27,8 @@ import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
+import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
+import com.severeweatheralerts.TestAlert;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,7 @@ public class TypeFactory {
       if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
         types.add(new WindGusts());
     }
+    else if (alert instanceof TestAlert) return types;
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)

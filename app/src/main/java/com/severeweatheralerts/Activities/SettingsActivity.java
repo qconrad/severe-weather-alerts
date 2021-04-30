@@ -1,6 +1,7 @@
 package com.severeweatheralerts.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,10 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Notifications.NotificationSender;
 import com.severeweatheralerts.PermissionManager;
+import com.severeweatheralerts.Preferences.Channel;
+import com.severeweatheralerts.Preferences.ChannelIdString;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.TestAlert;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -56,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void createClickListeners() {
       createChannelListener();
+      createTestAlertListener();
       createdUseFixedListener();
       createdFixedLocationListener();
       createAttributionListener();
@@ -71,6 +83,29 @@ public class SettingsActivity extends AppCompatActivity {
           return true;
         });
       }
+    }
+
+    private void createTestAlertListener() {
+      Preference testAlertPref = findPreference("testalert");
+      if (testAlertPref != null) {
+        testAlertPref.setOnPreferenceClickListener(preference -> {
+          new AlertDialog.Builder(getActivity())
+                  .setTitle("Select a channel")
+                  .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
+                    Channel selectedChannel = Channel.values()[channelIndex];
+                    if (selectedChannel != Channel.NONE)
+                    new NotificationSender(getContext(), getTestAlert(selectedChannel), ChannelIdString.getChannelString(selectedChannel)).send();
+                  }).create().show();
+          return true;
+        });
+      }
+    }
+
+    private Alert getTestAlert(Channel channel) {
+      if (channel == Channel.EXTREME) return new ExtremePriorityTest();
+      else if (channel == Channel.HIGH) return new HighPriorityTest();
+      else if (channel == Channel.MEDIUM) return new MediumPriorityTest();
+      return new LowPriorityTest();
     }
 
     private void createdUseFixedListener() {

@@ -25,6 +25,10 @@
             app:title="Open Notification Channels"
             app:key="channels"
             app:summary="Change the behavior of how notifications appear and sound"/>
+        <Preference
+            app:title="Test Alert"
+            app:key="testalert"
+            app:summary="Send a fake alert for testing the different notification channels"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="About">

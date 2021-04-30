@@ -1,6 +1,10 @@
 package com.severeweatheralerts.Alerts;
 
 import com.severeweatheralerts.Alerts.NWS.*;
+import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
+import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 
 public class AlertFactory {
   public Alert getAlert(String name) {
@@ -134,6 +138,10 @@ public class AlertFactory {
       case "Winter Storm Warning": return new WinterStormWarning();
       case "Winter Storm Watch": return new WinterStormWatch();
       case "Winter Weather Advisory": return new WinterWeatherAdvisory();
+      case "Low Priority Test": return new LowPriorityTest();
+      case "Medium Priority Test": return new MediumPriorityTest();
+      case "High Priority Test": return new HighPriorityTest();
+      case "Extreme Priority Test": return new ExtremePriorityTest();
       default: return new DefaultAlert();
     }
   }
