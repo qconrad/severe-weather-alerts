@@ -182,8 +182,8 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private void displayReference(Alert reference) {
-    Intent alertIntent = new Intent(AlertViewerActivity.this, ReferenceViewerActivity.class);
+  protected void displayReference(Alert reference) {
+    Intent alertIntent = new Intent(this, ReferenceViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);

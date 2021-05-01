@@ -46,7 +46,6 @@ public class NotificationViewer extends AlertViewerActivity {
 
   @Override
   public void onBackPressed() {
-    super.onBackPressed();
     if (alertsFetched) startActivity(new Intent(NotificationViewer.this, AlertListActivity.class));
     else startActivity(new Intent(NotificationViewer.this, GettingLatestDataActivity.class));
   }
