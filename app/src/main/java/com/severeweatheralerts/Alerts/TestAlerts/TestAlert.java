@@ -1,6 +1,7 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Alerts.TestAlerts;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.R;
 
 import java.util.Date;
 

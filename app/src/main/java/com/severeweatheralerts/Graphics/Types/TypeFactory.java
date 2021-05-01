@@ -27,8 +27,7 @@ import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
-import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
-import com.severeweatheralerts.TestAlert;
+import com.severeweatheralerts.Alerts.TestAlerts.TestAlert;
 
 import java.util.ArrayList;
 

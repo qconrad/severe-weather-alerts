@@ -2,7 +2,6 @@ package com.severeweatheralerts.Alerts.TestAlerts;
 
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelColors;
-import com.severeweatheralerts.TestAlert;
 
 public class LowPriorityTest extends TestAlert {
   public LowPriorityTest() {
