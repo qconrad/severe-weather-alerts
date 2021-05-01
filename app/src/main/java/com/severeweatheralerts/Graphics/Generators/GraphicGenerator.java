@@ -13,6 +13,7 @@ import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
 import com.severeweatheralerts.Graphics.BitmapTools.LocationDrawer;
 import com.severeweatheralerts.Graphics.BitmapTools.ZoneDrawer;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
+import com.severeweatheralerts.Graphics.Bounds.BoundRounder;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Graphic;
@@ -182,6 +183,7 @@ public abstract class GraphicGenerator {
 
   protected Bounds getBounds(ArrayList<Polygon> polygons, double marginPercentage) {
     Bounds bounds = new PolygonListBoundCalculator(polygons).getBounds();
+    bounds = new BoundRounder(bounds).getBounds();
     bounds = new AspectRatioEqualizer(bounds).equalize();
     bounds = new BoundMargin(bounds, marginPercentage).getBounds();
     return bounds;

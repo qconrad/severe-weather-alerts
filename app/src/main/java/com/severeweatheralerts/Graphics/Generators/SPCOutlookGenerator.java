@@ -5,6 +5,7 @@ import android.graphics.Color;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Graphics.Bounds.BoundRounder;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
@@ -30,7 +31,7 @@ public class SPCOutlookGenerator extends GraphicGenerator {
   protected void mapTimes(ArrayList<MapTime> mapTimes) {
     MercatorCoordinate loc = getMercatorCoordinate();
     double margin = 400000;
-    Bounds bounds = new Bounds(loc.getY()+margin,loc.getX()+margin,loc.getY()-margin,loc.getX()-margin);
+    Bounds bounds = new BoundRounder(new Bounds(loc.getY()+margin,loc.getX()+margin,loc.getY()-margin,loc.getX()-margin)).getBounds();
     ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getStartTime()).getMapTime().getString();
     layers.add(new Layer(new URL().getSpcOutlook(bounds, getRegion(), dateString)));
