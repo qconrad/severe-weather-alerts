@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class URL {
   public String getCountyMap(Bounds bounds) {
-    return "https://digital.weather.gov/wms.php?LAYERS=cwa,counties,states&FORMAT=image%2Fpng&SERVICE=WMS&TRANSPARENT=TRUE&VERSION=1.3.0&EXCEPTIONS=INIMAGE&REQUEST=GetMap&STYLES=&CRS=EPSG%3A3857&BBOX=" + bounds.getLeft() + "," + bounds.getBottom() + "," + bounds.getRight() + "," + bounds.getTop() + "&WIDTH=512&HEIGHT=512";
+    return "https://digital.weather.gov/wms.php?LAYERS=cwa,counties,states&FORMAT=image%2Fpng&SERVICE=WMS&TRANSPARENT=TRUE&VERSION=1.3.0&EXCEPTIONS=INIMAGE&REQUEST=GetMap&STYLES=&CRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop()) + "&WIDTH=512&HEIGHT=512";
   }
 
   public String getTotalSnow(Bounds bounds, String region, String date) {
@@ -66,11 +66,15 @@ public class URL {
   }
 
   public String getRadarReflectivity(Bounds bounds, String radarStation) {
-    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_bref_raw/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_bref_raw&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
+    return getRadarProduct(bounds, radarStation, "bref_raw");
   }
 
   public String getRadarRainfall(Bounds bounds, String radarStation) {
-    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_bdsa/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_bdsa&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
+    return getRadarProduct(bounds, radarStation, "bdsa");
+  }
+
+  private String getRadarProduct(Bounds bounds, String radarStation, String product) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_" + product + "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_" + product + "&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
   }
 
   public String getPointInfo(double lat, double lon) {
