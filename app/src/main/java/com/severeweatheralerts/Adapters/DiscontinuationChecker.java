@@ -16,11 +16,20 @@ public class DiscontinuationChecker {
   }
 
   public ArrayList<Alert> getAlerts() {
-    for (int i = 0; i < unadaptedAlerts.size(); i++) {
-      if (new AlertFinder(alerts).findAlertByID(unadaptedAlerts.get(i).getReplacedBy()) == null) {
-        alerts.get(i).setDiscontinuedAt(DateTimeConverter.convertStringToDate(unadaptedAlerts.get(i).getReplacedAt()));
-      }
-    }
+    for (int i = 0; i < unadaptedAlerts.size(); i++)
+      checkIfDiscontinued(unadaptedAlerts.get(i), alerts.get(i));
     return alerts;
+  }
+
+  private void checkIfDiscontinued(UnadaptedAlert unadaptedAlert, Alert alert) {
+    if (isDiscontinued(unadaptedAlert)) setDiscontinued(unadaptedAlert, alert);
+  }
+
+  private void setDiscontinued(UnadaptedAlert unadaptedAlert, Alert alert) {
+    alert.setDiscontinuedAt(DateTimeConverter.convertStringToDate(unadaptedAlert.getReplacedAt()));
+  }
+
+  private boolean isDiscontinued(UnadaptedAlert alert) {
+    return new AlertFinder(alerts).findAlertByID(alert.getReplacedBy()) == null;
   }
 }
