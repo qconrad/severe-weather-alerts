@@ -170,11 +170,11 @@ public class AlertTimeStringGeneratorTests {
   }
 
   @Test
-  public void discontinuedAtGiven_HasCenterTime() {
+  public void discontinuedAtGiven_HasRightTim() {
     DefaultAlert da = new DefaultAlert();
     da.setDiscontinuedAt(new Date(6000));
     AlertTime at = new AlertTime(da, new Date(7000));
-    assertTrue(at.hasCenterTime());
+    assertTrue(at.hasRightTime());
   }
 
   @Test
@@ -182,7 +182,7 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setDiscontinuedAt(new Date(0));
     AlertTime at = new AlertTime(da, new Date(120000));
-    assertEquals("Exited area 2 minutes ago", at.getCenterTime());
+    assertEquals("Exited area 2 minutes ago", at.getRightTime());
   }
 
   @Test
@@ -190,6 +190,6 @@ public class AlertTimeStringGeneratorTests {
     DefaultAlert da = new DefaultAlert();
     da.setDiscontinuedAt(new Date(0));
     AlertTime at = new AlertTime(da, new Date(60000));
-    assertEquals("Exited area 1 minute ago", at.getCenterTime());
+    assertEquals("Exited area 1 minute ago", at.getRightTime());
   }
 }

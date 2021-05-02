@@ -15,11 +15,10 @@ public class AlertTime implements TimeGenerator {
   }
 
   public boolean hasCenterTime() {
-    return isCancel() || isDiscontinued();
+    return isCancel();
   }
 
   public String getCenterTime() {
-    if (isDiscontinued()) return "Exited area " + getDiscontinuedTime() + " ago";
     return "Cancelled " + getSendTime() + " ago";
   }
 
@@ -66,6 +65,7 @@ public class AlertTime implements TimeGenerator {
   }
 
   public String getRightTime() {
+    if (isDiscontinued()) return "Exited area " + getDiscontinuedTime() + " ago";
     if (isNotActiveYet()) return "Active in " + getStartTime();
     if (isActive()) return "Active next " + getEndTime();
     return "Expired " + getEndTime() + " ago";
