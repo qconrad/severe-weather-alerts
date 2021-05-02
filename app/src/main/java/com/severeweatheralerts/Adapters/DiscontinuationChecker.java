@@ -5,7 +5,6 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.TextUtils.DateTimeConverter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DiscontinuationChecker {
   private final ArrayList<UnadaptedAlert> unadaptedAlerts;

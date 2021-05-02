@@ -41,17 +41,28 @@ public class ReferenceLinker {
   }
 
   private void conditionallyLink(Alert alert, Alert reference) {
-    if (nestedCancel(reference.getReplacedBy())) {
-      if (reference.getReplacedBy().getType() == Alert.Type.CANCEL) {
-        toDelete.add(reference.getReplacedBy());
-        linkReference(alert, reference);
-      } else toDelete.add(alert);
-    }
+    if (isCancel(reference)) toDelete.add(reference);
+    else linkAndDelete(alert, reference);
+  }
+
+  private void linkAndDelete(Alert alert, Alert reference) {
+    if (alreadyHasParent(reference)) deleteCancel(alert, reference);
     else if (sameType(alert, reference)) linkReference(alert, reference);
   }
 
-  private boolean nestedCancel(Alert replacedBy) {
-    return replacedBy != null;
+  private void deleteCancel(Alert alert, Alert reference) {
+    if (reference.getReplacedBy().getType() == Alert.Type.CANCEL) {
+      toDelete.add(reference.getReplacedBy());
+      linkReference(alert, reference);
+    } else toDelete.add(alert);
+  }
+
+  private boolean isCancel(Alert reference) {
+    return reference.getType() != null && reference.getType().equals(Alert.Type.CANCEL);
+  }
+
+  private boolean alreadyHasParent(Alert replacedBy) {
+    return replacedBy.getReplacedBy() != null;
   }
 
   private void linkReference(Alert alert, Alert reference) {
@@ -68,6 +79,6 @@ public class ReferenceLinker {
   }
 
   private boolean notNull(Alert alert) {
-    return nestedCancel(alert);
+    return alert != null;
   }
 }

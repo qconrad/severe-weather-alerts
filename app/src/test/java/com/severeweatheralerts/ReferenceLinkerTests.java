@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ReferenceLinkerTests {
@@ -325,5 +324,45 @@ public class ReferenceLinkerTests {
     adaptedAlerts.add(postAlert);
     ArrayList<Alert> alerts = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
     assertEquals(updateAlert, alerts.get(0));
+  }
+
+  @Test
+  public void updateAndCancelPointToSamePost_CancelledRemoved() {
+    UnadaptedAlert newerUpdate = new UnadaptedAlert();
+    UnadaptedAlert cancel = new UnadaptedAlert();
+    UnadaptedAlert update = new UnadaptedAlert();
+    UnadaptedAlert post = new UnadaptedAlert();
+
+    newerUpdate.addReferenceId("updateID");
+    newerUpdate.addReferenceId("cancelID");
+    newerUpdate.addReferenceId("postID");
+    update.addReferenceId("postID");
+    cancel.addReferenceId("postID");
+
+    ArrayList<UnadaptedAlert> unAdaptedAlerts = new ArrayList<>();
+    unAdaptedAlerts.add(newerUpdate);
+    unAdaptedAlerts.add(cancel);
+    unAdaptedAlerts.add(update);
+    unAdaptedAlerts.add(post);
+
+    ArrayList<Alert> adaptedAlerts = new ArrayList<>();
+    DefaultAlert newerUpdateAlert = new DefaultAlert();
+    newerUpdateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert cancelAlert = new DefaultAlert();
+    cancelAlert.setType(Alert.Type.CANCEL);
+    DefaultAlert updateAlert = new DefaultAlert();
+    updateAlert.setType(Alert.Type.UPDATE);
+    DefaultAlert postAlert = new DefaultAlert();
+    postAlert.setType(Alert.Type.POST);
+
+    updateAlert.setNwsId("updateID");
+    cancelAlert.setNwsId("cancelID");
+    postAlert.setNwsId("postID");
+    adaptedAlerts.add(newerUpdateAlert);
+    adaptedAlerts.add(cancelAlert);
+    adaptedAlerts.add(updateAlert);
+    adaptedAlerts.add(postAlert);
+    ArrayList<Alert> alerts = new ReferenceLinker(unAdaptedAlerts, adaptedAlerts).linkReferences();
+    assertEquals(2, alerts.get(0).getReferenceCount());
   }
 }
