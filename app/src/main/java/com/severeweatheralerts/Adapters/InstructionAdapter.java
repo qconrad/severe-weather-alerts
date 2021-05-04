@@ -13,7 +13,7 @@ public class InstructionAdapter {
 
   public String adaptInstruction() {
     if (isNull() || isCancellation()) return null;
-    return beautify(instruction);
+    return beautify(instruction.replaceAll("\\n\\nLAT\\.\\.\\.LON(.|\\n)*", "")).replace("...", ", ");
   }
 
   private boolean isNull() {

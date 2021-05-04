@@ -1259,4 +1259,24 @@ public class AlertAdapterTests {
     assertEquals("At 1226 AM CDT, severe thunderstorms were located along a line extending from near Gassville to near Culp to near Blanchard Springs Campground to Mountain View, moving northeast at 40 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to roofs, siding, and trees.\n\nLocations impacted include...\nMountain Home, Mountain View, Bull Shoals, Melbourne, Gassville, Calico Rock, Flippin, Lakeview in Baxter County, Oxford, Norfork, Salesville, Pineville, Briarcliff, Arkawana, Bull Shoals State Park, Lone Star, Wideman, Herron, Colfax, Gid.", aa.getAdaptedAlerts().get(0).getDescription());
   }
 
+
+  @Test
+  public void instructionEllipsesConvertedToCommas() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setInstruction("People outdoors should seek shelter immediately. If you can hear\nthunder...you are close enough to be struck by lightning. Motorists\nshould slow down and be prepared for possible loss of control due to\nhydroplaning.");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("People outdoors should seek shelter immediately. If you can hear thunder, you are close enough to be struck by lightning. Motorists should slow down and be prepared for possible loss of control due to hydroplaning.", aa.getAdaptedAlerts().get(0).getInstruction());
+  }
+
+  @Test
+  public void removeCoordinatesInInstruction() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setInstruction("People outdoors should seek shelter immediately. If you can hear\nthunder...you are close enough to be struck by lightning. Motorists\nshould slow down and be prepared for possible loss of control due to\nhydroplaning.\n\nLAT...LON 3214 8220 3207 8221 3211 8262 3213 8263\n3215 8261 3217 8262 3232 8258 3234 8224\n3228 8223 3224 8221 3223 8221 3218 8219\n3217 8218\nTIME...MOT...LOC 0516Z 272DEG 27KT 3218 8249\n\nHAIL...0.25IN\nWIND...50MPH");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("People outdoors should seek shelter immediately. If you can hear thunder, you are close enough to be struck by lightning. Motorists should slow down and be prepared for possible loss of control due to hydroplaning.", aa.getAdaptedAlerts().get(0).getInstruction());
+  }
 }
