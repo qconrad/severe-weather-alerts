@@ -1238,4 +1238,25 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(1619737800000L, aa.getAdaptedAlerts().get(2).getDiscontinuedAt().getTime());
   }
+
+  @Test
+  public void columnLocations_DoesNotEndWithNewLines_ChangedToCommas() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("Locations impacted include...\nMountain Home...                  Mountain View...\nBull Shoals...                    Melbourne...\nGassville...                      Calico Rock...\nFlippin...                        Lakeview in Baxter County...\nOxford...                         Norfork...\nSalesville...                     Pineville...\nBriarcliff...                     Arkawana...\nBull Shoals State Park...         Lone Star...\nWideman...                        Herron...\nColfax...                         Gid...");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("Locations impacted include...\nMountain Home, Mountain View, Bull Shoals, Melbourne, Gassville, Calico Rock, Flippin, Lakeview in Baxter County, Oxford, Norfork, Salesville, Pineville, Briarcliff, Arkawana, Bull Shoals State Park, Lone Star, Wideman, Herron, Colfax, Gid.", aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void columnLocationsProvided_OtherAreasOfDescriptionNotTouched() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("At 1226 AM CDT, severe thunderstorms were located along a line\nextending from near Gassville to near Culp to near Blanchard Springs\nCampground to Mountain View, moving northeast at 40 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to\nroofs, siding, and trees.\n\nLocations impacted include...\nMountain Home...                  Mountain View...\nBull Shoals...                    Melbourne...\nGassville...                      Calico Rock...\nFlippin...                        Lakeview in Baxter County...\nOxford...                         Norfork...\nSalesville...                     Pineville...\nBriarcliff...                     Arkawana...\nBull Shoals State Park...         Lone Star...\nWideman...                        Herron...\nColfax...                         Gid...");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("At 1226 AM CDT, severe thunderstorms were located along a line extending from near Gassville to near Culp to near Blanchard Springs Campground to Mountain View, moving northeast at 40 mph.\n\nHAZARD...60 mph wind gusts and quarter size hail.\n\nSOURCE...Radar indicated.\n\nIMPACT...Hail damage to vehicles is expected. Expect wind damage to roofs, siding, and trees.\n\nLocations impacted include...\nMountain Home, Mountain View, Bull Shoals, Melbourne, Gassville, Calico Rock, Flippin, Lakeview in Baxter County, Oxford, Norfork, Salesville, Pineville, Briarcliff, Arkawana, Bull Shoals State Park, Lone Star, Wideman, Herron, Colfax, Gid.", aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
 }

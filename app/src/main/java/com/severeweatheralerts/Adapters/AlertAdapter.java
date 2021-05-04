@@ -2,12 +2,8 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
-import com.severeweatheralerts.TextUtils.RegExMatcher;
 
 import java.util.ArrayList;
-
-import static com.severeweatheralerts.TextUtils.RegExMatcher.*;
-import static com.severeweatheralerts.TextUtils.TextBeautifier.beautify;
 
 public class AlertAdapter {
   ArrayList<Alert> alerts = new ArrayList<>();

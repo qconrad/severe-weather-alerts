@@ -14,29 +14,7 @@ public class DescriptionAdapter {
 
   public String adaptDescription() {
     if (nullOrEmpty(description)) return null;
-    return beautify(makeColumnLocationsCommas(removeCodes(description)));
-  }
-
-  /*
-  Certain offices will use this format
-  Locations impacted include...
-  This location...            That location...
-  Another location...         Another location...
-
-  While pretty and all, it does not wrap well. Additionally, it throws off the keyword highlighter
-  because it is indistinguishable from a section headline. This helper makes this format appear like the rest
-  i.e.
-  Locations impacted include...
-  This location, That location, Another location, Another location.
-   */
-  private String makeColumnLocationsCommas(String description) {
-    ArrayList<String> columnHeadlines = match("\\.\\.\\.[^\n](\n|.)*?\\.\\.\\.\\n\\n", description);
-    if (columnHeadlines.size() > 0 && columnHeadlines.get(0).contains("   ")) {
-      String fixed = columnHeadlines.get(0).replaceAll("\\.\\.\\.\n\n", ".\n\n");
-      fixed = fixed.replaceAll("\\.\\.\\.(\n| )*", ", ");
-      return description.replace(columnHeadlines.get(0), fixed);
-    }
-    return description;
+    return beautify(new ColumnLocationAdapter(removeCodes(description)).getListStyleLocations());
   }
 
   private String removeCodes(String description) {
