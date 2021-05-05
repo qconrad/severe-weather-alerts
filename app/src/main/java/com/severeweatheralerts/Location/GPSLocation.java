@@ -9,12 +9,13 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
 
 public class GPSLocation extends LocationGetter {
   private final LocationUpdateCallback locationUpdateCallback;
-  private final FusedLocationProviderClient fusedLocationClient = new FusedLocationProviderClient(context);
+  private final FusedLocationProviderClient fusedLocationClient;
   private LocationCallback locationCallback;
   HandlerThread handlerThread;
   private LocationRequest locationRequest;
@@ -22,6 +23,7 @@ public class GPSLocation extends LocationGetter {
   public GPSLocation(Context context, LocationUpdateCallback locationUpdateCallback) {
     super(context);
     this.locationUpdateCallback = locationUpdateCallback;
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
   }
 
   public GPSLocation startUpdates() {

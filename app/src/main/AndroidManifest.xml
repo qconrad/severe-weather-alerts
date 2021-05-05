@@ -17,6 +17,12 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity android:name=".Activities.AttributionActivity" />
         <activity android:name=".Activities.ErrorActivity" />
+        <receiver android:name=".BroadcastReceivers.LocationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.location.sample.locationupdatespendingintent.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".BroadcastReceivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -31,7 +37,6 @@
         <activity
             android:name=".Activities.LocationPickerActivity" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
-        <receiver android:name=".Location.Geofencing.GeofenceReceiver" />
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

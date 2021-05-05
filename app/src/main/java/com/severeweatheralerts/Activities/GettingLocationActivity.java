@@ -10,17 +10,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.GPSLocation;
-import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.Date;
-
-import static com.severeweatheralerts.Constants.STATIONARY_RADIUS;
 
 public class GettingLocationActivity extends AppCompatActivity {
   @Override
@@ -103,13 +100,12 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void setDefaultLocation(android.location.Location location) {
     LocationsDao.getInstance(this).setDefaultLocation("Current Location", location.getLatitude(), location.getLongitude());
-    syncLocation(location);
+    syncLocation();
     fetchAlerts();
   }
 
-  private void syncLocation(android.location.Location location) {
-    new UserSyncWorkScheduler(this).oneTimeSync();
-    new GeofenceManager(this).setStationaryGeofence(location.getLatitude(), location.getLongitude(), STATIONARY_RADIUS);
+  private void syncLocation() {
+    new BackgroundLocation(this).start();
   }
 
   private void fetchAlerts() {

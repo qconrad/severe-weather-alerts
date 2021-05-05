@@ -18,7 +18,7 @@ import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
-import com.severeweatheralerts.Location.Geofencing.GeofenceManager;
+import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Notifications.NotificationSender;
 import com.severeweatheralerts.PermissionManager;
@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity {
       if (usefixed != null) {
         usefixed.setOnPreferenceChangeListener((preference, newValue) -> {
           if ((Boolean) newValue) {
-            new GeofenceManager(getContext()).removeGeofences();
+            new BackgroundLocation(getContext()).stop();
             locationsDao.setName(0, "Fixed Location");
             findPreference("fixedloc").setSummary("Default Location");
             startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
