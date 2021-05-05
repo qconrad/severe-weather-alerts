@@ -15,7 +15,15 @@ public class PermissionManager {
   }
 
   public static void requestLocationPermissions(Activity activity) {
-    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+    } else {
+      ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
+    }
+  }
+
+  public static void requestBackgroundPermissions(Activity activity) {
+    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 0);
   }
 
   public static boolean hasFineLocation(Context context) {
