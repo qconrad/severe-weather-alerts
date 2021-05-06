@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Location.BackgroundLocation;
+import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
@@ -18,6 +19,7 @@ import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
 import java.util.Date;
+import java.util.concurrent.locks.Condition;
 
 public class GettingLocationActivity extends AppCompatActivity {
   @Override
@@ -41,7 +43,7 @@ public class GettingLocationActivity extends AppCompatActivity {
         LocationsDao.getInstance(this).setName(0, "Last Known Location");
         fetchAlerts();
       } else {
-        LocationsDao.getInstance(this).setDefaultLocation("No Location", 0, 0);
+        LocationsDao.getInstance(this).setName(0, "No Location");
         displayError("Location services disabled");
       }
     }
@@ -99,13 +101,10 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private void setDefaultLocation(android.location.Location location) {
-    LocationsDao.getInstance(this).setDefaultLocation("Current Location", location.getLatitude(), location.getLongitude());
-    syncLocation();
-    fetchAlerts();
-  }
-
-  private void syncLocation() {
+    LocationsDao.getInstance(this).setName(0, "Current Location");
     new BackgroundLocation(this).start();
+    new ConditionalDefaultLocationSync(this, location.getLatitude(), location.getLongitude()).sync();
+    fetchAlerts();
   }
 
   private void fetchAlerts() {

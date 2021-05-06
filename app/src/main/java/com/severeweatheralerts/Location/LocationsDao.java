@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 
 public class LocationsDao {
+  private GCSCoordinate lastDefaultSync;
   private ArrayList<Location> locations;
   private static LocationsDao instance;
 
   private LocationsDao(Context context) {
     Paper.init(context);
     getLocationsFromFile();
+    getLastDefaultSyncFromFile();
   }
 
   public static LocationsDao getInstance(Context context) {
@@ -29,10 +31,25 @@ public class LocationsDao {
     locations = Paper.book().read("locations", new ArrayList<>());
   }
 
-  private void saveToFile() {
-    synchronized (this) {
-      Paper.book().write("locations", locations);
-    }
+  private void getLastDefaultSyncFromFile() {
+    lastDefaultSync = Paper.book().read("lastDefaultSync", new GCSCoordinate(0.0, 0.0));
+  }
+
+  private synchronized void saveLocationsToFile() {
+    Paper.book().write("locations", locations);
+  }
+
+  private synchronized void saveLastDefaultSyncToFile() {
+    Paper.book().write("lastDefaultSync", lastDefaultSync);
+  }
+
+  public GCSCoordinate getLastDefaultSync() {
+    return lastDefaultSync;
+  }
+
+  public void setLastDefaultSync(GCSCoordinate coordinate) {
+    lastDefaultSync = coordinate;
+    saveLastDefaultSyncToFile();
   }
 
   public boolean hasLocations() {
@@ -43,23 +60,23 @@ public class LocationsDao {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setName(name);
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveToFile();
+    saveLocationsToFile();
   }
 
   public void setName(int index, String name) {
     locations.get(index).setName(name);
-    saveToFile();
+    saveLocationsToFile();
   }
 
   public void updateDefaultLocation(double latitude, double longitude) {
     if (locations.size() > 0) locations.add(new Location());
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveToFile();
+    saveLocationsToFile();
   }
 
   public void setChannelPreferences(int locationIndex, ChannelPreferences channelPreferences) {
     locations.get(locationIndex).setChannelPreferences(channelPreferences);
-    saveToFile();
+    saveLocationsToFile();
   }
 
   public ArrayList<Alert> getAlerts(int locationIndex) {
