@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.severeweatheralerts.BroadcastReceivers.LocationReceiver;
+import com.severeweatheralerts.Constants;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
@@ -34,9 +35,9 @@ public class BackgroundLocation {
 
   private LocationRequest getRequest() {
     LocationRequest mLocationRequest = LocationRequest.create();
-    mLocationRequest.setInterval(20 * 60 * 1000);
-    mLocationRequest.setFastestInterval(5 * 60 * 1000);
-    mLocationRequest.setSmallestDisplacement(200);
+    mLocationRequest.setInterval(Constants.LOCATION_COMPUTE_INTERVAL);
+    mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
+    mLocationRequest.setSmallestDisplacement(Constants.SMALLEST_DISPLACEMENT);
     mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     return mLocationRequest;
   }
@@ -46,6 +47,6 @@ public class BackgroundLocation {
   }
 
   private Intent getIntent() {
-    return new Intent(context, LocationReceiver.class).setAction(LocationReceiver.ACTION_PROCESS_UPDATES);
+    return new Intent(context, LocationReceiver.class).setAction(LocationReceiver.ACTION_PROCESS_UPDATES).setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
   }
 }

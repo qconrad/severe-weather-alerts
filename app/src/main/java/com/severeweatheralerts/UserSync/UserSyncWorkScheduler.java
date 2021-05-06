@@ -16,8 +16,7 @@ public class UserSyncWorkScheduler {
   }
 
   public void oneTimeSync() {
-    Constraints constraints = getConstraints();
-    WorkRequest userSync = getWorkRequest(constraints);
+    WorkRequest userSync = getWorkRequest(getConstraints());
     WorkManager.getInstance(context).enqueue(userSync);
   }
 
