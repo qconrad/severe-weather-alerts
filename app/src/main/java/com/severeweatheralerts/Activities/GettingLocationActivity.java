@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.GPSLocation;
@@ -74,15 +75,11 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private boolean notOutdated(android.location.Location lastKnown) {
-    return lastKnown.getTime() > new Date().getTime() - getLastKnownExpireTimeMS();
+    return lastKnown.getTime() > new Date().getTime() - Constants.LAST_KNOWN_LOCATION_EXPIRE;
   }
 
   private boolean notNull(android.location.Location lastKnown) {
     return lastKnown != null;
-  }
-
-  private int getLastKnownExpireTimeMS() {
-    return 1000*60*20; // 20 minutes
   }
 
   private void useGPS() {

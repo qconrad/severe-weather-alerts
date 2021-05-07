@@ -37,7 +37,7 @@ public class BackgroundLocation {
     LocationRequest mLocationRequest = LocationRequest.create();
     mLocationRequest.setInterval(Constants.LOCATION_COMPUTE_INTERVAL);
     mLocationRequest.setFastestInterval(Constants.FASTEST_LOCATION_INTERVAL);
-    mLocationRequest.setSmallestDisplacement(Constants.SMALLEST_DISPLACEMENT);
+    mLocationRequest.setSmallestDisplacement(Constants.MINIMUM_LOCATION_DISPLACEMENT);
     mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     return mLocationRequest;
   }

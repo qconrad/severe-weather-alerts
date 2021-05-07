@@ -8,5 +8,6 @@ public class Constants {
   public static final int STATUS_SUBTEXT_TRANSITION_TIME = 5000;
   public static final int LOCATION_COMPUTE_INTERVAL = 30 * 60 * 1000;
   public static final int FASTEST_LOCATION_INTERVAL = 10 * 60 * 1000;
-  public static final int SMALLEST_DISPLACEMENT = 200;
+  public static final int MINIMUM_LOCATION_DISPLACEMENT = 200;
+  public static final long LAST_KNOWN_LOCATION_EXPIRE = 5 * 60 * 1000;
 }
