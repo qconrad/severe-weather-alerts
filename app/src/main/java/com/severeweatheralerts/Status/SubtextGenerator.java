@@ -30,6 +30,7 @@ public class SubtextGenerator {
   private void addAllSentences(Alert alert) {
     String[] split = getSentences(alert.getInstruction());
     Collections.addAll(strings, split);
+    strings.set(0, strings.get(0).replace("To repeat, a", "A"));
   }
 
   private String[] getSentences(String text) {

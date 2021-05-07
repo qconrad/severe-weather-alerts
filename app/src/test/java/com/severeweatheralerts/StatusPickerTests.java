@@ -168,4 +168,24 @@ public class StatusPickerTests {
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("WWW.WEBSITE.COM", statusPicker.getStatus().getSubtexts().get(0));
   }
+
+  @Test
+  public void toRepeatRemoved() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("To repeat, a large, extremely dangerous and potentially deadly tornado is developing.");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("A large, extremely dangerous and potentially deadly tornado is developing", statusPicker.getStatus().getSubtexts().get(0));
+  }
+
+  @Test
+  public void DifferenttoRepeatRemoved() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("To repeat, a large, extremely dangerous and potentially deadly tornado is on the ground.");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("A large, extremely dangerous and potentially deadly tornado is on the ground", statusPicker.getStatus().getSubtexts().get(0));
+  }
 }
