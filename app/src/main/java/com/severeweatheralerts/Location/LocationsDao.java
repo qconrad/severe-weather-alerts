@@ -64,6 +64,7 @@ public class LocationsDao {
   }
 
   public synchronized void setName(int index, String name) {
+    if (locations.size() < 1) locations.add(new Location());
     locations.get(index).setName(name);
     saveLocationsToFile();
   }
