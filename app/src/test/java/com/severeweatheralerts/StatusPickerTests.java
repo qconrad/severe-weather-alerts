@@ -180,12 +180,42 @@ public class StatusPickerTests {
   }
 
   @Test
-  public void DifferenttoRepeatRemoved() {
+  public void differentToRepeatRemoved() {
     ArrayList<Alert> active = new ArrayList<>();
     DefaultAlert defaultAlert = new DefaultAlert();
     defaultAlert.setInstruction("To repeat, a large, extremely dangerous and potentially deadly tornado is on the ground.");
     active.add(defaultAlert);
     StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
     assertEquals("A large, extremely dangerous and potentially deadly tornado is on the ground", statusPicker.getStatus().getSubtexts().get(0));
+  }
+
+  @Test
+  public void splitByExclamationPoint() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("TAKE COVER NOW! Move to a basement or an interior room on the lowest floor of a sturdy building. Avoid windows.");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("TAKE COVER NOW", statusPicker.getStatus().getSubtexts().get(0));
+  }
+
+  @Test
+  public void noSpacesInSecondSubtext() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("TAKE COVER NOW! Move to a basement or an interior room on the lowest floor of a sturdy building. Avoid windows.");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("Move to a basement or an interior room on the lowest floor of a sturdy building", statusPicker.getStatus().getSubtexts().get(1));
+  }
+
+  @Test
+  public void noSpaceAfterExclamationPoint() {
+    ArrayList<Alert> active = new ArrayList<>();
+    DefaultAlert defaultAlert = new DefaultAlert();
+    defaultAlert.setInstruction("TAKE COVER NOW!");
+    active.add(defaultAlert);
+    StatusPicker statusPicker = new StatusPicker(active, new ArrayList<>());
+    assertEquals("TAKE COVER NOW", statusPicker.getStatus().getSubtexts().get(0));
   }
 }
