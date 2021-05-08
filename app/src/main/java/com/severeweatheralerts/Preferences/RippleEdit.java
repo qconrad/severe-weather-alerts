@@ -1,11 +1,10 @@
 package com.severeweatheralerts.Preferences;
 
 import com.severeweatheralerts.Alerts.Alert.Type;
-import com.severeweatheralerts.Preferences.Channel;
-import com.severeweatheralerts.Preferences.ChannelPreferences;
 
-import static com.severeweatheralerts.Alerts.Alert.Type.*;
+import static com.severeweatheralerts.Alerts.Alert.Type.CANCEL;
 import static com.severeweatheralerts.Alerts.Alert.Type.POST;
+import static com.severeweatheralerts.Alerts.Alert.Type.UPDATE;
 
 public class RippleEdit {
   private final ChannelPreferences channelPreferences;

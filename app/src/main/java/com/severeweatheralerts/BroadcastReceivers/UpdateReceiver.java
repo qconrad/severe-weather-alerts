@@ -24,7 +24,7 @@ public class UpdateReceiver extends BroadcastReceiver {
   }
 
   private void setBackgroundLocation(Context context, SharedPreferences preferences) {
-    if (preferences.getBoolean("use_fixed", false)) {
+    if (!preferences.getBoolean("use_fixed", false)) {
       new BackgroundLocation(context).start();
     }
   }

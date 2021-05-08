@@ -1,15 +1,15 @@
 package com.severeweatheralerts.Graphics.GridData;
 
 public class Maximum {
-  private final Parameter paremeter;
+  private final Parameter parameter;
 
   public Maximum(Parameter parameter) {
-    this.paremeter = parameter;
+    this.parameter = parameter;
   }
 
   public ForecastTime get() {
     ForecastTime current = null;
-    for (ForecastTime forecastTime : paremeter.getForecastTimes())
+    for (ForecastTime forecastTime : parameter.getForecastTimes())
       if (newValue(current, forecastTime)) current = forecastTime;
     return current;
   }

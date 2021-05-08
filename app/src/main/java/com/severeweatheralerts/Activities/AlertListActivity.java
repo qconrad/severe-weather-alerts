@@ -1,7 +1,6 @@
 package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -22,7 +21,6 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
@@ -47,11 +45,6 @@ public class AlertListActivity extends AppCompatActivity {
     sortAndFilterAlerts(locationsDao.getAlerts(0));
     populateRecyclerViews();
     setStatus(getStatus());
-    requestBackgroundPermissions();
-  }
-
-  private void requestBackgroundPermissions() {
-    // if android >= R and not using fixed
   }
 
   protected Status getStatus() {

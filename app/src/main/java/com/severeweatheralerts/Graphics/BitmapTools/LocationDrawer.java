@@ -15,7 +15,6 @@ public class LocationDrawer {
   private final MercatorCoordinate location;
   private final int color;
 
-  private final Paint paint;
   private final Bitmap bitmap;
   private final Canvas canvas;
 
@@ -23,7 +22,6 @@ public class LocationDrawer {
     this.bounds = bounds;
     this.location = location;
     this.color = color;
-    paint = getLocationPaint();
     bitmap = createBitmap();
     canvas =  new Canvas(bitmap);
     drawLocation();

@@ -4,7 +4,7 @@ import static com.severeweatheralerts.TextUtils.RegExMatcher.match;
 import static com.severeweatheralerts.TextUtils.TitleCaseConverter.toTitleCase;
 
 public class NwsHeadlineAdapter {
-  private String nwsHeadline;
+  private final String nwsHeadline;
 
   public NwsHeadlineAdapter(String nwsHeadline) {
     this.nwsHeadline = nwsHeadline;

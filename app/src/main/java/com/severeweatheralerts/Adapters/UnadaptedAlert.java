@@ -20,6 +20,7 @@ public class UnadaptedAlert {
   private String senderCode;
   private String replacedBy;
   private String replacedAt;
+  private GeoJSONPolygon polygon;
   private final ArrayList<String> references = new ArrayList<>();
   private final ArrayList<String> zoneLinks = new ArrayList<>();
 
@@ -73,44 +74,20 @@ public class UnadaptedAlert {
   public void setSenderCode(String senderCode) { this.senderCode = senderCode; }
   public String getSenderCode() { return senderCode; }
 
-  private GeoJSONPolygon polygon;
   public boolean hasGeometry() {
     return polygon != null;
   }
 
-  public void setPolygon(GeoJSONPolygon geoJSONPolygon) {
-    polygon = geoJSONPolygon;
-  }
+  public void setPolygon(GeoJSONPolygon geoJSONPolygon) { polygon = geoJSONPolygon; }
+  public GeoJSONPolygon getPolygon() { return polygon; }
 
-  public GeoJSONPolygon getPolygon() {
-    return polygon;
-  }
+  public int getZoneLinkCount() { return zoneLinks.size(); }
+  public String getZoneLink(int i) { return zoneLinks.get(i); }
+  public void addZoneLink(String zoneLink) { zoneLinks.add(zoneLink); }
 
-  public int getZoneLinkCount() {
-    return zoneLinks.size();
-  }
+  public String getReplacedBy() { return replacedBy; }
+  public void setReplacedBy(String replacedBy) { this.replacedBy = replacedBy; }
 
-  public String getZoneLink(int i) {
-    return zoneLinks.get(i);
-  }
-
-  public void addZoneLink(String zoneLink) {
-    zoneLinks.add(zoneLink);
-  }
-
-  public String getReplacedBy() {
-    return replacedBy;
-  }
-
-  public void setReplacedBy(String replacedBy) {
-    this.replacedBy = replacedBy;
-  }
-
-  public String getReplacedAt() {
-    return replacedAt;
-  }
-
-  public void setReplacedAt(String replacedAt) {
-    this.replacedAt = replacedAt;
-  }
+  public String getReplacedAt() { return replacedAt; }
+  public void setReplacedAt(String replacedAt) { this.replacedAt = replacedAt; }
 }

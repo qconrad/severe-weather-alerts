@@ -3,7 +3,7 @@ package com.severeweatheralerts.Adapters;
 import com.severeweatheralerts.Alerts.Alert;
 
 public class SeverityAdapter {
-  private String severity;
+  private final String severity;
 
   public SeverityAdapter(String severity) {
     this.severity = severity;

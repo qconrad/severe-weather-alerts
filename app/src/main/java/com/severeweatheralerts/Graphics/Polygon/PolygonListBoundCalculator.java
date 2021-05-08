@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class PolygonListBoundCalculator {
   private final ArrayList<Polygon> polygons;
-  Bounds bounds;
+  private Bounds bounds;
 
   public PolygonListBoundCalculator(ArrayList<Polygon> polygons) {
     this.polygons = polygons;

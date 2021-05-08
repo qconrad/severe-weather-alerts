@@ -14,19 +14,8 @@ public class GCSToMercatorCoordinateAdapter {
     adaptCoordinate();
   }
 
-  public MercatorCoordinate getCoordinate() {
-    return mercatorCoordinate;
-  }
-
-  private void adaptCoordinate() {
-    mercatorCoordinate = new MercatorCoordinate(getX(), getY());
-  }
-
-  private double getX() {
-    return lon2x(gcsCoordinate.getLong());
-  }
-
-  private double getY() {
-    return lat2y(gcsCoordinate.getLat());
-  }
+  public MercatorCoordinate getCoordinate() { return mercatorCoordinate; }
+  private void adaptCoordinate() { mercatorCoordinate = new MercatorCoordinate(getX(), getY()); }
+  private double getX() { return lon2x(gcsCoordinate.getLong()); }
+  private double getY() { return lat2y(gcsCoordinate.getLat()); }
 }

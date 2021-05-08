@@ -20,7 +20,6 @@ import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
 
 import java.util.Date;
-import java.util.concurrent.locks.Condition;
 
 public class GettingLocationActivity extends AppCompatActivity {
   @Override

@@ -9,15 +9,7 @@ public class Polygon {
     coordList.add(mercatorCoordinate);
   }
 
-  public int getCoordinateCount() {
-    return coordList.size();
-  }
-
-  public MercatorCoordinate getCoordinate(int index) {
-    return coordList.get(index);
-  }
-
-  public ArrayList<MercatorCoordinate> getCoordinates() {
-    return coordList;
-  }
+  public int getCoordinateCount() { return coordList.size(); }
+  public MercatorCoordinate getCoordinate(int index) { return coordList.get(index); }
+  public ArrayList<MercatorCoordinate> getCoordinates() { return coordList; }
 }
