@@ -2,11 +2,7 @@ package com.severeweatheralerts.Location;
 
 import android.content.Context;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.R;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class ConditionalDefaultLocationSync {
@@ -29,7 +25,6 @@ public class ConditionalDefaultLocationSync {
 
   private void syncIfLocationChanged() {
     if (!isDifferent()) return;
-    sendDebugNotification();
     scheduleSync();
     setLastSync();
   }
@@ -40,17 +35,6 @@ public class ConditionalDefaultLocationSync {
 
   private void scheduleSync() {
     new UserSyncWorkScheduler(context).oneTimeSync();
-  }
-
-  private void sendDebugNotification() {
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "high")
-            .setSmallIcon(R.drawable.hazard)
-            .setContentTitle("Receiver")
-            .setContentText(lat + ", " + lon)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true);
-    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-    notificationManager.notify(0, builder.build());
   }
 
   private boolean isDifferent() {
