@@ -22,7 +22,7 @@ public class ConditionalDefaultLocationSync {
     locationsDao = LocationsDao.getInstance(context);
   }
 
-  public void sync() {
+  public synchronized void sync() {
     updateLocationInDao();
     syncIfLocationChanged();
   }

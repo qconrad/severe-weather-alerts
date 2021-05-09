@@ -12,10 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class FirstRunActivity extends AppCompatActivity {
 
@@ -99,7 +99,7 @@ public class FirstRunActivity extends AppCompatActivity {
       Bundle extras = data.getExtras();
       LocationsDao.getInstance(this).setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
       PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
-      new UserSyncWorkScheduler(this).oneTimeSync();
+      new ConditionalDefaultLocationSync(this, extras.getDouble("lat"), extras.getDouble("lon")).sync();
       startActivity(new Intent(FirstRunActivity.this, GettingLatestDataActivity.class));
       updateFirstRun();
     }

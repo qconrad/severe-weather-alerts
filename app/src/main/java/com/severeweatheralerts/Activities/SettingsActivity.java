@@ -19,13 +19,13 @@ import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Location.BackgroundLocation;
+import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Notifications.NotificationSender;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class SettingsActivity extends AppCompatActivity {
   @Override
@@ -187,7 +187,7 @@ public class SettingsActivity extends AppCompatActivity {
       if (resultCode == Activity.RESULT_OK) {
         Bundle extras = data.getExtras();
         locationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
-        new UserSyncWorkScheduler(getContext()).oneTimeSync();
+        new ConditionalDefaultLocationSync(getContext(), extras.getDouble("lat"), extras.getDouble("lon")).sync();
         startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
       }
     }

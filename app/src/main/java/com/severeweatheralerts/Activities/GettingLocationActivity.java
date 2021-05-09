@@ -98,8 +98,8 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void setDefaultLocation(android.location.Location location) {
     LocationsDao.getInstance(this).setName(0, "Current Location");
-    new BackgroundLocation(this).start();
     new ConditionalDefaultLocationSync(this, location.getLatitude(), location.getLongitude()).sync();
+    new BackgroundLocation(this).start();
     fetchAlerts();
   }
 
