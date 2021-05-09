@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class DecimalTrimmer {
-  private double num;
+  private final double num;
   public DecimalTrimmer(double num) {
     this.num = num;
   }
