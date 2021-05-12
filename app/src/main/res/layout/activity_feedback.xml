@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Type"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feedback_text" />

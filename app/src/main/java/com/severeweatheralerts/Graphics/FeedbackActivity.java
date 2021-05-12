@@ -68,11 +68,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
   private void setRefreshing(boolean isRefreshing) {
     if (isRefreshing) {
-      findViewById(R.id.sendBtn).setVisibility(View.VISIBLE);
-      findViewById(R.id.feedback_progress).setVisibility(View.GONE);
+      findViewById(R.id.sendBtn).setVisibility(View.GONE);
+      findViewById(R.id.feedback_progress).setVisibility(View.VISIBLE);
     } else {
       findViewById(R.id.sendBtn).setVisibility(View.VISIBLE);
-      findViewById(R.id.feedback_progress).setVisibility(View.VISIBLE);
+      findViewById(R.id.feedback_progress).setVisibility(View.GONE);
     }
   }
 }
