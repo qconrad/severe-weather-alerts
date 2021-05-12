@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.FeedbackPayloadGenerator;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
@@ -28,7 +30,11 @@ public class FeedbackActivity extends AppCompatActivity {
     Spinner typeSelector = findViewById(R.id.type_selector);
     if (!validateInputs(feedbackTV)) return;
     setRefreshing(true);
-    String payload = new FeedbackPayloadGenerator(feedbackTV.getText().toString(), typeSelector.getSelectedItem().toString()).getJSONString();
+    getToken(task -> sendFeedback(feedbackTV, typeSelector, task.getResult()));
+  }
+
+  private void sendFeedback(EditText feedbackTV, Spinner typeSelector, String token) {
+    String payload = new FeedbackPayloadGenerator(this, feedbackTV.getText().toString(), typeSelector.getSelectedItem().toString(), token).getJSONString();
     new PostService(this, Constants.FEEDBACK_URL, payload).request(new RequestCallback() {
       @Override
       public void success(Object response) {
@@ -44,7 +50,12 @@ public class FeedbackActivity extends AppCompatActivity {
     });
   }
 
-  private boolean validateInputs(EditText feedbackTV) {
+
+  private void getToken(OnCompleteListener<String> completeListener) {
+    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
+  }
+
+    private boolean validateInputs(EditText feedbackTV) {
     if (feedbackTV.length() < 5) {
       Toast.makeText(this, "This feedback isn't long enough.", Toast.LENGTH_SHORT).show();
       return false;
