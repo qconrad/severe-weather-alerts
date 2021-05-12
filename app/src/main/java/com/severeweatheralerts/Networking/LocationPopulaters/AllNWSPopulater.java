@@ -9,7 +9,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
-import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
+import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 
@@ -32,7 +32,7 @@ public class AllNWSPopulater {
   private void fetchAndSetAlerts(PopulateCallback populateCallback) {
     StringFetchService stringFetchService = new StringFetchService(context, getUrl());
     stringFetchService.setUserAgent(getUserAgent());
-    stringFetchService.fetch(new FetchCallback() {
+    stringFetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) { setAlertsAndCallback((String) response, populateCallback); }
       @Override

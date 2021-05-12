@@ -37,7 +37,7 @@ public class LayerListFetch extends StringListFetch {
     return new ArrayList<>(Arrays.asList(bitmaps));
   }
 
-  protected FetchService getFetchService(String url) {
+  protected RequestService getFetchService(String url) {
     return new ImageFetchService(context, url);
   }
 }

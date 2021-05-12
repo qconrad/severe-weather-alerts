@@ -7,17 +7,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public abstract class FetchService {
+public abstract class RequestService {
   protected final Context context;
   protected final String url;
   protected String userAgent;
 
-  public FetchService(Context context, String url) {
+  public RequestService(Context context, String url) {
     this.context = context;
     this.url = url;
   }
 
-  public void fetch(FetchCallback callback) {
+  public void request(RequestCallback callback) {
     addRequestToQueue(getRequestQueue(), getRequest(callback).setRetryPolicy(new DefaultRetryPolicy(5000, 2, 3f)));
   }
 
@@ -29,13 +29,13 @@ public abstract class FetchService {
     return userAgent == null;
   }
 
-  protected Request getRequest(FetchCallback callback) {
+  protected Request getRequest(RequestCallback callback) {
     if (noUserAgent()) return getRequestWithoutUserAgent(callback);
     return getRequestWithUserAgent(callback);
   }
 
-  protected abstract Request getRequestWithUserAgent(FetchCallback callback);
-  protected abstract Request getRequestWithoutUserAgent(FetchCallback callback);
+  protected abstract Request getRequestWithUserAgent(RequestCallback callback);
+  protected abstract Request getRequestWithoutUserAgent(RequestCallback callback);
 
   private void addRequestToQueue(RequestQueue queue, Request request) {
     queue.add(request);

@@ -18,6 +18,7 @@ import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
+import com.severeweatheralerts.Graphics.FeedbackActivity;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LocationsDao;
@@ -71,6 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
       createAttributionListener();
       createPrivacyPolicyListener();
       createSeverityPreferencesListener();
+      createdFeedbackListener();
     }
 
     private void createAttributionListener() {
@@ -155,6 +157,16 @@ public class SettingsActivity extends AppCompatActivity {
       }
     }
 
+    private void createdFeedbackListener() {
+      Preference feedbackPref = findPreference("feedback");
+      if (feedbackPref != null) {
+        feedbackPref.setOnPreferenceClickListener(preference -> {
+          showFeedback();
+          return true;
+        });
+      }
+    }
+
     private void createPrivacyPolicyListener() {
       Preference privacy = findPreference("privacy");
       if (privacy != null) {
@@ -166,10 +178,12 @@ public class SettingsActivity extends AppCompatActivity {
       }
     }
 
+    private void showFeedback() {
+      startActivity(new Intent(getActivity(), FeedbackActivity.class));
+    }
 
     private void showSeverityPreferences() {
-      Intent alertListIntent = new Intent(getActivity(), ChannelPreferencesActivity.class);
-      startActivity(alertListIntent);
+      startActivity(new Intent(getActivity(), ChannelPreferencesActivity.class));
     }
 
     private void showNotificationChannels() {

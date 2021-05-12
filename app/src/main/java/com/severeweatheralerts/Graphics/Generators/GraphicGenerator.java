@@ -29,7 +29,7 @@ import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
-import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
+import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.LayerListFetch;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
@@ -69,7 +69,7 @@ public abstract class GraphicGenerator {
     else if (alert.getZoneLinkCount() <= 0) throwError("This alert does not have zone data");
     StringListFetch fetchService = new StringListFetch(context, alert.getZones());
     fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
+    fetchService.fetch(new RequestCallback() {
       @Override
       public void success(Object response) {
         parseZones((ArrayList<String>) response);
@@ -92,7 +92,7 @@ public abstract class GraphicGenerator {
   protected void getMapTimes(String parameter) {
     StringFetchService fetchService = new StringFetchService(context, new URL().getMapTimes(parameter, getRegion()));
     fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
+    fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {
         ArrayList<MapTime> mapTimes = new MapTimeParser(response.toString()).getMapTimes();
@@ -110,7 +110,7 @@ public abstract class GraphicGenerator {
   protected void getPointInfo() {
     StringFetchService fetchService = new StringFetchService(context, new URL().getPointInfo(location.getLat(), location.getLong()));
     fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
+    fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {
         pointInfo((String)response);
@@ -126,7 +126,7 @@ public abstract class GraphicGenerator {
   public void getForecast(String gridDataURL, String parameter) {
     StringFetchService fetchService = new StringFetchService(context, gridDataURL);
     fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
+    fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {
         parseForecast(response, parameter);
@@ -147,7 +147,7 @@ public abstract class GraphicGenerator {
   protected void generateGraphicFromLayers(ArrayList<Layer> layers) {
     LayerListFetch fetchService = new LayerListFetch(context, layers);
     fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new FetchCallback() {
+    fetchService.fetch(new RequestCallback() {
       @Override
       public void success(Object response) {
         returnGraphic((ArrayList<Bitmap>) response);

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.JSONParsing.GeocodeParser;
-import com.severeweatheralerts.Networking.FetchServices.FetchCallback;
+import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.R;
 
@@ -34,7 +34,7 @@ public class LocationPickerActivity extends AppCompatActivity {
     progressBar.setVisibility(View.VISIBLE);
     String search = text.replace(" ", "+");
     Button searchBtn = findViewById(R.id.location_search_button);
-    new StringFetchService(this, "https://geocode.xyz/" + search + "?json=1&region=US").fetch(new FetchCallback() {
+    new StringFetchService(this, "https://geocode.xyz/" + search + "?json=1&region=US").request(new RequestCallback() {
       @Override
       public void success(Object response) {
         GeocodeParser geocodeParser = new GeocodeParser(response.toString());

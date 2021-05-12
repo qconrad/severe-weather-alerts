@@ -25,13 +25,13 @@ public class StringListFetch {
   }
 
   private int i;
-  public void fetch(FetchCallback callback) {
+  public void fetch(RequestCallback callback) {
     for (i = 0; i < urls.size(); i++) {
       String curUrl = urls.get(i);
       if (curUrl == null) { fetchedCount++; continue; }
-      FetchService fetchService = getFetchService(curUrl);
+      RequestService fetchService = getFetchService(curUrl);
       fetchService.setUserAgent(userAgent);
-      fetchService.fetch(new FetchCallback() {
+      fetchService.request(new RequestCallback() {
         private final int index = i;
         @Override
         public void success(Object response) {
@@ -52,7 +52,7 @@ public class StringListFetch {
     return new ArrayList<>(Arrays.asList(stringArr));
   }
 
-  protected FetchService getFetchService(String url) {
+  protected RequestService getFetchService(String url) {
     return new StringFetchService(context, url);
   }
 
