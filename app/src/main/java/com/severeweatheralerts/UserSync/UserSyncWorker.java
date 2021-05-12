@@ -6,17 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.severeweatheralerts.Networking.AsyncPost;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
+import com.severeweatheralerts.Networking.PostService;
 
 public class UserSyncWorker extends Worker {
   private final LocationsDao dao;
+  private final Context context;
 
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
+    this.context = context;
     this.dao = LocationsDao.getInstance(context);
   }
 
@@ -42,7 +46,13 @@ public class UserSyncWorker extends Worker {
 
   private void postToken(Task<String> task) {
     if (failure(task)) return;
-    new AsyncPost(getURL(), getSyncData(task)).execute();
+    new PostService(context, getURL(), getSyncData(task)).request(new RequestCallback() {
+      @Override
+      public void success(Object response) { }
+
+      @Override
+      public void error(VolleyError error) { }
+    });
   }
 
   private String getSyncData(Task<String> task) {
