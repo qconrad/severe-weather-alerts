@@ -8,7 +8,6 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
-import com.severeweatheralerts.TextUtils.DateTimeConverter;
 
 import org.junit.Test;
 

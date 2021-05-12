@@ -3,7 +3,7 @@ package com.severeweatheralerts.Preferences;
 import static com.severeweatheralerts.Alerts.Alert.*;
 
 public class PreferenceStringGenerator {
-  private final String type;;
+  private final String type;
   private final String alertName;
 
   public PreferenceStringGenerator(String alertName, Type type) {

@@ -48,7 +48,7 @@ public class ColumnLocationAdapter {
 
   private String getColumnLocations(String descriptionText) {
     ArrayList<String> match = match("\\.\\.\\. {3}(\n|.)*\\.\\.\\.(\\n\\n|$)", descriptionText);
-    if (match.size() > 0 && match.get(0).contains("   ")) return match.get(0);
+    if (match.size() > 0) return match.get(0);
     return null;
   }
 }
