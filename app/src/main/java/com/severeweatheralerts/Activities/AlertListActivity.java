@@ -38,6 +38,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    fetchDataIfCleared();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     LocationsDao locationsDao = LocationsDao.getInstance(this);
@@ -45,6 +46,13 @@ public class AlertListActivity extends AppCompatActivity {
     sortAndFilterAlerts(locationsDao.getAlerts(0));
     populateRecyclerViews();
     setStatus(getStatus());
+  }
+
+  private void fetchDataIfCleared() {
+    if (!LocationsDao.hasInstance()) {
+      startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
+      finish();
+    }
   }
 
   protected Status getStatus() {

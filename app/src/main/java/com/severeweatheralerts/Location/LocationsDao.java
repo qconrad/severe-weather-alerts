@@ -22,6 +22,10 @@ public class LocationsDao {
     getLastDefaultSyncFromFile();
   }
 
+  public static boolean hasInstance() {
+    return instance != null;
+  }
+
   public static LocationsDao getInstance(Context context) {
     if (instance == null) instance = new LocationsDao(context);
     return instance;
