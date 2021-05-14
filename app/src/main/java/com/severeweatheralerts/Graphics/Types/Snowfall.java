@@ -7,12 +7,17 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
 
-public class Snowfall extends AlertArea implements GraphicType {
+public class Snowfall implements GraphicType {
   public Snowfall() {}
 
   @Override
   public String getTitle() {
     return "Expected Snowfall";
+  }
+
+  @Override
+  public int getValidDuration() {
+    return 30 * 60 * 1000;
   }
 
   @Override

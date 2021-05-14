@@ -7,12 +7,17 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.RadarRainfallGenerator;
 
-public class RadarRainfall extends AlertArea implements GraphicType {
+public class RadarRainfall implements GraphicType {
   public RadarRainfall() {}
 
   @Override
   public String getTitle() {
     return "Estimated Rainfall";
+  }
+
+  @Override
+  public int getValidDuration() {
+    return 5 * 60 * 1000;
   }
 
   @Override

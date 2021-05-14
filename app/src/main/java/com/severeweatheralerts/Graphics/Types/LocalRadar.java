@@ -7,12 +7,17 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.LocalRadarGenerator;
 
-public class LocalRadar extends AlertArea implements GraphicType {
+public class LocalRadar implements GraphicType {
   public LocalRadar() {}
 
   @Override
   public String getTitle() {
     return "Radar";
+  }
+
+  @Override
+  public int getValidDuration() {
+    return 60 * 1000;
   }
 
   @Override

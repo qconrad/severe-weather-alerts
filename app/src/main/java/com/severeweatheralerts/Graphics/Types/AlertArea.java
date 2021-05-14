@@ -16,6 +16,11 @@ public class AlertArea implements GraphicType {
   }
 
   @Override
+  public int getValidDuration() {
+    return 0;
+  }
+
+  @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
     return new AlertAreaGenerator(context, alert, location);
   }

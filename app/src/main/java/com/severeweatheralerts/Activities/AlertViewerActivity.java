@@ -46,7 +46,9 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
+  private final ArrayList<IntervalRun> refreshers = new ArrayList<>();
   protected Alert al;
+  private boolean isActive;
   protected int locationIndex;
   protected LocationsDao locationsDao;
 
@@ -60,12 +62,29 @@ public class AlertViewerActivity extends AppCompatActivity {
     getAlertFromExtras(getIntent().getExtras());
     populateUIWithAlertData();
 
-    new IntervalRun(5000, this::refresh).startNextInterval();
+    isActive = al.activeAt(new Date());
+    refreshers.add(new IntervalRun(5000, this::refresh));
+    refreshers.add(new IntervalRun(60000, this::populateReferences));
   }
 
   private void refresh() {
     setTimes();
-    setColors();
+    if (noLongerActive()) {
+      isActive = false;
+      setColors();
+      populateReferences();
+      clearGraphics();
+      generateGraphics();
+    }
+  }
+
+  private void clearGraphics() {
+    LinearLayout graphicStack = findViewById(R.id.graphics);
+    graphicStack.removeAllViews();
+  }
+
+  private boolean noLongerActive() {
+    return isActive && !al.activeAt(new Date());
   }
 
   private void setColors() {
@@ -118,6 +137,12 @@ public class AlertViewerActivity extends AppCompatActivity {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
     generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView);
+    startUpdates(type, graphicView);
+  }
+
+  private void startUpdates(GraphicType type, View graphicView) {
+    if (type.getValidDuration() <= 0) return;
+    refreshers.add(new IntervalRun(type.getValidDuration(), () -> generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView)));
   }
 
   private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {
@@ -330,6 +355,35 @@ public class AlertViewerActivity extends AppCompatActivity {
       instruction.setVisibility(View.VISIBLE);
       instructionLabel.setVisibility(View.VISIBLE);
       instruction.setText(al.getInstruction());
+    }
+  }
+
+  boolean paused = false;
+  @Override
+  protected void onPause() {
+    super.onPause();
+    paused = true;
+    for (IntervalRun refresher : refreshers) {
+      refresher.stop();
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (paused) UpdateAndResumeUpdates();
+    else startUpdates();
+  }
+
+  private void startUpdates() {
+    for (IntervalRun refresher : refreshers) {
+      refresher.startNextInterval();
+    }
+  }
+
+  private void UpdateAndResumeUpdates() {
+    for (IntervalRun refresher : refreshers) {
+      refresher.startImmediately();
     }
   }
 }

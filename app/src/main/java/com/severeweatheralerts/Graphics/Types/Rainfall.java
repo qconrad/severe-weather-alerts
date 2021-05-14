@@ -8,12 +8,17 @@ import com.severeweatheralerts.Graphics.Generators.RainfallGenerator;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Location.Location;
 
-public class Rainfall extends AlertArea implements GraphicType {
+public class Rainfall implements GraphicType {
   public Rainfall() {}
 
   @Override
   public String getTitle() {
     return "Expected Rainfall";
+  }
+
+  @Override
+  public int getValidDuration() {
+    return 30 * 60 * 1000;
   }
 
   @Override

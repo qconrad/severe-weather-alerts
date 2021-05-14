@@ -14,6 +14,11 @@ public class WindChill implements GraphicType {
   }
 
   @Override
+  public int getValidDuration() {
+    return 30 * 60 * 1000;
+  }
+
+  @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
     return new WindChillGenerator(context, alert, location);
   }

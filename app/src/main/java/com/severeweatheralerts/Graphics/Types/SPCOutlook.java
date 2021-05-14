@@ -9,12 +9,17 @@ import com.severeweatheralerts.Graphics.Generators.SPCOutlookGenerator;
 import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
 import com.severeweatheralerts.Location.Location;
 
-public class SPCOutlook extends AlertArea implements GraphicType {
+public class SPCOutlook implements GraphicType {
   public SPCOutlook() {}
 
   @Override
   public String getTitle() {
     return "Risk Area";
+  }
+
+  @Override
+  public int getValidDuration() {
+    return 30 * 60 * 1000;
   }
 
   @Override

@@ -22,6 +22,10 @@ public class IntervalRun {
     handler.postDelayed(runnable, intervalMs);
   }
 
+  public void stop() {
+    handler.removeCallbacks(runnable);
+  }
+
   private void callback() {
     intervalCallback.onInterval();
     handler.removeCallbacks(runnable);
