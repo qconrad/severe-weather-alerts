@@ -32,6 +32,7 @@ import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
+import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
@@ -58,6 +59,18 @@ public class AlertViewerActivity extends AppCompatActivity {
     makeStatusBarTransparent();
     getAlertFromExtras(getIntent().getExtras());
     populateUIWithAlertData();
+
+    new IntervalRun(5000, this::refresh).startNextInterval();
+  }
+
+  private void refresh() {
+    setTimes();
+    setColors();
+  }
+
+  private void setColors() {
+    setBackgroundColor();
+    setTitleCardColor();
   }
 
   protected void getAlertFromExtras(Bundle bundle) {
@@ -82,8 +95,7 @@ public class AlertViewerActivity extends AppCompatActivity {
       setInstruction();
       setSender();
       setNextUpdate();
-      setTitleCardColor();
-      setBackgroundColor();
+      setColors();
       populateReferences();
       generateGraphics();
     }
