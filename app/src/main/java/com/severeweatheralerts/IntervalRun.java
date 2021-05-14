@@ -1,0 +1,30 @@
+package com.severeweatheralerts;
+
+import android.os.Handler;
+
+public class IntervalRun {
+  private final int intervalMs;
+  private final IntervalCallback intervalCallback;
+  private final Handler handler = new Handler();
+  private final Runnable runnable;
+
+  public IntervalRun(int intervalMs, IntervalCallback intervalCallback) {
+    this.intervalMs = intervalMs;
+    this.intervalCallback = intervalCallback;
+    runnable = this::callback;
+  }
+
+  public void startImmediately() {
+    handler.post(runnable);
+  }
+
+  public void startNextInterval() {
+    handler.postDelayed(runnable, intervalMs);
+  }
+
+  private void callback() {
+    intervalCallback.onInterval();
+    handler.removeCallbacks(runnable);
+    handler.postDelayed(runnable, intervalMs);
+  }
+}
