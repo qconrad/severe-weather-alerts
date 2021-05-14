@@ -35,6 +35,7 @@ import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
+import com.severeweatheralerts.Refresher;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;
@@ -45,7 +46,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
-  private final ArrayList<IntervalRun> refreshers = new ArrayList<>();
+  private final Refresher refresher = new Refresher();
   protected Alert al;
   private boolean isActive;
   protected int locationIndex;
@@ -62,8 +63,8 @@ public class AlertViewerActivity extends AppCompatActivity {
     populateUIWithAlertData();
 
     isActive = al.activeAt(new Date());
-    refreshers.add(new IntervalRun(5000, this::refresh));
-    refreshers.add(new IntervalRun(60000, this::populateReferences));
+    refresher.add(new IntervalRun(5000, this::refresh));
+    refresher.add(new IntervalRun(60000, this::populateReferences));
   }
 
   private void refresh() {
@@ -136,7 +137,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void startUpdates(GraphicType type, View graphicView) {
     if (type.getValidDuration() <= 0) return;
-    refreshers.add(new IntervalRun(type.getValidDuration(), () -> generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView)));
+    refresher.add(new IntervalRun(type.getValidDuration(), () -> generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView)));
   }
 
   private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {
@@ -357,27 +358,13 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     paused = true;
-    for (IntervalRun refresher : refreshers) {
-      refresher.stop();
-    }
+    refresher.stop();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    if (paused) UpdateAndResumeUpdates();
-    else startUpdates();
-  }
-
-  private void startUpdates() {
-    for (IntervalRun refresher : refreshers) {
-      refresher.startNextInterval();
-    }
-  }
-
-  private void UpdateAndResumeUpdates() {
-    for (IntervalRun refresher : refreshers) {
-      refresher.startImmediately();
-    }
+    if (paused) refresher.startAndRefresh();
+    else refresher.start();
   }
 }
