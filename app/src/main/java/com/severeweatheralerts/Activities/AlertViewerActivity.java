@@ -29,7 +29,6 @@ import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Graphic;
-import com.severeweatheralerts.Graphics.Types.AlertArea;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.IntervalRun;
@@ -121,16 +120,11 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   protected void generateGraphics() {
-    if (!al.activeAt(new Date())) generateAndDisplayGraphic(new AlertArea());
-    else generateFromFactory();
-  }
-
-  private void generateFromFactory() {
     for (GraphicType type : getTypes()) generateAndDisplayGraphic(type);
   }
 
   private ArrayList<GraphicType> getTypes() {
-    return new TypeFactory(al).getTypes();
+    return new TypeFactory(al, new Date()).getTypes();
   }
 
   protected void generateAndDisplayGraphic(GraphicType type) {

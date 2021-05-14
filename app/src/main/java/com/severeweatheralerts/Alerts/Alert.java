@@ -18,12 +18,12 @@ public abstract class Alert implements Comparable<Alert> {
   private String largeHeadline;
   private String description;
   private String instruction;
-  private Type type;
+  private Type type = Type.POST;
   private String sender;
   private String senderCode;
-  private Date sentTime;
-  private Date startTime;
-  private Date endTime;
+  private Date sentTime = new Date();
+  private Date startTime = new Date();
+  private Date endTime = new Date();
   private Date expectedUpdateTime;
   private Severity severity;
   private Urgency urgency;
