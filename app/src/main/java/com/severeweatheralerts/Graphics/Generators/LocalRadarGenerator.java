@@ -48,7 +48,7 @@ public class LocalRadarGenerator extends GraphicGenerator {
   private void generateLayers() {
     Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
     ArrayList<Layer> layers = new ArrayList<>();
-    layers.add(new Layer(new URL().getRadarReflectivity(bounds, "kddc")));
+    layers.add(new Layer(new URL().getRadarReflectivity(bounds, radarStation)));
     layers.add(new Layer(new URL().getCountyMap(bounds)));
     layers.add(new Layer(getZoneOverlay(bounds)));
     layers.add(new Layer(getLocationPointOverlay(bounds, Color.YELLOW)));

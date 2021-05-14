@@ -6,8 +6,6 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Generators.SPCOutlookGenerator;
-import com.severeweatheralerts.Graphics.Generators.SnowfallGenerator;
-import com.severeweatheralerts.Location.Location;
 
 public class SPCOutlook implements GraphicType {
   public SPCOutlook() {}
@@ -19,7 +17,7 @@ public class SPCOutlook implements GraphicType {
 
   @Override
   public int getValidDuration() {
-    return 30 * 60 * 1000;
+    return 5 * 60 * 1000;
   }
 
   @Override
