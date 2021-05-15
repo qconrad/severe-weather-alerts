@@ -36,4 +36,9 @@ public class IntervalRun {
     handler.removeCallbacks(runnable);
     handler.postDelayed(runnable, intervalMs);
   }
+
+  public void execAndReset() {
+    intervalCallback.onInterval();
+    reset();
+  }
 }

@@ -20,6 +20,8 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
@@ -34,7 +36,7 @@ import java.util.Date;
 public class AlertListActivity extends AppCompatActivity {
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
-  private TextListFade textListFade;
+  private IntervalRun subtextFade;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +80,17 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void setStatusSubtext(ArrayList<String> subtexts) {
-    textListFade = new TextListFade(this, subtexts, findViewById(R.id.status_switcher));
-    textListFade.beginFade();
+    fadeSubtextsIfMultiple(subtexts, new TextListFade(this, subtexts, findViewById(R.id.status_switcher)));
+  }
+
+  private void fadeSubtextsIfMultiple(ArrayList<String> subtexts, TextListFade textListFade) {
+    if (!multipleTexts(subtexts)) return;
+    subtextFade = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, textListFade::nextText);
+    subtextFade.startNextInterval();
+  }
+
+  private boolean multipleTexts(ArrayList<String> texts) {
+    return texts.size() > 1;
   }
 
   private void setStatusHeadline(String headline) {
@@ -148,7 +159,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   public void subTextClick(View view) {
-    textListFade.nextSubtext();
+    if (subtextFade != null) subtextFade.execAndReset();
   }
 
   public void refreshClick(View view) {
