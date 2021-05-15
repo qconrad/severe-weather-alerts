@@ -86,7 +86,6 @@ public class AlertListActivity extends AppCompatActivity {
   private void fadeSubtextsIfMultiple(ArrayList<String> subtexts, TextListFade textListFade) {
     if (!multipleTexts(subtexts)) return;
     subtextFade = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, textListFade::nextText);
-    subtextFade.startNextInterval();
   }
 
   private boolean multipleTexts(ArrayList<String> texts) {
@@ -123,17 +122,15 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateActiveRecyclerView() {
-    if (activeAlerts.size() > 0) {
-      findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
-      populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
-    }
+    if (activeAlerts.size() <= 0) return;
+    findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
+    populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
   }
 
   private void populateRecentRecyclerView() {
-    if (inactiveAlerts.size() > 0) {
-      findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
-      populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
-    }
+    if (inactiveAlerts.size() <= 0) return;
+    findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
+    populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
   }
 
   public void populateRecyclerView(RecyclerView view, ArrayList<Alert> alerts) {
@@ -164,5 +161,17 @@ public class AlertListActivity extends AppCompatActivity {
 
   public void refreshClick(View view) {
     startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    if (subtextFade != null) subtextFade.stop();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (subtextFade != null) subtextFade.startNextInterval();
   }
 }

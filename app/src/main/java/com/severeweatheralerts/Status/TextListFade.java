@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class TextListFade {
   private final ArrayList<String> textList;
   private final TextSwitcher textSwitcher;
-  private int curSubtext = 0;
+  private int curSubtext = 1;
 
   public TextListFade(Context context, ArrayList<String> textList, TextSwitcher textSwitcher) {
     this.textSwitcher = textSwitcher;
