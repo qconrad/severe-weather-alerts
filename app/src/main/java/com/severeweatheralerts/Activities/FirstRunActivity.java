@@ -9,8 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
-import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.BundledLocation;
 import com.severeweatheralerts.LocationPermissionRequest;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.R;
@@ -59,10 +58,7 @@ public class FirstRunActivity extends AppCompatActivity {
   }
 
   private void setFixedLocation(@Nullable Intent data) {
-    Bundle extras = data.getExtras();
-    LocationsDao.getInstance(this).setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
-    PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).apply();
-    new ConditionalDefaultLocationSync(this, extras.getDouble("lat"), extras.getDouble("lon")).sync();
+    new BundledLocation(this, data).setFixedLocation();
     startAppWithFixed();
   }
 

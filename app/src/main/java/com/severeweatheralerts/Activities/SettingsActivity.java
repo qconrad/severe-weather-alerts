@@ -6,22 +6,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
+import com.severeweatheralerts.BundledLocation;
 import com.severeweatheralerts.Graphics.FeedbackActivity;
 import com.severeweatheralerts.Location.BackgroundLocation;
-import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.LocationPermissionRequest;
 import com.severeweatheralerts.Notifications.NotificationSender;
 import com.severeweatheralerts.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
@@ -40,17 +41,8 @@ public class SettingsActivity extends AppCompatActivity {
               .commit();
     }
     ActionBar actionBar = getSupportActionBar();
-    if (actionBar != null) {
-      actionBar.setDisplayHomeAsUpEnabled(true);
-    }
+    if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
   }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (PermissionManager.hasLocationPermissions(this)) startActivity(new Intent(SettingsActivity.this, GettingLocationActivity.class));
-  }
-
 
   public static class SettingsFragment extends PreferenceFragmentCompat {
     private LocationsDao locationsDao;
@@ -116,14 +108,18 @@ public class SettingsActivity extends AppCompatActivity {
             new BackgroundLocation(getContext()).stop();
             locationsDao.setName(0, "Fixed Location");
             findPreference("fixedloc").setSummary("Default Location");
-            startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
+            startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
           }
           else {
-            if (!PermissionManager.hasLocationPermissions(getActivity())) PermissionManager.requestLocationPermissions(getActivity());
+            if (!PermissionManager.hasLocationPermissions(getActivity())) {
+              startActivityForResult(new Intent(getActivity(), LocationPermissionRequest.class), 0);
+              return false;
+            }
             else startActivity(new Intent(getActivity(), GettingLocationActivity.class));
           }
           return true;
         });
+
       }
     }
 
@@ -198,12 +194,23 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
-      if (resultCode == Activity.RESULT_OK) {
-        Bundle extras = data.getExtras();
-        locationsDao.setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
-        new ConditionalDefaultLocationSync(getContext(), extras.getDouble("lat"), extras.getDouble("lon")).sync();
-        startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
-      }
+      if (resultCode != Activity.RESULT_OK) return;
+      if (permissionReturn(requestCode)) useLocation();
+      else setFixedLocation(data);
+    }
+
+    private void useLocation() {
+      PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean("usefixed", false).apply();
+      startActivity(new Intent(getActivity(), GettingLocationActivity.class));
+    }
+
+    private boolean permissionReturn(int requestCode) {
+      return requestCode == 0;
+    }
+
+    private void setFixedLocation(@Nullable Intent data) {
+      new BundledLocation(getContext(), data).setFixedLocation();
+      startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
     }
   }
 }

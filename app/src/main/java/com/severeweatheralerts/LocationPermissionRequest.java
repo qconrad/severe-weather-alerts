@@ -9,12 +9,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.Activities.GettingLatestDataActivity;
 import com.severeweatheralerts.Activities.LocationPickerActivity;
-import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
-import com.severeweatheralerts.Location.LocationsDao;
 
 public class LocationPermissionRequest extends AppCompatActivity {
   @Override
@@ -37,6 +34,10 @@ public class LocationPermissionRequest extends AppCompatActivity {
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     if (PermissionManager.hasLocationPermissions(this)) returnSuccess();
+    else promptUser();
+  }
+
+  private void promptUser() {
     AlertDialog alertDialog = new AlertDialog.Builder(LocationPermissionRequest.this).create();
     if (!PermissionManager.hasFineLocation(this)) locationDeniedDialog(alertDialog);
     else hasLocationAccess(alertDialog);
@@ -80,12 +81,8 @@ public class LocationPermissionRequest extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode == Activity.RESULT_OK) {
-      Bundle extras = data.getExtras();
-      LocationsDao.getInstance(this).setDefaultLocation(extras.getString("name"), extras.getDouble("lat"), extras.getDouble("lon"));
-      PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("usefixed", true).putBoolean("first_run", false).apply();
-      new ConditionalDefaultLocationSync(this, extras.getDouble("lat"), extras.getDouble("lon")).sync();
-      startActivity(new Intent(LocationPermissionRequest.this, GettingLatestDataActivity.class));
-    }
+    if (resultCode != Activity.RESULT_OK) return;
+    new BundledLocation(this, data).setFixedLocation();
+    startActivity(new Intent(LocationPermissionRequest.this, GettingLatestDataActivity.class));
   }
 }
