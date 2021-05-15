@@ -8,33 +8,38 @@ import android.widget.TextSwitcher;
 
 
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
 
 public class TextListFade {
   private final ArrayList<String> textList;
-  private final Context context;
   private final TextSwitcher textSwitcher;
-  TextFadeInterval textFadeInterval;
+  private final IntervalRun intervalRun;
+  private int curSubtext = 0;
 
   public TextListFade(Context context, ArrayList<String> textList, TextSwitcher textSwitcher) {
     this.textSwitcher = textSwitcher;
-    this.context = context;
     this.textList = textList;
-    setupTextSwitcher();
+    setupTextSwitcher(context);
+    intervalRun = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, this::nextSubtext);
   }
 
-  protected void setupTextSwitcher() {
-    textSwitcher.setFactory(this::inflateTextView);
+  protected void setupTextSwitcher(Context context) {
+    textSwitcher.setFactory(() -> inflateTextView(context));
     textSwitcher.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_in));
     textSwitcher.setOutAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out));
   }
 
   public void beginFade() {
     if (multipleSubtexts()) fadeText();
-    if (singleSubtext()) setText();
+    else if (singleSubtext()) setText();
     else hideSubtext();
+  }
+
+  public void nextSubtext() {
+    if (multipleSubtexts()) nextText();
   }
 
   private boolean singleSubtext() {
@@ -54,15 +59,17 @@ public class TextListFade {
   }
 
   private void fadeText() {
-    textFadeInterval = new TextFadeInterval(textSwitcher, textList, Constants.STATUS_SUBTEXT_TRANSITION_TIME);
+    intervalRun.startImmediately();
   }
 
-  private View inflateTextView() {
+  private void nextText() {
+    textSwitcher.setText(textList.get(curSubtext));
+    curSubtext = ++curSubtext % textList.size();
+    intervalRun.reset();
+  }
+
+  private View inflateTextView(Context context) {
     LayoutInflater inflater = LayoutInflater.from(context);
     return inflater.inflate(R.layout.status_subtext_layout, null);
-  }
-
-  public void nextSubtext() {
-    if (multipleSubtexts()) textFadeInterval.nextText();
   }
 }
