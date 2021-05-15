@@ -15,10 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Graphics.FeedbackActivity"></activity>
+        <activity android:name=".LocationPermissionRequest"/>
+        <activity android:name=".Graphics.FeedbackActivity" />
         <activity android:name=".Activities.AttributionActivity" />
         <activity android:name=".Activities.ErrorActivity" />
-        <receiver android:name=".BroadcastReceivers.LocationReceiver" android:exported="true">
+
+        <receiver
+            android:name=".BroadcastReceivers.LocationReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.location.sample.locationupdatespendingintent.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
             </intent-filter>
@@ -33,13 +37,14 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+
         <activity android:name=".Activities.FirstRunActivity" />
-        <activity
-            android:name=".Activities.LocationPickerActivity" />
+        <activity android:name=".Activities.LocationPickerActivity" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
         <activity android:name=".Activities.DefaultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -54,12 +59,13 @@
             android:parentActivityName=".Activities.AlertListActivity">
             <intent-filter>
                 <action android:name="alertviewer" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.ReferenceViewerActivity" />
-        <activity
-            android:name=".Activities.NotificationViewer"/>
+        <activity android:name=".Activities.NotificationViewer" />
+
         <service
             android:name=".Notifications.MessageService"
             android:exported="false">

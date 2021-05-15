@@ -32,7 +32,7 @@
             android:textSize="15sp" />
 
         <Button
-            android:onClick="thisDevice"
+            android:onClick="thisDeviceClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/this_device_s_location" />
@@ -40,7 +40,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="customSet"
+            android:onClick="customSetClick"
             android:text="@string/custom_set_location" />
 
     </LinearLayout>
