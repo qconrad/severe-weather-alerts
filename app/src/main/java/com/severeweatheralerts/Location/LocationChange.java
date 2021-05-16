@@ -1,9 +1,9 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Location;
 
 import android.location.Location;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Location.CoordinateDifference;
+import com.severeweatheralerts.Constants;
 
 public class LocationChange {
   private final GCSCoordinate currentCoordinate;
@@ -15,6 +15,6 @@ public class LocationChange {
   }
 
   public boolean hasChanged() {
-    return new CoordinateDifference(currentCoordinate, newCoordinate).isDifferent(0.001);
+    return new CoordinateDifference(currentCoordinate, newCoordinate).isDifferent(Constants.LOCATION_CHANGE_MARGIN);
   }
 }

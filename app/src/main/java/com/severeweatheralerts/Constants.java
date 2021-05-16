@@ -13,4 +13,5 @@ public class Constants {
   public static final long LAST_KNOWN_LOCATION_EXPIRE = 5 * 60 * 1000;
   public static final int CHECK_FOR_EXPIRATION_REFRESH_TIME = 5 * 1000;
   public static final int APP_OPEN_LAST_KNOWN_LOCATION_CHECK_INTERVAL = 30 * 1000;
+  public static final double LOCATION_CHANGE_MARGIN = 0.001;
 }

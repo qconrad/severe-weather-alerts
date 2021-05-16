@@ -3,6 +3,7 @@ package com.severeweatheralerts.Location;
 import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class ConditionalDefaultLocationSync {
@@ -38,7 +39,7 @@ public class ConditionalDefaultLocationSync {
   }
 
   private boolean isDifferent() {
-    return new CoordinateDifference(locationsDao.getLastDefaultSync(), new GCSCoordinate(lat, lon)).isDifferent(0.001);
+    return new CoordinateDifference(locationsDao.getLastDefaultSync(), new GCSCoordinate(lat, lon)).isDifferent(Constants.LOCATION_CHANGE_MARGIN);
   }
 
   private void updateLocationInDao() {

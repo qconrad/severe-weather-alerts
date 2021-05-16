@@ -28,7 +28,7 @@ import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.LocationChange;
+import com.severeweatheralerts.Location.LocationChange;
 import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
