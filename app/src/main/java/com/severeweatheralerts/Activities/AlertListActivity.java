@@ -27,8 +27,8 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.LocationChange;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.LocationChange;
 import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
@@ -62,8 +62,9 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
-    monitorForExpiration(alerts);
+    LocationsDao.onNewAlerts(() -> promptRefresh(getString(R.string.new_data_available)));
     if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
+    monitorForExpiration(alerts);
   }
 
   private boolean usingDevicesLocation() {
@@ -71,17 +72,26 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void monitorForLocationChanges(LocationsDao locationsDao) {
-    refresher.add(new IntervalRun(10000, () -> {
-      Location newLoc = new LastKnownLocation(this).getLocation();
-      if (locationChanged(locationsDao.getCoordinate(0), newLoc)) {
-        locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
-        Snackbar.make(findViewById(android.R.id.content),
-                "Device's location has changed since last update",
-                Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
-                startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
-                .show();
-      }
-    }));
+    refresher.add(new IntervalRun(Constants.APP_OPEN_LAST_KNOWN_LOCATION_CHECK_INTERVAL, () -> checkForLocationUpdate(locationsDao)));
+  }
+
+  private void checkForLocationUpdate(LocationsDao locationsDao) {
+    Location newLoc = new LastKnownLocation(this).getLocation();
+    if (locationChanged(locationsDao.getCoordinate(0), newLoc))
+      saveAndPromptRefresh(locationsDao, newLoc);
+  }
+
+  private void saveAndPromptRefresh(LocationsDao locationsDao, Location newLoc) {
+    locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
+    promptRefresh(getString(R.string.location_change));
+  }
+
+  private void promptRefresh(String text) {
+    Snackbar.make(findViewById(android.R.id.content),
+            text,
+            Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
+            startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
+            .show();
   }
 
   private boolean locationChanged(GCSCoordinate currentLocation, Location newLocation) {
@@ -93,7 +103,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void refresh(ArrayList<Alert> alerts) {
-    if (new InactiveFilter(activeAlerts, new Date()).filter().size() < 0) return;
+    if (new InactiveFilter(activeAlerts, new Date()).filter().size() <= 0) return;
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
   }

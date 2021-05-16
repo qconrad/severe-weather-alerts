@@ -14,6 +14,7 @@ import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelStri
 public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
+    LocationsDao.messageReceived();
     if (remoteMessage.getData().size() > 0) {
       MessageAdapter messageAdapter = new MessageAdapter(remoteMessage.getData());
       Alert alert = messageAdapter.getAlert();
