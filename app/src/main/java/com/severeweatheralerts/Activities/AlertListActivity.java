@@ -116,6 +116,7 @@ public class AlertListActivity extends AppCompatActivity {
     if (new InactiveFilter(activeAlerts, new Date()).filter().size() <= 0) return;
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
+    setStatus(getStatus());
   }
 
   private void fetchDataIfCleared() {
