@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
@@ -12,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
@@ -22,6 +26,8 @@ import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
+import com.severeweatheralerts.Location.LastKnownLocation;
+import com.severeweatheralerts.LocationChange;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
@@ -52,10 +58,37 @@ public class AlertListActivity extends AppCompatActivity {
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
     setStatus(getStatus());
-    checkForExpiration(alerts);
+    keepEverythingUpToDate(locationsDao, alerts);
   }
 
-  private void checkForExpiration(ArrayList<Alert> alerts) {
+  private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
+    monitorForExpiration(alerts);
+    if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
+  }
+
+  private boolean usingDevicesLocation() {
+    return !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("usefixed", false);
+  }
+
+  private void monitorForLocationChanges(LocationsDao locationsDao) {
+    refresher.add(new IntervalRun(10000, () -> {
+      Location newLoc = new LastKnownLocation(this).getLocation();
+      if (locationChanged(locationsDao.getCoordinate(0), newLoc)) {
+        locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
+        Snackbar.make(findViewById(android.R.id.content),
+                "Device's location has changed since last update",
+                Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
+                startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
+                .show();
+      }
+    }));
+  }
+
+  private boolean locationChanged(GCSCoordinate currentLocation, Location newLocation) {
+    return new LocationChange(currentLocation, newLocation).hasChanged();
+  }
+
+  private void monitorForExpiration(ArrayList<Alert> alerts) {
     refresher.add(new IntervalRun(Constants.CHECK_FOR_EXPIRATION_REFRESH_TIME, () -> refresh(alerts)));
   }
 
