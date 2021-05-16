@@ -26,6 +26,7 @@ import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
+import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Location.LocationChange;
@@ -62,7 +63,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
-    LocationsDao.onNewAlerts(() -> promptRefresh(getString(R.string.new_data_available)));
+    LocationsDao.onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
     if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
     monitorForExpiration(alerts);
   }
@@ -77,18 +78,27 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void checkForLocationUpdate(LocationsDao locationsDao) {
     Location newLoc = new LastKnownLocation(this).getLocation();
-    if (locationChanged(locationsDao.getCoordinate(0), newLoc))
+    if (newLoc != null && locationChanged(locationsDao.getCoordinate(0), newLoc))
       saveAndPromptRefresh(locationsDao, newLoc);
   }
 
   private void saveAndPromptRefresh(LocationsDao locationsDao, Location newLoc) {
     locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
-    promptRefresh(getString(R.string.location_change));
+    promptLocationChange(getString(R.string.location_change), newLoc);
   }
 
-  private void promptRefresh(String text) {
-    Snackbar.make(findViewById(android.R.id.content),
-            text,
+  private void promptLocationChange(String text, Location newLoc) {
+    Snackbar.make(findViewById(android.R.id.content), text,
+      Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view -> syncAndRefresh(newLoc)).show();
+  }
+
+  private void syncAndRefresh(Location newLoc) {
+    startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
+    new ConditionalDefaultLocationSync(this, newLoc.getLatitude(), newLoc.getLongitude()).sync();
+  }
+
+  private void promptNewData(String text) {
+    Snackbar.make(findViewById(android.R.id.content), text,
             Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
             startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
             .show();
@@ -235,8 +245,18 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
+    if (usingDevicesLocation()) checkIfLocationIsReasonablyUpToDate();
     if (paused) refresher.startAndRefresh();
     else refresher.start();
+  }
+
+  private void checkIfLocationIsReasonablyUpToDate() {
+    Location newLoc = new LastKnownLocation(this).getLocation();
+    if (newLoc != null && outdated(newLoc)) startActivity(new Intent(AlertListActivity.this, GettingLocationActivity.class));
+  }
+
+  private boolean outdated(android.location.Location lastKnown) {
+    return lastKnown.getTime() < new Date().getTime() - Constants.LAST_KNOWN_LOCATION_EXPIRE;
   }
 
   private void resumeSubtext() {
