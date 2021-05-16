@@ -1,7 +1,10 @@
 package com.severeweatheralerts.Graphics;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,14 +26,27 @@ public class FeedbackActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_feedback);
+    showKeyboard();
+  }
+
+  private void showKeyboard() {
+    if (findViewById(R.id.feedback_text).requestFocus()) {
+      getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
   }
 
   public void sendClick(View view) {
+    hideKeyboard();
     EditText feedbackTV = findViewById(R.id.feedback_text);
     Spinner typeSelector = findViewById(R.id.type_selector);
     if (!validateInputs(feedbackTV)) return;
     setRefreshing(true);
     getToken(task -> sendFeedback(feedbackTV, typeSelector, task.getResult()));
+  }
+
+  private void hideKeyboard() {
+    InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
   }
 
   private void sendFeedback(EditText feedbackTV, Spinner typeSelector, String token) {
