@@ -23,6 +23,7 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
@@ -103,6 +104,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
+    new NotificationCancel(this, alert).cancel();
     Intent alertIntent = new Intent(AlertListActivity.this, AlertViewerActivity.class);
     alertIntent.putExtra("locIndex", 0);
     AlertCardHolder ach = (AlertCardHolder) holder;
