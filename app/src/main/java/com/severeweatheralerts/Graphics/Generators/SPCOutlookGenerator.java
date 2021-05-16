@@ -24,8 +24,13 @@ public class SPCOutlookGenerator extends RegionalRadarGenerator {
   @Override
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     super.generate(graphicCompleteListener);
+  }
+
+  @Override
+  protected void generateGraphic() {
     getMapTimes("convoutlook");
   }
+
 
   @Override
   protected void mapTimes(ArrayList<MapTime> mapTimes) {
@@ -33,7 +38,7 @@ public class SPCOutlookGenerator extends RegionalRadarGenerator {
     Bounds bounds = getBounds(ZOOM_SIZE, loc);
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getStartTime()).getMapTime().getString();
     ArrayList<Layer> layers = getLayers(bounds);
-    layers.add(new Layer(new URL().getSpcOutlook(bounds, getRegion(), dateString)));
+    layers.add(0, new Layer(new URL().getSpcOutlook(bounds, getRegion(), dateString)));
     generateGraphicFromLayers(layers);
   }
 }

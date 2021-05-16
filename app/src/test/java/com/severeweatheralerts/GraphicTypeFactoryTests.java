@@ -303,4 +303,14 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(testAlert, new Date(0));
     assertEquals(0, graphicFactory.getTypes().size());
   }
+
+  @Test
+  public void getType_WinterStormActive_ReturnsNoGraphics() {
+    FlashFloodWarning flashFloodWarning = new FlashFloodWarning();
+    flashFloodWarning.setType(Alert.Type.POST);
+    flashFloodWarning.setSentTime(new Date(0));
+    flashFloodWarning.setStartTime(new Date(0));
+    TypeFactory graphicFactory = new TypeFactory(flashFloodWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(2).getClass());
+  }
 }

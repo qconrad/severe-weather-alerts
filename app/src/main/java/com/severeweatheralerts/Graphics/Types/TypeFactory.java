@@ -63,6 +63,7 @@ public class TypeFactory {
     else if (alert instanceof FloodAdvisory || alert instanceof FloodWarning || alert instanceof FlashFloodWarning) {
       types.add(new LocalRadar());
       types.add(new RadarRainfall());
+      types.add(new RegionalRadar(400));
     }
     else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
       types.add(new WindGusts());

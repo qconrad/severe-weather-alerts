@@ -24,6 +24,10 @@ public class RegionalRadarGenerator extends GraphicGenerator {
   @Override
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     super.generate(graphicCompleteListener);
+    generateGraphic();
+  }
+
+  protected void generateGraphic() {
     MercatorCoordinate loc = getMercatorCoordinate();
     Bounds bounds = getBounds(size, loc);
     generateGraphicFromLayers(getLayers(bounds));
