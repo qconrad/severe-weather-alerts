@@ -12,6 +12,8 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class GraphicTypeFactoryTests {
   @Test
@@ -255,7 +257,7 @@ public class GraphicTypeFactoryTests {
     SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
     severeThunderstormWarning.setInstruction("Move to the lowest floor...");
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
-    assertEquals(1, graphicFactory.getTypes().size());
+    assertEquals(2, graphicFactory.getTypes().size());
   }
 
   @Test
@@ -305,7 +307,7 @@ public class GraphicTypeFactoryTests {
   }
 
   @Test
-  public void getType_WinterStormActive_ReturnsNoGraphics() {
+  public void getType_FlashFloodWarning_RegionalRadar() {
     FlashFloodWarning flashFloodWarning = new FlashFloodWarning();
     flashFloodWarning.setType(Alert.Type.POST);
     flashFloodWarning.setSentTime(new Date(0));
@@ -313,4 +315,45 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(flashFloodWarning, new Date(5));
     assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(2).getClass());
   }
+
+  @Test
+  public void getType_SevereThunderstormWarning_RegionalRadar() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    severeThunderstormWarning.setType(Alert.Type.POST);
+    severeThunderstormWarning.setSentTime(new Date(0));
+    severeThunderstormWarning.setStartTime(new Date(0));
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_FlashFloodWatch_RegionalRadar() {
+    FlashFloodWatch severeThunderstormWarning = new FlashFloodWatch();
+    severeThunderstormWarning.setType(Alert.Type.POST);
+    severeThunderstormWarning.setSentTime(new Date(0));
+    severeThunderstormWarning.setStartTime(new Date(3));
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_FlashFloodWatchStartingIn6Hours_RegionalRadar() {
+    FlashFloodWatch severeThunderstormWarning = new FlashFloodWatch();
+    severeThunderstormWarning.setType(Alert.Type.POST);
+    severeThunderstormWarning.setSentTime(new Date(0));
+    severeThunderstormWarning.setStartTime(new Date(6 * 60 * 60 * 1000));
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
+    assertEquals(1, graphicFactory.getTypes().size());
+  }
+
+  @Test
+  public void getType_WinterStormWarning_RegionalRadar() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setType(Alert.Type.POST);
+    winterStormWarning.setSentTime(new Date(0));
+    winterStormWarning.setStartTime(new Date(3));
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
 }

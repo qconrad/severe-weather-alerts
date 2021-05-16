@@ -1,7 +1,6 @@
 package com.severeweatheralerts.Graphics.Types;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
@@ -29,6 +28,7 @@ import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
 import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Alerts.TestAlerts.TestAlert;
+import com.severeweatheralerts.Constants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +50,8 @@ public class TypeFactory {
       return types;
     }
     else if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch) {
+      if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
+        types.add(new RegionalRadar(400));
       types.add(new Snowfall());
       if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
         types.add(new WindGusts());
@@ -58,8 +60,12 @@ public class TypeFactory {
       types.add(new WindChill());
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
-    else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch)
+    else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch) {
       types.add(new Rainfall());
+      if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME))) {
+        types.add(new RegionalRadar(300));
+      }
+    }
     else if (alert instanceof FloodAdvisory || alert instanceof FloodWarning || alert instanceof FlashFloodWarning) {
       types.add(new LocalRadar());
       types.add(new RadarRainfall());
@@ -70,12 +76,17 @@ public class TypeFactory {
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
     }
-    else if (alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm")) {
+    else if (thunderstorms()) {
       types.add(new LocalRadar());
       if (alert.getInstruction() != null && alert.getInstruction().contains("Torrential rainfall")) types.add(new RadarRainfall());
+      types.add(new RegionalRadar(250));
     }
     else
       types.add(new AlertArea());
     return types;
+  }
+
+  private boolean thunderstorms() {
+    return alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm");
   }
 }
