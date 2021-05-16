@@ -15,10 +15,10 @@ import com.severeweatheralerts.Graphics.URL;
 
 import java.util.ArrayList;
 
-public class SPCOutlookGenerator extends GraphicGenerator {
-
+public class SPCOutlookGenerator extends RegionalRadarGenerator {
+  private static final int ZOOM_SIZE = 400;
   public SPCOutlookGenerator(Context context, Alert alert, GCSCoordinate location) {
-    super(context, alert, location);
+    super(context, alert, location, ZOOM_SIZE);
   }
 
   @Override
@@ -30,14 +30,10 @@ public class SPCOutlookGenerator extends GraphicGenerator {
   @Override
   protected void mapTimes(ArrayList<MapTime> mapTimes) {
     MercatorCoordinate loc = getMercatorCoordinate();
-    double margin = 400000;
-    Bounds bounds = new BoundRounder(new Bounds(loc.getY()+margin,loc.getX()+margin,loc.getY()-margin,loc.getX()-margin)).getBounds();
-    ArrayList<Layer> layers = new ArrayList<>();
+    Bounds bounds = getBounds(ZOOM_SIZE, loc);
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getStartTime()).getMapTime().getString();
+    ArrayList<Layer> layers = getLayers(bounds);
     layers.add(new Layer(new URL().getSpcOutlook(bounds, getRegion(), dateString)));
-    layers.add(new Layer(new URL().getCompositeRadarImage(bounds)));
-    layers.add(new Layer(new URL().getCountyMap(bounds)));
-    layers.add(new Layer(getLocationPointOverlay(bounds, Color.CYAN)));
     generateGraphicFromLayers(layers);
   }
 }
