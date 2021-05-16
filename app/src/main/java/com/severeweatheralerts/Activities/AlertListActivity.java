@@ -218,10 +218,6 @@ public class AlertListActivity extends AppCompatActivity {
     if (subtextFade != null) subtextFade.execAndReset();
   }
 
-  public void refreshClick(View view) {
-    startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
-  }
-
   private boolean paused;
   @Override
   protected void onPause() {
