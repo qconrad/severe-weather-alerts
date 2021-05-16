@@ -16,15 +16,10 @@ public class LocationsDao {
   private GCSCoordinate lastDefaultSync;
   private ArrayList<Location> locations;
   private static LocationsDao instance;
-  private static boolean newAlertsAvailable;
 
   public static void messageReceived() {
-    newAlertsAvailable = true;
+    if (newAlertCallback == null) return;
     newAlertCallback.newAlerts();
-  }
-
-  public static boolean newAlertsAvailable() {
-    return newAlertsAvailable;
   }
 
   public static void onNewAlerts(NewAlertCallback newAlertCallback) {
@@ -126,7 +121,6 @@ public class LocationsDao {
   }
 
   public synchronized void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
-    newAlertsAvailable = false;
     locations.get(locationIndex).setAlerts(alerts);
   }
 }
