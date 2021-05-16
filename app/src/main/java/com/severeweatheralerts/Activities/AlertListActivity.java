@@ -27,6 +27,7 @@ import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.Refresher;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.Status.TextListFade;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class AlertListActivity extends AppCompatActivity {
+  private final Refresher refresher = new Refresher();
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private IntervalRun subtextFade;
@@ -46,9 +48,21 @@ public class AlertListActivity extends AppCompatActivity {
     setContentView(R.layout.activity_alertlist);
     LocationsDao locationsDao = LocationsDao.getInstance(this);
     setLocationName(locationsDao.getName(0));
-    sortAndFilterAlerts(locationsDao.getAlerts(0));
+    ArrayList<Alert> alerts = locationsDao.getAlerts(0);
+    sortAndFilterAlerts(alerts);
     populateRecyclerViews();
     setStatus(getStatus());
+    checkForExpiration(alerts);
+  }
+
+  private void checkForExpiration(ArrayList<Alert> alerts) {
+    refresher.add(new IntervalRun(Constants.CHECK_FOR_EXPIRATION_REFRESH_TIME, () -> refresh(alerts)));
+  }
+
+  private void refresh(ArrayList<Alert> alerts) {
+    if (new InactiveFilter(activeAlerts, new Date()).filter().size() < 0) return;
+    sortAndFilterAlerts(alerts);
+    populateRecyclerViews();
   }
 
   private void fetchDataIfCleared() {
@@ -165,15 +179,28 @@ public class AlertListActivity extends AppCompatActivity {
     startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
   }
 
+  private boolean paused;
   @Override
   protected void onPause() {
     super.onPause();
+    pauseSubtextFade();
+    paused = true;
+    refresher.stop();
+  }
+
+  private void pauseSubtextFade() {
     if (subtextFade != null) subtextFade.stop();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
+    resumeSubtext();
+    if (paused) refresher.startAndRefresh();
+    else refresher.start();
+  }
+
+  private void resumeSubtext() {
     if (subtextFade != null) subtextFade.startNextInterval();
   }
 }

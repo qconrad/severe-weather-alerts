@@ -353,7 +353,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  boolean paused = false;
+  private boolean paused;
   @Override
   protected void onPause() {
     super.onPause();

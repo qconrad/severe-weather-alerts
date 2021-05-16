@@ -11,4 +11,5 @@ public class Constants {
   public static final int FASTEST_LOCATION_INTERVAL = 10 * 60 * 1000;
   public static final int MINIMUM_LOCATION_DISPLACEMENT = 200;
   public static final long LAST_KNOWN_LOCATION_EXPIRE = 5 * 60 * 1000;
+  public static final int CHECK_FOR_EXPIRATION_REFRESH_TIME = 5 * 1000;
 }
