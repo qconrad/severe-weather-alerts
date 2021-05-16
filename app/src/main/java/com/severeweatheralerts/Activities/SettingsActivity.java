@@ -102,25 +102,33 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void createdUseFixedListener() {
       Preference usefixed = findPreference("usefixed");
-      if (usefixed != null) {
-        usefixed.setOnPreferenceChangeListener((preference, newValue) -> {
-          if ((Boolean) newValue) {
-            new BackgroundLocation(getContext()).stop();
-            locationsDao.setName(0, "Fixed Location");
-            findPreference("fixedloc").setSummary("Default Location");
-            startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
-          }
-          else {
-            if (!PermissionManager.hasLocationPermissions(getActivity())) {
-              startActivityForResult(new Intent(getActivity(), LocationPermissionRequest.class), 0);
-              return false;
-            }
-            else startActivity(new Intent(getActivity(), GettingLocationActivity.class));
-          }
-          return true;
-        });
+      if (usefixed != null)
+        usefixed.setOnPreferenceChangeListener((preference, newValue) -> useFixed((Boolean) newValue));
+    }
 
+    private boolean useFixed(Boolean useFixedEnabled) {
+      if (useFixedEnabled) {
+        new BackgroundLocation(getContext()).stop();
+        findPreference("fixedloc").setSummary("Default Location");
+        startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
       }
+      else return checkLocationPermissions();
+      return false;
+    }
+
+    private boolean checkLocationPermissions() {
+      if (!PermissionManager.hasLocationPermissions(getActivity())) return requestPermissions();
+      else return getLocation();
+    }
+
+    private boolean getLocation() {
+      startActivity(new Intent(getActivity(), GettingLocationActivity.class));
+      return true;
+    }
+
+    private boolean requestPermissions() {
+      startActivityForResult(new Intent(getActivity(), LocationPermissionRequest.class), 0);
+      return false;
     }
 
     private void createSeverityPreferencesListener() {

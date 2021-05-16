@@ -23,9 +23,10 @@ public class LocationPermissionRequest extends AppCompatActivity {
 
   private void showDisclaimer() {
     AlertDialog alertDialog = new AlertDialog.Builder(LocationPermissionRequest.this).create();
+    alertDialog.setOnCancelListener(dialogInterface -> finish());
     alertDialog.setTitle(getString(R.string.disclaimer_title));
     alertDialog.setMessage(getString(R.string.location_disclaimer));
-    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
+    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> finish());
     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
     alertDialog.show();
   }
@@ -41,6 +42,7 @@ public class LocationPermissionRequest extends AppCompatActivity {
     AlertDialog alertDialog = new AlertDialog.Builder(LocationPermissionRequest.this).create();
     if (!PermissionManager.hasFineLocation(this)) locationDeniedDialog(alertDialog);
     else hasLocationAccess(alertDialog);
+    alertDialog.setOnCancelListener(dialogInterface -> finish());
     alertDialog.show();
   }
 
@@ -61,7 +63,7 @@ public class LocationPermissionRequest extends AppCompatActivity {
   private void backgroundDeniedDialog(AlertDialog alertDialog) {
     alertDialog.setTitle(getString(R.string.background_deny_title));
     alertDialog.setMessage(getString(R.string.background_deny_message));
-    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
+    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> finish());
     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Allow background location", (dialog, which) -> PermissionManager.requestLocationPermissions(this));
     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "This is what I want", (dialog, which) -> returnSuccess());
   }
@@ -81,7 +83,11 @@ public class LocationPermissionRequest extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode != Activity.RESULT_OK) return;
+    if (resultCode != Activity.RESULT_OK) finish();
+    else useFixed(data);
+  }
+
+  private void useFixed(@Nullable Intent data) {
     new BundledLocation(this, data).setFixedLocation();
     startActivity(new Intent(LocationPermissionRequest.this, GettingLatestDataActivity.class));
   }
