@@ -248,7 +248,16 @@ public class AlertListActivity extends AppCompatActivity {
     resumeSubtext();
     if (usingDevicesLocation()) checkIfLocationIsReasonablyUpToDate();
     if (paused) refresher.startAndRefresh();
-    else refresher.start();
+    else firstStart();
+  }
+
+  private void firstStart() {
+    checkForMissedAlerts();
+    refresher.start();
+  }
+
+  private void checkForMissedAlerts() {
+    if (LocationsDao.getInstance(this).messagesAvailable()) promptNewData(getString(R.string.new_data_available));
   }
 
   private void checkIfLocationIsReasonablyUpToDate() {

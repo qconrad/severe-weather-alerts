@@ -12,14 +12,19 @@ import java.util.ArrayList;
 import io.paperdb.Paper;
 
 public class LocationsDao {
+  private static boolean messagesAvailable;
   private static NewAlertCallback newAlertCallback;
   private GCSCoordinate lastDefaultSync;
   private ArrayList<Location> locations;
   private static LocationsDao instance;
 
   public static void messageReceived() {
-    if (newAlertCallback == null) return;
-    newAlertCallback.newAlerts();
+    if (newAlertCallback != null) newAlertCallback.newAlerts();
+    messagesAvailable = true;
+  }
+
+  public boolean messagesAvailable() {
+    return messagesAvailable;
   }
 
   public static void onNewAlerts(NewAlertCallback newAlertCallback) {
@@ -121,6 +126,7 @@ public class LocationsDao {
   }
 
   public synchronized void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
+    messagesAvailable = false;
     locations.get(locationIndex).setAlerts(alerts);
   }
 }
