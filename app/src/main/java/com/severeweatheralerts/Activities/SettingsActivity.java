@@ -45,14 +45,11 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   public static class SettingsFragment extends PreferenceFragmentCompat {
-    private LocationsDao locationsDao;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-      locationsDao = LocationsDao.getInstance(getContext());
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
-      if (findPreference("usefixed").isEnabled()) {
-        findPreference("fixedloc").setSummary(locationsDao.getName(0));
-      }
+      if (findPreference("usefixed").isEnabled())
+        findPreference("fixedloc").setSummary(LocationsDao.getInstance(getContext()).getName(0));
       createClickListeners();
     }
 
@@ -107,11 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private boolean useFixed(Boolean useFixedEnabled) {
-      if (useFixedEnabled) {
-        new BackgroundLocation(getContext()).stop();
-        findPreference("fixedloc").setSummary("Default Location");
-        startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
-      }
+      if (useFixedEnabled) startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
       else return checkLocationPermissions();
       return false;
     }
@@ -155,7 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
       Preference fixedloc = findPreference("fixedloc");
       if (fixedloc != null) {
         fixedloc.setOnPreferenceClickListener(preference -> {
-          startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 0);
+          startActivityForResult(new Intent(getActivity(), LocationPickerActivity.class), 1);
           return true;
         });
       }
@@ -218,6 +211,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setFixedLocation(@Nullable Intent data) {
       new BundledLocation(getContext(), data).setFixedLocation();
+      new BackgroundLocation(getContext()).stop();
       startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
     }
   }
