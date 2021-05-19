@@ -246,9 +246,13 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
-    if (usingDevicesLocation()) checkIfLocationIsReasonablyUpToDate();
-    if (paused) refresher.startAndRefresh();
+    if (paused) resume();
     else firstStart();
+  }
+
+  private void resume() {
+    if (usingDevicesLocation()) checkIfLocationIsReasonablyUpToDate();
+    refresher.startAndRefresh();
   }
 
   private void firstStart() {
