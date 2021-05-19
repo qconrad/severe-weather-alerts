@@ -69,6 +69,10 @@ public class URL {
     return getRadarProduct(bounds, radarStation, "bref_raw");
   }
 
+  public String getDualPolPrecipitationType(Bounds bounds, String radarStation) {
+    return getRadarProduct(bounds, radarStation, "bdhc");
+  }
+
   public String getRadarRainfall(Bounds bounds, String radarStation) {
     return getRadarProduct(bounds, radarStation, "bdsa");
   }
