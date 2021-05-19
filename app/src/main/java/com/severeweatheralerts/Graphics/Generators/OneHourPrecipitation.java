@@ -1,21 +1,21 @@
 package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
-import com.severeweatheralerts.Graphics.Bounds.BoundRounder;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinateToPointAdapter;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
-import com.severeweatheralerts.Networking.FetchServices.ImageFetchService;
 
 import java.util.ArrayList;
 
@@ -43,21 +43,47 @@ public class OneHourPrecipitation extends GraphicGenerator {
   }
 
   private void generateLayers() {
-    //Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
     ArrayList<Layer> layers = new ArrayList<>();
-    Polygon polygon = new Polygon();
-    polygon.addCoordinate(new MercatorCoordinate(getMercatorCoordinate().getX(), getMercatorCoordinate().getY())); // user location
-    polygon.addCoordinate(new MercatorCoordinate(getMercatorCoordinate().getX()-57290, getMercatorCoordinate().getY()+7828)); // user location
-    Bounds bounds = new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize();
+    Bounds bounds = getBounds();
     layers.add(new Layer(new URL().getDualPolPrecipitationType(bounds, radarStation)));
-    //layers.add(new Layer(new URL().getCountyMap(bounds)));
-    //layers.add(new Layer(getZoneOverlay(bounds)));
-    //layers.add(new Layer(getLocationPointOverlay(bounds, Color.YELLOW)));
     generateGraphicFromLayers(layers);
   }
 
-  protected Bounds getBounds(int size, MercatorCoordinate loc) {
-    double margin = size * 1000;
-    return new BoundRounder(new Bounds(loc.getY()+margin,loc.getX()+margin,loc.getY()-margin,loc.getX()-margin)).getBounds();
+  private Bounds getBounds() {
+    Polygon polygon = new Polygon();
+    MercatorCoordinate userLocation = getMercatorCoordinate();
+    polygon.addCoordinate(userLocation);
+    polygon.addCoordinate(new MercatorCoordinate(getMercatorCoordinate().getX()-57290, getMercatorCoordinate().getY()+7828)); // user location
+    return new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize();
+  }
+
+  @Override
+  protected void layers(ArrayList<Bitmap> bitmaps) {
+    Bitmap bitmap = bitmaps.get(0);
+    StringBuilder colors = new StringBuilder();
+    for (int i = 0; i < 60; i++) {
+      colors.append("At minute "+ i + ": ");
+      int color = getNextMinute(bitmap, getBounds(), getMercatorCoordinate(), i);
+      Color color1 = null;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        color1 = Color.valueOf(color);
+      }
+      if (color == -16729344) colors.append("Heavy Rain").append("\n");
+      else if (color == -16712816) colors.append("Light/Moderate Rain").append("\n");
+      else if (color == -1638145) colors.append("Unknown").append("\n");
+      else if (color == -3092384) colors.append("Big Drops").append("\n");
+      else if (color == -65536) colors.append("Hail/Rain").append("\n");
+      else if (color == -6513508) colors.append("Ground Clutter").append("\n");
+      else colors.append(color).append(" ").append(color1.toString()).append("\n");
+    }
+    setSubtext(colors.toString());
+    super.layers(bitmaps);
+  }
+
+  private int getNextMinute(Bitmap map, Bounds bounds, MercatorCoordinate start, int minute) {
+    int offset = -950 * minute;
+    MercatorCoordinate mercatorCoordinate = new MercatorCoordinate(start.getX()+offset, start.getY());
+    Point point = new MercatorCoordinateToPointAdapter(bounds, 511, 511).getPoint(mercatorCoordinate);
+    return map.getPixel(point.x, point.y);
   }
 }

@@ -150,7 +150,7 @@ public abstract class GraphicGenerator {
     fetchService.fetch(new RequestCallback() {
       @Override
       public void success(Object response) {
-        returnGraphic((ArrayList<Bitmap>) response);
+        layers((ArrayList<Bitmap>) response);
       }
 
       @Override
@@ -158,6 +158,10 @@ public abstract class GraphicGenerator {
         throwError("Error fetching images");
       }
     });
+  }
+
+  protected void layers(ArrayList<Bitmap> bitmaps) {
+    returnGraphic(bitmaps);
   }
 
   private void returnGraphic(ArrayList<Bitmap> bitmaps) {
