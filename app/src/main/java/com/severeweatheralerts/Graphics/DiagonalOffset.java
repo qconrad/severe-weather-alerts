@@ -1,10 +1,10 @@
 package com.severeweatheralerts.Graphics;
 
 public class DiagonalOffset {
-  private final int distance;
+  private final double distance;
   private final int angle;
 
-  public DiagonalOffset(int distance, int angle) {
+  public DiagonalOffset(double distance, int angle) {
     this.distance = distance;
     this.angle = angle;
   }

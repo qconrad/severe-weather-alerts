@@ -22,8 +22,8 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import java.util.ArrayList;
 
 public class OneHourPrecipitation extends GraphicGenerator {
-  private final int angle = 20;
-  private final int metersPerMinute = 950;
+  private final int angle = 28;
+  private final double metersPerMinute = 277.8;
   private String radarStation;
 
   public OneHourPrecipitation(Context context, Alert alert, GCSCoordinate location) {
