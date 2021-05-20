@@ -77,6 +77,10 @@ public class URL {
     return getRadarProduct(bounds, radarStation, "bdsa");
   }
 
+  public String getRadarCapabilities(String radarStation, String product) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation +  "/" + radarStation + "_" + product + "/ows?service=wms&version=1.1.1&request=GetCapabilities";
+  }
+
   private String getRadarProduct(Bounds bounds, String radarStation, String product) {
     return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_" + product + "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_" + product + "&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
   }
