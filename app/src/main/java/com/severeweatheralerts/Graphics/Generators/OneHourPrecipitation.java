@@ -9,12 +9,15 @@ import android.os.Build;
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.ColorMap;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.DiagonalOffset;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinateToPointAdapter;
@@ -23,16 +26,18 @@ import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
+import com.severeweatheralerts.ParameterSmooth;
 import com.severeweatheralerts.TextUtils.DateTimeConverter;
 import com.severeweatheralerts.TextUtils.RegExMatcher;
+import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
 public class OneHourPrecipitation extends GraphicGenerator {
-  private final int angle = 207;
-  private final double metersPerSecond = 31 / 1.944;
+  private final int angle = 202;
+  private final double metersPerSecond = 44 / 1.944;
   private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
@@ -65,7 +70,6 @@ public class OneHourPrecipitation extends GraphicGenerator {
     StringFetchService fetch = new StringFetchService(context, new URL().getRadarCapabilities(radarStation, "bdhc"));
     fetch.setUserAgent(Constants.USER_AGENT);
     fetch.request(new RequestCallback() {
-
       @Override
       public void success(Object response) {
         radarTime = parseTime(response);
@@ -113,16 +117,36 @@ public class OneHourPrecipitation extends GraphicGenerator {
     for (int i = 0; i <= 3600; i += 10) {
       PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
       forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
-      subtext += PrecipitationType.values()[(int) forecast.get(i/10).getValue()] + "\n";
+    }
+    forecast = new ParameterTrim(new ParameterSmooth(new ParameterSmooth(new Parameter(forecast), 0.01).constantSmooth(), 0.15).exponentialSmooth()).trimLeft(new Date()).getTrimmed().getForecastTimes();
+    int lastVal = 0;
+    for (int i = 0; i < forecast.size(); i++) {
+      String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
+      int val = (int) Math.round(forecast.get(i).getValue());
+      if (lastVal != val) {
+        subtext += formattedString + ": " + PrecipitationType.values()[val] + "\n";
+        lastVal = val;
+      }
       for (int y = 0; y < 50; y++)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          hour.setPixel((int) ((i/10)/1.411764705882353), y, Color.valueOf((float) (forecast.get(i/10).getValue()/4.0), (float) ((float) 1.0 - (forecast.get(i/10).getValue()/4.0)), 0).toArgb());
-        }
+        hour.setPixel((int) (i/(forecast.size()/255.0)), y, getColor(forecast.get(i).getValue()));
     }
     bitmaps.clear();
     bitmaps.add(hour);
     setSubtext(subtext);
     super.layers(bitmaps);
+  }
+
+  private int getColor(double value) {
+    ArrayList<Integer> colors = new ArrayList<>();
+    colors.add(Color.TRANSPARENT);
+    colors.add(Color.GREEN);
+    colors.add(Color.YELLOW);
+    colors.add(Color.RED);
+    colors.add(Color.MAGENTA);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      return new ColorMap(colors, 4.0).getValue((value));
+    }
+    return 0;
   }
 
   private Date getDateAt(int secondsOffset) {
