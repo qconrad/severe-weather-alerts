@@ -2,7 +2,9 @@ package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
@@ -29,8 +31,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OneHourPrecipitation extends GraphicGenerator {
-  private final int angle = 167;
-  private final double metersPerSecond = 53 / 1.944;
+  private final int angle = 207;
+  private final double metersPerSecond = 31 / 1.944;
   private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
@@ -107,11 +109,18 @@ public class OneHourPrecipitation extends GraphicGenerator {
     map = bitmaps.get(0);
     ArrayList<ForecastTime> forecast = new ArrayList<>();
     String subtext = "";
+    Bitmap hour = Bitmap.createBitmap(256, 50, Bitmap.Config.ARGB_8888);
     for (int i = 0; i <= 3600; i += 10) {
-      PRECIPITATION_TYPE precipitationType = getPrecipitationType(getCoordinateAt(location, i));
+      PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
       forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
-      subtext += PRECIPITATION_TYPE.values()[(int) forecast.get(i/10).getValue()] + "\n";
+      subtext += PrecipitationType.values()[(int) forecast.get(i/10).getValue()] + "\n";
+      for (int y = 0; y < 50; y++)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          hour.setPixel((int) ((i/10)/1.411764705882353), y, Color.valueOf((float) (forecast.get(i/10).getValue()/4.0), (float) ((float) 1.0 - (forecast.get(i/10).getValue()/4.0)), 0).toArgb());
+        }
     }
+    bitmaps.clear();
+    bitmaps.add(hour);
     setSubtext(subtext);
     super.layers(bitmaps);
   }
@@ -120,15 +129,17 @@ public class OneHourPrecipitation extends GraphicGenerator {
     return new Date(radarTime.getTime() + (secondsOffset * 1000));
   }
 
-  public enum PRECIPITATION_TYPE { NONE, BIG_DROPS, LIGHT_MOD_RAIN, HEAVY_RAIN, HAIL_RAIN }
+  public enum PrecipitationType { NONE, BIG_DROPS, LIGHT_MOD_RAIN, HEAVY_RAIN, HAIL_RAIN }
 
-  private PRECIPITATION_TYPE getPrecipitationType(MercatorCoordinate coordinate) {
+  private PrecipitationType getPrecipitationType(MercatorCoordinate coordinate) {
     int color = getColorAt(coordinate);
-    if (color == -16729344) return PRECIPITATION_TYPE.HEAVY_RAIN;
-    if (color == -16712816) return PRECIPITATION_TYPE.LIGHT_MOD_RAIN;
-    if (color == -3092384) return PRECIPITATION_TYPE.BIG_DROPS;
-    if (color == -65536) return PRECIPITATION_TYPE.HAIL_RAIN;
-    return PRECIPITATION_TYPE.NONE;
+    if (color == -16729344) return PrecipitationType.HEAVY_RAIN;
+    if (color == -16712816) return PrecipitationType.LIGHT_MOD_RAIN;
+    if (color == -3092384) return PrecipitationType.BIG_DROPS;
+    if (color == -65536) return PrecipitationType.HAIL_RAIN;
+    if (color == -2980732) return PrecipitationType.LIGHT_MOD_RAIN;
+    if (color == -16711681) return PrecipitationType.HEAVY_RAIN;
+    return PrecipitationType.NONE;
   }
 
   private int getColorAt(MercatorCoordinate coordinate) {
