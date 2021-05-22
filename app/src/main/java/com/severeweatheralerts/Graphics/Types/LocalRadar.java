@@ -17,7 +17,7 @@ public class LocalRadar implements GraphicType {
 
   @Override
   public int getValidDuration() {
-    return 60 * 1000;
+    return 30 * 1000;
   }
 
   @Override

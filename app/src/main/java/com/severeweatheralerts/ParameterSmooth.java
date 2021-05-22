@@ -4,6 +4,7 @@ import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ParameterSmooth {
 
@@ -17,10 +18,13 @@ public class ParameterSmooth {
 
   public Parameter constantSmooth() {
     ArrayList<ForecastTime> times = new ArrayList<>();
-    int lookAround = (int) (smoothAmount * parameter.getCount());
-    for (int i = 0; i < parameter.getCount(); i++)
-      times.add(smooth(i, lookAround));
+    int lookAround = getLookAround();
+    for (int i = 0; i < parameter.getCount(); i++) times.add(smooth(i, lookAround));
     return new Parameter(times);
+  }
+
+  private int getLookAround() {
+    return (int) (smoothAmount * parameter.getCount());
   }
 
   private ForecastTime smooth(int index, int lookAround) {
@@ -28,21 +32,52 @@ public class ParameterSmooth {
     double sum = 0;
     int lowerBound = Math.max(0, index-lookAround);
     int upperBound = Math.min(parameter.getCount()-1, lookAround+index);
-    for (int i = lowerBound; i <= upperBound; i++) {
+    for (int i = lowerBound; i <= upperBound; i++)
       sum += parameter.get(i).getValue();
-    }
     return new ForecastTime(forecastTime.getDate(), sum / (upperBound - lowerBound + 1));
   }
 
   public Parameter exponentialSmooth() {
+    return exponentialSmoothAt(0);
+  }
+
+  private Parameter exponentialSmoothAt(int index) {
     ArrayList<ForecastTime> times = new ArrayList<>();
-    for (int i = 0; i < parameter.getCount(); i++) {
-      double x = (double) i / (parameter.getCount()-1);
-      double multiplier = x * x;
-      int lookAround = (int) Math.round((smoothAmount * parameter.getCount()) * multiplier);
-      if (i == 0) times.add(smooth(i, 0));
-      else times.add(smooth(i, lookAround));
-    }
+    addUnsmoothedValues(index, times);
+    exponentialSmooth(index, times);
     return new Parameter(times);
+  }
+
+  private void exponentialSmooth(int index, ArrayList<ForecastTime> times) {
+    for (int i = index; i < parameter.getCount(); i++) times.add(smooth(i, getExponentialLookAround(index, i)));
+  }
+
+  private void addUnsmoothedValues(int index, ArrayList<ForecastTime> times) {
+    for (int i = 0; i < index; i++) times.add(parameter.get(i));
+  }
+
+  private int getExponentialLookAround(int index, int i) {
+    return (int) (getLookAround() * getMultiplier(index, i));
+  }
+
+  private double getMultiplier(int startIndex, int index) {
+    return getX(startIndex, index) * getX(startIndex, index);
+  }
+
+  private double getX(int startIndex, int index) {
+    return (double) index / (parameter.getCount() - startIndex - 1);
+  }
+
+  public Parameter exponentialSmoothAfter(Date date) {
+    return exponentialSmoothAt(getStartIndex(date));
+  }
+
+  private int getStartIndex(Date date) {
+    int start = 0;
+    for (ForecastTime forecastTime : parameter.getForecastTimes()) {
+      if (forecastTime.getDate().after(date)) break;
+      start++;
+    }
+    return start;
   }
 }

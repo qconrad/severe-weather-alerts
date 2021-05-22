@@ -101,4 +101,13 @@ public class ColorMapTests {
     ColorMap colorMap = new ColorMap(colors, 1.0);
     assertEquals(Color.argb(255, 0, 64, 191), colorMap.getValue(0.25));
   }
+
+  @Test
+  public void interpolateTransparent() {
+    ArrayList<Integer> colors = new ArrayList<>();
+    colors.add(Color.argb(0, 0, 0, 0));
+    colors.add(Color.argb(255, 0, 0, 0));
+    ColorMap colorMap = new ColorMap(colors, 1.0);
+    assertEquals(Color.argb(128, 0, 0, 0), colorMap.getValue(0.5));
+  }
 }

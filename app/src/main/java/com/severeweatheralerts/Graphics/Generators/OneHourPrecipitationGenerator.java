@@ -47,8 +47,10 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   public OneHourPrecipitationGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     this.location = getMercatorCoordinate();
-    this.heading = alert.getMotionVector().getHeading();
-    this.speedMetersPerSecond = alert.getMotionVector().getVelocity() / 1.944;
+//    heading = alert.getMotionVector().getHeading();
+//    speedMetersPerSecond = alert.getMotionVector().getVelocity() / 1.944;
+    heading = 245;
+    speedMetersPerSecond = 44;
     bounds = getBounds();
   }
 
@@ -76,7 +78,6 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
       public void success(Object response) {
         radarTime = parseTime(response);
         if (radarTime == null) throwError("Error parsing image times");
-
         ArrayList<Layer> layers = new ArrayList<>();
         layers.add(new Layer(new URL().getDualPolPrecipitationType(bounds, radarStation)));
         generateGraphicFromLayers(layers);
@@ -97,8 +98,8 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private Bounds getBounds() {
     Polygon polygon = new Polygon();
-    polygon.addCoordinate(getCoordinateAt(location, 0));
-    polygon.addCoordinate(getCoordinateAt(location, 3600));
+    polygon.addCoordinate(getCoordinateAt(location, -60));
+    polygon.addCoordinate(getCoordinateAt(location, 4500));
     return new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize();
   }
 
@@ -116,11 +117,12 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     ArrayList<ForecastTime> forecast = new ArrayList<>();
     String subtext = "";
     Bitmap hour = Bitmap.createBitmap(256, 50, Bitmap.Config.ARGB_8888);
-    for (int i = 0; i <= 3600; i += 10) {
+    for (int i = -60; i <= 4500; i += 10) {
       PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
       forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
     }
-    forecast = new ParameterTrim(new ParameterSmooth(new ParameterSmooth(new Parameter(forecast), 0.05).constantSmooth(), 0.25).exponentialSmooth()).trimLeft(new Date()).getTrimmed().getForecastTimes();
+
+    forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
     int lastVal = 0;
     for (int i = 0; i < forecast.size(); i++) {
       String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
@@ -138,9 +140,21 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     super.layers(bitmaps);
   }
 
+  private Parameter getSmoothed(Parameter parameter) {
+    return smoothNoise(smoothUncertainty(parameter));
+  }
+
+  private Parameter smoothNoise(Parameter parameter) {
+    return new ParameterSmooth(parameter, 0.05).constantSmooth();
+  }
+
+  private Parameter smoothUncertainty(Parameter parameter) {
+    return new ParameterSmooth(parameter, 0.25).exponentialSmoothAfter(new Date());
+  }
+
   private int getColor(double value) {
     ArrayList<Integer> colors = new ArrayList<>();
-    colors.add(Color.TRANSPARENT);
+    colors.add(Color.argb(0, 0, 255, 0));
     colors.add(Color.GREEN);
     colors.add(Color.YELLOW);
     colors.add(Color.RED);

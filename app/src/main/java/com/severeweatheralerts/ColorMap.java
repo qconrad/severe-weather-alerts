@@ -31,6 +31,7 @@ public class ColorMap {
     int red = (int) Math.round(Math.abs((first.red() + ((second.red() - first.red())*percent))*255));
     int green = (int) Math.round(Math.abs((first.green() + ((second.green() - first.green())*percent))*255));
     int blue = (int) Math.round(Math.abs((first.blue() + ((second.blue() - first.blue())*percent))*255));
-    return Color.argb(255, red, green, blue);
+    int alpha = (int) Math.round(Math.abs((first.alpha() + ((second.alpha() - first.alpha())*percent))*255));
+    return Color.argb(alpha, red, green, blue);
   }
 }
