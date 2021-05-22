@@ -35,18 +35,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class OneHourPrecipitation extends GraphicGenerator {
-  private final int heading = 190;
-  private final double speedMetersPerSecond = 40 / 1.944;
+public class OneHourPrecipitationGenerator extends GraphicGenerator {
+  private int heading;
+  private double speedMetersPerSecond;
   private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
   private final Bounds bounds;
   private Bitmap map;
 
-  public OneHourPrecipitation(Context context, Alert alert, GCSCoordinate location) {
+  public OneHourPrecipitationGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     this.location = getMercatorCoordinate();
+    this.heading = alert.getMotionVector().getHeading();
+    this.speedMetersPerSecond = alert.getMotionVector().getVelocity() / 1.944;
     bounds = getBounds();
   }
 
