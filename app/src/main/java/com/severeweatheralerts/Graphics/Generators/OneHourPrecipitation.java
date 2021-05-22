@@ -36,8 +36,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OneHourPrecipitation extends GraphicGenerator {
-  private final int angle = 202;
-  private final double metersPerSecond = 44 / 1.944;
+  private final int heading = 190;
+  private final double speedMetersPerSecond = 40 / 1.944;
   private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
@@ -101,7 +101,7 @@ public class OneHourPrecipitation extends GraphicGenerator {
   }
 
   private MercatorCoordinate getCoordinateAt(MercatorCoordinate start, int secondOffset) {
-    return offsetCoordinate(start, new DiagonalOffset(-metersPerSecond * secondOffset, angle));
+    return offsetCoordinate(start, new DiagonalOffset(-speedMetersPerSecond * secondOffset, heading));
   }
 
   private MercatorCoordinate offsetCoordinate(MercatorCoordinate start, DiagonalOffset offset) {
@@ -118,7 +118,7 @@ public class OneHourPrecipitation extends GraphicGenerator {
       PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
       forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
     }
-    forecast = new ParameterTrim(new ParameterSmooth(new ParameterSmooth(new Parameter(forecast), 0.01).constantSmooth(), 0.15).exponentialSmooth()).trimLeft(new Date()).getTrimmed().getForecastTimes();
+    forecast = new ParameterTrim(new ParameterSmooth(new ParameterSmooth(new Parameter(forecast), 0.05).constantSmooth(), 0.25).exponentialSmooth()).trimLeft(new Date()).getTrimmed().getForecastTimes();
     int lastVal = 0;
     for (int i = 0; i < forecast.size(); i++) {
       String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
