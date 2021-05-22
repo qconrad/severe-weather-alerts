@@ -23,6 +23,7 @@ public class UnadaptedAlert {
   private GeoJSONPolygon polygon;
   private final ArrayList<String> references = new ArrayList<>();
   private final ArrayList<String> zoneLinks = new ArrayList<>();
+  private String eventMotionDescription;
 
   public void setName(String name) { this.name = name; }
   public String getName() { return name; }
@@ -90,4 +91,7 @@ public class UnadaptedAlert {
 
   public String getReplacedAt() { return replacedAt; }
   public void setReplacedAt(String replacedAt) { this.replacedAt = replacedAt; }
+
+  public String getMotionDescription() { return eventMotionDescription; }
+  public void setMotionDescription(String eventMotionDescription) { this.eventMotionDescription = eventMotionDescription; }
 }

@@ -89,6 +89,7 @@ public class AlertListParser {
     propParser.parseReplacedBy();
     propParser.parseReplacedAt();
     propParser.parseZones();
+    propParser.parseEventMotion();
   }
 
   private boolean stringIsEmpty(String text) {
