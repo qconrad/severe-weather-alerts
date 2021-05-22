@@ -357,7 +357,6 @@ public class JsonParserTests {
     assertEquals("2021-04-29T19:10:00-05:00", parsed.get(0).getReplacedAt());
   }
 
-  // 220 @ 49
   @Test
   public void parseAlerts_eventMotionDescription() {
     AlertListParser parser = new AlertListParser(eventMotion);

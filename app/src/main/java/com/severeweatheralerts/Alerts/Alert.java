@@ -30,6 +30,7 @@ public abstract class Alert implements Comparable<Alert> {
   private Certainty certainty;
   private Alert replacedBy;
   private Date discontinuedAt;
+  private MotionVector motionVector;
   private final ArrayList<Alert> references = new ArrayList<>();
   private final ArrayList<Polygon> polygons = new ArrayList<>();
   private ArrayList<String> zoneLinks = new ArrayList<>();
@@ -93,14 +94,13 @@ public abstract class Alert implements Comparable<Alert> {
   public Alert getReplacedBy() {
     return replacedBy;
   }
-
   public void setDiscontinuedAt(Date discontinuedAt) {
     this.discontinuedAt = discontinuedAt;
   }
+  public Date getDiscontinuedAt() { return discontinuedAt; }
 
-  public Date getDiscontinuedAt() {
-    return discontinuedAt;
-  }
+  public MotionVector getMotionVector() { return motionVector; }
+  public void setMotionVector(MotionVector motionVector) { this.motionVector = motionVector; }
 
   public String getName() { return name; }
   public void setName(String name) { this.name = name; }

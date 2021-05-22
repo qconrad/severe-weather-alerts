@@ -2,6 +2,8 @@ package com.severeweatheralerts.Adapters;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.Alerts.MotionVector;
+import com.severeweatheralerts.TextUtils.RegExMatcher;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,7 @@ public class AlertAdapter {
     adaptStartTime(ua, al);
     adaptEndTime(ua, al);
     adaptAlertArea(ua, al);
+    adaptMotionVector(ua, al);
     removeHeadlinesFromDescription(al); // Requires already parsed description
   }
 
@@ -129,6 +132,13 @@ public class AlertAdapter {
 
   private void adaptType(UnadaptedAlert ua, Alert al) {
     al.setType(new TypeAdapter(ua.getType()).adaptType());
+  }
+
+  private void adaptMotionVector(UnadaptedAlert ua, Alert al) {
+    if (ua.getMotionDescription() == null) return;
+    ArrayList<String> match = RegExMatcher.match("\\d{1,3}DEG\\.\\.\\.\\d*", ua.getMotionDescription());
+    String[] vectorSplit = match.get(0).split("DEG...");
+    al.setMotionVector(new MotionVector(Integer.parseInt(vectorSplit[0]), Integer.parseInt(vectorSplit[1])));
   }
 
   public ArrayList<Alert> getAdaptedAlerts() {
