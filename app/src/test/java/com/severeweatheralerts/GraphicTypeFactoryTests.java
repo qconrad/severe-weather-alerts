@@ -251,7 +251,7 @@ public class GraphicTypeFactoryTests {
     SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
     severeThunderstormWarning.setInstruction("Torrential rainfall is occurring with this storm, and may lead to\\nflash flooding. Do not drive your vehicle through flooded roadways.");
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
-    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(2).getClass());
   }
 
   @Test

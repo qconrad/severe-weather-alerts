@@ -79,8 +79,8 @@ public class TypeFactory {
     }
     else if (thunderstorms()) {
       types.add(new LocalRadar());
-      if (alert.getInstruction() != null && alert.getInstruction().contains("Torrential rainfall")) types.add(new RadarRainfall());
       types.add(new OneHourPrecipitation());
+      if (alert.getInstruction() != null && alert.getInstruction().contains("Torrential rainfall")) types.add(new RadarRainfall());
       types.add(new RegionalRadar(250));
     }
     else
