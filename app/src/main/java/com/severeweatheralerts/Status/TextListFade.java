@@ -28,6 +28,7 @@ public class TextListFade {
   }
 
   protected void setupTextSwitcher(Context context) {
+    textSwitcher.removeAllViews();
     textSwitcher.setFactory(() -> inflateTextView(context));
     textSwitcher.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_in));
     textSwitcher.setOutAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out));
