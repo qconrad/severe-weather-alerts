@@ -29,7 +29,6 @@ import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Alerts.TestAlerts.TestAlert;
 import com.severeweatheralerts.Constants;
-import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitationGenerator;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -353,18 +353,18 @@ public class AlertViewerActivity extends AppCompatActivity {
     }
   }
 
-  private boolean paused;
+  private boolean stopped;
   @Override
-  protected void onPause() {
-    super.onPause();
-    paused = true;
+  protected void onStop() {
+    super.onStop();
+    stopped = true;
     refresher.stop();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    if (paused) refresher.startAndRefresh();
+    if (stopped) refresher.startAndRefresh();
     else refresher.start();
   }
 }

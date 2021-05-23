@@ -36,8 +36,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class OneHourPrecipitationGenerator extends GraphicGenerator {
-  private int heading;
-  private double speedMetersPerSecond;
+  private final int heading;
+  private final double speedMetersPerSecond;
   private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
@@ -47,10 +47,8 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   public OneHourPrecipitationGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
     this.location = getMercatorCoordinate();
-//    heading = alert.getMotionVector().getHeading();
-//    speedMetersPerSecond = alert.getMotionVector().getVelocity() / 1.944;
-    heading = 245;
-    speedMetersPerSecond = 44;
+    heading = alert.getMotionVector().getHeading();
+    speedMetersPerSecond = alert.getMotionVector().getVelocity() / 1.944;
     bounds = getBounds();
   }
 
