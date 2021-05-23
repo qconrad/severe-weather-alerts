@@ -251,7 +251,7 @@ public class GraphicTypeFactoryTests {
     SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
     severeThunderstormWarning.setInstruction("Torrential rainfall is occurring with this storm, and may lead to\\nflash flooding. Do not drive your vehicle through flooded roadways.");
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
-    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(2).getClass());
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
   }
 
   @Test
@@ -259,7 +259,7 @@ public class GraphicTypeFactoryTests {
     SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
     severeThunderstormWarning.setInstruction("Move to the lowest floor...");
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
-    assertEquals(3, graphicFactory.getTypes().size());
+    assertEquals(2, graphicFactory.getTypes().size());
   }
 
   @Test
@@ -325,7 +325,7 @@ public class GraphicTypeFactoryTests {
     severeThunderstormWarning.setSentTime(new Date(0));
     severeThunderstormWarning.setStartTime(new Date(0));
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
-    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(2).getClass());
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
   }
 
   @Test
@@ -365,5 +365,12 @@ public class GraphicTypeFactoryTests {
     severeThunderstormWarning.setMotionVector(new MotionVector(0, 0));
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
     assertEquals(OneHourPrecipitation.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_ThunderstormWarningWithNoStormMotion_NoOneHourPrecip() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
   }
 }

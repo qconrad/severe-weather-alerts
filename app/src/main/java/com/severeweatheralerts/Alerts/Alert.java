@@ -101,6 +101,7 @@ public abstract class Alert implements Comparable<Alert> {
 
   public MotionVector getMotionVector() { return motionVector; }
   public void setMotionVector(MotionVector motionVector) { this.motionVector = motionVector; }
+  public boolean hasMotionVector() { return motionVector != null; }
 
   public String getName() { return name; }
   public void setName(String name) { this.name = name; }
