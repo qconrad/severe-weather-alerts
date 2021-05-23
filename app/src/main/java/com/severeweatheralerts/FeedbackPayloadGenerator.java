@@ -30,7 +30,7 @@ public class FeedbackPayloadGenerator {
     return jsonObject.toString();
   }
 
-  private void addFields(JSONObject payload) throws JSONException, PackageManager.NameNotFoundException {
+  private void addFields(JSONObject payload) throws JSONException {
     payload.put("token", token);
     payload.put("message", message);
     payload.put("type", type);
@@ -39,7 +39,12 @@ public class FeedbackPayloadGenerator {
     payload.put("deviceModel", Build.MODEL);
     payload.put("deviceProduct", Build.PRODUCT);
     payload.put("usingFixedLocation", isUsingFixed());
-    payload.put("appVersion", getAppVersion());
+    addAppVersion(payload);
+  }
+
+  private void addAppVersion(JSONObject payload) throws JSONException {
+    try { payload.put("appVersion", getAppVersion()); }
+    catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
   }
 
   private boolean isUsingFixed() {
