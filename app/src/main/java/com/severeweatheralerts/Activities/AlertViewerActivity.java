@@ -146,9 +146,11 @@ public class AlertViewerActivity extends AppCompatActivity {
     GraphicCompleteListener graphicCompleteListener = new GraphicCompleteListener() {
       @Override
       public void onComplete(Graphic graphic) {
-        if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
-        displayImage(graphicView, graphic);
-        hideProgressBar(graphicView);
+        runOnUiThread(() -> {
+          if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
+          displayImage(graphicView, graphic);
+          hideProgressBar(graphicView);
+        });
       }
 
       @Override

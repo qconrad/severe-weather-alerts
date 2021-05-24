@@ -1,12 +1,7 @@
 package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.widget.ImageView;
-
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
@@ -18,24 +13,24 @@ import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
 import com.severeweatheralerts.Graphics.BitmapTools.LocationDrawer;
 import com.severeweatheralerts.Graphics.BitmapTools.ZoneDrawer;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
+import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Bounds.BoundRounder;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
-import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
-import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.GridData.MapRegion;
-import com.severeweatheralerts.Graphics.GridData.Parameter;
-import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
-import com.severeweatheralerts.Graphics.Polygon.Polygon;
-import com.severeweatheralerts.Graphics.URL;
-import com.severeweatheralerts.JSONParsing.MapTimeParser;
+import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.Graphics.ImageGraphic;
+import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.GCSToMercatorCoordinateAdapter;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
+import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 import com.severeweatheralerts.JSONParsing.GridDataParser;
-import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
+import com.severeweatheralerts.JSONParsing.MapTimeParser;
 import com.severeweatheralerts.Networking.FetchServices.LayerListFetch;
+import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.Networking.FetchServices.StringListFetch;
 
@@ -48,10 +43,10 @@ import java.util.Date;
 public abstract class GraphicGenerator {
   private final GCSCoordinate location;
   private GraphicCompleteListener graphicCompleteListener;
-  private final Graphic graphic;
 
   protected final Context context;
   protected final Alert alert;
+  private String subtext;
 
   protected void forecast(Parameter gridData) {}
   protected void mapTimes(ArrayList<MapTime> mapTimes) {}
@@ -62,7 +57,6 @@ public abstract class GraphicGenerator {
     this.context = context;
     this.alert = alert;
     this.location = location;
-    graphic = new Graphic();
   }
 
   public void generate(GraphicCompleteListener graphicCompleteListener) {
@@ -77,7 +71,7 @@ public abstract class GraphicGenerator {
     fetchService.fetch(new RequestCallback() {
       @Override
       public void success(Object response) {
-        parseZones((ArrayList<String>) response);
+        new Thread(() -> parseZones((ArrayList<String>) response)).start();
       }
 
       @Override public void error(VolleyError error) {
@@ -91,7 +85,7 @@ public abstract class GraphicGenerator {
   }
 
   protected void setSubtext(String subtext) {
-    graphic.setSubtext(subtext);
+    this.subtext = subtext;
   }
 
   protected void getMapTimes(String parameter) {
@@ -129,8 +123,8 @@ public abstract class GraphicGenerator {
   }
 
   public void getForecast(String gridDataURL, String parameter) {
-    StringFetchService fetchService = new StringFetchService(context, gridDataURL);
-    fetchService.setUserAgent(Constants.USER_AGENT);
+      StringFetchService fetchService = new StringFetchService(context, gridDataURL);
+      fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {
@@ -145,8 +139,10 @@ public abstract class GraphicGenerator {
   }
 
   private void parseForecast(Object response, String parameter) {
-    try { forecast(new GridDataParser(response.toString()).getParameter(parameter)); }
-    catch (JSONException e) { throwError("Error parsing grid data"); }
+    new Thread(() -> {
+      try { forecast(new GridDataParser(response.toString()).getParameter(parameter)); }
+      catch (JSONException e) { throwError("Error parsing grid data"); }
+    }).start();
   }
 
   protected void generateGraphicFromLayers(ArrayList<Layer> layers) {
@@ -166,20 +162,11 @@ public abstract class GraphicGenerator {
   }
 
   protected void layers(ArrayList<Bitmap> bitmaps) {
-    returnGraphic(bitmaps);
+    returnImages(bitmaps);
   }
 
-  private void returnGraphic(ArrayList<Bitmap> bitmaps) {
-    ImageView iv = new ImageView(context);
-    iv.setAdjustViewBounds(true);
-    iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-    Bitmap image = new BitmapCombiner(bitmaps).combine();
-    iv.setImageBitmap(image);
-    graphic.setView(iv);
-    RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(Resources.getSystem(), image);
-    dr.setCornerRadius(20.0f);
-    iv.setImageDrawable(dr);
-    graphicCompleteListener.onComplete(graphic);
+  private void returnImages(ArrayList<Bitmap> bitmaps) {
+    graphicCompleteListener.onComplete(new ImageGraphic(context, new BitmapCombiner(bitmaps).combine(), subtext));
   }
 
   protected Bitmap getZoneOverlay(Bounds bounds) {
@@ -207,16 +194,14 @@ public abstract class GraphicGenerator {
   }
 
   private void parseZones(ArrayList<String> response) {
-    new Thread(() -> {
-      for (String zone : response) {
-        try {
-          ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
-          for (int i = 0; i < geometry.size(); i++)
-            alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
-        }
-        catch (JSONException e) { e.printStackTrace(); }
+    for (String zone : response) {
+      try {
+        ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
+        for (int i = 0; i < geometry.size(); i++)
+          alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
       }
-      alertPolygons(alert.getPolygons());
-    }).start();
+      catch (JSONException e) { e.printStackTrace(); }
+    }
+    alertPolygons(alert.getPolygons());
   }
 }

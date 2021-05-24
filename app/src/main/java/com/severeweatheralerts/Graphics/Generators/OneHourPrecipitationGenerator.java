@@ -111,30 +111,32 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   @Override
   protected void layers(ArrayList<Bitmap> bitmaps) {
-    map = bitmaps.get(0);
-    ArrayList<ForecastTime> forecast = new ArrayList<>();
-    String subtext = "";
-    Bitmap hour = Bitmap.createBitmap(256, 50, Bitmap.Config.ARGB_8888);
-    for (int i = -60; i <= 4500; i += 10) {
-      PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
-      forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
-    }
-    forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
-    int lastVal = 0;
-    for (int i = 0; i < forecast.size(); i++) {
-      String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
-      int val = (int) Math.round(forecast.get(i).getValue());
-      if (lastVal != val) {
-        subtext += formattedString + ": " + PrecipitationType.values()[val] + "\n";
-        lastVal = val;
+    new Thread(() -> {
+      map = bitmaps.get(0);
+      ArrayList<ForecastTime> forecast = new ArrayList<>();
+      String subtext = "";
+      Bitmap hour = Bitmap.createBitmap(256, 50, Bitmap.Config.ARGB_8888);
+      for (int i = -60; i <= 4500; i += 10) {
+        PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
+        forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
       }
-      for (int y = 0; y < 50; y++)
-        hour.setPixel((int) (i/(forecast.size()/255.0)), y, getColor(forecast.get(i).getValue()));
-    }
-    bitmaps.clear();
-    bitmaps.add(hour);
-    setSubtext(subtext);
-    super.layers(bitmaps);
+      forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
+      int lastVal = 0;
+      for (int i = 0; i < forecast.size(); i++) {
+        String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
+        int val = (int) Math.round(forecast.get(i).getValue());
+        if (lastVal != val) {
+          subtext += formattedString + ": " + PrecipitationType.values()[val] + "\n";
+          lastVal = val;
+        }
+        for (int y = 0; y < 50; y++)
+          hour.setPixel((int) (i/(forecast.size()/255.0)), y, getColor(forecast.get(i).getValue()));
+      }
+      bitmaps.clear();
+      bitmaps.add(hour);
+      setSubtext(subtext);
+      super.layers(bitmaps);
+    }).start();
   }
 
   private Parameter getSmoothed(Parameter parameter) {
