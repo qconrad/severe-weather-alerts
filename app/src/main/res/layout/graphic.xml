@@ -21,13 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <ImageView
-        android:id="@+id/gfx_image"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/gfx_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/graphic_content_description" />
+        android:contentDescription="@string/graphic_content_description"
+        android:orientation="vertical" />
 
     <TextView
         android:id="@+id/gfx_subtext"

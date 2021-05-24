@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -28,6 +29,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
+import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
@@ -60,6 +62,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
     makeStatusBarTransparent();
     getAlertFromExtras(getIntent().getExtras());
+    if (!validAlert()) return;
     populateUIWithAlertData();
 
     isActive = al.activeAt(new Date());
@@ -103,21 +106,19 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private void populateUIWithAlertData() {
-    if (validAlert()) {
-      removeNullErrorMessage();
-      setTitle();
-      setIcon();
-      setTimes();
-      setLargeHeadline();
-      setSmallHeadline();
-      setDescription();
-      setInstruction();
-      setSender();
-      setNextUpdate();
-      setColors();
-      populateReferences();
-      generateGraphics();
-    }
+    removeNullErrorMessage();
+    setColors();
+    setTitle();
+    setIcon();
+    setTimes();
+    setLargeHeadline();
+    setSmallHeadline();
+    setDescription();
+    setInstruction();
+    setSender();
+    setNextUpdate();
+    populateReferences();
+    generateGraphics();
   }
 
   protected void generateGraphics() {
@@ -131,16 +132,17 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView);
-    startUpdates(type, graphicView);
+    GraphicGenerator generator = type.getGenerator(this, al, locationsDao.getCoordinate(locationIndex));
+    generateGraphic(generator, graphicView);
+    startUpdates(type, generator, graphicView);
   }
 
-  private void startUpdates(GraphicType type, View graphicView) {
+  private void startUpdates(GraphicType type, GraphicGenerator generator, View graphicView) {
     if (type.getValidDuration() <= 0) return;
-    refresher.add(new IntervalRun(type.getValidDuration(), () -> generateGraphic(locationsDao.getCoordinate(locationIndex), type, graphicView)));
+    refresher.add(new IntervalRun(type.getValidDuration(), () -> generateGraphic(generator, graphicView)));
   }
 
-  private void generateGraphic(GCSCoordinate location, GraphicType type, View graphicView) {
+  private void generateGraphic(GraphicGenerator generator, View graphicView) {
     GraphicCompleteListener graphicCompleteListener = new GraphicCompleteListener() {
       @Override
       public void onComplete(Graphic graphic) {
@@ -155,14 +157,13 @@ public class AlertViewerActivity extends AppCompatActivity {
         hideProgressBar(graphicView);
       }
     };
-    new Thread(() -> type.getGenerator(this, al, location).generate(graphicCompleteListener)).start();
+    new Thread(() -> generator.generate(graphicCompleteListener)).start();
   }
 
   private void displayImage(View graphicView, Graphic graphic) {
-    ImageView iv = graphicView.findViewById(R.id.gfx_image);
-    RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(Resources.getSystem(), graphic.getImage());
-    dr.setCornerRadius(20.0f);
-    iv.setImageDrawable(dr);
+    LinearLayout ll = graphicView.findViewById(R.id.gfx_view);
+    ll.removeAllViews();
+    ll.addView(graphic.getView());
   }
 
   private void displaySubtext(View graphicView, String text) {

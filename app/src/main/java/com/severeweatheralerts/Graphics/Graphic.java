@@ -1,14 +1,14 @@
 package com.severeweatheralerts.Graphics;
 
-import android.graphics.Bitmap;
+import android.view.View;
 
 public class Graphic {
   private String subText;
-  private Bitmap image;
+  private View view;
 
   public void setSubtext(String subText) { this.subText = subText; }
   public String getSubtext() { return subText; }
-  public void setImage(Bitmap image) { this.image = image; }
-  public Bitmap getImage() { return image; }
+  public void setView(View view) { this.view = view; }
+  public View getView() { return view; }
   public boolean hasSubtext() { return subText != null; }
 }

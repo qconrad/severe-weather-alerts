@@ -119,7 +119,6 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
       PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
       forecast.add(new ForecastTime(getDateAt(i), precipitationType.ordinal()));
     }
-
     forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
     int lastVal = 0;
     for (int i = 0; i < forecast.size(); i++) {
@@ -152,13 +151,15 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private int getColor(double value) {
     ArrayList<Integer> colors = new ArrayList<>();
-    colors.add(Color.argb(0, 0, 255, 0));
-    colors.add(Color.GREEN);
-    colors.add(Color.YELLOW);
-    colors.add(Color.RED);
-    colors.add(Color.MAGENTA);
+    colors.add(Color.argb(0, 146, 31, 213));
+    colors.add(Color.parseColor("#26b552"));
+    colors.add(Color.parseColor("#089b06"));
+    colors.add(Color.parseColor("#ebcd0d"));
+    colors.add(Color.parseColor("#e30308"));
+    colors.add(Color.parseColor("#fb4eee"));
+    colors.add(Color.parseColor("#921fd5"));
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      return new ColorMap(colors, 4.0).getValue((value));
+      return new ColorMap(colors, 5.0).getValue((value));
     }
     return 0;
   }
@@ -167,7 +168,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     return new Date(radarTime.getTime() + (secondsOffset * 1000));
   }
 
-  public enum PrecipitationType { NONE, BIG_DROPS, LIGHT_MOD_RAIN, HEAVY_RAIN, HAIL_RAIN }
+  public enum PrecipitationType { NONE, BIG_DROPS, LIGHT_MOD_RAIN, HEAVY_RAIN, HAIL_RAIN, LARGE_HAIL }
 
   private PrecipitationType getPrecipitationType(MercatorCoordinate coordinate) {
     int color = getColorAt(coordinate);
@@ -177,6 +178,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     if (color == -65536) return PrecipitationType.HAIL_RAIN;
     if (color == -2980732) return PrecipitationType.LIGHT_MOD_RAIN;
     if (color == -16711681) return PrecipitationType.HEAVY_RAIN;
+    if (color == -1638145) return PrecipitationType.LARGE_HAIL;
     return PrecipitationType.NONE;
   }
 

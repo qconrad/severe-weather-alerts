@@ -1,7 +1,12 @@
 package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.widget.ImageView;
+
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
@@ -165,7 +170,15 @@ public abstract class GraphicGenerator {
   }
 
   private void returnGraphic(ArrayList<Bitmap> bitmaps) {
-    graphic.setImage(new BitmapCombiner(bitmaps).combine());
+    ImageView iv = new ImageView(context);
+    iv.setAdjustViewBounds(true);
+    iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+    Bitmap image = new BitmapCombiner(bitmaps).combine();
+    iv.setImageBitmap(image);
+    graphic.setView(iv);
+    RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(Resources.getSystem(), image);
+    dr.setCornerRadius(20.0f);
+    iv.setImageDrawable(dr);
     graphicCompleteListener.onComplete(graphic);
   }
 
@@ -194,14 +207,16 @@ public abstract class GraphicGenerator {
   }
 
   private void parseZones(ArrayList<String> response) {
-    for (String zone : response) {
-      try {
-        ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
-        for (int i = 0; i < geometry.size(); i++)
-          alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+    new Thread(() -> {
+      for (String zone : response) {
+        try {
+          ArrayList<GeoJSONPolygon> geometry = new GeometryParser(new JSONObject(zone).getJSONObject("geometry")).parseGeometry();
+          for (int i = 0; i < geometry.size(); i++)
+            alert.addPolygon(PolygonAdapter.toMercatorPolygon(geometry.get(i)));
+        }
+        catch (JSONException e) { e.printStackTrace(); }
       }
-      catch (JSONException e) { e.printStackTrace(); }
-    }
-    alertPolygons(alert.getPolygons());
+      alertPolygons(alert.getPolygons());
+    }).start();
   }
 }
