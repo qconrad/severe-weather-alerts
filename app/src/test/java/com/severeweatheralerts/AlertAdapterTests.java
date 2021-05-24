@@ -1278,4 +1278,44 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals("People outdoors should seek shelter immediately. If you can hear thunder, you are close enough to be struck by lightning. Motorists should slow down and be prepared for possible loss of control due to hydroplaning.", aa.getAdaptedAlerts().get(0).getInstruction());
   }
+
+  @Test
+  public void motionVectorHeading() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setMotionDescription("2021-05-22T04:24:00-00:00...storm...220DEG...49KT...39.89,-102.05");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(220, aa.getAdaptedAlerts().get(0).getMotionVector().getHeading());
+  }
+
+  @Test
+  public void motionVectorDifferentHeading() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setMotionDescription("2021-05-22T04:24:00-00:00...storm...221DEG...49KT...39.89,-102.05");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(221, aa.getAdaptedAlerts().get(0).getMotionVector().getHeading());
+  }
+
+  @Test
+  public void motionVectorSpeed() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setMotionDescription("2021-05-22T04:24:00-00:00...storm...221DEG...49KT...39.89,-102.05");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(49, aa.getAdaptedAlerts().get(0).getMotionVector().getVelocity());
+  }
+
+  @Test
+  public void differentMotionVectorSpeed() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setMotionDescription("2021-05-22T04:24:00-00:00...storm...221DEG...50KT...39.89,-102.05");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(50, aa.getAdaptedAlerts().get(0).getMotionVector().getVelocity());
+  }
 }

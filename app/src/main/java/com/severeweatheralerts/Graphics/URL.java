@@ -69,8 +69,16 @@ public class URL {
     return getRadarProduct(bounds, radarStation, "bref_raw");
   }
 
+  public String getDualPolPrecipitationType(Bounds bounds, String radarStation) {
+    return getRadarProduct(bounds, radarStation, "bdhc");
+  }
+
   public String getRadarRainfall(Bounds bounds, String radarStation) {
     return getRadarProduct(bounds, radarStation, "bdsa");
+  }
+
+  public String getRadarCapabilities(String radarStation, String product) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation +  "/" + radarStation + "_" + product + "/ows?service=wms&version=1.1.1&request=GetCapabilities";
   }
 
   private String getRadarProduct(Bounds bounds, String radarStation, String product) {

@@ -147,4 +147,9 @@ public class AlertPropertyParser {
   public void parseReplacedAt() throws JSONException {
     if (props.has("replacedAt")) ua.setReplacedAt(props.getString("replacedAt"));
   }
+
+  public void parseEventMotion() throws JSONException {
+    if (!getParameters().has("eventMotionDescription")) return;
+    ua.setMotionDescription(getParameters().getJSONArray("eventMotionDescription").getString(0));
+  }
 }

@@ -5,23 +5,21 @@ import android.content.Context;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Generators.LocalRadarGenerator;
+import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitationGenerator;
 
-public class LocalRadar implements GraphicType {
-  public LocalRadar() {}
-
+public class OneHourPrecipitation implements GraphicType {
   @Override
   public String getTitle() {
-    return "Radar";
+    return "One Hour Forecast";
   }
 
   @Override
   public int getValidDuration() {
-    return 30 * 1000;
+    return 10 * 1000;
   }
 
   @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
-    return new LocalRadarGenerator(context, alert, location);
+    return new OneHourPrecipitationGenerator(context, alert, location);
   }
 }

@@ -2,9 +2,11 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
+import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.Alerts.NWS.*;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
+import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitationGenerator;
 import com.severeweatheralerts.Graphics.Types.*;
 
 import org.junit.Test;
@@ -356,4 +358,19 @@ public class GraphicTypeFactoryTests {
     assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 
+
+  @Test
+  public void getType_ThunderstormWarning_OneHourPrecipitation() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    severeThunderstormWarning.setMotionVector(new MotionVector(0, 0));
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
+    assertEquals(OneHourPrecipitation.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_ThunderstormWarningWithNoStormMotion_NoOneHourPrecip() {
+    SevereThunderstormWarning severeThunderstormWarning = new SevereThunderstormWarning();
+    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
+  }
 }
