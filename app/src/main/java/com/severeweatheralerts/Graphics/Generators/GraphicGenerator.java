@@ -146,19 +146,21 @@ public abstract class GraphicGenerator {
   }
 
   protected void generateGraphicFromLayers(ArrayList<Layer> layers) {
-    LayerListFetch fetchService = new LayerListFetch(context, layers);
-    fetchService.setUserAgent(Constants.USER_AGENT);
-    fetchService.fetch(new RequestCallback() {
-      @Override
-      public void success(Object response) {
-        layers((ArrayList<Bitmap>) response);
-      }
+    new Thread(() -> {
+      LayerListFetch fetchService = new LayerListFetch(context, layers);
+      fetchService.setUserAgent(Constants.USER_AGENT);
+      fetchService.fetch(new RequestCallback() {
+        @Override
+        public void success(Object response) {
+          layers((ArrayList<Bitmap>) response);
+        }
 
-      @Override
-      public void error(VolleyError error) {
-        throwError("Error fetching images");
-      }
-    });
+        @Override
+        public void error(VolleyError error) {
+          throwError("Error fetching images");
+        }
+      });
+    }).start();
   }
 
   protected void layers(ArrayList<Bitmap> bitmaps) {
