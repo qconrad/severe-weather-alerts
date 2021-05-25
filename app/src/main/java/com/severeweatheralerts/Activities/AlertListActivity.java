@@ -115,7 +115,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void refresh(ArrayList<Alert> alerts) {
     if (new InactiveFilter(activeAlerts, new Date()).filter().size() <= 0) return;
     sortAndFilterAlerts(alerts);
-    populateRecyclerViews();
+    refreshRecyclerViews();
     setStatus(getStatus());
   }
 
@@ -191,12 +191,20 @@ public class AlertListActivity extends AppCompatActivity {
     populateRecentRecyclerView();
   }
 
+  private void refreshRecyclerViews() {
+    refreshRecyclerView(findViewById(R.id.active_alerts));
+    refreshRecyclerView(findViewById(R.id.inactive_alerts_rv));
+  }
+
+  private void refreshRecyclerView(RecyclerView view) {
+    view.getAdapter().notifyDataSetChanged();
+  }
+
   private void populateActiveRecyclerView() {
     if (activeAlerts.size() <= 0) return;
     findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
     populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
   }
-
   private void populateRecentRecyclerView() {
     if (inactiveAlerts.size() <= 0) return;
     findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
