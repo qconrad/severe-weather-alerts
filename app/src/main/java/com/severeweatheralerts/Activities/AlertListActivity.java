@@ -229,12 +229,12 @@ public class AlertListActivity extends AppCompatActivity {
     if (subtextFade != null) subtextFade.execAndReset();
   }
 
-  private boolean paused;
+  private boolean stopped;
   @Override
-  protected void onPause() {
-    super.onPause();
+  protected void onStop() {
+    super.onStop();
     pauseSubtextFade();
-    paused = true;
+    stopped = true;
     refresher.stop();
   }
 
@@ -246,7 +246,7 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
-    if (paused) resume();
+    if (stopped) resume();
     else firstStart();
   }
 
