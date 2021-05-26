@@ -278,7 +278,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private boolean outdated(android.location.Location lastKnown) {
-    return lastKnown.getTime() < new Date().getTime() - Constants.LAST_KNOWN_LOCATION_EXPIRE;
+    return lastKnown.getTime() < new Date().getTime() - Constants.APP_OPENED_LOCATION_EXPIRE;
   }
 
   private void resumeSubtext() {
