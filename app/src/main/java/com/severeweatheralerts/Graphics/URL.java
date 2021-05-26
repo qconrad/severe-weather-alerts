@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Graphics;
 
+import android.graphics.Bitmap;
+
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 
 import java.util.Locale;
@@ -69,8 +71,8 @@ public class URL {
     return getRadarProduct(bounds, radarStation, "bref_raw");
   }
 
-  public String getDualPolPrecipitationType(Bounds bounds, String radarStation) {
-    return getRadarProduct(bounds, radarStation, "bdhc");
+  public String getDualPolPrecipitationType(Bounds bounds, String radarStation, String timeString) {
+    return getRadarProduct(bounds, radarStation, "bdhc", timeString);
   }
 
   public String getRadarRainfall(Bounds bounds, String radarStation) {
@@ -83,6 +85,10 @@ public class URL {
 
   private String getRadarProduct(Bounds bounds, String radarStation, String product) {
     return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_" + product + "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&LAYERS=" + radarStation + "_" + product + "&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
+  }
+
+  private String getRadarProduct(Bounds bounds, String radarStation, String product, String time) {
+    return "https://opengeo.ncep.noaa.gov/geoserver/" + radarStation + "/" + radarStation + "_" + product + "/ows?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=" + time + "&LAYERS=" + radarStation + "_" + product + "&WIDTH=512&HEIGHT=512&SRS=EPSG%3A3857&BBOX=" + String.format(Locale.US, "%.0f", bounds.getLeft()) + "," + String.format(Locale.US, "%.0f", bounds.getBottom()) + "," + String.format(Locale.US, "%.0f", bounds.getRight()) + "," + String.format(Locale.US, "%.0f", bounds.getTop());
   }
 
   public String getPointInfo(double lat, double lon) {
