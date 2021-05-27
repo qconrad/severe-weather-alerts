@@ -48,6 +48,7 @@ public class AlertListActivity extends AppCompatActivity {
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private IntervalRun subtextFade;
+  private GCSCoordinate lastLocation;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     LocationsDao locationsDao = LocationsDao.getInstance(this);
+    lastLocation = locationsDao.getCoordinate(0);
     setLocationName(locationsDao.getName(0));
     ArrayList<Alert> alerts = locationsDao.getAlerts(0);
     sortAndFilterAlerts(alerts);
@@ -79,7 +81,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void checkForLocationUpdate(LocationsDao locationsDao) {
     Location newLoc = new LastKnownLocation(this).getLocation();
-    if (newLoc != null && locationChanged(locationsDao.getCoordinate(0), newLoc))
+    if (newLoc != null && locationChanged(lastLocation, newLoc))
       saveAndPromptRefresh(locationsDao, newLoc);
   }
 
