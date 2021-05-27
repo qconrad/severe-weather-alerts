@@ -24,6 +24,7 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
@@ -115,7 +116,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void refresh(ArrayList<Alert> alerts) {
     if (new InactiveFilter(activeAlerts, new Date()).filter().size() <= 0) return;
     sortAndFilterAlerts(alerts);
-    refreshRecyclerViews();
+    populateRecyclerViews();
     setStatus(getStatus());
   }
 
@@ -155,6 +156,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void fadeSubtextsIfMultiple(ArrayList<String> subtexts, TextListFade textListFade) {
     if (!multipleTexts(subtexts)) return;
     subtextFade = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, textListFade::nextText);
+    subtextFade.startNextInterval();
   }
 
   private boolean multipleTexts(ArrayList<String> texts) {
@@ -191,24 +193,24 @@ public class AlertListActivity extends AppCompatActivity {
     populateRecentRecyclerView();
   }
 
-  private void refreshRecyclerViews() {
-    refreshRecyclerView(findViewById(R.id.active_alerts));
-    refreshRecyclerView(findViewById(R.id.inactive_alerts_rv));
-  }
-
-  private void refreshRecyclerView(RecyclerView view) {
-    view.getAdapter().notifyDataSetChanged();
-  }
-
   private void populateActiveRecyclerView() {
-    if (activeAlerts.size() <= 0) return;
-    findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
     populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
+    if (noAlerts(activeAlerts)) hideText(R.id.active_alerts);
+    else findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
   }
+
   private void populateRecentRecyclerView() {
-    if (inactiveAlerts.size() <= 0) return;
-    findViewById(R.id.iactive_alerts).setVisibility(View.VISIBLE);
     populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
+    if (noAlerts(inactiveAlerts)) hideText(R.id.inactive_alerts);
+    else findViewById(R.id.inactive_alerts).setVisibility(View.VISIBLE);
+  }
+
+  private void hideText(int p) {
+    findViewById(p).setVisibility(View.GONE);
+  }
+
+  private boolean noAlerts(ArrayList<Alert> activeAlerts) {
+    return activeAlerts.size() <= 0;
   }
 
   public void populateRecyclerView(RecyclerView view, ArrayList<Alert> alerts) {

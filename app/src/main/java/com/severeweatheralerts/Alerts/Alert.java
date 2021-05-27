@@ -25,9 +25,9 @@ public abstract class Alert implements Comparable<Alert> {
   private Date startTime = new Date();
   private Date endTime = new Date();
   private Date expectedUpdateTime;
-  private Severity severity;
-  private Urgency urgency;
-  private Certainty certainty;
+  private Severity severity = Severity.UNKNOWN;
+  private Urgency urgency = Urgency.UNKNOWN;
+  private Certainty certainty = Certainty.UNKNOWN;
   private Alert replacedBy;
   private Date discontinuedAt;
   private MotionVector motionVector;

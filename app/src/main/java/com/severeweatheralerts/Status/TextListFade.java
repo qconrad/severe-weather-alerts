@@ -44,6 +44,7 @@ public class TextListFade {
   }
 
   private void setText() {
+    textSwitcher.setVisibility(View.VISIBLE);
     textSwitcher.setText(textList.get(0));
   }
 
