@@ -30,7 +30,6 @@ import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.ParameterSmooth;
 import com.severeweatheralerts.TextUtils.RegExMatcher;
-import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,11 +40,9 @@ import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringT
 public class OneHourPrecipitationGenerator extends GraphicGenerator {
   private final int heading;
   private final double speedMetersPerSecond;
-  private String radarStation;
   private Date radarTime;
   private final MercatorCoordinate location;
   private final Bounds bounds;
-  private Bitmap map;
 
   public OneHourPrecipitationGenerator(Context context, Alert alert, GCSCoordinate location) {
     super(context, alert, location);
@@ -63,15 +60,11 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   @Override
   protected void pointInfo(String response) {
-    radarStation = new PointInfoParser(response).getRadarStation().toLowerCase();
-    fetchFinished();
+    String radarStation = new PointInfoParser(response).getRadarStation().toLowerCase();
+    if (radarStation != null) getRadarImageTime(radarStation);
   }
 
-  private void fetchFinished() {
-    if (radarStation != null) getRadarImageTime();
-  }
-
-  private void getRadarImageTime() {
+  private void getRadarImageTime(String radarStation) {
     StringFetchService fetch = new StringFetchService(context, new URL().getRadarCapabilities(radarStation, "bdhc"));
     fetch.setUserAgent(Constants.USER_AGENT);
     fetch.request(new RequestCallback() {
@@ -104,9 +97,22 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private Bounds getBounds() {
     Polygon polygon = new Polygon();
-    polygon.addCoordinate(getCoordinateAt(location, -60));
-    polygon.addCoordinate(getCoordinateAt(location, 4500));
-    return new BoundMargin(new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize(), 1.00).getBounds();
+    ArrayList<MercatorCoordinate> startRange = getPerpendicularCoordinates(getCoordinateAt(location, 0), (int) getMarginAtPercent(0), 10);
+    polygon.addCoordinate(startRange.get(startRange.size() - 1));
+    polygon.addCoordinate(startRange.get(0));
+    ArrayList<MercatorCoordinate> endRange = getPerpendicularCoordinates(getCoordinateAt(location, 3600), (int) getMarginAtPercent(1.0), 10);
+    polygon.addCoordinate(endRange.get(endRange.size() - 1));
+    polygon.addCoordinate(endRange.get(0));
+    return new BoundMargin(new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize(), 0.1).getBounds();
+  }
+
+  private ArrayList<MercatorCoordinate> getPerpendicularCoordinates(MercatorCoordinate coordinate, int marginMeters, int numPoints) {
+    ArrayList<MercatorCoordinate> coordinates = new ArrayList<>();
+    for (int i = -marginMeters; i < marginMeters; i += Math.max(marginMeters / (numPoints / 2), 1)) {
+      DiagonalOffset diagonalOffset = new DiagonalOffset(i, heading + 90);
+      coordinates.add(new MercatorCoordinate(coordinate.getX() + diagonalOffset.getX(), coordinate.getY() + diagonalOffset.getY()));
+    }
+    return coordinates;
   }
 
   private MercatorCoordinate getCoordinateAt(MercatorCoordinate start, int secondOffset) {
@@ -119,45 +125,41 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   @Override
   protected void layers(ArrayList<Bitmap> bitmaps) {
-    new Thread(() -> {
-      map = bitmaps.get(0);
-      ArrayList<ForecastTime> forecast = new ArrayList<>();
-      String subtext = "";
-      Bitmap hour = Bitmap.createBitmap(256, 50, Bitmap.Config.ARGB_8888);
-      for (int i = -60; i <= 4500; i += 10) {
-        double hourPercent = i / 3600.0;
-        double lookAround = Math.min((((hourPercent * hourPercent) * 30000)+1000), 30000);
-        // PrecipitationType precipitationType = getPrecipitationType(getCoordinateAt(location, i));
-        int sum = 0;
-        int count = 0;
-        for (int w = (int) -lookAround; w < lookAround; w+= Math.max(lookAround / 5, 1)) {
-          count++;
-          DiagonalOffset diagonalOffset = new DiagonalOffset(w, heading + 90);
-          MercatorCoordinate mercatorCoordinate = getCoordinateAt(new MercatorCoordinate(location.getX() + diagonalOffset.getX(), location.getY() + diagonalOffset.getY()), i);
-          if (i % 900 == 0) bitmaps.add(new LocationDrawer(bounds, mercatorCoordinate, Color.RED).getBitmap());
-          PrecipitationType precipitationType = getPrecipitationType(mercatorCoordinate);
-          sum += precipitationType.ordinal();
-        }
-        forecast.add(new ForecastTime(getDateAt(i), (double)sum/count));
+    Bitmap map = bitmaps.get(0);
+    ArrayList<ForecastTime> forecast = new ArrayList<>();
+    for (int seconds = 0; seconds <= 3600; seconds += 10) {
+      ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), (int) getMarginAtPercent(seconds / 3600.0), 10);
+      int count = 0;
+      double sum = 0.0;
+      for (MercatorCoordinate coordinate : coordinates) {
+        count++;
+        if (seconds % 900 == 0) bitmaps.add(new LocationDrawer(bounds, coordinate, Color.RED).getBitmap());
+        sum += getPrecipitationType(map, coordinate).ordinal();
       }
-//      forecast = smoothNoise(new ParameterTrim(new Parameter(forecast)).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60*60*1000)).getTrimmed()).getForecastTimes();
-      forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
-      int lastVal = 0;
-      for (int i = 0; i < forecast.size(); i++) {
-        String formattedString = new RelativeTimeFormatter(new Date(), forecast.get(i).getDate()).getFormattedString();
-        int val = (int) Math.round(forecast.get(i).getValue());
-        if (lastVal != val) {
-          subtext += formattedString + ": " + PrecipitationType.values()[val] + "\n";
-          lastVal = val;
-        }
-        for (int y = 0; y < 50; y++)
-          hour.setPixel((int) (i/(forecast.size()/255.0)), y, getColor(forecast.get(i).getValue()));
-      }
-//      bitmaps.clear();
-      bitmaps.add(hour);
-      setSubtext(subtext);
-      super.layers(bitmaps);
-    }).start();
+      forecast.add(new ForecastTime(getDateAt(seconds), sum / count));
+    }
+    forecast = trimAndSmooth(forecast);
+    bitmaps.clear();
+    bitmaps.add(getBitmap(forecast));
+    super.layers(bitmaps);
+  }
+
+  private ArrayList<ForecastTime> trimAndSmooth(ArrayList<ForecastTime> forecast) {
+    forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
+    return forecast;
+  }
+
+  private Bitmap getBitmap(ArrayList<ForecastTime> forecast) {
+    Bitmap hour = Bitmap.createBitmap(256, 32, Bitmap.Config.ARGB_8888);
+    for (int i = 0; i < forecast.size(); i++) {
+      for (int y = 0; y < 32; y++)
+        hour.setPixel((int) (i / (forecast.size() / 255.0)), y, getColor(forecast.get(i).getValue()));
+    }
+    return hour;
+  }
+
+  private double getMarginAtPercent(double percent) {
+    return ((percent * percent) * 30000) + 1000;
   }
 
   private Parameter getSmoothed(Parameter parameter) {
@@ -193,8 +195,8 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   public enum PrecipitationType { NONE, BIG_DROPS, LIGHT_MOD_RAIN, HEAVY_RAIN, HAIL_RAIN, LARGE_HAIL }
 
-  private PrecipitationType getPrecipitationType(MercatorCoordinate coordinate) {
-    int color = getColorAt(coordinate);
+  private PrecipitationType getPrecipitationType(Bitmap map, MercatorCoordinate coordinate) {
+    int color = getColorAt(map, coordinate);
     if (color == -16729344) return PrecipitationType.HEAVY_RAIN;
     if (color == -16712816) return PrecipitationType.LIGHT_MOD_RAIN;
     if (color == -3092384) return PrecipitationType.BIG_DROPS;
@@ -205,7 +207,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     return PrecipitationType.NONE;
   }
 
-  private int getColorAt(MercatorCoordinate coordinate) {
+  private int getColorAt(Bitmap map, MercatorCoordinate coordinate) {
     Point point = new MercatorCoordinateToPointAdapter(bounds, 511, 511).getPoint(coordinate);
     return map.getPixel(point.x, 511 - point.y);
   }
