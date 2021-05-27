@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
@@ -13,7 +12,6 @@ import com.severeweatheralerts.ColorMap;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
-import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.DiagonalOffset;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
@@ -96,19 +94,20 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private Bounds getBounds() {
     Polygon polygon = new Polygon();
-    ArrayList<MercatorCoordinate> startRange = getPerpendicularCoordinates(getCoordinateAt(location, 0), (int) getMarginAtPercent(0), 10);
+    ArrayList<MercatorCoordinate> startRange = getPerpendicularCoordinates(getCoordinateAt(location, 0), getMarginAtPercent(0));
     polygon.addCoordinate(startRange.get(startRange.size() - 1));
     polygon.addCoordinate(startRange.get(0));
-    ArrayList<MercatorCoordinate> endRange = getPerpendicularCoordinates(getCoordinateAt(location, 3600), (int) getMarginAtPercent(1.0), 10);
+    ArrayList<MercatorCoordinate> endRange = getPerpendicularCoordinates(getCoordinateAt(location, 3600), getMarginAtPercent(1.0));
     polygon.addCoordinate(endRange.get(endRange.size() - 1));
     polygon.addCoordinate(endRange.get(0));
-    return new BoundMargin(new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize(), 0.1).getBounds();
+    return new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize();
   }
 
-  private ArrayList<MercatorCoordinate> getPerpendicularCoordinates(MercatorCoordinate coordinate, int marginMeters, int numPoints) {
+  private ArrayList<MercatorCoordinate> getPerpendicularCoordinates(MercatorCoordinate coordinate, double marginMeters) {
     ArrayList<MercatorCoordinate> coordinates = new ArrayList<>();
-    for (int i = -marginMeters; i < marginMeters; i += Math.max(marginMeters / (numPoints / 2), 1)) {
-      DiagonalOffset diagonalOffset = new DiagonalOffset(i, heading + 90);
+    double interval = marginMeters / 5.0;
+    for (double i = 0; i < 10; i++)  {
+      DiagonalOffset diagonalOffset = new DiagonalOffset(-marginMeters + (i * interval), heading + 90);
       coordinates.add(new MercatorCoordinate(coordinate.getX() + diagonalOffset.getX(), coordinate.getY() + diagonalOffset.getY()));
     }
     return coordinates;
@@ -139,7 +138,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   }
 
   private double parseForecastPoint(Bitmap map, int seconds) {
-    ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), (int) getMarginAtPercent(seconds / 3600.0), 10);
+    ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), getMarginAtPercent(seconds / 3600.0));
     double sum = 0.0;
     for (MercatorCoordinate coordinate : coordinates) sum += getPrecipitationType(map, coordinate).ordinal();
     return sum / coordinates.size();
