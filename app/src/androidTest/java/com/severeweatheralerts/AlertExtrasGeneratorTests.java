@@ -3,6 +3,7 @@ package com.severeweatheralerts;
 import android.content.Intent;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
@@ -440,5 +441,41 @@ public class AlertExtrasGeneratorTests {
     Intent resultIntent = new Intent();
     AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
     assertEquals("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", alertBundleAdapter.addExtras().getExtras().getString("id"));
+  }
+
+  @Test
+  public void motionParsing() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setMotionVector(new MotionVector(20, 20));
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals(20, alertBundleAdapter.addExtras().getExtras().getInt("heading"));
+  }
+
+  @Test
+  public void differentHeading() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setMotionVector(new MotionVector(21, 20));
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals(21, alertBundleAdapter.addExtras().getExtras().getInt("heading"));
+  }
+
+  @Test
+  public void velocityParsing() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setMotionVector(new MotionVector(21, 20));
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals(20, alertBundleAdapter.addExtras().getExtras().getInt("velocity"));
+  }
+
+  @Test
+  public void differentVelocity() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setMotionVector(new MotionVector(21, 21));
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    assertEquals(21, alertBundleAdapter.addExtras().getExtras().getInt("velocity"));
   }
 }

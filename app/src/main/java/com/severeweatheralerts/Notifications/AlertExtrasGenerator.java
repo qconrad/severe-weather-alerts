@@ -29,6 +29,7 @@ public class AlertExtrasGenerator {
             .putExtra("polygons", getPolygonString())
             .putExtra("sender", alert.getSender())
             .putExtra("senderCode", alert.getSenderCode());
+    if (alert.hasMotionVector()) resultIntent.putExtra("heading", alert.getMotionVector().getHeading()).putExtra("velocity", alert.getMotionVector().getVelocity());
     if (alert.getExpectedUpdateTime() != null) intent.putExtra("expectedUpdate", alert.getExpectedUpdateTime().getTime());
     return intent;
   }
