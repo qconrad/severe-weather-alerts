@@ -339,4 +339,20 @@ public class MessageAdapterTests {
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.2.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", messageAdapter.getAlert().getNwsId());
   }
+
+  @Test
+  public void getAlert_MotionDescriptionHeading() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("motionDescription", "2021-05-27T21:44:00-00:00...storm...273DEG...38KT...36.21,-98.11 35.9,-98.78");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(273, messageAdapter.getAlert().getMotionVector().getHeading());
+  }
+
+  @Test
+  public void getAlert_DifferentMotionDescriptionHeading() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("motionDescription", "2021-05-27T21:44:00-00:00...storm...274DEG...38KT...36.21,-98.11 35.9,-98.78");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(274, messageAdapter.getAlert().getMotionVector().getHeading());
+  }
 }

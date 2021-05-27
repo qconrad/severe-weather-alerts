@@ -7,6 +7,7 @@ import com.severeweatheralerts.Adapters.ExpectedUpdateTimeAdapter;
 import com.severeweatheralerts.Adapters.GeoJSONPolygon;
 import com.severeweatheralerts.Adapters.HeadlineAdapter;
 import com.severeweatheralerts.Adapters.InstructionAdapter;
+import com.severeweatheralerts.Adapters.MotionDescriptionAdapter;
 import com.severeweatheralerts.Adapters.PolygonAdapter;
 import com.severeweatheralerts.Adapters.SendTimeAdapter;
 import com.severeweatheralerts.Adapters.SenderCodeAdapter;
@@ -14,6 +15,7 @@ import com.severeweatheralerts.Adapters.StartTimeAdapter;
 import com.severeweatheralerts.Adapters.TypeAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 
 import org.json.JSONArray;
@@ -46,6 +48,7 @@ public class MessageAdapter {
     HeadlineAdapter headlineAdapter = new HeadlineAdapter(message.get("nwsHeadline"), message.get("description"));
     alert.setLargeHeadline(headlineAdapter.getLargeHeadline());
     alert.setSmallHeadline(headlineAdapter.getSmallHeadline());
+    alert.setMotionVector(new MotionDescriptionAdapter(message.get("motionDescription")).getMotionVector());
     if (message.get("polygonType") != null) {
       String geometryString = "{ type: '" + message.get("polygonType") + "', coordinates: " + message.get("polygon") + "}";
       try {
