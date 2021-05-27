@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
+import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
 
@@ -37,6 +38,7 @@ public class BundleAlertAdapter {
     if (type != null) alert.setType(Alert.Type.valueOf(type));
     alert.setSenderCode(bundle.getString("senderCode"));
     alert.setSender(bundle.getString("sender"));
+    if (bundle.getInt("heading", -1) != -1) alert.setMotionVector(new MotionVector(bundle.getInt("heading"), bundle.getInt("velocity")));
     alert.setZoneLinks(bundle.getStringArrayList("zones"));
     return alert;
   }

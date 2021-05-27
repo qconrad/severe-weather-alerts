@@ -342,4 +342,45 @@ public class BundleAlertAdapterTests {
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", bundleAlertAdapter.getAlert().getNwsId());
   }
+
+  @Test
+  public void motionHeading() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("heading", 20);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(20, bundleAlertAdapter.getAlert().getMotionVector().getHeading());
+  }
+
+  @Test
+  public void differentMotionHeading() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("heading", 21);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(21, bundleAlertAdapter.getAlert().getMotionVector().getHeading());
+  }
+
+  @Test
+  public void motionNullIfNoneGiven() {
+    Bundle bundle = new Bundle();
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertNull(bundleAlertAdapter.getAlert().getMotionVector());
+  }
+
+  @Test
+  public void motionVelocity() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("heading", 0);
+    bundle.putInt("velocity", 22);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(22, bundleAlertAdapter.getAlert().getMotionVector().getVelocity());
+  }
+
+  @Test
+  public void differentMotionVelocity() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("heading", 0);
+    bundle.putInt("velocity", 23);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(23, bundleAlertAdapter.getAlert().getMotionVector().getVelocity());
+  }
 }
