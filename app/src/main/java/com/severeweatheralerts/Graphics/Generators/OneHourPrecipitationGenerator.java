@@ -11,7 +11,6 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.ColorMap;
 import com.severeweatheralerts.Constants;
-import com.severeweatheralerts.Graphics.BitmapTools.LocationDrawer;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
 import com.severeweatheralerts.Graphics.Bounds.BoundMargin;
@@ -125,23 +124,25 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   @Override
   protected void layers(ArrayList<Bitmap> bitmaps) {
-    Bitmap map = bitmaps.get(0);
+    new Thread(() -> {
+      bitmaps.add(getBitmap(getForecast(bitmaps.get(0))));
+      bitmaps.remove(0);
+      super.layers(bitmaps);
+    }).start();
+  }
+
+  private ArrayList<ForecastTime> getForecast(Bitmap map) {
     ArrayList<ForecastTime> forecast = new ArrayList<>();
-    for (int seconds = 0; seconds <= 3600; seconds += 10) {
-      ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), (int) getMarginAtPercent(seconds / 3600.0), 10);
-      int count = 0;
-      double sum = 0.0;
-      for (MercatorCoordinate coordinate : coordinates) {
-        count++;
-        if (seconds % 900 == 0) bitmaps.add(new LocationDrawer(bounds, coordinate, Color.RED).getBitmap());
-        sum += getPrecipitationType(map, coordinate).ordinal();
-      }
-      forecast.add(new ForecastTime(getDateAt(seconds), sum / count));
-    }
-    forecast = trimAndSmooth(forecast);
-    bitmaps.clear();
-    bitmaps.add(getBitmap(forecast));
-    super.layers(bitmaps);
+    for (int seconds = 0; seconds <= 3600; seconds += 10)
+      forecast.add(new ForecastTime(getDateAt(seconds), parseForecastPoint(map, seconds)));
+    return trimAndSmooth(forecast);
+  }
+
+  private double parseForecastPoint(Bitmap map, int seconds) {
+    ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), (int) getMarginAtPercent(seconds / 3600.0), 10);
+    double sum = 0.0;
+    for (MercatorCoordinate coordinate : coordinates) sum += getPrecipitationType(map, coordinate).ordinal();
+    return sum / coordinates.size();
   }
 
   private ArrayList<ForecastTime> trimAndSmooth(ArrayList<ForecastTime> forecast) {
@@ -183,10 +184,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     colors.add(Color.parseColor("#e30308"));
     colors.add(Color.parseColor("#fb4eee"));
     colors.add(Color.parseColor("#921fd5"));
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      return new ColorMap(colors, 5.0).getValue((value));
-    }
-    return 0;
+    return new ColorMap(colors, 5.0).getValue((value));
   }
 
   private Date getDateAt(int secondsOffset) {
