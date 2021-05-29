@@ -52,6 +52,15 @@ public class PrecipitationTextGenerator {
         }
       }
     }
+    if (text.equals("")) {
+      for (int i = 0; i < forecast.size(); i++) {
+        if (forecast.get(i).getValue() < 1.5) {
+          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
+          return "Light to moderate rain for " + formattedString;
+        }
+      }
+      return "Light to moderate rain";
+    }
     return text;
   }
 }
