@@ -13,7 +13,7 @@ import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
-import com.severeweatheralerts.Graphics.Rounder;
+import com.severeweatheralerts.Graphics.Tools.Rounder;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
-import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
 
 public class RainfallGenerator extends GraphicGenerator {
   private ArrayList<Polygon> polygons;

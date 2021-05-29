@@ -9,9 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.severeweatheralerts.BundledLocation;
-import com.severeweatheralerts.LocationPermissionRequest;
-import com.severeweatheralerts.PermissionManager;
+import com.severeweatheralerts.Location.BundledLocation;
+import com.severeweatheralerts.Permissions.LocationPermissionRequest;
+import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.R;
 
 public class FirstRunActivity extends AppCompatActivity {

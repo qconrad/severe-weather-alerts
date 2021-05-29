@@ -11,7 +11,7 @@ import androidx.preference.PreferenceManager;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.PermissionManager;
+import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class UpdateReceiver extends BroadcastReceiver {

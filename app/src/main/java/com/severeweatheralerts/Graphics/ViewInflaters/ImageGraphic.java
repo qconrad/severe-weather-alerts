@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.ViewInflaters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
+import com.severeweatheralerts.Graphics.ViewInflaters.Graphic;
 
 public class ImageGraphic implements Graphic {
   protected final Context context;

@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Feedback;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

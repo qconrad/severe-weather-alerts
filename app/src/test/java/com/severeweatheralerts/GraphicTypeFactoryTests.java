@@ -6,7 +6,6 @@ import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.Alerts.NWS.*;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
-import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitationGenerator;
 import com.severeweatheralerts.Graphics.Types.*;
 
 import org.junit.Test;

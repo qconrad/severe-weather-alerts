@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Graphics.Tools;
 
 import android.graphics.Color;
 import android.os.Build;

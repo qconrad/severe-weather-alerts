@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Permissions;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Activities.GettingLatestDataActivity;
 import com.severeweatheralerts.Activities.LocationPickerActivity;
+import com.severeweatheralerts.Location.BundledLocation;
+import com.severeweatheralerts.R;
 
 public class LocationPermissionRequest extends AppCompatActivity {
   @Override

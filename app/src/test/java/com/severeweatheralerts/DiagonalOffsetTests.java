@@ -1,6 +1,6 @@
 package com.severeweatheralerts;
 
-import com.severeweatheralerts.Graphics.DiagonalOffset;
+import com.severeweatheralerts.Graphics.Tools.DiagonalOffset;
 
 import org.junit.Test;
 

@@ -1,4 +1,6 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Refreshing;
+
+import com.severeweatheralerts.Refreshing.IntervalRun;
 
 import java.util.ArrayList;
 

@@ -2,9 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.GradientDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -20,24 +18,21 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Graphic;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
-import com.severeweatheralerts.IntervalRun;
+import com.severeweatheralerts.Graphics.ViewInflaters.Graphic;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
-import com.severeweatheralerts.Refresher;
+import com.severeweatheralerts.Refreshing.IntervalRun;
+import com.severeweatheralerts.Refreshing.Refresher;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 import com.severeweatheralerts.TextGeneraters.Time.AlertTime;
 import com.severeweatheralerts.TextGeneraters.Time.TimeGenerator;

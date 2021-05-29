@@ -1,6 +1,7 @@
 package com.severeweatheralerts;
 
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
+import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitation.PrecipitationTextGenerator;
 
 import org.junit.Test;
 

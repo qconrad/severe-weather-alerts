@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics.BitmapTools;
+package com.severeweatheralerts.Graphics.Tools.Bitmaps;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

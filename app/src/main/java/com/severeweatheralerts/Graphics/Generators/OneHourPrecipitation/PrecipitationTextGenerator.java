@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Graphics.Generators.OneHourPrecipitation;
 
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.TimeFormatters.RelativeTimeFormatter;

@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Tools;
 
 public class UnitConverter {
   public static double kphToMph(double value) { return value / 1.609; }

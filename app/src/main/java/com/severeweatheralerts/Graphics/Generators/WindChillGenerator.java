@@ -21,7 +21,7 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.severeweatheralerts.Graphics.UnitConverter.cToF;
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.cToF;
 
 public class WindChillGenerator extends GraphicGenerator {
   private ArrayList<Polygon> polygons;

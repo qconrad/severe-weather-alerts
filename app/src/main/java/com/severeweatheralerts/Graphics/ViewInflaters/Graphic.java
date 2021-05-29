@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.ViewInflaters;
 
 import android.view.View;
 

@@ -1,17 +1,12 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.ViewInflaters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-
+import com.severeweatheralerts.Graphics.ViewInflaters.ImageGraphic;
 import com.severeweatheralerts.R;
 
 public class OneHourPrecipitationGraphic extends ImageGraphic {

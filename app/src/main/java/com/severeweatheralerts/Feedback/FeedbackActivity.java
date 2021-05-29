@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Feedback;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.severeweatheralerts.Constants;
-import com.severeweatheralerts.FeedbackPayloadGenerator;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.PostService;
 import com.severeweatheralerts.R;

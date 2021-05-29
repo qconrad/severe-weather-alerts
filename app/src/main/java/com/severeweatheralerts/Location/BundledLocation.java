@@ -1,13 +1,10 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Location;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.preference.PreferenceManager;
-
-import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
-import com.severeweatheralerts.Location.LocationsDao;
 
 public class BundledLocation {
   private final Context context;

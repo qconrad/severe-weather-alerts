@@ -2,6 +2,7 @@ package com.severeweatheralerts;
 
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.Graphics.GridData.ParameterSmooth;
 
 import org.junit.Test;
 

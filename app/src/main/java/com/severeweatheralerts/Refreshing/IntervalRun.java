@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Refreshing;
 
 import android.os.Handler;
 

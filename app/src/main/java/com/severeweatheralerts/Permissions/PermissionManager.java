@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Permissions;
 
 import android.Manifest;
 import android.app.Activity;

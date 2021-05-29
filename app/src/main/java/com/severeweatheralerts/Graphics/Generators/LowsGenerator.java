@@ -20,7 +20,7 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 
 import java.util.ArrayList;
 
-import static com.severeweatheralerts.Graphics.UnitConverter.cToF;
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.cToF;
 
 public class LowsGenerator extends GraphicGenerator {
   private boolean subTextSet;

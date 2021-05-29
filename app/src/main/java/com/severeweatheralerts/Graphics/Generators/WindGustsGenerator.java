@@ -21,7 +21,7 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.severeweatheralerts.Graphics.UnitConverter.kphToMph;
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.kphToMph;
 
 public class WindGustsGenerator extends GraphicGenerator {
   private ForecastTime maxGust;

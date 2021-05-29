@@ -2,6 +2,8 @@ package com.severeweatheralerts;
 
 import android.graphics.Color;
 
+import com.severeweatheralerts.Graphics.Tools.ColorMap;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

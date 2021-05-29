@@ -1,4 +1,4 @@
-package com.severeweatheralerts.Graphics;
+package com.severeweatheralerts.Graphics.Tools;
 
 public class Rounder {
   private final int roundAmount;

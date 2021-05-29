@@ -14,7 +14,7 @@ import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
-import com.severeweatheralerts.Graphics.Rounder;
+import com.severeweatheralerts.Graphics.Tools.Rounder;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.TextUtils.Plurality;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
-import static com.severeweatheralerts.Graphics.UnitConverter.mmToIn;
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
 
 public class SnowfallGenerator extends GraphicGenerator {
   boolean subTextSet = false;

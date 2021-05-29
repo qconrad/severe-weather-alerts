@@ -5,7 +5,7 @@ import android.content.Context;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitationGenerator;
+import com.severeweatheralerts.Graphics.Generators.OneHourPrecipitation.OneHourPrecipitationGenerator;
 
 public class OneHourPrecipitation implements GraphicType {
   @Override

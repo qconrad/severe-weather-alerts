@@ -1,7 +1,4 @@
-package com.severeweatheralerts;
-
-import com.severeweatheralerts.Graphics.GridData.ForecastTime;
-import com.severeweatheralerts.Graphics.GridData.Parameter;
+package com.severeweatheralerts.Graphics.GridData;
 
 import java.util.ArrayList;
 import java.util.Date;
