@@ -16,54 +16,45 @@ public class PrecipitationTextGenerator {
   }
 
   public String getText() {
-    // TODO: Clean up this garbage
+    String textForecast;
     if (forecast.size() <= 0) return "No forecast found";
-    String text = "";
-    if (forecast.get(0).getValue() >= 2.5) {
-      for (int i = 0; i < forecast.size(); i++) {
-        if (forecast.get(i).getValue() < 2.5) {
-          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-          text += "Heavy rain for " + formattedString;
-          break;
-        }
-      }
-    } else {
-      for (int i = 0; i < forecast.size(); i++) {
-        if (forecast.get(i).getValue() >= 2.5) {
-          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-          text += "Heavy rain in " + formattedString;
-          break;
-        }
-      }
+    textForecast = getParameter("Heavy rain", 2.5);
+    textForecast += getParameter(", hail", 3.5);
+    if (textEmpty(textForecast)) textForecast += getParameter("Light to moderate rain", 1.5);
+    if (textEmpty(textForecast)) return null;
+    return textForecast;
+  }
+
+  private boolean textEmpty(String textForecast) {
+    return textForecast.equals("");
+  }
+
+  private String getParameter(String type, double threshold) {
+    if (startsAboveThreshold(threshold)) return getDuration(type, threshold);
+    return getStartTime(type, threshold);
+  }
+
+  private String getStartTime(String type, double threshold) {
+    for (int i = 0; i < forecast.size(); i++) {
+      if (forecast.get(i).getValue() >= threshold)
+        return type + " in " + getRelativeTime(i);
     }
-    if (forecast.get(0).getValue() >= 3.5) {
-      for (int i = 0; i < forecast.size(); i++) {
-        if (forecast.get(i).getValue() < 3.5) {
-          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-          text += ", hail for " + formattedString;
-          break;
-        }
-      }
-    } else {
-      for (int i = 0; i < forecast.size(); i++) {
-        if (forecast.get(i).getValue() >= 3.5) {
-          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-          text += ", hail in " + formattedString;
-          break;
-        }
-      }
+    return "";
+  }
+
+  private String getDuration(String type, double threshold) {
+    for (int i = 0; i < forecast.size(); i++) {
+      if (forecast.get(i).getValue() < threshold)
+        return type + " for " + getRelativeTime(i);
     }
-    if (text.equals("")) {
-      if (forecast.get(0).getValue() >= 1.5) {
-        for (int i = 0; i < forecast.size(); i++) {
-          if (forecast.get(i).getValue() < 1.5) {
-            String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-            return "Light to moderate rain for " + formattedString;
-          }
-        }
-        return "Light to moderate rain";
-      } else return null;
-    }
-    return text;
+    return type;
+  }
+
+  private boolean startsAboveThreshold(double threshold) {
+    return forecast.get(0).getValue() >= threshold;
+  }
+
+  private String getRelativeTime(int i) {
+    return new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
   }
 }
