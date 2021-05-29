@@ -10,6 +10,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.ColorMap;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.Graphics.BitmapTools.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
@@ -17,7 +18,9 @@ import com.severeweatheralerts.Graphics.DiagonalOffset;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
+import com.severeweatheralerts.Graphics.ImageGraphic;
 import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.OneHourPrecipitationGraphic;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinateToPointAdapter;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
@@ -126,10 +129,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   protected void layers(ArrayList<Bitmap> bitmaps) {
     new Thread(() -> {
       ArrayList<ForecastTime> forecast = getForecast(bitmaps.get(0));
-      setSubtext(new PrecipitationTextGenerator(forecast, new Date()).getText());
-      bitmaps.add(getBitmap(forecast));
-      bitmaps.remove(0);
-      super.layers(bitmaps);
+      graphicCompleteListener.onComplete(new OneHourPrecipitationGraphic(context, getBitmap(forecast), new PrecipitationTextGenerator(forecast, new Date()).getText()));
     }).start();
   }
 
@@ -198,11 +198,10 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   private PrecipitationType getPrecipitationType(Bitmap map, MercatorCoordinate coordinate) {
     int color = getColorAt(map, coordinate);
     if (color == -16729344) return PrecipitationType.HEAVY_RAIN;
-    if (color == -16712816) return PrecipitationType.LIGHT_MOD_RAIN;
+    if (color == -16712816 || color == -2980732 || color == -16711681 || color == -16740097)
+      return PrecipitationType.LIGHT_MOD_RAIN;
     if (color == -3092384) return PrecipitationType.BIG_DROPS;
     if (color == -65536) return PrecipitationType.HAIL_RAIN;
-    if (color == -2980732) return PrecipitationType.LIGHT_MOD_RAIN;
-    if (color == -16711681) return PrecipitationType.HEAVY_RAIN;
     if (color == -1638145) return PrecipitationType.LARGE_HAIL;
     return PrecipitationType.NONE;
   }

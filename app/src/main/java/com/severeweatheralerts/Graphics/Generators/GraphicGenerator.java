@@ -42,7 +42,7 @@ import java.util.Date;
 
 public abstract class GraphicGenerator {
   private final GCSCoordinate location;
-  private GraphicCompleteListener graphicCompleteListener;
+  protected GraphicCompleteListener graphicCompleteListener;
 
   protected final Context context;
   protected final Alert alert;

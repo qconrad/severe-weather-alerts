@@ -10,9 +10,9 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
 public class ImageGraphic implements Graphic {
-  private final Context context;
-  private final Bitmap image;
-  private String subtext;
+  protected final Context context;
+  protected final Bitmap image;
+  private final String subtext;
 
   public ImageGraphic(Context context, Bitmap image, String subtext) {
     this.context = context;
@@ -22,12 +22,16 @@ public class ImageGraphic implements Graphic {
 
   @Override
   public View getView() {
+    return getImageView(20.0f);
+  }
+
+  protected ImageView getImageView(float cornerRadius) {
     ImageView iv = new ImageView(context);
     iv.setAdjustViewBounds(true);
     iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
     iv.setImageBitmap(image);
     RoundedBitmapDrawable dr = RoundedBitmapDrawableFactory.create(Resources.getSystem(), image);
-    dr.setCornerRadius(20.0f);
+    dr.setCornerRadius(cornerRadius);
     iv.setImageDrawable(dr);
     return iv;
   }
