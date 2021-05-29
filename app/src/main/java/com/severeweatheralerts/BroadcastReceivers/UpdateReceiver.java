@@ -21,6 +21,8 @@ public class UpdateReceiver extends BroadcastReceiver {
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
     if (oldVersion(preferences)) adaptToNewVersion(context, preferences);
     setBackgroundLocation(context, preferences);
+    LocationsDao dao = LocationsDao.getInstance(context);
+    dao.deleteExtraLocations();
   }
 
   private void setBackgroundLocation(Context context, SharedPreferences preferences) {
