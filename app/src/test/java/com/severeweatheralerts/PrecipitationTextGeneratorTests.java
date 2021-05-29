@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNull;
 
 public class PrecipitationTextGeneratorTests {
   @Test
@@ -136,5 +137,14 @@ public class PrecipitationTextGeneratorTests {
     forecast.add(new ForecastTime(new Date(180000), 1.4));
     PrecipitationTextGenerator precipitationTextGenerator = new PrecipitationTextGenerator(forecast, new Date(0));
     assertEquals("Light to moderate rain for 3 minutes", precipitationTextGenerator.getText());
+  }
+
+  @Test
+  public void nothing_Null() {
+    ArrayList<ForecastTime> forecast = new ArrayList<>();
+    forecast.add(new ForecastTime(new Date(0), 0.0));
+    forecast.add(new ForecastTime(new Date(180000), 0.0));
+    PrecipitationTextGenerator precipitationTextGenerator = new PrecipitationTextGenerator(forecast, new Date(0));
+    assertNull(precipitationTextGenerator.getText());
   }
 }

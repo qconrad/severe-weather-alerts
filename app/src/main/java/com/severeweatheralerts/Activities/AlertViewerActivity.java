@@ -148,6 +148,7 @@ public class AlertViewerActivity extends AppCompatActivity {
       public void onComplete(Graphic graphic) {
         runOnUiThread(() -> {
           if (graphic.hasSubtext()) displaySubtext(graphicView, graphic.getSubtext());
+          else hideSubtext(graphicView);
           displayImage(graphicView, graphic);
           hideProgressBar(graphicView);
         });
@@ -160,6 +161,11 @@ public class AlertViewerActivity extends AppCompatActivity {
       }
     };
     new Thread(() -> generator.generate(graphicCompleteListener)).start();
+  }
+
+  private void hideSubtext(View graphicView) {
+    TextView subTextTv = graphicView.findViewById(R.id.gfx_subtext);
+    subTextTv.setVisibility(View.GONE);
   }
 
   private void displayImage(View graphicView, Graphic graphic) {

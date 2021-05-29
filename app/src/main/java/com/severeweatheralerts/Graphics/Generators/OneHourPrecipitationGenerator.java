@@ -98,7 +98,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
     ArrayList<MercatorCoordinate> startRange = getPerpendicularCoordinates(getCoordinateAt(location, 0), getMarginAtPercent(0));
     polygon.addCoordinate(startRange.get(startRange.size() - 1));
     polygon.addCoordinate(startRange.get(0));
-    ArrayList<MercatorCoordinate> endRange = getPerpendicularCoordinates(getCoordinateAt(location, 3600), getMarginAtPercent(1.0));
+    ArrayList<MercatorCoordinate> endRange = getPerpendicularCoordinates(getCoordinateAt(location, 4200), getMarginAtPercent(1.166));
     polygon.addCoordinate(endRange.get(endRange.size() - 1));
     polygon.addCoordinate(endRange.get(0));
     return new AspectRatioEqualizer(new BoundCalculator(polygon).getBounds()).equalize();
@@ -135,7 +135,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private ArrayList<ForecastTime> getForecast(Bitmap map) {
     ArrayList<ForecastTime> forecast = new ArrayList<>();
-    for (int seconds = 0; seconds <= 3600; seconds += 10)
+    for (int seconds = 0; seconds <= 4200; seconds += 10)
       forecast.add(new ForecastTime(getDateAt(seconds), parseForecastPoint(map, seconds)));
     return trimAndSmooth(forecast);
   }
@@ -180,7 +180,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   private int getColor(double value) {
     ArrayList<Integer> colors = new ArrayList<>();
     colors.add(Color.argb(0, 146, 31, 213));
-    colors.add(Color.parseColor("#26b552"));
+    colors.add(Color.argb(128, 82, 120, 167));
     colors.add(Color.parseColor("#089b06"));
     colors.add(Color.parseColor("#ebcd0d"));
     colors.add(Color.parseColor("#e30308"));

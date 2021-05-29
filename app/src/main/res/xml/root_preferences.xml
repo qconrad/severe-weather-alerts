@@ -4,7 +4,7 @@
 
         <SwitchPreferenceCompat
             app:key="usefixed"
-            app:summary="If disabled, your device's location will be used. You can save some battery and data by setting a fixed location."
+            app:summary="If disabled, your device's location will be used. The app will not use any background battery or data if a fixed location is set."
             app:title="Use Fixed Location" />
 
         <Preference

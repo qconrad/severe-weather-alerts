@@ -16,6 +16,7 @@ public class PrecipitationTextGenerator {
   }
 
   public String getText() {
+    // TODO: Clean up this garbage
     if (forecast.size() <= 0) return "No forecast found";
     String text = "";
     if (forecast.get(0).getValue() >= 2.5) {
@@ -53,13 +54,15 @@ public class PrecipitationTextGenerator {
       }
     }
     if (text.equals("")) {
-      for (int i = 0; i < forecast.size(); i++) {
-        if (forecast.get(i).getValue() < 1.5) {
-          String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
-          return "Light to moderate rain for " + formattedString;
+      if (forecast.get(0).getValue() >= 1.5) {
+        for (int i = 0; i < forecast.size(); i++) {
+          if (forecast.get(i).getValue() < 1.5) {
+            String formattedString = new RelativeTimeFormatter(date, forecast.get(i).getDate()).getFormattedString();
+            return "Light to moderate rain for " + formattedString;
+          }
         }
-      }
-      return "Light to moderate rain";
+        return "Light to moderate rain";
+      } else return null;
     }
     return text;
   }
