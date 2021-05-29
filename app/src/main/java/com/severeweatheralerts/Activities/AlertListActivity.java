@@ -24,13 +24,12 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.IntervalRun;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Location.LocationChange;
+import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
@@ -157,6 +156,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void fadeSubtextsIfMultiple(ArrayList<String> subtexts, TextListFade textListFade) {
     if (!multipleTexts(subtexts)) return;
+    if (subtextFade != null) subtextFade.stop();
     subtextFade = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, textListFade::nextText);
     subtextFade.startNextInterval();
   }

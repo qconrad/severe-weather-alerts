@@ -26,6 +26,7 @@ import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
 import com.severeweatheralerts.ParameterSmooth;
+import com.severeweatheralerts.PrecipitationTextGenerator;
 import com.severeweatheralerts.TextUtils.RegExMatcher;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   @Override
   protected void pointInfo(String response) {
     String radarStation = new PointInfoParser(response).getRadarStation().toLowerCase();
-    if (radarStation != null) getRadarImageTime(radarStation);
+    getRadarImageTime(radarStation);
   }
 
   private void getRadarImageTime(String radarStation) {
@@ -124,7 +125,9 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   @Override
   protected void layers(ArrayList<Bitmap> bitmaps) {
     new Thread(() -> {
-      bitmaps.add(getBitmap(getForecast(bitmaps.get(0))));
+      ArrayList<ForecastTime> forecast = getForecast(bitmaps.get(0));
+      setSubtext(new PrecipitationTextGenerator(forecast, new Date()).getText());
+      bitmaps.add(getBitmap(forecast));
       bitmaps.remove(0);
       super.layers(bitmaps);
     }).start();
