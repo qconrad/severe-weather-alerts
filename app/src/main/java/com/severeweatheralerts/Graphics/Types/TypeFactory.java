@@ -1,6 +1,9 @@
 package com.severeweatheralerts.Graphics.Types;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWarning;
+import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWatch;
+import com.severeweatheralerts.Alerts.NWS.ExtremeColdWatch;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
@@ -11,6 +14,7 @@ import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
+import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
@@ -58,6 +62,8 @@ public class TypeFactory {
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
+    else if (alert instanceof ExcessiveHeatWatch || alert instanceof ExcessiveHeatWarning || alert instanceof HeatAdvisory)
+      types.add(new HeatIndex());
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch) {

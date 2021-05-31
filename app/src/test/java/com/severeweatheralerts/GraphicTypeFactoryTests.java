@@ -372,4 +372,25 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
     assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
   }
+
+  @Test
+  public void getType_ExcessiveHeatWatch_HeatIndex() {
+    ExcessiveHeatWatch excessiveHeatWatch = new ExcessiveHeatWatch();
+    TypeFactory graphicFactory = new TypeFactory(excessiveHeatWatch, new Date(5));
+    assertEquals(HeatIndex.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_ExcessiveHeatWarning_HeatIndex() {
+    ExcessiveHeatWarning excessiveHeatWarning = new ExcessiveHeatWarning();
+    TypeFactory graphicFactory = new TypeFactory(excessiveHeatWarning, new Date(5));
+    assertEquals(HeatIndex.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_HeatAdvisory_HeatIndex() {
+    HeatAdvisory excessiveHeatWarning = new HeatAdvisory();
+    TypeFactory graphicFactory = new TypeFactory(excessiveHeatWarning, new Date(5));
+    assertEquals(HeatIndex.class, graphicFactory.getTypes().get(0).getClass());
+  }
 }
