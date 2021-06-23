@@ -20,7 +20,7 @@ public class PrecipitationTextGenerator {
     if (forecast.size() <= 0) return "No forecast found";
     textForecast = getParameter("Heavy rain", 2.5);
     textForecast += getParameter(", hail", 3.5);
-    if (textEmpty(textForecast)) textForecast += getParameter("Light to moderate rain", 1.5);
+    if (textEmpty(textForecast)) textForecast += getParameter("Rain", 1.5);
     if (textEmpty(textForecast)) return null;
     return textForecast;
   }

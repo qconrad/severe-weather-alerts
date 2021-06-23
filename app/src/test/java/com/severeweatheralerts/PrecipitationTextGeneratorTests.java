@@ -108,7 +108,7 @@ public class PrecipitationTextGeneratorTests {
     forecast.add(new ForecastTime(new Date(120000), 2.0));
     forecast.add(new ForecastTime(new Date(120000), 2.0));
     PrecipitationTextGenerator precipitationTextGenerator = new PrecipitationTextGenerator(forecast, new Date(0));
-    assertEquals("Light to moderate rain", precipitationTextGenerator.getText());
+    assertEquals("Rain", precipitationTextGenerator.getText());
   }
 
   @Test
@@ -119,7 +119,7 @@ public class PrecipitationTextGeneratorTests {
     forecast.add(new ForecastTime(new Date(120000), 2.1));
     forecast.add(new ForecastTime(new Date(120000), 2.0));
     PrecipitationTextGenerator precipitationTextGenerator = new PrecipitationTextGenerator(forecast, new Date(0));
-    assertEquals("Light to moderate rain", precipitationTextGenerator.getText());
+    assertEquals("Rain", precipitationTextGenerator.getText());
   }
 
   @Test
@@ -137,7 +137,7 @@ public class PrecipitationTextGeneratorTests {
     forecast.add(new ForecastTime(new Date(0), 2.0));
     forecast.add(new ForecastTime(new Date(180000), 1.4));
     PrecipitationTextGenerator precipitationTextGenerator = new PrecipitationTextGenerator(forecast, new Date(0));
-    assertEquals("Light to moderate rain for 3 minutes", precipitationTextGenerator.getText());
+    assertEquals("Rain for 3 minutes", precipitationTextGenerator.getText());
   }
 
   @Test
