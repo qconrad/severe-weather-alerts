@@ -25,9 +25,12 @@ public class FeedbackPayloadGenerator {
   public String getJSONString() {
     JSONObject jsonObject = new JSONObject();
     try { addFields(jsonObject); }
-    catch (JSONException e) { e.printStackTrace(); }
-    catch (Exception e) { e.printStackTrace(); }
+    catch (JSONException e) { return getErrorPayload(e); }
     return jsonObject.toString();
+  }
+
+  private String getErrorPayload(Exception exception) {
+    return "{ \"message\": \"" + message + "\", \"exception\": \"" + exception.getMessage() + "\"}";
   }
 
   private void addFields(JSONObject payload) throws JSONException {
