@@ -141,9 +141,16 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
 
   private double parseForecastPoint(Bitmap map, int seconds) {
     ArrayList<MercatorCoordinate> coordinates = getPerpendicularCoordinates(getCoordinateAt(location, seconds), getMarginAtPercent(seconds / 3600.0));
+    ArrayList<Integer> nearbyPrecip = new ArrayList<>();
+    for (MercatorCoordinate coordinate : coordinates)
+      nearbyPrecip.add(getPrecipitationType(map, coordinate).ordinal());
+    return getAverage(new UnknownFilter(nearbyPrecip).filter());
+  }
+
+  private double getAverage(ArrayList<Integer> values) {
     double sum = 0.0;
-    for (MercatorCoordinate coordinate : coordinates) sum += getPrecipitationType(map, coordinate).ordinal();
-    return sum / coordinates.size();
+    for (Integer value : values) sum += value;
+    return sum / values.size();
   }
 
   private ArrayList<ForecastTime> trimAndSmooth(ArrayList<ForecastTime> forecast) {

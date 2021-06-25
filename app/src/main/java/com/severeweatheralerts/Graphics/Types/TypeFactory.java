@@ -3,7 +3,6 @@ package com.severeweatheralerts.Graphics.Types;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWarning;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWatch;
-import com.severeweatheralerts.Alerts.NWS.ExtremeColdWatch;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
