@@ -47,7 +47,7 @@ public class PrecipitationTextGenerator {
       if (forecast.get(i).getValue() < threshold)
         return type + " for " + getRelativeTime(i);
     }
-    return type;
+    return type + " continues";
   }
 
   private boolean startsAboveThreshold(double threshold) {
