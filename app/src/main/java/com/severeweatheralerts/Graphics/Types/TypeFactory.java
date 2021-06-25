@@ -56,8 +56,7 @@ public class TypeFactory {
       if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
         types.add(new RegionalRadar(400));
       types.add(new Snowfall());
-      if (alert.getDescription() != null && alert.getDescription().contains("Wind"))
-        types.add(new WindGusts());
+      if (descriptionContains("Wind")) types.add(new WindGusts());
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
@@ -84,7 +83,7 @@ public class TypeFactory {
     else if (thunderstorms()) {
       types.add(new LocalRadar());
       if (alert.hasMotionVector()) types.add(new OneHourPrecipitation());
-      if (alert.getInstruction() != null && alert.getInstruction().contains("Torrential rainfall")) types.add(new RadarRainfall());
+      if (torrentialRainfall()) types.add(new RadarRainfall());
       types.add(new RegionalRadar(250));
     }
     else
@@ -92,7 +91,19 @@ public class TypeFactory {
     return types;
   }
 
+  private boolean torrentialRainfall() {
+    return instructionContains("Torrential rainfall") || descriptionContains("Torrential rainfall");
+  }
+
   private boolean thunderstorms() {
-    return alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || alert.getDescription() != null && alert.getDescription().contains("thunderstorm");
+    return alert instanceof SevereThunderstormWarning || alert instanceof TornadoWarning || alert instanceof SpecialMarineWarning || descriptionContains("thunderstorm");
+  }
+
+  private boolean descriptionContains(String text) {
+    return alert.getDescription() != null && alert.getDescription().contains(text);
+  }
+
+  private boolean instructionContains(String text) {
+    return alert.getInstruction() != null && alert.getInstruction().contains(text);
   }
 }

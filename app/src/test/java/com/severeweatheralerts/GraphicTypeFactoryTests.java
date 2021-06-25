@@ -393,4 +393,12 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(excessiveHeatWarning, new Date(5));
     assertEquals(HeatIndex.class, graphicFactory.getTypes().get(0).getClass());
   }
+
+  @Test
+  public void getType_DescriptionContainsTorrentialRain_RadarRainfall() {
+    SpecialWeatherStatement specialWeatherStatement = new SpecialWeatherStatement();
+    specialWeatherStatement.setDescription("At 500AM CDT, radar indicated heavy rain from thunderstorms.\n\nTorrential rainfall is also occuring");
+    TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement, new Date(5));
+    assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
+  }
 }
