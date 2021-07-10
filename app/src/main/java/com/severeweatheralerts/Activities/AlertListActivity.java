@@ -48,6 +48,7 @@ public class AlertListActivity extends AppCompatActivity {
   private ArrayList<Alert> inactiveAlerts;
   private IntervalRun subtextFade;
   private GCSCoordinate lastLocation;
+  private Date lastLocationTime = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class AlertListActivity extends AppCompatActivity {
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
     setStatus(getStatus());
+    updateLocationTime();
     keepEverythingUpToDate(locationsDao, alerts);
   }
 
@@ -278,12 +280,18 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void checkIfLocationIsReasonablyUpToDate() {
-    Location newLoc = new LastKnownLocation(this).getLocation();
-    if (newLoc != null && outdated(newLoc))startActivity(new Intent(AlertListActivity.this, GettingLocationActivity.class));
+    if (lastLocationTime != null && outdated(lastLocationTime)) {
+      updateLocationTime();
+      startActivity(new Intent(AlertListActivity.this, GettingLocationActivity.class));
+    }
   }
 
-  private boolean outdated(android.location.Location lastKnown) {
-    return lastKnown.getTime() < new Date().getTime() - Constants.APP_OPENED_LOCATION_EXPIRE;
+  private void updateLocationTime() {
+    lastLocationTime = new Date();
+  }
+
+  private boolean outdated(Date time) {
+    return time.getTime() < new Date().getTime() - Constants.APP_OPENED_LOCATION_EXPIRE;
   }
 
   private void resumeSubtext() {
