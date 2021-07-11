@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -198,30 +200,50 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void populateActiveRecyclerView() {
-    populateRecyclerView(findViewById(R.id.active_alerts_rv), activeAlerts);
-    if (noAlerts(activeAlerts)) hideText(R.id.active_alerts);
-    else findViewById(R.id.active_alerts).setVisibility(View.VISIBLE);
+    RecyclerView activeRv = findViewById(R.id.active_alerts_rv);
+    activeRv.setLayoutManager(new LinearLayoutManager(this));
+    activeRv.setAdapter(getAlertAdapter(activeAlerts));
+    setRVTitleVisibility(findViewById(R.id.active_alerts), activeAlerts);
+  }
+
+  private AlertRecyclerViewAdapter getAlertAdapter(ArrayList<Alert> alerts) {
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(alerts);
+    alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
+    return alertRecyclerViewAdapter;
   }
 
   private void populateRecentRecyclerView() {
-    populateRecyclerView(findViewById(R.id.inactive_alerts_rv), inactiveAlerts);
-    if (noAlerts(inactiveAlerts)) hideText(R.id.inactive_alerts);
-    else findViewById(R.id.inactive_alerts).setVisibility(View.VISIBLE);
+    RecyclerView recentRv = findViewById(R.id.inactive_alerts_rv);
+    recentRv.setLayoutManager(new LinearLayoutManager(this));
+    AlertRecyclerViewAdapter alertRecyclerViewAdapter = getAlertAdapter(inactiveAlerts);
+    new ItemTouchHelper(getItemTouchHelper(alertRecyclerViewAdapter)).attachToRecyclerView(recentRv);
+    recentRv.setAdapter(alertRecyclerViewAdapter);
+    setRVTitleVisibility(findViewById(R.id.inactive_alerts), inactiveAlerts);
   }
 
-  private void hideText(int p) {
-    findViewById(p).setVisibility(View.GONE);
+  private ItemTouchHelper.SimpleCallback getItemTouchHelper(AlertRecyclerViewAdapter alertRecyclerViewAdapter) {
+    return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+      @Override
+      public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        return false;
+      }
+
+      @Override
+      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        inactiveAlerts.remove(viewHolder.getAbsoluteAdapterPosition());
+        alertRecyclerViewAdapter.notifyDataSetChanged();
+        setRVTitleVisibility(findViewById(R.id.inactive_alerts), inactiveAlerts);
+      }
+    };
+  }
+
+  public void setRVTitleVisibility(View view, ArrayList<Alert> alerts) {
+    if (noAlerts(alerts)) view.setVisibility(View.GONE);
+    else view.setVisibility(View.VISIBLE);
   }
 
   private boolean noAlerts(ArrayList<Alert> activeAlerts) {
     return activeAlerts.size() <= 0;
-  }
-
-  public void populateRecyclerView(RecyclerView view, ArrayList<Alert> alerts) {
-    view.setLayoutManager(new LinearLayoutManager(this));
-    AlertRecyclerViewAdapter alertRecyclerViewAdapter = new AlertRecyclerViewAdapter(alerts);
-    alertRecyclerViewAdapter.setClickListener(this::displayFullAlert);
-    view.setAdapter(alertRecyclerViewAdapter);
   }
 
   private void setBackgroundColor(int color) {
@@ -297,4 +319,5 @@ public class AlertListActivity extends AppCompatActivity {
   private void resumeSubtext() {
     if (subtextFade != null) subtextFade.startNextInterval();
   }
+
 }
