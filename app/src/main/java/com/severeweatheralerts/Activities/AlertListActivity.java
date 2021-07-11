@@ -2,6 +2,7 @@ package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
@@ -43,6 +44,8 @@ import com.severeweatheralerts.Status.TextListFade;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AlertListActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
@@ -51,6 +54,7 @@ public class AlertListActivity extends AppCompatActivity {
   private IntervalRun subtextFade;
   private GCSCoordinate lastLocation;
   private Date lastLocationTime = null;
+  private Set<String> dismissedIds;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class AlertListActivity extends AppCompatActivity {
     setStatus(getStatus());
     updateLocationTime();
     keepEverythingUpToDate(locationsDao, alerts);
+    dismissedIds = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<String>());
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
@@ -230,9 +235,12 @@ public class AlertListActivity extends AppCompatActivity {
 
       @Override
       public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+        String id = inactiveAlerts.get(viewHolder.getAbsoluteAdapterPosition()).getNwsId();
         inactiveAlerts.remove(viewHolder.getAbsoluteAdapterPosition());
         alertRecyclerViewAdapter.notifyDataSetChanged();
         setRVTitleVisibility(findViewById(R.id.inactive_alerts), inactiveAlerts);
+        dismissedIds.add(id);
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putStringSet("dismissedIds", dismissedIds).apply();
       }
     };
   }
