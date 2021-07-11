@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -28,6 +29,9 @@ import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
 import com.severeweatheralerts.R;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
   @Override
@@ -62,6 +66,7 @@ public class SettingsActivity extends AppCompatActivity {
       createPrivacyPolicyListener();
       createSeverityPreferencesListener();
       createdFeedbackListener();
+      createdRestoreDismissedListener();
     }
 
     private void createAttributionListener() {
@@ -159,6 +164,21 @@ public class SettingsActivity extends AppCompatActivity {
       if (feedbackPref != null) {
         feedbackPref.setOnPreferenceClickListener(preference -> {
           showFeedback();
+          return true;
+        });
+      }
+    }
+
+    private void createdRestoreDismissedListener() {
+      Preference restoreDismissed = findPreference("restoreDismissed");
+      if (restoreDismissed != null) {
+        restoreDismissed.setOnPreferenceClickListener(preference -> {
+          Toast.makeText(getContext(), "Restored", Toast.LENGTH_SHORT).show();
+          Set<String> dismissedAlerts = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getContext()).getStringSet("dismissedIds", new HashSet<>()));
+          dismissedAlerts.clear();
+          PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putStringSet("dismissedIds", dismissedAlerts).apply();
+          if (findPreference("usefixed").isEnabled()) startActivity(new Intent(getActivity(), GettingLocationActivity.class));
+          else startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
           return true;
         });
       }

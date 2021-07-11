@@ -33,6 +33,7 @@
 
     <PreferenceCategory app:title="Misc">
         <Preference app:key="feedback" app:title="Provide Feedback" app:summary="Your feedback is always appreciated and is used to improve the app"  />
+        <Preference app:key="restoreDismissed" app:title="Restore Dismissed Alerts" app:summary="Restore alerts that have been recently swiped/dismissed. Old alerts will still disappear after a while." />
         <Preference app:key="privacy" app:title="Privacy Policy" />
         <Preference app:key="attrib" app:title="Attributions" />
     </PreferenceCategory>
