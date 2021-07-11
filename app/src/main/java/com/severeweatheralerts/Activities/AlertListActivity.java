@@ -2,7 +2,6 @@ package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.location.Location;
@@ -23,12 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
+import com.severeweatheralerts.AlertListTools.AlertFilters.DismissedFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
-import com.severeweatheralerts.Refreshing.IntervalRun;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
@@ -37,6 +36,7 @@ import com.severeweatheralerts.Notifications.NotificationCancel;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
+import com.severeweatheralerts.Refreshing.IntervalRun;
 import com.severeweatheralerts.Refreshing.Refresher;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
@@ -65,12 +65,12 @@ public class AlertListActivity extends AppCompatActivity {
     lastLocation = locationsDao.getCoordinate(0);
     setLocationName(locationsDao.getName(0));
     ArrayList<Alert> alerts = locationsDao.getAlerts(0);
+    dismissedIds = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<>()));
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
     setStatus(getStatus());
     updateLocationTime();
     keepEverythingUpToDate(locationsDao, alerts);
-    dismissedIds = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<String>());
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
@@ -145,6 +145,7 @@ public class AlertListActivity extends AppCompatActivity {
     ArrayList<Alert> relevantAlerts = new ReplacementFilter(alerts).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
+    inactiveAlerts = new DismissedFilter(inactiveAlerts, dismissedIds).filter();
   }
 
   private void setLocationName(String name) {
