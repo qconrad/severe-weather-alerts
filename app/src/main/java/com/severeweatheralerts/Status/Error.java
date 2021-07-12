@@ -7,11 +7,10 @@ import com.severeweatheralerts.R;
 import java.util.ArrayList;
 
 public class Error implements Status {
-  private final String errorMessage;
   protected ArrayList<String> subtexts = new ArrayList<>();
 
   public Error(String errorMessage) {
-    this.errorMessage = errorMessage;
+    subtexts.add(errorMessage);
   }
 
   @Override
@@ -31,7 +30,6 @@ public class Error implements Status {
 
   @Override
   public ArrayList<String> getSubtexts() {
-    subtexts.add(errorMessage);
     return subtexts;
   }
 }

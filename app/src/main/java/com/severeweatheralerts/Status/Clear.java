@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class Clear implements Status {
   protected ArrayList<String> subtexts = new ArrayList<>();
+  public Clear() {
+    subtexts.add("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will show up here.");
+  }
+
   @Override
   public int getColor() {
     return Color.parseColor("#00ac46");
@@ -25,7 +29,6 @@ public class Clear implements Status {
 
   @Override
   public ArrayList<String> getSubtexts() {
-    subtexts.add("There are no active alerts for this location. When hazardous weather is expected, a push notification will be sent and alerts will show up here.");
     return subtexts;
   }
 }

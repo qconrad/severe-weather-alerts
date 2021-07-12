@@ -160,10 +160,17 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void setStatus(Status status) {
+    resetSubtextFade();
     setBackgroundColor(status.getColor());
     setStatusHeadline(status.getHeadline());
     setStatusSubtext(status.getSubtexts());
     setStatusIcon(status.getIcon());
+  }
+
+  private void resetSubtextFade() {
+    if (subtextFade == null) return;
+    subtextFade.stop();
+    subtextFade = null;
   }
 
   private void setStatusSubtext(ArrayList<String> subtexts) {
@@ -172,7 +179,6 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void fadeSubtextsIfMultiple(ArrayList<String> subtexts, TextListFade textListFade) {
     if (!multipleTexts(subtexts)) return;
-    if (subtextFade != null) subtextFade.stop();
     subtextFade = new IntervalRun(Constants.STATUS_SUBTEXT_TRANSITION_TIME, textListFade::nextText);
     subtextFade.startNextInterval();
   }
@@ -248,6 +254,7 @@ public class AlertListActivity extends AppCompatActivity {
         setRVTitleVisibility(findViewById(R.id.inactive_alerts), inactiveAlerts);
         dismissedIds.add(id);
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putStringSet("dismissedIds", dismissedIds).apply();
+        if (noAlerts(inactiveAlerts)) setStatus(getStatus());
       }
     };
   }
@@ -257,8 +264,8 @@ public class AlertListActivity extends AppCompatActivity {
     else view.setVisibility(View.VISIBLE);
   }
 
-  private boolean noAlerts(ArrayList<Alert> activeAlerts) {
-    return activeAlerts.size() <= 0;
+  private boolean noAlerts(ArrayList<Alert> alertList) {
+    return alertList.size() <= 0;
   }
 
   private void setBackgroundColor(int color) {
@@ -334,5 +341,4 @@ public class AlertListActivity extends AppCompatActivity {
   private void resumeSubtext() {
     if (subtextFade != null) subtextFade.startNextInterval();
   }
-
 }
