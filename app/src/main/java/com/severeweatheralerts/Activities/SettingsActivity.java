@@ -177,8 +177,8 @@ public class SettingsActivity extends AppCompatActivity {
           Set<String> dismissedAlerts = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getContext()).getStringSet("dismissedIds", new HashSet<>()));
           dismissedAlerts.clear();
           PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putStringSet("dismissedIds", dismissedAlerts).apply();
-          if (findPreference("usefixed").isEnabled()) startActivity(new Intent(getActivity(), GettingLocationActivity.class));
-          else startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
+          if (findPreference("usefixed").isEnabled()) startActivity(new Intent(getActivity(), GettingLatestDataActivity.class));
+          else startActivity(new Intent(getActivity(), GettingLocationActivity.class));
           return true;
         });
       }
