@@ -145,7 +145,13 @@ public class AlertListActivity extends AppCompatActivity {
     ArrayList<Alert> relevantAlerts = new ReplacementFilter(alerts).filter();
     activeAlerts = new SeveritySorter(new ActiveFilter(relevantAlerts, new Date()).filter()).getSorted();
     inactiveAlerts = new InactiveFilter(relevantAlerts, new Date()).filter();
+    clearDismissedIfListIsLargeAndNoInactive();
     inactiveAlerts = new DismissedFilter(inactiveAlerts, dismissedIds).filter();
+  }
+
+  private void clearDismissedIfListIsLargeAndNoInactive() {
+    if (inactiveAlerts.size() <= 0 && dismissedIds.size() > 500)
+      dismissedIds.clear();
   }
 
   private void setLocationName(String name) {
