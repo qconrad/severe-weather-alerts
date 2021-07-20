@@ -17,9 +17,10 @@ public class TextBeautifier {
   }
 
   private static String finalize(String text) {
-    return removeExcessiveLineBreaks(
+    return replaceLinesWithColons(
+           removeExcessiveLineBreaks(
            removeDotsAtBeginningOfLines(
-           removeSpaceAtEndOfLines(text)));
+           removeSpaceAtEndOfLines(text))));
   }
 
   private static String removeSpaceAtEndOfLines(String text) {
@@ -34,8 +35,13 @@ public class TextBeautifier {
     return text.replaceAll("\n\n+", "\n\n");
   }
 
+  private static String replaceLinesWithColons(String text) {
+    return text.replaceAll("\n-----+", ":");
+  }
+
   private static boolean shouldAppendCurrentLineWithNewLine(String[] lineSplit, int i) {
     String nextLine = (i < lineSplit.length - 1) ? lineSplit[i + 1] : "";
+    if (endsWith(lineSplit[i], ':') || startsWith(lineSplit[i+1], '-')) return true;
     return !isTwoNewLines(nextLine) && isListOrSectionHeading(lineSplit, i);
   }
 
@@ -49,7 +55,7 @@ public class TextBeautifier {
   }
 
   private static boolean isBulletedList(String nextLine, String curLine) {
-    return endsWithPeriod(curLine) && startsWith(nextLine, '*') || startsWith(nextLine, '.');
+    return endsWith(curLine, '.') && startsWith(nextLine, '*') || startsWith(nextLine, '.');
   }
 
   private static boolean isUnbulletedList(String[] lineSplit, int i) {
@@ -62,7 +68,7 @@ public class TextBeautifier {
 
   private static boolean searchParagraphForwardForPeriods(String[] lineSplit, int i) {
     if (outOfRange(lineSplit, i) || isTwoNewLines(lineSplit[i])) return true;
-    if (endsWithPeriod(lineSplit[i])) return searchParagraphForwardForPeriods(lineSplit, i+1);
+    if (endsWith(lineSplit[i], '.')) return searchParagraphForwardForPeriods(lineSplit, i+1);
     return false;
   }
 
@@ -70,8 +76,9 @@ public class TextBeautifier {
     return i < 0 || i >= lineSplit.length;
   }
 
-  private static boolean startsWith(String line, char inputChar) {
-    return line.charAt(0) == inputChar;
+  private static boolean startsWith(String s, char inputChar) {
+    if (s.length() < 1) return false;
+    return s.charAt(0) == inputChar;
   }
 
   private static boolean startsWithUpperCaseChar(String line) {
@@ -90,9 +97,9 @@ public class TextBeautifier {
     return isLastLine(i, lineSplit.length);
   }
 
-  private static boolean endsWithPeriod(String s) {
+  private static boolean endsWith(String s, char character) {
     if (s.length() < 1) return false;
-    return s.toCharArray()[s.length()-1] == '.';
+    return s.toCharArray()[s.length()-1] == character;
   }
 
   private static boolean isLastLine(int i, int length) {

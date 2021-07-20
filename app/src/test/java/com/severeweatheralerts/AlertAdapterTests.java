@@ -1318,4 +1318,15 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(50, aa.getAdaptedAlerts().get(0).getMotionVector().getVelocity());
   }
+
+  @Test
+  public void hurricaneLocalStatementLooksPretty() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setDescription("This product covers portions of southwest Alabama...northwest Florida...south\ncentral Alabama...and inland southeast Mississippi.\n\n**POTENTIAL TROPICAL CYCLONE THREE NOW BRINGING HEAVY RAINFALL AND\nFLASH FLOODING ALONG WITH GUSTY WINDS...ISOLATED TORNADOES...AND\nMINOR COASTAL FLOODING**\n\nNEW INFORMATION\n---------------\n\n* CHANGES TO WATCHES AND WARNINGS:\n- None\n\n* CURRENT WATCHES AND WARNINGS:\n- A Tropical Storm Warning is in effect for Baldwin Central,\nBaldwin Coastal, Escambia Coastal, Mobile Central, Mobile\nCoastal, Okaloosa Coastal, and Santa Rosa Coastal\n\n* STORM INFORMATION:\n- About 210 miles southwest of Mobile AL or about 250 miles\nwest-southwest of Pensacola FL\n- 28.9N 90.9W\n- Storm Intensity 45 mph\n- Movement North or 10 degrees at 13 mph");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    String expectedParse = "This product covers portions of southwest Alabama...northwest Florida...south central Alabama...and inland southeast Mississippi.\n\n**POTENTIAL TROPICAL CYCLONE THREE NOW BRINGING HEAVY RAINFALL AND FLASH FLOODING ALONG WITH GUSTY WINDS...ISOLATED TORNADOES...AND MINOR COASTAL FLOODING**\n\nNEW INFORMATION:\n\n* CHANGES TO WATCHES AND WARNINGS:\n- None\n\n* CURRENT WATCHES AND WARNINGS:\n- A Tropical Storm Warning is in effect for Baldwin Central, Baldwin Coastal, Escambia Coastal, Mobile Central, Mobile Coastal, Okaloosa Coastal, and Santa Rosa Coastal\n\n* STORM INFORMATION:\n- About 210 miles southwest of Mobile AL or about 250 miles west-southwest of Pensacola FL\n- 28.9N 90.9W\n- Storm Intensity 45 mph\n- Movement North or 10 degrees at 13 mph";
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
 }

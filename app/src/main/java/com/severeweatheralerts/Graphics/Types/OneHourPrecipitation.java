@@ -15,7 +15,7 @@ public class OneHourPrecipitation implements GraphicType {
 
   @Override
   public int getValidDuration() {
-    return 10 * 1000;
+    return 30 * 1000;
   }
 
   @Override
