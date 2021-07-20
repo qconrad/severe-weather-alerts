@@ -232,6 +232,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void populateRecentRecyclerView() {
     RecyclerView recentRv = findViewById(R.id.inactive_alerts_rv);
+    recentRv.setHasFixedSize(false);
     recentRv.setLayoutManager(new LinearLayoutManager(this));
     AlertRecyclerViewAdapter alertRecyclerViewAdapter = getAlertAdapter(inactiveAlerts);
     new ItemTouchHelper(getItemTouchHelper(alertRecyclerViewAdapter)).attachToRecyclerView(recentRv);
