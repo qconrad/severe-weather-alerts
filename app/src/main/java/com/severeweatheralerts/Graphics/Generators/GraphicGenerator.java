@@ -112,7 +112,11 @@ public abstract class GraphicGenerator {
     fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {
-        pointInfo((String)response);
+        if (response == null) {
+          throwError("Error getting zone info");
+          return;
+        }
+        pointInfo((String) response);
       }
 
       @Override
