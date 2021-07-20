@@ -20,8 +20,14 @@ public class GettingLatestDataActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
+    checkForLocations();
     getAlerts();
     setProgressbarColor();
+  }
+
+  private void checkForLocations() {
+    if (LocationsDao.getInstance(this).hasLocations()) return;
+    startActivity(new Intent(GettingLatestDataActivity.this, FirstRunActivity.class));
   }
 
   private void setProgressbarColor() {
