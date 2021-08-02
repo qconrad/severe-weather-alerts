@@ -67,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
       createSeverityPreferencesListener();
       createdFeedbackListener();
       createdRestoreDismissedListener();
+      createdProListener();
     }
 
     private void createAttributionListener() {
@@ -190,6 +191,16 @@ public class SettingsActivity extends AppCompatActivity {
         privacy.setOnPreferenceClickListener(preference -> {
           Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getActivity().getString(R.string.privacy_policy_link)));
           startActivity(browserIntent);
+          return true;
+        });
+      }
+    }
+
+    private void createdProListener() {
+      Preference pro = findPreference("pro");
+      if (pro != null) {
+        pro.setOnPreferenceClickListener(preference -> {
+          startActivity(new Intent(getActivity(), ProActivity.class));
           return true;
         });
       }

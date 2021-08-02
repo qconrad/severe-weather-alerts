@@ -31,6 +31,14 @@
             app:summary="Send a fake alert for testing the different notification channels"/>
     </PreferenceCategory>
 
+
+    <PreferenceCategory app:title="Pro Version">
+        <Preference
+            app:title="Upgrade To Pro"
+            app:key="pro"
+            app:summary="Unlock new features in the app"/>
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="Misc">
         <Preference app:key="feedback" app:title="Provide Feedback" app:summary="Your feedback is always appreciated and is used to improve the app"  />
         <Preference app:key="restoreDismissed" app:title="Restore Dismissed Alerts" app:summary="Restore alerts that have been recently swiped/dismissed. Old alerts will still disappear after a while." />

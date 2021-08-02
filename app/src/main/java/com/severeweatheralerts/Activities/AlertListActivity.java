@@ -11,6 +11,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
 import com.google.android.material.snackbar.Snackbar;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
@@ -27,12 +33,14 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.BillingClientSetup;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Notifications.NotificationCancel;
+import com.severeweatheralerts.PurchaseActivity;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
@@ -45,6 +53,7 @@ import com.severeweatheralerts.Status.TextListFade;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AlertListActivity extends AppCompatActivity {
@@ -55,6 +64,7 @@ public class AlertListActivity extends AppCompatActivity {
   private GCSCoordinate lastLocation;
   private Date lastLocationTime = null;
   private Set<String> dismissedIds;
+  private BillingClient billingClient;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +81,23 @@ public class AlertListActivity extends AppCompatActivity {
     setStatus(getStatus());
     updateLocationTime();
     keepEverythingUpToDate(locationsDao, alerts);
+    setupBilling();
+  }
+
+  private void setupBilling() {
+    billingClient = BillingClientSetup.getInstance(this, this::handlePurchases);
+    billingClient.startConnection(new BillingClientStateListener() {
+      @Override
+      public void onBillingServiceDisconnected() {
+        // TODO: retry connection
+        Toast.makeText(AlertListActivity.this, "Billing service disconnected", Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+        billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, (billingResult2, list) -> handlePurchases(billingResult2, list));
+      }
+    });
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
@@ -305,8 +332,37 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
+    checkPurchases();
     if (stopped) resume();
     else firstStart();
+  }
+
+  private void checkPurchases() {
+    if (billingClient.isReady())
+      billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, this::handlePurchases);
+  }
+
+  private void handlePurchases(BillingResult billingResult, List<Purchase> list) {
+    isPro = false;
+    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
+      for (Purchase purchase : list) handlePurchase(purchase);
+    Toast.makeText(AlertListActivity.this, "Is Pro: " + isPro, Toast.LENGTH_SHORT).show();
+  }
+
+  boolean isPro;
+  private void handlePurchase(Purchase purchase) {
+    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+      isPro = true;
+      if (!purchase.isAcknowledged()) {
+        AcknowledgePurchaseParams acknowledgePurchaseParams =
+                AcknowledgePurchaseParams.newBuilder()
+                        .setPurchaseToken(purchase.getPurchaseToken())
+                        .build();
+        billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
+          startActivity(new Intent(AlertListActivity.this, PurchaseActivity.class));
+        });
+      }
+    }
   }
 
   private void resume() {
