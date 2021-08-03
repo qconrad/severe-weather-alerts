@@ -21,6 +21,7 @@ public class ProActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pro);
+    billingClient = BillingClientSetup.getInstance(this, null);
   }
 
   public void purchaseClick(View view) {
@@ -35,8 +36,7 @@ public class ProActivity extends AppCompatActivity {
           BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
                   .setSkuDetails(list.get(0))
                   .build();
-          int responseCode = billingClient.launchBillingFlow(this, billingFlowParams).getResponseCode();
-          // TODO: Handle the result.
+          billingClient.launchBillingFlow(this, billingFlowParams);
         }
       });
     } else

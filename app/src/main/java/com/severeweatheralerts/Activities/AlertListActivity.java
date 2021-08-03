@@ -346,7 +346,7 @@ public class AlertListActivity extends AppCompatActivity {
     isPro = false;
     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
       for (Purchase purchase : list) handlePurchase(purchase);
-    Toast.makeText(AlertListActivity.this, "Is Pro: " + isPro, Toast.LENGTH_SHORT).show();
+    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("is_pro", isPro).apply();
   }
 
   boolean isPro;
@@ -397,5 +397,13 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void resumeSubtext() {
     if (subtextFade != null) subtextFade.startNextInterval();
+  }
+
+  public void switchLocationClick(View view) {
+    boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
+    if (isPro)
+      Toast.makeText(this, "Pro: true", Toast.LENGTH_SHORT).show();
+    else
+      Toast.makeText(this, "Pro: false", Toast.LENGTH_SHORT).show();
   }
 }
