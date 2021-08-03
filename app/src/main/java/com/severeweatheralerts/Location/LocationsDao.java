@@ -127,6 +127,10 @@ public class LocationsDao {
     return locations.get(locationIndex).getName();
   }
 
+  public synchronized ArrayList<Location> getLocations() {
+    return locations;
+  }
+
   public synchronized ArrayList<GCSCoordinate> getCoordinateList() {
     return new LocationToCoordinateListAdapter(locations).getCoordinates();
   }

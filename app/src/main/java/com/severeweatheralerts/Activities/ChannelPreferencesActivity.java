@@ -54,14 +54,13 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
     preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
-    preferenceAdapter.setClickListener((type, index) -> {
-      new AlertDialog.Builder(this)
-              .setTitle("Select a channel")
-              .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
-                if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
-                else alertEdit(type, index, channelIndex);
-              }).create().show();
-    });
+    preferenceAdapter.setClickListener((type, index) ->
+            new AlertDialog.Builder(this)
+            .setTitle("Select a channel")
+            .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
+              if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
+              else alertEdit(type, index, channelIndex);
+            }).create().show());
     view.setAdapter(preferenceAdapter);
   }
 

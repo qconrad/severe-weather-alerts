@@ -1,6 +1,7 @@
 package com.severeweatheralerts.Activities;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -40,7 +41,8 @@ import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Notifications.NotificationCancel;
-import com.severeweatheralerts.PurchaseActivity;
+import com.severeweatheralerts.Permissions.LocationPermissionRequest;
+import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
@@ -401,9 +403,27 @@ public class AlertListActivity extends AppCompatActivity {
 
   public void switchLocationClick(View view) {
     boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
-    if (isPro)
-      Toast.makeText(this, "Pro: true", Toast.LENGTH_SHORT).show();
-    else
-      Toast.makeText(this, "Pro: false", Toast.LENGTH_SHORT).show();
+    if (isPro) {
+      ArrayList<com.severeweatheralerts.Location.Location> locations = LocationsDao.getInstance(this).getLocations();
+      ArrayList<String> listItems = new ArrayList<>();
+      for (com.severeweatheralerts.Location.Location location : locations) {
+        listItems.add(location.getName());
+      }
+      listItems.add("Add/Manage Locations");
+      final CharSequence[] items = listItems.toArray(new CharSequence[0]);
+      new AlertDialog.Builder(this)
+              .setTitle("Select a location")
+              .setItems(items, (dialogInterface, index) -> {
+                Toast.makeText(this, "Index: " + index, Toast.LENGTH_SHORT).show();
+              }).create().show();
+    }
+    else {
+      AlertDialog alertDialog = new AlertDialog.Builder(AlertListActivity.this).create();
+      alertDialog.setTitle("Upgrade to switch locations");
+      alertDialog.setMessage("You can monitor unlimited locations and more by upgrading to pro.");
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "See Pricing", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
+      alertDialog.show();
+    }
   }
 }

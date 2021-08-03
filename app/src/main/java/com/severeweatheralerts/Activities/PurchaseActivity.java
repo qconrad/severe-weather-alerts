@@ -1,8 +1,10 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.severeweatheralerts.R;
 
 public class PurchaseActivity extends AppCompatActivity {
 
