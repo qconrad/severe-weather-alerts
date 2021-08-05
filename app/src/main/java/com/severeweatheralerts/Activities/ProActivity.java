@@ -24,15 +24,22 @@ public class ProActivity extends AppCompatActivity {
     billingClient = BillingClientSetup.getInstance(this, null);
   }
 
-  public void purchaseClick(View view) {
+  public void monthlyClick(View view) {
+    purchase("pro_monthly");
+  }
+
+  public void yearlyClick(View view) {
+    purchase("pro_yearly");
+  }
+
+  private void purchase(String sku) {
     if (billingClient.isReady()) {
-      Toast.makeText(this, "Attempting query", Toast.LENGTH_SHORT).show();
       SkuDetailsParams params = SkuDetailsParams.newBuilder()
-              .setSkusList(Arrays.asList("pro_yearly"))
+              .setSkusList(Arrays.asList(sku))
               .setType(BillingClient.SkuType.SUBS)
               .build();
       billingClient.querySkuDetailsAsync(params, (billingResult, list) -> {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list.size() > 0) {
           BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
                   .setSkuDetails(list.get(0))
                   .build();
