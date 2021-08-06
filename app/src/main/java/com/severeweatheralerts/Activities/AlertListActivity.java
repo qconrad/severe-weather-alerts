@@ -72,10 +72,11 @@ public class AlertListActivity extends AppCompatActivity {
     fetchDataIfCleared();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
+    locationIndex = getIntent().getIntExtra("locationIndex", 0);
     LocationsDao locationsDao = LocationsDao.getInstance(this);
-    lastLocation = locationsDao.getCoordinate(0);
-    setLocationName(locationsDao.getName(0));
-    ArrayList<Alert> alerts = locationsDao.getAlerts(0);
+    lastLocation = locationsDao.getCoordinate(locationIndex);
+    setLocationName(locationsDao.getName(locationIndex));
+    ArrayList<Alert> alerts = locationsDao.getAlerts(locationIndex);
     dismissedIds = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<>()));
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
@@ -108,7 +109,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private boolean usingDevicesLocation() {
-    return !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("usefixed", false);
+    return locationIndex == 0 && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("usefixed", false);
   }
 
   private void monitorForLocationChanges(LocationsDao locationsDao) {
@@ -228,7 +229,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
     new NotificationCancel(this, alert).cancel();
     Intent alertIntent = new Intent(AlertListActivity.this, AlertViewerActivity.class);
-    alertIntent.putExtra("locIndex", 0);
+    alertIntent.putExtra("locIndex", locationIndex);
     AlertCardHolder ach = (AlertCardHolder) holder;
     Pair<View,String> pair1 = Pair.create(ach.card, "zoom");
     ActivityOptions aO = null;
@@ -416,6 +417,13 @@ public class AlertListActivity extends AppCompatActivity {
               .setItems(items, (dialogInterface, index) -> {
                 if (index == locations.size() - 1)
                   startActivity(new Intent(AlertListActivity.this, ManageLocationsActivity.class));
+                else {
+                  Intent intent = new Intent(AlertListActivity.this, GettingLatestDataActivity.class);
+                  int locIndex = index;
+                  if (locIndex >= locationIndex) locIndex++;
+                  intent.putExtra("locationIndex", locIndex);
+                  startActivity(intent);
+                }
               }).create().show();
     }
     else {

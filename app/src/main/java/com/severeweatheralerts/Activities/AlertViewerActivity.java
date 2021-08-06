@@ -220,7 +220,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void displayReference(Alert reference) {
     Intent alertIntent = new Intent(this, ReferenceViewerActivity.class);
-    alertIntent.putExtra("locIndex", 0);
+    alertIntent.putExtra("locIndex", locationIndex);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

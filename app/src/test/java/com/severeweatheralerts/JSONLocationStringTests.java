@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class JSONLocationStringTests {
   @Test
   public void getString_NoLocationProvided_EmptyArray() {
-    JSONLocationString jsonSettingsGenerator = new JSONLocationString(new ArrayList<GCSCoordinate>());
+    JSONLocationString jsonSettingsGenerator = new JSONLocationString(new ArrayList<>());
     assertEquals("[[]]", jsonSettingsGenerator.getString());
   }
 

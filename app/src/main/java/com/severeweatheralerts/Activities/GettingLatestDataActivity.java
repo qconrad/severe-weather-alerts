@@ -21,7 +21,8 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
     checkForLocations();
-    getAlerts();
+    int locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    getAlerts(locationIndex);
     setProgressbarColor();
   }
 
@@ -35,13 +36,13 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
 
-  private void getAlerts() {
+  private void getAlerts(int locationIndex) {
     LocationsDao locationsDao = LocationsDao.getInstance(this);
-    new FromLocationPointPopulater(locationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(locationsDao.getCoordinate(locationIndex), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.setAlerts(0, alerts);
-        displayAlerts();
+        locationsDao.setAlerts(locationIndex, alerts);
+        displayAlerts(locationIndex);
       }
 
       @Override
@@ -51,8 +52,10 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     });
   }
 
-  private void displayAlerts() {
-    startActivity(new Intent(GettingLatestDataActivity.this, AlertListActivity.class));
+  private void displayAlerts(int locationIndex) {
+    Intent intent = new Intent(GettingLatestDataActivity.this, AlertListActivity.class);;
+    intent.putExtra("locationIndex", locationIndex);
+    startActivity(intent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
