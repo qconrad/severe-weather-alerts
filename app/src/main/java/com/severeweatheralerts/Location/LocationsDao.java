@@ -113,12 +113,6 @@ public class LocationsDao {
     saveLocationsToFile();
   }
 
-  public synchronized void deleteExtraLocations() {
-    if (locations.size() <= 1) return;
-    while (locations.size() > 1) locations.remove(locations.size()-1);
-    saveLocationsToFile();
-  }
-
   public synchronized ArrayList<Alert> getAlerts(int locationIndex) {
     return locations.get(locationIndex).getAlerts();
   }

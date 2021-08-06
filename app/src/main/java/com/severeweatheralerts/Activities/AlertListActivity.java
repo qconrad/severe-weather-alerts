@@ -41,8 +41,6 @@ import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Notifications.NotificationCancel;
-import com.severeweatheralerts.Permissions.LocationPermissionRequest;
-import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertCardHolder;
 import com.severeweatheralerts.RecyclerViews.Alert.AlertRecyclerViewAdapter;
@@ -60,6 +58,7 @@ import java.util.Set;
 
 public class AlertListActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
+  int locationIndex = 0;
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private IntervalRun subtextFade;
@@ -406,15 +405,17 @@ public class AlertListActivity extends AppCompatActivity {
     if (isPro) {
       ArrayList<com.severeweatheralerts.Location.Location> locations = LocationsDao.getInstance(this).getLocations();
       ArrayList<String> listItems = new ArrayList<>();
-      for (com.severeweatheralerts.Location.Location location : locations) {
-        listItems.add(location.getName());
+      for (int i = 0; i < locations.size(); i++) {
+        if (i == locationIndex) continue;
+        listItems.add(locations.get(i).getName());
       }
       listItems.add("Add/Manage Locations");
       final CharSequence[] items = listItems.toArray(new CharSequence[0]);
       new AlertDialog.Builder(this)
               .setTitle("Select a location")
               .setItems(items, (dialogInterface, index) -> {
-                Toast.makeText(this, "Index: " + index, Toast.LENGTH_SHORT).show();
+                if (index == locations.size() - 1)
+                  startActivity(new Intent(AlertListActivity.this, ManageLocationsActivity.class));
               }).create().show();
     }
     else {

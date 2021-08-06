@@ -23,7 +23,6 @@ import com.severeweatheralerts.Feedback.FeedbackActivity;
 import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.ManageLocationsActivity;
 import com.severeweatheralerts.Permissions.LocationPermissionRequest;
 import com.severeweatheralerts.Notifications.NotificationSender;
 import com.severeweatheralerts.Permissions.PermissionManager;
