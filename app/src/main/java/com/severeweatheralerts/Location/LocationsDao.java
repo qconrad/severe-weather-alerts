@@ -75,6 +75,14 @@ public class LocationsDao {
     return locations.size() > 0;
   }
 
+  public synchronized void addLocation(String name, double latitude, double longitude) {
+    Location location = new Location();
+    location.setName(name);
+    location.setCoordinate(new GCSCoordinate(latitude, longitude));
+    locations.add(location);
+    saveLocationsToFile();
+  }
+
   public synchronized void setDefaultLocation(String name, double latitude, double longitude) {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setName(name);
