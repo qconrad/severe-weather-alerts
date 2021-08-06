@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Activities.PurchaseActivity"></activity>
+        <activity android:name=".ManageLocationsActivity"></activity>
+        <activity android:name=".Activities.PurchaseActivity" />
         <activity android:name=".Activities.ProActivity" />
         <activity android:name=".Permissions.LocationPermissionRequest" />
         <activity android:name=".Feedback.FeedbackActivity" />
