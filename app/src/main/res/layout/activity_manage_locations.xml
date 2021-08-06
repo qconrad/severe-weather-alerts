@@ -7,18 +7,29 @@
     tools:context=".ManageLocationsActivity">
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Extra Locations"
-        android:textSize="25dp"
-        android:textColor="#FFF"
-        android:textStyle="bold"
         android:layout_marginTop="15dp"
+        android:text="Extra Locations"
+        android:textColor="#FFF"
+        android:textSize="25dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/location_stack"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="10dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
     <TextView
+        android:id="@+id/no_locations_text"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:gravity="center"
