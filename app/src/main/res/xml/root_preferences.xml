@@ -34,6 +34,7 @@
     <PreferenceCategory app:title="Extra Locations">
         <Preference
             app:title="Manage Extra Locations"
+            app:enabled="false"
             app:summary="Upgrade to pro to get access to this feature"
             app:key="manageextra"/>
     </PreferenceCategory>

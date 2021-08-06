@@ -72,8 +72,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void createdManageExtraLocationsListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
       Preference manageExtra = findPreference("manageextra");
-      if (manageExtra != null) {
+      if (manageExtra != null && isPro) {
+        manageExtra.setEnabled(true);
+        manageExtra.setSummary("Add, remove, or change extra locations");
         manageExtra.setOnPreferenceClickListener(preference -> {
           startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
           return true;
