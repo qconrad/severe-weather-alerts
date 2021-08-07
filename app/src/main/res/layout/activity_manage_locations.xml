@@ -27,14 +27,13 @@
 
         <LinearLayout
             android:id="@+id/location_stack"
-            android:paddingHorizontal="25dp"
             android:paddingVertical="10dp"
-            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
     </ScrollView>
-
 
     <TextView
         android:id="@+id/no_locations_text"
