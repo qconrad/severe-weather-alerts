@@ -65,7 +65,6 @@ public class FeedbackActivity extends AppCompatActivity {
     });
   }
 
-
   private void getToken(OnCompleteListener<String> completeListener) {
     FirebaseMessaging.getInstance().getToken().addOnCompleteListener(completeListener);
   }
@@ -74,7 +73,7 @@ public class FeedbackActivity extends AppCompatActivity {
     if (feedbackTV.length() < 5) {
       Toast.makeText(this, "This feedback isn't long enough.", Toast.LENGTH_SHORT).show();
       return false;
-    } else if (feedbackTV.length() > 10000) {
+    } else if (feedbackTV.length() > 100000) {
       Toast.makeText(this, "Sorry, this feedback could not be sent because it is too long.", Toast.LENGTH_SHORT).show();
       return false;
     }
