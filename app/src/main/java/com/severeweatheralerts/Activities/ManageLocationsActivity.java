@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -48,9 +49,15 @@ public class ManageLocationsActivity extends AppCompatActivity {
 
   private void addLocationToStack(ArrayList<Location> locations, LinearLayout locationStack, int i) {
     Button location = new Button(this);
+    Intent intent = new Intent(ManageLocationsActivity.this, EditLocationActivity.class);
+    intent.putExtra("locationIndex", i);
+    location.setOnClickListener(view -> locationEditResult.launch(intent));
     location.setText(locations.get(i).getName());
     locationStack.addView(location);
   }
+
+  ActivityResultLauncher<Intent> locationEditResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+          result -> { if (result.getResultCode() == Activity.RESULT_OK) populateLocations(); });
 
   ActivityResultLauncher<Intent> locationSelectorResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
           result -> {

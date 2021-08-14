@@ -97,8 +97,14 @@ public class LocationsDao {
   }
 
   public synchronized void setName(int index, String name) {
-    if (locations.size() < 1) locations.add(new Location());
+    if (index < 0 || index >= locations.size()) return;
     locations.get(index).setName(name);
+    saveLocationsToFile();
+  }
+
+  public synchronized void setCoordinate(int index, double latitude, double longitude) {
+    if (index < 0 || index >= locations.size()) return;
+    locations.get(index).setCoordinate(new GCSCoordinate(latitude, longitude));
     saveLocationsToFile();
   }
 
