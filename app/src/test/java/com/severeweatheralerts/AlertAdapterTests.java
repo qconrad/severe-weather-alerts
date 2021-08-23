@@ -1190,6 +1190,7 @@ public class AlertAdapterTests {
     UnadaptedAlert pa = new UnadaptedAlert();
     pa.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
     pa.setReplacedAt("2021-04-29T19:10:00-0500");
+    pa.setPolygon(new GeoJSONPolygon());
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -1201,6 +1202,7 @@ public class AlertAdapterTests {
     UnadaptedAlert pa = new UnadaptedAlert();
     pa.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
     pa.setReplacedAt("2021-04-29T18:10:00-0500");
+    pa.setPolygon(new GeoJSONPolygon());
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(pa);
     AlertAdapter aa = new AlertAdapter(alerts);
@@ -1222,7 +1224,7 @@ public class AlertAdapterTests {
   }
 
   @Test
-  public void replacedByAlertInList_DDiscontinuedNull() {
+  public void replacedByAlertInList_DiscontinuedCorrect() {
     UnadaptedAlert cancel = new UnadaptedAlert();
     cancel.setId("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
     UnadaptedAlert update = new UnadaptedAlert();
@@ -1230,6 +1232,7 @@ public class AlertAdapterTests {
     UnadaptedAlert post = new UnadaptedAlert();
     post.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.3.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
     post.setReplacedAt("2021-04-29T18:10:00-0500");
+    post.setPolygon(new GeoJSONPolygon());
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(cancel);
     alerts.add(update);
@@ -1328,5 +1331,16 @@ public class AlertAdapterTests {
     String expectedParse = "This product covers portions of southwest Alabama...northwest Florida...south central Alabama...and inland southeast Mississippi.\n\n**POTENTIAL TROPICAL CYCLONE THREE NOW BRINGING HEAVY RAINFALL AND FLASH FLOODING ALONG WITH GUSTY WINDS...ISOLATED TORNADOES...AND MINOR COASTAL FLOODING**\n\nNEW INFORMATION:\n\n* CHANGES TO WATCHES AND WARNINGS:\n- None\n\n* CURRENT WATCHES AND WARNINGS:\n- A Tropical Storm Warning is in effect for Baldwin Central, Baldwin Coastal, Escambia Coastal, Mobile Central, Mobile Coastal, Okaloosa Coastal, and Santa Rosa Coastal\n\n* STORM INFORMATION:\n- About 210 miles southwest of Mobile AL or about 250 miles west-southwest of Pensacola FL\n- 28.9N 90.9W\n- Storm Intensity 45 mph\n- Movement North or 10 degrees at 13 mph";
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals(expectedParse, aa.getAdaptedAlerts().get(0).getDescription());
+  }
+
+  @Test
+  public void replacedByNonExistentAlertNoPolygon_NotDiscontinuedAt() {
+    UnadaptedAlert pa = new UnadaptedAlert();
+    pa.setReplacedBy("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b344bad8e99c947eb0cd944633f7c118757e70.001.1");
+    pa.setReplacedAt("2021-04-29T19:10:00-0500");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(pa);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertNull(aa.getAdaptedAlerts().get(0).getDiscontinuedAt());
   }
 }
