@@ -7,6 +7,11 @@ import com.severeweatheralerts.R;
 
 public class HurricaneLocalStatement extends Alert {
   @Override
+  public String getName() {
+    return "Hurricane Local Statement";
+  }
+
+  @Override
   public int getIcon() {
     return R.drawable.hurricane;
   }

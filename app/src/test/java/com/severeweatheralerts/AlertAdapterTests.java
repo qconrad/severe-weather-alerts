@@ -1343,4 +1343,14 @@ public class AlertAdapterTests {
     AlertAdapter aa = new AlertAdapter(alerts);
     assertNull(aa.getAdaptedAlerts().get(0).getDiscontinuedAt());
   }
+
+  @Test
+  public void tropicalCycloneStamente() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setName("Tropical Cyclone Statement");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals("Hurricane Local Statement", aa.getAdaptedAlerts().get(0).getName());
+  }
 }
