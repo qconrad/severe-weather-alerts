@@ -1,6 +1,7 @@
 package com.severeweatheralerts.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -49,5 +50,14 @@ public class EditLocationActivity extends AppCompatActivity {
 
   public void setPositionName(View view) {
     locationSelectorResult.launch(new Intent(EditLocationActivity.this, LocationPickerActivity.class));
+  }
+
+  public void deleteClick(View view) {
+    AlertDialog alertDialog = new AlertDialog.Builder(EditLocationActivity.this).create();
+    alertDialog.setTitle("Delete Confirmation");
+    alertDialog.setMessage("Are you sure you want to permanately delete this location and all its preferences? This action cannot be undone.");
+    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> dialog.dismiss());
+    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialog, which) -> dialog.dismiss());
+    alertDialog.show();
   }
 }
