@@ -30,6 +30,6 @@ public class DiscontinuationChecker {
   }
 
   private boolean isDiscontinued(UnadaptedAlert alert) {
-    return new AlertFinder(alerts).findAlertByID(alert.getReplacedBy()) == null;
+    return alert.hasGeometry() && new AlertFinder(alerts).findAlertByID(alert.getReplacedBy()) == null;
   }
 }
