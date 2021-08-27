@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class ProActivity extends AppCompatActivity {
   }
 
   private void purchase(String sku) {
+    startActivity(new Intent(ProActivity.this, PurchaseActivity.class));
     if (billingClient.isReady()) {
       SkuDetailsParams params = SkuDetailsParams.newBuilder()
               .setSkusList(Arrays.asList(sku))
