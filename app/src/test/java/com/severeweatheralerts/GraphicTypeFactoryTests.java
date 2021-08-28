@@ -478,4 +478,18 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
     assertEquals(ProbabilityTropicalWinds.class, graphicFactory.getTypes().get(1).getClass());
   }
+
+  @Test
+  public void getType_TropicalStormWarning_RegionalRadar() {
+    TropicalStormWarning tropicalStormWarning = new TropicalStormWarning();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWarning_RegionalRadar() {
+    HurricaneWarning tropicalStormWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(3).getClass());
+  }
 }

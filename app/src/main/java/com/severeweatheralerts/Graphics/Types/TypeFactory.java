@@ -88,11 +88,13 @@ public class TypeFactory {
     else if (alert instanceof TropicalStormWatch || alert instanceof TropicalStormWarning) {
       types.add(new AlertArea());
       types.add(new ProbabilityTropicalWinds());
+      types.add(new RegionalRadar(400));
     }
     else if (alert instanceof HurricaneWarning || alert instanceof HurricaneWatch) {
       types.add(new AlertArea());
       types.add(new ProbabilityTropicalWinds());
       types.add(new ProbabilityHurricaneWinds());
+      types.add(new RegionalRadar(400));
     }
     else if (alert instanceof HurricaneLocalStatement) {
       types.add(new HurricaneWindThreat());
