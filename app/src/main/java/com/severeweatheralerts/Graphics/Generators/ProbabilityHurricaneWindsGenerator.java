@@ -54,7 +54,7 @@ public class ProbabilityHurricaneWindsGenerator extends TropicalGraphicGenerator
 
   private void fetchComplete() {
     if (mapTimes == null || gridData == null) return;
-    setSubtext((int)(new Maximum(gridData).get().getValue()) + "% chance of hurricane force (>73mph) winds");
+    setSubtext((int)(new Maximum(gridData).get().getValue()) + "% chance of hurricane force (≥74mph) winds");
     MercatorCoordinate loc = getMercatorCoordinate();
     Bounds bounds = getBounds(ZOOM_SIZE, loc);
     String dateString = mapTimes.get(mapTimes.size()-1).getString();
