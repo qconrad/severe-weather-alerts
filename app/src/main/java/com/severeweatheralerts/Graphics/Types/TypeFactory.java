@@ -16,6 +16,7 @@ import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
+import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
@@ -79,6 +80,9 @@ public class TypeFactory {
       types.add(new WindGusts());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
+    }
+    else if (alert instanceof HurricaneLocalStatement) {
+      types.add(new HurricaneWindThreat());
     }
     else if (thunderstorms()) {
       types.add(new LocalRadar());

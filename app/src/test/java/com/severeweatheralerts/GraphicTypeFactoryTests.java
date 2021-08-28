@@ -401,4 +401,11 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement, new Date(5));
     assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
   }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneWindThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneWindThreat.class, graphicFactory.getTypes().get(0).getClass());
+  }
 }
