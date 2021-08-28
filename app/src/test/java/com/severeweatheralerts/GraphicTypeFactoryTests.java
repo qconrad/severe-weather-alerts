@@ -488,8 +488,15 @@ public class GraphicTypeFactoryTests {
 
   @Test
   public void getType_HurricaneWarning_RegionalRadar() {
-    HurricaneWarning tropicalStormWarning = new HurricaneWarning();
-    TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
+    HurricaneWarning hurricaneWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWarning, new Date(0));
     assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(3).getClass());
+  }
+
+  @Test
+  public void getType_ExtremeWindWarning_LocalRadar() {
+    ExtremeWindWarning extremeWindWarning = new ExtremeWindWarning();
+    TypeFactory graphicFactory = new TypeFactory(extremeWindWarning, new Date(0));
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

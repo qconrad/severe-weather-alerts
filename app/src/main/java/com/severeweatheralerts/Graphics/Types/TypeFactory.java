@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Types;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWarning;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWatch;
+import com.severeweatheralerts.Alerts.NWS.ExtremeWindWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
@@ -82,6 +83,8 @@ public class TypeFactory {
     }
     else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
       types.add(new WindGusts());
+    else if (alert instanceof ExtremeWindWarning)
+      types.add(new LocalRadar());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
     }
