@@ -17,6 +17,8 @@ import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
@@ -24,6 +26,8 @@ import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWarning;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
@@ -80,6 +84,15 @@ public class TypeFactory {
       types.add(new WindGusts());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
+    }
+    else if (alert instanceof TropicalStormWatch || alert instanceof TropicalStormWarning) {
+      types.add(new AlertArea());
+      types.add(new ProbabilityTropicalWinds());
+    }
+    else if (alert instanceof HurricaneWarning || alert instanceof HurricaneWatch) {
+      types.add(new AlertArea());
+      types.add(new ProbabilityTropicalWinds());
+      types.add(new ProbabilityHurricaneWinds());
     }
     else if (alert instanceof HurricaneLocalStatement) {
       types.add(new HurricaneWindThreat());
