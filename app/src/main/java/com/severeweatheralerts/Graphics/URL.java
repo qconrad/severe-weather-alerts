@@ -55,6 +55,10 @@ public class URL {
     return getParameter(bounds, region, date, "tcwind");
   }
 
+  public String getStormSurgeThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tcsurge");
+  }
+
   public String getApparentTemperaturePoints(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "apparentt.points");
   }
