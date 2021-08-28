@@ -12,7 +12,7 @@ public class ProbabilityTropicalWinds implements GraphicType {
 
   @Override
   public String getTitle() {
-    return "Tropical Storm Winds";
+    return "Tropical Storm Force Winds";
   }
 
   @Override

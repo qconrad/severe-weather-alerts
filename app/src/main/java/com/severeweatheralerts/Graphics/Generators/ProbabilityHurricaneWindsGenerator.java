@@ -20,19 +20,19 @@ public class ProbabilityHurricaneWindsGenerator extends TropicalGraphicGenerator
   private ArrayList<MapTime> mapTimes;
   private Parameter gridData;
   public ProbabilityHurricaneWindsGenerator(Context context, Alert alert, GCSCoordinate location) {
-    super(context, alert, location, "probwindspd34c");
+    super(context, alert, location, "probwindspd64c");
   }
 
   @Override
   public void generate(GraphicCompleteListener graphicCompleteListener) {
     super.generate(graphicCompleteListener);
-    getMapTimes("probwindspd34c");
+    getMapTimes("probwindspd64c");
     getPointInfo();
   }
 
   @Override
   protected void pointInfo(String response) {
-    getForecast(new PointInfoParser(response).getForecastGridLink(), "probabilityOfTropicalStormWinds");
+    getForecast(new PointInfoParser(response).getForecastGridLink(), "probabilityOfHurricaneWinds");
   }
 
   @Override
@@ -49,12 +49,12 @@ public class ProbabilityHurricaneWindsGenerator extends TropicalGraphicGenerator
 
   @Override
   protected Layer getLayer(Bounds bounds, String dateString) {
-    return new Layer(new URL().getProbabilityTropicalWinds(bounds, getRegion(), dateString));
+    return new Layer(new URL().getProbabilityHurricaneWinds(bounds, getRegion(), dateString));
   }
 
   private void fetchComplete() {
     if (mapTimes == null || gridData == null) return;
-    setSubtext((int)(new Maximum(gridData).get().getValue()) + "% chance of tropical storm force (>38mph) winds");
+    setSubtext((int)(new Maximum(gridData).get().getValue()) + "% chance of hurricane force (>73mph) winds");
     MercatorCoordinate loc = getMercatorCoordinate();
     Bounds bounds = getBounds(ZOOM_SIZE, loc);
     String dateString = mapTimes.get(mapTimes.size()-1).getString();

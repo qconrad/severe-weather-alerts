@@ -5,14 +5,14 @@ import android.content.Context;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
-import com.severeweatheralerts.Graphics.Generators.ProbabilityTropicalWindsGenerator;
+import com.severeweatheralerts.Graphics.Generators.ProbabilityHurricaneWindsGenerator;
 
 public class ProbabilityHurricaneWinds implements GraphicType {
   public ProbabilityHurricaneWinds() {}
 
   @Override
   public String getTitle() {
-    return "Tropical Storm Winds";
+    return "Hurricane Force Winds";
   }
 
   @Override
@@ -22,6 +22,6 @@ public class ProbabilityHurricaneWinds implements GraphicType {
 
   @Override
   public GraphicGenerator getGenerator(Context context, Alert alert, GCSCoordinate location) {
-    return new ProbabilityTropicalWindsGenerator(context, alert, location);
+    return new ProbabilityHurricaneWindsGenerator(context, alert, location);
   }
 }

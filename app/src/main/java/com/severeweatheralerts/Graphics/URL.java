@@ -71,6 +71,10 @@ public class URL {
     return getParameter(bounds, region, date, "probwindspd34c");
   }
 
+  public String getProbabilityHurricaneWinds(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "probwindspd64c");
+  }
+
   public String getApparentTemperaturePoints(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "apparentt.points");
   }
