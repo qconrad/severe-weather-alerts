@@ -408,4 +408,25 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
     assertEquals(HurricaneWindThreat.class, graphicFactory.getTypes().get(0).getClass());
   }
+
+  @Test
+  public void getType_HurricaneLocalStatement_StormSurgeThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(StormSurgeThreat.class, graphicFactory.getTypes().get(3).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneTornadoThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneTornadoThreat.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneFloodingThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneFloodingThreat.class, graphicFactory.getTypes().get(1).getClass());
+  }
 }

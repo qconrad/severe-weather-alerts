@@ -83,6 +83,9 @@ public class TypeFactory {
     }
     else if (alert instanceof HurricaneLocalStatement) {
       types.add(new HurricaneWindThreat());
+      types.add(new HurricaneFloodingThreat());
+      types.add(new HurricaneTornadoThreat());
+      types.add(new StormSurgeThreat());
     }
     else if (thunderstorms()) {
       types.add(new LocalRadar());
