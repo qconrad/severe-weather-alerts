@@ -14,7 +14,7 @@ import com.severeweatheralerts.Graphics.URL;
 
 import java.util.ArrayList;
 
-abstract class TropicalGraphicGenerator extends GraphicGenerator {
+public abstract class TropicalGraphicGenerator extends GraphicGenerator {
   private static final int ZOOM_SIZE = 400;
   private final String mapName;
 
