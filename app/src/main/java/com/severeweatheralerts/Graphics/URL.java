@@ -63,6 +63,10 @@ public class URL {
     return getParameter(bounds, region, date, "tctornado");
   }
 
+  public String getHurricaneFloodingThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tcrain");
+  }
+
   public String getApparentTemperaturePoints(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "apparentt.points");
   }
