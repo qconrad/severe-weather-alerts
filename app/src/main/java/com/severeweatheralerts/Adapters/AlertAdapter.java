@@ -47,11 +47,11 @@ public class AlertAdapter {
     adaptSender(ua, al);
     adaptSenderCode(ua, al);
     adaptId(ua, al);
-    adaptType(ua, al);
     adaptSendTime(ua, al);
     adaptExpectedUpdateTime(ua, al);
     adaptStartTime(ua, al);
     adaptEndTime(ua, al);
+    adaptType(ua, al);
     adaptAlertArea(ua, al);
     adaptMotionVector(ua, al);
     removeHeadlinesFromDescription(al); // Requires already parsed description
@@ -129,7 +129,7 @@ public class AlertAdapter {
 
 
   private void adaptType(UnadaptedAlert ua, Alert al) {
-    al.setType(new TypeAdapter(ua.getType()).adaptType());
+    al.setType(new TypeAdapter(ua.getType(), al.getSentTime(), al.getEndTime()).adaptType());
   }
 
   private void adaptMotionVector(UnadaptedAlert ua, Alert al) {
