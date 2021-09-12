@@ -96,15 +96,21 @@ public class LocationsDao {
     saveLocationsToFile();
   }
 
-  public synchronized void setName(int index, String name) {
-    if (index < 0 || index >= locations.size()) return;
-    locations.get(index).setName(name);
+  public synchronized void setName(int locationIndex, String name) {
+    if (locationIndex < 0 || locationIndex >= locations.size()) return;
+    locations.get(locationIndex).setName(name);
     saveLocationsToFile();
   }
 
-  public synchronized void setCoordinate(int index, double latitude, double longitude) {
-    if (index < 0 || index >= locations.size()) return;
-    locations.get(index).setCoordinate(new GCSCoordinate(latitude, longitude));
+  public synchronized void setCoordinate(int locationIndex, double latitude, double longitude) {
+    if (locationIndex < 0 || locationIndex >= locations.size()) return;
+    locations.get(locationIndex).setCoordinate(new GCSCoordinate(latitude, longitude));
+    saveLocationsToFile();
+  }
+
+  public synchronized void deleteLocation(int locationIndex) {
+    if (locationIndex < 0 || locationIndex >= locations.size()) return;
+    locations.remove(locationIndex);
     saveLocationsToFile();
   }
 

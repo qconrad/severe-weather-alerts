@@ -26,6 +26,11 @@ public class ManageLocationsActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_manage_locations);
     dao = LocationsDao.getInstance(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
     populateLocations();
   }
 
