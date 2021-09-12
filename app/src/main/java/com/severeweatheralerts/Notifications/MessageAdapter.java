@@ -15,7 +15,6 @@ import com.severeweatheralerts.Adapters.StartTimeAdapter;
 import com.severeweatheralerts.Adapters.TypeAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.AlertFactory;
-import com.severeweatheralerts.Alerts.MotionVector;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
 
 import org.json.JSONArray;
@@ -42,7 +41,7 @@ public class MessageAdapter {
     alert.setStartTime(new StartTimeAdapter(message.get("onset")).adaptStartTime());
     alert.setEndTime(new EndTimeAdapter(message.get("ends"), message.get("expires")).adaptEndTime());
     alert.setExpectedUpdateTime(new ExpectedUpdateTimeAdapter(message.get("ends"), message.get("expires")).adaptUpdateExpectedTime());
-    alert.setType(new TypeAdapter(message.get("type")).adaptType());
+    alert.setType(new TypeAdapter(message.get("type"), alert.getSentTime(), alert.getEndTime()).adaptType());
     alert.setSenderCode(new SenderCodeAdapter(message.get("senderCode")).adapterSenderCode());
     alert.setSender(message.get("senderName"));
     HeadlineAdapter headlineAdapter = new HeadlineAdapter(message.get("nwsHeadline"), message.get("description"));

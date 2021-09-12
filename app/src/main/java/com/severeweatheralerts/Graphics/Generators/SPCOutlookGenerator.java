@@ -1,11 +1,9 @@
 package com.severeweatheralerts.Graphics.Generators;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.Bounds.BoundRounder;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;

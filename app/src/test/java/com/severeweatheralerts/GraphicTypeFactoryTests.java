@@ -401,4 +401,102 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(specialWeatherStatement, new Date(5));
     assertEquals(RadarRainfall.class, graphicFactory.getTypes().get(1).getClass());
   }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneWindThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneWindThreat.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneLocalStatement_StormSurgeThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(StormSurgeThreat.class, graphicFactory.getTypes().get(3).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneTornadoThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneTornadoThreat.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneLocalStatement_HurricaneFloodingThreat() {
+    HurricaneLocalStatement hurricaneLocalStatement = new HurricaneLocalStatement();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneLocalStatement, new Date(0));
+    assertEquals(HurricaneFloodingThreat.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWarning_AlertArea() {
+    HurricaneWarning hurricaneWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWarning, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWarning_ProbTropicalWinds() {
+    HurricaneWarning hurricaneWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWarning, new Date(0));
+    assertEquals(ProbabilityTropicalWinds.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWarning_ProbHurricaneWinds() {
+    HurricaneWarning hurricaneWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWarning, new Date(0));
+    assertEquals(ProbabilityHurricaneWinds.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWatch_ProbHurricaneWinds() {
+    HurricaneWatch hurricaneWatch = new HurricaneWatch();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWatch, new Date(0));
+    assertEquals(ProbabilityHurricaneWinds.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_TropicalStormWatch_AlertArea() {
+    TropicalStormWatch tropicalStormWatch = new TropicalStormWatch();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWatch, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_TropicalStormWatch_ProbTropical() {
+    TropicalStormWatch tropicalStormWatch = new TropicalStormWatch();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWatch, new Date(0));
+    assertEquals(ProbabilityTropicalWinds.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_TropicalStormWarning_ProbTropical() {
+    TropicalStormWarning tropicalStormWarning = new TropicalStormWarning();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
+    assertEquals(ProbabilityTropicalWinds.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  @Test
+  public void getType_TropicalStormWarning_RegionalRadar() {
+    TropicalStormWarning tropicalStormWarning = new TropicalStormWarning();
+    TypeFactory graphicFactory = new TypeFactory(tropicalStormWarning, new Date(0));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(2).getClass());
+  }
+
+  @Test
+  public void getType_HurricaneWarning_RegionalRadar() {
+    HurricaneWarning hurricaneWarning = new HurricaneWarning();
+    TypeFactory graphicFactory = new TypeFactory(hurricaneWarning, new Date(0));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(3).getClass());
+  }
+
+  @Test
+  public void getType_ExtremeWindWarning_LocalRadar() {
+    ExtremeWindWarning extremeWindWarning = new ExtremeWindWarning();
+    TypeFactory graphicFactory = new TypeFactory(extremeWindWarning, new Date(0));
+    assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
 }

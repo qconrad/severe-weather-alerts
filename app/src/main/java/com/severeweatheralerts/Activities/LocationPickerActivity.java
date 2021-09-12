@@ -93,7 +93,7 @@ public class LocationPickerActivity extends AppCompatActivity {
       Toast.makeText(this, "Enter a name for this location", Toast.LENGTH_SHORT).show();
       return;
     }
-    else if (name.length() > 15) {
+    else if (name.length() > 20) {
       Toast.makeText(this, "This name is too long. Try picking a shorter one.", Toast.LENGTH_SHORT).show();
       return;
     }

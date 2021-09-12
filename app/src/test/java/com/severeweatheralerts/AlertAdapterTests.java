@@ -1345,12 +1345,27 @@ public class AlertAdapterTests {
   }
 
   @Test
-  public void tropicalCycloneStamente() {
+  public void tropicalCycloneStatement() {
     UnadaptedAlert ua = new UnadaptedAlert();
     ua.setName("Tropical Cyclone Statement");
     ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
     alerts.add(ua);
     AlertAdapter aa = new AlertAdapter(alerts);
     assertEquals("Hurricane Local Statement", aa.getAdaptedAlerts().get(0).getName());
+  }
+
+  // Recently, updates that are put out after a warning's end time are categorized as new posts
+  // unnecessarily causing urgent alert sounds. These alerts should be corrected to updates
+  @Test
+  public void endOfWarningStatementsNotPosts() {
+    UnadaptedAlert ua = new UnadaptedAlert();
+    ua.setName("Severe Thunderstorm Warning");
+    ua.setType("Alert");
+    ua.setSent("2021-09-06T14:05:00-0400");
+    ua.setEnds("2021-09-06T14:00:00-0400");
+    ArrayList<UnadaptedAlert> alerts = new ArrayList<>();
+    alerts.add(ua);
+    AlertAdapter aa = new AlertAdapter(alerts);
+    assertEquals(Alert.Type.UPDATE, aa.getAdaptedAlerts().get(0).getType());
   }
 }

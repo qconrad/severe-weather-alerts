@@ -51,6 +51,30 @@ public class URL {
     return getParameter(bounds, region, date, "apparentt");
   }
 
+  public String getHurricaneWindThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tcwind");
+  }
+
+  public String getStormSurgeThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tcsurge");
+  }
+
+  public String getHurricaneTornadoThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tctornado");
+  }
+
+  public String getHurricaneFloodingThreat(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "tcrain");
+  }
+
+  public String getProbabilityTropicalWinds(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "probwindspd34c");
+  }
+
+  public String getProbabilityHurricaneWinds(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "probwindspd64c");
+  }
+
   public String getApparentTemperaturePoints(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "apparentt.points");
   }

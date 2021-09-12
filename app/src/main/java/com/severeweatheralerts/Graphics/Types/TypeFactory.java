@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Types;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWarning;
 import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWatch;
+import com.severeweatheralerts.Alerts.NWS.ExtremeWindWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
 import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
 import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
@@ -16,6 +17,9 @@ import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
 import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
+import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
@@ -23,6 +27,8 @@ import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWarning;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWatch;
 import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
@@ -77,8 +83,27 @@ public class TypeFactory {
     }
     else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
       types.add(new WindGusts());
+    else if (alert instanceof ExtremeWindWarning)
+      types.add(new LocalRadar());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
       types.add(new SPCOutlook());
+    }
+    else if (alert instanceof TropicalStormWatch || alert instanceof TropicalStormWarning) {
+      types.add(new AlertArea());
+      types.add(new ProbabilityTropicalWinds());
+      types.add(new RegionalRadar(400));
+    }
+    else if (alert instanceof HurricaneWarning || alert instanceof HurricaneWatch) {
+      types.add(new AlertArea());
+      types.add(new ProbabilityTropicalWinds());
+      types.add(new ProbabilityHurricaneWinds());
+      types.add(new RegionalRadar(400));
+    }
+    else if (alert instanceof HurricaneLocalStatement) {
+      types.add(new HurricaneWindThreat());
+      types.add(new HurricaneFloodingThreat());
+      types.add(new HurricaneTornadoThreat());
+      types.add(new StormSurgeThreat());
     }
     else if (thunderstorms()) {
       types.add(new LocalRadar());
