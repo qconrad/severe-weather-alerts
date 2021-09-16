@@ -11,6 +11,7 @@ public class Location {
   private GCSCoordinate coordinate;
   private transient ArrayList<Alert> alerts;
   private ChannelPreferences channelPreferences;
+  private boolean notificationsEnabled = true;
 
   public Location() {
     alerts = new ArrayList<>();
@@ -54,5 +55,13 @@ public class Location {
 
   public GCSCoordinate getCoordinate() {
     return coordinate;
+  }
+
+  public boolean isNotifying() {
+    return notificationsEnabled;
+  }
+
+  public void setNotify(boolean notificationsEnabled) {
+    this.notificationsEnabled = notificationsEnabled;
   }
 }
