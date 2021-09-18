@@ -54,6 +54,12 @@ public class EditLocationActivity extends AppCompatActivity {
   }
 
   @Override
+  protected void onPause() {
+    super.onPause();
+    getLocationsDao(this).setLocation(locationIndex, location);
+  }
+
+  @Override
   public void onBackPressed() {
     setResult(Activity.RESULT_OK, new Intent());
     finish();
