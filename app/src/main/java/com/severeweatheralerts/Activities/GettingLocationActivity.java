@@ -17,7 +17,6 @@ import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.R;
 
@@ -41,13 +40,13 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void checkIfLocationsServicesAreEnabled(LocationManager lm) {
     if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-      if (LocationsDao.getInstance(this).hasLocations()) {
-        LocationsDao.getInstance(this).setName(0, "Last Known Location");
-        fetchAlerts();
-      } else {
-        LocationsDao.getInstance(this).setName(0, "No Location");
-        displayError("Location services disabled");
-      }
+//      if (LocationsDao.getInstance(this).hasLocations()) {
+//        LocationsDao.getInstance(this).setName(0, "Last Known Location");
+//        fetchAlerts();
+//      } else {
+//        LocationsDao.getInstance(this).setName(0, "No Location");
+//        displayError("Location services disabled");
+//      }
     }
   }
 

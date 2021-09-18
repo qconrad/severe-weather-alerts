@@ -47,8 +47,9 @@ public class Location {
     return channelPreferences;
   }
 
-  public void setChannelPreferences(ChannelPreferences channelPreferences) {
+  public Location setChannelPreferences(ChannelPreferences channelPreferences) {
     this.channelPreferences = channelPreferences;
+    return this;
   }
 
   public Location setCoordinate(GCSCoordinate coordinate) {
@@ -66,5 +67,9 @@ public class Location {
 
   public void setNotify(boolean notificationsEnabled) {
     this.notificationsEnabled = notificationsEnabled;
+  }
+
+  public boolean notSet() {
+    return false;
   }
 }

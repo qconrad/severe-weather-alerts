@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.locationsDao;
+
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -14,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.Preferences.RippleEdit;
@@ -24,7 +25,6 @@ import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 public class ChannelPreferencesActivity extends AppCompatActivity {
   private ChannelPreferences channelPreferences;
   private PreferenceAdapter preferenceAdapter;
-  private LocationsDao locationsDao;
   private SharedPreferences sharedPref;
   private SwitchCompat rippleSwitch;
 
@@ -33,8 +33,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
     checkIfDeviceSupportsChannels();
-    locationsDao = LocationsDao.getInstance(this);
-    channelPreferences = locationsDao.getChannelPreferences(0);
+    channelPreferences = locationsDao.getLocation(0).getChannelPreferences();
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     rippleSwitch = findViewById(R.id.ripple_switch);
     rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
@@ -82,7 +81,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    locationsDao.setChannelPreferences(0, channelPreferences);
+    locationsDao.setLocation(0, locationsDao.getLocation(0).setChannelPreferences(channelPreferences));
     sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
   }
 

@@ -77,7 +77,7 @@ public class AlertListActivity extends AppCompatActivity {
     locationIndex = getIntent().getIntExtra("locationIndex", 0);
     lastLocation = locationsDao.getLocation(locationIndex).getCoordinate();
     setLocationName(locationsDao.getLocation(locationIndex).getName());
-    ArrayList<Alert> alerts = locationsDao.getAlerts(locationIndex);
+    ArrayList<Alert> alerts = locationsDao.getLocation(locationIndex).getAlerts();
     dismissedIds = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<>()));
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
@@ -124,7 +124,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void saveAndPromptRefresh(LocationsDao locationsDao, Location newLoc) {
-    locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
+    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setCoordinate(new GCSCoordinate(newLoc.getLatitude(), newLoc.getLongitude())));
     promptLocationChange(getString(R.string.location_change), newLoc);
   }
 

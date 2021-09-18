@@ -11,6 +11,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
@@ -24,7 +26,7 @@ public class ManageLocationsActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_manage_locations);
-    dao = LocationsDao.getInstance(this);
+    dao = FileDBs.locationsDao;
   }
 
   @Override
@@ -34,7 +36,7 @@ public class ManageLocationsActivity extends AppCompatActivity {
   }
 
   private void populateLocations() {
-    ArrayList<Location> locations = dao.getExtraLocations();
+    ArrayList<Location> locations = dao.getLocations();
     LinearLayout locationStack = findViewById(R.id.location_stack);
     locationStack.removeAllViews();
     if (noExtras(locations)) return;
@@ -67,7 +69,7 @@ public class ManageLocationsActivity extends AppCompatActivity {
           result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
               Intent data = result.getData();
-              dao.addLocation(data.getStringExtra("name"), data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0));
+              dao.addExtraLocation(new Location(data.getStringExtra("name")).setCoordinate(new GCSCoordinate(data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0))));
               populateLocations();
             }
           });

@@ -13,19 +13,21 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.FileDBs;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.R;
 
 public class EditLocationActivity extends AppCompatActivity {
-  private LocationsDao dao;
+  private Location location;
   private int locationIndex;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_location);
-    dao = LocationsDao.getInstance(this);
     locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
+    location = FileDBs.locationsDao.getLocation(locationIndex);
     setNameText();
     setNotifySwitch();
     setNotifyMethod();
@@ -33,21 +35,21 @@ public class EditLocationActivity extends AppCompatActivity {
 
   private void setNotifySwitch() {
     SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
-    notifySwitch.setChecked(dao.isNotifying(locationIndex));
+    notifySwitch.setChecked(location.isNotifying());
   }
 
   private void setNotifyMethod() {
     RadioButton useDefault = findViewById(R.id.use_default);
     RadioButton setCustom = findViewById(R.id.set_custom);
-    useDefault.setChecked(dao.getExtraLocations().get(locationIndex).getChannelPreferences() == null);
-    setCustom.setChecked(dao.getExtraLocations().get(locationIndex).getChannelPreferences() != null);
-    useDefault.setEnabled(dao.isNotifying(locationIndex));
-    setCustom.setEnabled(dao.isNotifying(locationIndex));
+    useDefault.setChecked(location.getChannelPreferences() == null);
+    setCustom.setChecked(location.getChannelPreferences() != null);
+    useDefault.setEnabled(location.isNotifying());
+    setCustom.setEnabled(location.isNotifying());
   }
 
   private void setNameText() {
     TextView locationNameTextView = findViewById(R.id.edit_location_name);
-    locationNameTextView.setText(dao.getName(locationIndex));
+    locationNameTextView.setText(location.getName());
   }
 
   @Override
@@ -60,8 +62,8 @@ public class EditLocationActivity extends AppCompatActivity {
           result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
               Intent data = result.getData();
-              dao.setName(locationIndex, data.getStringExtra("name"));
-              dao.setCoordinate(locationIndex, data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0));
+              location.setName(data.getStringExtra("name"));
+              location.setCoordinate(new GCSCoordinate(data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0)));
               setNameText();
             }
           });
@@ -80,13 +82,13 @@ public class EditLocationActivity extends AppCompatActivity {
   }
 
   private void deleteLocation() {
-    dao.deleteLocation(locationIndex);
+//    dao.deleteLocation(locationIndex);
     finish();
   }
 
   public void notifyToggle(View view) {
     SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
-    dao.setNotify(locationIndex, notifySwitch.isChecked());
+    location.setNotify(notifySwitch.isChecked());
     setNotifyMethod();
   }
 }

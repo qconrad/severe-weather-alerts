@@ -20,11 +20,11 @@ import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Feedback.FeedbackActivity;
-import com.severeweatheralerts.Location.BundledLocation;
+import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.BackgroundLocation;
-import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Permissions.LocationPermissionRequest;
+import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Notifications.NotificationSender;
+import com.severeweatheralerts.Permissions.LocationPermissionRequest;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
       if (findPreference("usefixed").isEnabled())
-        findPreference("fixedloc").setSummary(LocationsDao.getInstance(getContext()).getName(0));
+        findPreference("fixedloc").setSummary(FileDBs.locationsDao.getDefaultLocation().getName());
       createClickListeners();
     }
 

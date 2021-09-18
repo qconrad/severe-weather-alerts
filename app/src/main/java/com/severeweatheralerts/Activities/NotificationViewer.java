@@ -26,10 +26,10 @@ public class NotificationViewer extends AlertViewerActivity {
   }
 
   private void fetchAlerts() {
-    new FromLocationPointPopulater(locationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(locationsDao.getLocation(locationIndex).getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.setAlerts(0, alerts);
+        locationsDao.getLocation(locationIndex).setAlerts(alerts);
         alertsFetched = true;
         fillMissingData(new AlertFinder(alerts).findAlertByID(al.getNwsId()));
       }

@@ -8,11 +8,12 @@ import android.location.Location;
 
 import androidx.preference.PreferenceManager;
 
+import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Permissions.PermissionManager;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class UpdateReceiver extends BroadcastReceiver {
   @Override
@@ -37,28 +38,28 @@ public class UpdateReceiver extends BroadcastReceiver {
     LocationsDao dao = LocationsDao.getInstance(context);
     if (PermissionManager.hasCoarseLocation(context)) {
       Location lastLocation = new LastKnownLocation(context).getLocation();
-      if (lastLocation != null) setLocation(dao, lastLocation.getLatitude(), lastLocation.getLongitude());
-      else getLocationFromPreferences(dao, preferences);
+      if (lastLocation != null) setLocation(lastLocation.getLatitude(), lastLocation.getLongitude());
+      else getLocationFromPreferences(preferences);
     }
-    else getLocationFromPreferences(dao, preferences);
+    else getLocationFromPreferences(preferences);
 
     SharedPreferences.Editor editor = preferences.edit();
     editor.clear();
-    if (LocationsDao.getInstance(context).hasLocations()) {
-      editor.putBoolean("first_run", false);
-      new UserSyncWorkScheduler(context).oneTimeSync();
-    }
+//    if (LocationsDao.getInstance(context).hasLocations()) {
+//      editor.putBoolean("first_run", false);
+//      new UserSyncWorkScheduler(context).oneTimeSync();
+//    }
     editor.apply();
   }
 
-  private void getLocationFromPreferences(LocationsDao dao, SharedPreferences preferences) {
+  private void getLocationFromPreferences(SharedPreferences preferences) {
     String[] lastSentLocation = preferences.getString("lastSentLocation", "").split(",");
     if (lastSentLocation.length == 2) {
-      setLocation(dao, Double.parseDouble(lastSentLocation[0]), Double.parseDouble(lastSentLocation[1]));
+      setLocation(Double.parseDouble(lastSentLocation[0]), Double.parseDouble(lastSentLocation[1]));
     }
   }
 
-  private void setLocation(LocationsDao dao, double latitude, double longitude) {
-    dao.setDefaultLocation("Last Known Location", latitude, longitude);
+  private void setLocation(double latitude, double longitude) {
+    FileDBs.locationsDao.setDefaultLocation(FileDBs.locationsDao.getDefaultLocation().setName("Last Known Location").setCoordinate(new GCSCoordinate(latitude, longitude)));
   }
 }
