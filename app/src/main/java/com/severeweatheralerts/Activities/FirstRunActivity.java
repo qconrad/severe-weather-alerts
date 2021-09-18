@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Permissions.LocationPermissionRequest;
@@ -23,12 +22,10 @@ public class FirstRunActivity extends AppCompatActivity {
   }
 
   private void startAppWithLocation() {
-    updateFirstRun();
     startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
   }
 
   private void startAppWithFixed() {
-    updateFirstRun();
     startActivity(new Intent(FirstRunActivity.this, GettingLatestDataActivity.class));
   }
 
@@ -39,10 +36,6 @@ public class FirstRunActivity extends AppCompatActivity {
   public void thisDeviceClick(View view) {
     if (PermissionManager.hasLocationPermissions(this)) startAppWithLocation();
     else startActivityForResult(new Intent(FirstRunActivity.this, LocationPermissionRequest.class), 0);
-  }
-
-  private void updateFirstRun() {
-    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("first_run", false).apply();
   }
 
   @Override

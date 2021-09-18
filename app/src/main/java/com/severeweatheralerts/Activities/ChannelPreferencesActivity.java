@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
@@ -33,7 +33,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
     checkIfDeviceSupportsChannels();
-    channelPreferences = locationsDao.getLocation(0).getChannelPreferences();
+    channelPreferences = getLocationsDao(this).getLocation(0).getChannelPreferences();
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     rippleSwitch = findViewById(R.id.ripple_switch);
     rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
@@ -81,7 +81,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    locationsDao.setLocation(0, locationsDao.getLocation(0).setChannelPreferences(channelPreferences));
+    getLocationsDao(this).setLocation(0, getLocationsDao(this).getLocation(0).setChannelPreferences(channelPreferences));
     sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
   }
 

@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -68,6 +68,7 @@ public class AlertListActivity extends AppCompatActivity {
   private Date lastLocationTime = null;
   private Set<String> dismissedIds;
   private BillingClient billingClient;
+  private LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class AlertListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    locationsDao = getLocationsDao(this);
     lastLocation = locationsDao.getLocation(locationIndex).getCoordinate();
     setLocationName(locationsDao.getLocation(locationIndex).getName());
     ArrayList<Alert> alerts = locationsDao.getLocation(locationIndex).getAlerts();

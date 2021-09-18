@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -14,20 +16,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.R;
 
 public class EditLocationActivity extends AppCompatActivity {
   private Location location;
-  private int locationIndex;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_location);
-    locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
-    location = FileDBs.locationsDao.getLocation(locationIndex);
+    int locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
+    location = getLocationsDao(this).getLocation(locationIndex);
     setNameText();
     setNotifySwitch();
     setNotifyMethod();

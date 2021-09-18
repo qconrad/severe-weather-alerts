@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -23,12 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.ViewInflaters.Graphic;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
@@ -45,6 +47,7 @@ import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
+  private Location location;
   protected Alert al;
   private boolean isActive;
   protected int locationIndex;
@@ -92,12 +95,13 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void getAlertFromExtras(Bundle bundle) {
     locationIndex = bundle.getInt("locIndex");
+    location = getLocationsDao(this).getLocation(locationIndex);
     String alertIndex = bundle.getString("alertID");
-    al = new AlertFinder(getAlerts(locationIndex)).findAlertByID(alertIndex);
+    al = new AlertFinder(getAlerts()).findAlertByID(alertIndex);
   }
 
-  private ArrayList<Alert> getAlerts(int locationIndex) {
-    return FileDBs.locationsDao.getLocation(locationIndex).getAlerts();
+  private ArrayList<Alert> getAlerts() {
+    return location.getAlerts();
   }
 
   private void populateUIWithAlertData() {
@@ -127,7 +131,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    GraphicGenerator generator = type.getGenerator(this, al, FileDBs.locationsDao.getLocation(locationIndex).getCoordinate());
+    GraphicGenerator generator = type.getGenerator(this, al, location.getCoordinate());
     generateGraphic(generator, graphicView);
     startUpdates(type, generator, graphicView);
   }

@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Location;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ public class BundledLocation {
 
   public void setFixedLocation() {
     Bundle extras = data.getExtras();
-    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation()
+    getLocationsDao(context).setDefaultLocation(getLocationsDao(context).getDefaultLocation()
             .setName(extras.getString("name"))
             .setCoordinate(new GCSCoordinate(extras.getDouble("lat"), extras.getDouble("lon"))));
     PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("usefixed", true).putBoolean("first_run", false).apply();

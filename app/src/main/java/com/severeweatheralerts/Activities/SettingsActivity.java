@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -20,7 +22,6 @@ import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Feedback.FeedbackActivity;
-import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Notifications.NotificationSender;
@@ -53,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
       if (findPreference("usefixed").isEnabled())
-        findPreference("fixedloc").setSummary(FileDBs.locationsDao.getDefaultLocation().getName());
+        findPreference("fixedloc").setSummary(getLocationsDao(getContext()).getDefaultLocation().getName());
       createClickListeners();
     }
 

@@ -1,6 +1,8 @@
 package com.severeweatheralerts.Location;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLastDefaultSync;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDBs.setLastDefaultSync;
 
 import android.content.Context;
 
@@ -31,7 +33,7 @@ public class ConditionalDefaultLocationSync {
   }
 
   private void setLastSync() {
-    locationsDao.setLastDefaultSync(new GCSCoordinate(lat, lon));
+    setLastDefaultSync(context, new GCSCoordinate(lat, lon));
   }
 
   private void scheduleSync() {
@@ -39,10 +41,10 @@ public class ConditionalDefaultLocationSync {
   }
 
   private boolean isDifferent() {
-    return new CoordinateDifference(locationsDao.getLastDefaultSync(), new GCSCoordinate(lat, lon)).isDifferent(Constants.LOCATION_CHANGE_MARGIN);
+    return new CoordinateDifference(getLastDefaultSync(context), new GCSCoordinate(lat, lon)).isDifferent(Constants.LOCATION_CHANGE_MARGIN);
   }
 
   private void updateLocationInDao() {
-    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setCoordinate(new GCSCoordinate(lat, lon)));
+    getLocationsDao(context).setDefaultLocation(getLocationsDao(context).getDefaultLocation().setCoordinate(new GCSCoordinate(lat, lon)));
   }
 }

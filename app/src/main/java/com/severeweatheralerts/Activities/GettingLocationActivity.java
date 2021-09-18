@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,16 +17,19 @@ import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.GPSLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
+import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.R;
 
 import java.util.Date;
 
 public class GettingLocationActivity extends AppCompatActivity {
+  private LocationsDao locationsDao;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
+    locationsDao = getLocationsDao(this);
     if (!PermissionManager.hasCoarseLocation(this))
       startActivity(new Intent(GettingLocationActivity.this, FirstRunActivity.class));
     else {

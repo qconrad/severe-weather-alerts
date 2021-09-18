@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.locationsDao;
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.R;
@@ -22,7 +23,8 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
     int locationIndex = getIntent().getIntExtra("locationIndex", 0);
-    getAlerts(locationIndex);
+    Location location = getLocationsDao(this).getLocation(locationIndex);
+    getAlerts(location, locationIndex);
     setProgressbarColor();
   }
 
@@ -31,11 +33,11 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
 
-  private void getAlerts(int locationIndex) {
-    new FromLocationPointPopulater(locationsDao.getLocation(locationIndex).getCoordinate(), this).populate(new PopulateCallback() {
+  private void getAlerts(Location location, int locationIndex) {
+    new FromLocationPointPopulater(location.getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.setLocation(locationIndex, locationsDao.getLocation(locationIndex).setAlerts(alerts));
+        location.setAlerts(alerts);
         displayAlerts(locationIndex);
       }
 

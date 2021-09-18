@@ -1,5 +1,6 @@
 package com.severeweatheralerts.Notifications;
 
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
 import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelString;
 
 import androidx.annotation.NonNull;
@@ -8,7 +9,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
@@ -27,10 +27,11 @@ public class MessageService extends FirebaseMessagingService {
   }
 
   private void fetchAlert(String id) {
-    new FromLocationPointPopulater(FileDBs.locationsDao.getDefaultLocation().getCoordinate(), this).populate(new PopulateCallback() {
+    LocationsDao locationsDao = getLocationsDao(this);
+    new FromLocationPointPopulater(locationsDao.getDefaultLocation().getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        FileDBs.locationsDao.getDefaultLocation().setAlerts(alerts);
+        locationsDao.getDefaultLocation().setAlerts(alerts);
         Alert alert = new AlertFinder(alerts).findAlertByID(id);
         if (alert != null) sendAlert(alert);
       }
@@ -40,14 +41,14 @@ public class MessageService extends FirebaseMessagingService {
   }
 
   private void sendAlert(Alert alert) {
-    Channel channel = FileDBs.locationsDao.getLocation(0).getChannelPreferences().getChannel(alert.getName(), alert.getType());
+    Channel channel = getLocationsDao(this).getLocation(0).getChannelPreferences().getChannel(alert.getName(), alert.getType());
     if (channel != Channel.NONE) new NotificationSender(this, alert, getChannelString(channel)).send();
   }
 
   @Override
   public void onNewToken(@NonNull String s) {
     super.onNewToken(s);
-    if (!FileDBs.locationsDao.getDefaultLocation().coordinateSet()) return;
+    if (!getLocationsDao(this).getDefaultLocation().coordinateSet()) return;
     new UserSyncWorkScheduler(this).oneTimeSync();
   }
 }
