@@ -1,6 +1,7 @@
 package com.severeweatheralerts.Location;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class LocationsDao {
     locations = locationDatabase.get();
     this.locationDatabase = locationDatabase;
     if (locations.size() <= 0) {
-      locations.add(new Location());
+      locations.add(new Location().setChannelPreferences(new ChannelPreferences()));
       saveLocationsDatabase();
     }
 //    Paper.init(locationDatabase);

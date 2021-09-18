@@ -116,9 +116,15 @@ public class LocationsDaoTests {
   }
 
   @Test
-  public void getLocations() {
+  public void locationCountCorrect() {
     LocationsDao locationsDao = new LocationsDao(new MockDatabase());
     locationsDao.addExtraLocation(new Location());
     assertEquals(2, locationsDao.getLocations().size());
+  }
+
+  @Test
+  public void defaultLocationHasChannelPreferences() {
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase());
+    assertNotNull(locationsDao.getDefaultLocation().getChannelPreferences());
   }
 }
