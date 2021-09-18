@@ -12,6 +12,7 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
+import com.severeweatheralerts.NewAlerts;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
@@ -21,7 +22,7 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
     if (remoteMessage.getData().size() < 1) return;
-//    LocationsDao.messageReceived();
+    NewAlerts.alertRecieved();
     if (remoteMessage.getData().containsKey("fetchManually")) fetchAlert(remoteMessage.getData().get("id"));
     else sendAlert(new MessageAdapter(remoteMessage.getData()).getAlert());
   }

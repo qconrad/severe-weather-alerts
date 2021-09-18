@@ -1,6 +1,8 @@
 package com.severeweatheralerts.Activities;
 
 import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.NewAlerts.hasNewAlerts;
+import static com.severeweatheralerts.NewAlerts.onNewAlerts;
 
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
@@ -107,7 +109,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
-//    LocationsDao.onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
+    onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
     if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
     monitorForExpiration(alerts);
   }
@@ -376,13 +378,12 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void firstStart() {
-//    checkForMissedAlerts();
+    checkForMissedAlerts();
     refresher.start();
   }
 
   private void checkForMissedAlerts() {
-//    if (LocationsDao.getInstance(this).messagesAvailable())
-//      promptNewData(getString(R.string.new_data_available));
+    if (hasNewAlerts()) promptNewData(getString(R.string.new_data_available));
   }
 
   private void checkIfLocationIsReasonablyUpToDate() {
