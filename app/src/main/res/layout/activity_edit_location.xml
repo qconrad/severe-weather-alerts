@@ -72,6 +72,7 @@
 
     <Button
         android:id="@+id/edit_custom_btn"
+        android:onClick="editCustomClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit custom notification preferences"/>

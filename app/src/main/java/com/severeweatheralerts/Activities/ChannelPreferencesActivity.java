@@ -23,6 +23,7 @@ import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 
 public class ChannelPreferencesActivity extends AppCompatActivity {
+  private int locationIndex;
   private ChannelPreferences channelPreferences;
   private PreferenceAdapter preferenceAdapter;
   private SharedPreferences sharedPref;
@@ -33,7 +34,8 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
     checkIfDeviceSupportsChannels();
-    channelPreferences = getLocationsDao(this).getLocation(0).getChannelPreferences();
+    locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    channelPreferences = getLocationsDao(this).getLocation(locationIndex).getChannelPreferences();
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     rippleSwitch = findViewById(R.id.ripple_switch);
     rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
@@ -81,7 +83,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    getLocationsDao(this).setLocation(0, getLocationsDao(this).getLocation(0).setChannelPreferences(channelPreferences));
+    getLocationsDao(this).setLocation(locationIndex, getLocationsDao(this).getLocation(locationIndex).setChannelPreferences(channelPreferences));
     sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
   }
 

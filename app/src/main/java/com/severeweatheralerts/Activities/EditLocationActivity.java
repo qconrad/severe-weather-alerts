@@ -121,4 +121,10 @@ public class EditLocationActivity extends AppCompatActivity {
     location.setChannelPreferences(null);
     setEditCustomClickability();
   }
+
+  public void editCustomClick(View view) {
+    Intent intent = new Intent(EditLocationActivity.this, ChannelPreferencesActivity.class);
+    intent.putExtra("locationIndex", locationIndex);
+    startActivity(intent);
+  }
 }
