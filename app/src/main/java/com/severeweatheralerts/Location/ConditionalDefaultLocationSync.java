@@ -1,8 +1,8 @@
 package com.severeweatheralerts.Location;
 
-import static com.severeweatheralerts.FileDBs.getLastDefaultSync;
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
-import static com.severeweatheralerts.FileDBs.setLastDefaultSync;
+import static com.severeweatheralerts.FileDB.getLastDefaultSync;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+import static com.severeweatheralerts.FileDB.setLastDefaultSync;
 
 import android.content.Context;
 

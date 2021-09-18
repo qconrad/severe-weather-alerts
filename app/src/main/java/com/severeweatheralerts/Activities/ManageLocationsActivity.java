@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
 
 import android.app.Activity;
 import android.content.Intent;

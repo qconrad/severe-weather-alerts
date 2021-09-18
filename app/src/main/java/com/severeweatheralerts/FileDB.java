@@ -6,7 +6,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Location.PaperLocationDatabase;
 
-public class FileDBs {
+public class FileDB {
   private static LocationsDao locationsDao;
 
   public static LocationsDao getLocationsDao(Context context) {

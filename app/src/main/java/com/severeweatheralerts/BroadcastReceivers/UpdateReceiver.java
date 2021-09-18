@@ -1,6 +1,6 @@
 package com.severeweatheralerts.BroadcastReceivers;
 
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

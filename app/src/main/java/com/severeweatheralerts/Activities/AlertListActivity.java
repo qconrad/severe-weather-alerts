@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
 import static com.severeweatheralerts.NewAlerts.hasNewAlerts;
 import static com.severeweatheralerts.NewAlerts.onNewAlerts;
 
@@ -40,7 +40,7 @@ import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.BillingClientSetup;
 import com.severeweatheralerts.Constants;
-import com.severeweatheralerts.FileDBs;
+import com.severeweatheralerts.FileDB;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
@@ -166,7 +166,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void fetchDataIfCleared() {
-    if (FileDBs.hasLocationsDaoInstance()) return;
+    if (FileDB.hasLocationsDaoInstance()) return;
     startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
     finish();
   }

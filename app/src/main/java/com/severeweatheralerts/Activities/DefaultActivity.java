@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Activities;
 
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
 import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;
 
 import android.content.Intent;

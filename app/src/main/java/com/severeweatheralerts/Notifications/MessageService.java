@@ -1,6 +1,6 @@
 package com.severeweatheralerts.Notifications;
 
-import static com.severeweatheralerts.FileDBs.getLocationsDao;
+import static com.severeweatheralerts.FileDB.getLocationsDao;
 import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelString;
 
 import androidx.annotation.NonNull;
