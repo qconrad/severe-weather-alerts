@@ -11,10 +11,16 @@ public class LocationsDao {
   public LocationsDao(LocationDatabase locationDatabase) {
     locations = locationDatabase.get();
     this.locationDatabase = locationDatabase;
-    if (locations.size() <= 0) {
-      locations.add(new Location().setChannelPreferences(new ChannelPreferences()));
-      saveLocationsDatabase();
-    }
+    if (noLocations()) createDefaultLocation();
+  }
+
+  private boolean noLocations() {
+    return locations.size() <= 0;
+  }
+
+  private void createDefaultLocation() {
+    locations.add(new Location().setChannelPreferences(new ChannelPreferences()));
+    saveLocationsDatabase();
   }
 
   private synchronized void saveLocationsDatabase() {
