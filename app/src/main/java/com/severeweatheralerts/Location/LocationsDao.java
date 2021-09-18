@@ -1,7 +1,5 @@
 package com.severeweatheralerts.Location;
 
-import android.content.Context;
-
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 
 import java.util.ArrayList;
@@ -41,11 +39,6 @@ public class LocationsDao {
 
   public static boolean hasInstance() {
     return instance != null;
-  }
-
-  public static LocationsDao getInstance(Context context) {
-//    if (instance == null) instance = new LocationsDao(context);
-    return instance;
   }
 
   private synchronized void getLocationsFromFile() {

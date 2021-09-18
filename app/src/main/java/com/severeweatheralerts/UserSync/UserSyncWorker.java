@@ -17,13 +17,11 @@ import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.PostService;
 
 public class UserSyncWorker extends Worker {
-  private final LocationsDao dao;
   private final Context context;
 
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
     this.context = context;
-    this.dao = LocationsDao.getInstance(context);
   }
 
   @NonNull

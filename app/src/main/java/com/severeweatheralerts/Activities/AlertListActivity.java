@@ -379,8 +379,8 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void checkForMissedAlerts() {
-    if (LocationsDao.getInstance(this).messagesAvailable())
-      promptNewData(getString(R.string.new_data_available));
+//    if (LocationsDao.getInstance(this).messagesAvailable())
+//      promptNewData(getString(R.string.new_data_available));
   }
 
   private void checkIfLocationIsReasonablyUpToDate() {
@@ -405,7 +405,7 @@ public class AlertListActivity extends AppCompatActivity {
   public void switchLocationClick(View view) {
     boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
     if (isPro) {
-      ArrayList<com.severeweatheralerts.Location.Location> locations = LocationsDao.getInstance(this).getLocations();
+      ArrayList<com.severeweatheralerts.Location.Location> locations = locationsDao.getLocations();
       ArrayList<String> listItems = new ArrayList<>();
       for (int i = 0; i < locations.size(); i++) {
         if (i == locationIndex) continue;

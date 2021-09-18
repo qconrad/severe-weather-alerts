@@ -12,7 +12,6 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
@@ -36,7 +35,6 @@ public class UpdateReceiver extends BroadcastReceiver {
   }
 
   private void adaptToNewVersion(Context context, SharedPreferences preferences) {
-    LocationsDao dao = LocationsDao.getInstance(context);
     if (PermissionManager.hasCoarseLocation(context)) {
       Location lastLocation = new LastKnownLocation(context).getLocation();
       if (lastLocation != null) setLocation(lastLocation.getLatitude(), lastLocation.getLongitude());

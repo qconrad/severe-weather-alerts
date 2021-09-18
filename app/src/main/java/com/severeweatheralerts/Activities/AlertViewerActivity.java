@@ -54,7 +54,6 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_viewer);
-    locationsDao = LocationsDao.getInstance(this);
 
     makeStatusBarTransparent();
     getAlertFromExtras(getIntent().getExtras());
