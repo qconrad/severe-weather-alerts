@@ -38,6 +38,7 @@ import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.BillingClientSetup;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
@@ -72,7 +73,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-//    fetchDataIfCleared();
+    fetchDataIfCleared();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     locationIndex = getIntent().getIntExtra("locationIndex", 0);
@@ -85,7 +86,7 @@ public class AlertListActivity extends AppCompatActivity {
     populateRecyclerViews();
     setStatus(getStatus());
     updateLocationTime();
-    keepEverythingUpToDate(locationsDao, alerts);
+//    keepEverythingUpToDate(locationsDao, alerts);
     setupBilling();
   }
 
@@ -106,7 +107,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
-    LocationsDao.onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
+//    LocationsDao.onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
     if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
     monitorForExpiration(alerts);
   }
@@ -163,10 +164,9 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void fetchDataIfCleared() {
-    if (!LocationsDao.hasInstance()) {
-      startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
-      finish();
-    }
+    if (FileDBs.hasLocationsDaoInstance()) return;
+    startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
+    finish();
   }
 
   protected Status getStatus() {

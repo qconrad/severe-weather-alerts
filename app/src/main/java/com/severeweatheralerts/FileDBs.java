@@ -10,7 +10,7 @@ public class FileDBs {
   private static LocationsDao locationsDao;
 
   public static LocationsDao getLocationsDao(Context context) {
-    if (locationsDao == null) locationsDao = new LocationsDao(new MockDatabase());
+    if (!hasLocationsDaoInstance()) locationsDao = new LocationsDao(new MockDatabase());
     return locationsDao;
   }
 
@@ -19,5 +19,9 @@ public class FileDBs {
   }
 
   public static void setLastDefaultSync(Context context, GCSCoordinate coordinate) {
+  }
+
+  public static boolean hasLocationsDaoInstance() {
+    return locationsDao != null;
   }
 }

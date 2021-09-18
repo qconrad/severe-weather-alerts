@@ -13,19 +13,6 @@ public class LocationsDao {
   private final LocationDatabase locationDatabase;
   private static LocationsDao instance;
 
-  public static void messageReceived() {
-    if (newAlertCallback != null) newAlertCallback.newAlerts();
-    messagesAvailable = true;
-  }
-
-  public boolean messagesAvailable() {
-    return messagesAvailable;
-  }
-
-  public static void onNewAlerts(NewAlertCallback newAlertCallback) {
-    LocationsDao.newAlertCallback = newAlertCallback;
-  }
-
   public LocationsDao(LocationDatabase locationDatabase) {
     locations = locationDatabase.get();
     this.locationDatabase = locationDatabase;
@@ -33,39 +20,14 @@ public class LocationsDao {
       locations.add(new Location().setChannelPreferences(new ChannelPreferences()));
       saveLocationsDatabase();
     }
-//    Paper.init(locationDatabase);
-//    getLocationsFromFile();
-//    getLastDefaultSyncFromFile();
   }
 
-  public static boolean hasInstance() {
-    return instance != null;
-  }
-
-  private synchronized void getLocationsFromFile() {
-//    locations = Paper.book().read("locations", new ArrayList<>());
-  }
-
-  private synchronized void getLastDefaultSyncFromFile() {
-//    lastDefaultSync = Paper.book().read("lastDefaultSync", new GCSCoordinate(0.0, 0.0));
-  }
+//  public static boolean hasInstance() {
+//    return instance != null;
+//  }
 
   private synchronized void saveLocationsDatabase() {
     locationDatabase.set(locations);
-//    Paper.book().write("locations", locations);
-  }
-
-  private synchronized void saveLastDefaultSyncToFile() {
-//    Paper.book().write("lastDefaultSync", lastDefaultSync);
-  }
-
-  public synchronized GCSCoordinate getLastDefaultSync() {
-    return new GCSCoordinate(0,0);
-  }
-
-  public synchronized void setLastDefaultSync(GCSCoordinate coordinate) {
-    lastDefaultSync = coordinate;
-    saveLastDefaultSyncToFile();
   }
 
   public boolean hasExtraLocations() {
