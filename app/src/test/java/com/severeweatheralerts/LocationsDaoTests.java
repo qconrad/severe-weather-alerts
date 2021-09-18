@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class LocationsDaoTest {
+public class LocationsDaoTests {
   @Test
   public void hasNoExtraLocations() {
     LocationsDao locationsDao = new LocationsDao(new MockDatabase());
@@ -94,5 +94,31 @@ public class LocationsDaoTest {
     locationsDao.addExtraLocation(new Location());
     locationsDao.addExtraLocation(new Location());
     assertEquals(3, locationsDao.extraLocationCount());
+  }
+
+  @Test
+  public void getLocationByIndex() {
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase());
+    Location location = new Location();
+    location.setName("Test");
+    locationsDao.addExtraLocation(location);
+    assertEquals("Test", locationsDao.getLocation(1).getName());
+  }
+
+  @Test
+  public void setLocationByIndex() {
+    MockDatabase mockDatabase = new MockDatabase();
+    LocationsDao locationsDao = new LocationsDao(mockDatabase);
+    Location location = new Location();
+    location.setName("Test");
+    locationsDao.setLocation(0, location);
+    assertEquals("Test", mockDatabase.get().get(0).getName());
+  }
+
+  @Test
+  public void getLocations() {
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase());
+    locationsDao.addExtraLocation(new Location());
+    assertEquals(2, locationsDao.getLocations().size());
   }
 }

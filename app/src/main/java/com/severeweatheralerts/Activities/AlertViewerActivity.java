@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.FileDBs;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
@@ -97,7 +98,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   }
 
   private ArrayList<Alert> getAlerts(int locationIndex) {
-    return locationsDao.getAlerts(locationIndex);
+    return FileDBs.locationsDao.getLocation(locationIndex).getAlerts();
   }
 
   private void populateUIWithAlertData() {
@@ -127,7 +128,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    GraphicGenerator generator = type.getGenerator(this, al, locationsDao.getCoordinate(locationIndex));
+    GraphicGenerator generator = type.getGenerator(this, al, FileDBs.locationsDao.getLocation(locationIndex).getCoordinate());
     generateGraphic(generator, graphicView);
     startUpdates(type, generator, graphicView);
   }

@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.locationsDao;
+
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -69,13 +71,12 @@ public class AlertListActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    fetchDataIfCleared();
+//    fetchDataIfCleared();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
     locationIndex = getIntent().getIntExtra("locationIndex", 0);
-    LocationsDao locationsDao = LocationsDao.getInstance(this);
-    lastLocation = locationsDao.getCoordinate(locationIndex);
-    setLocationName(locationsDao.getName(locationIndex));
+    lastLocation = locationsDao.getLocation(locationIndex).getCoordinate();
+    setLocationName(locationsDao.getLocation(locationIndex).getName());
     ArrayList<Alert> alerts = locationsDao.getAlerts(locationIndex);
     dismissedIds = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<>()));
     sortAndFilterAlerts(alerts);
@@ -373,7 +374,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void firstStart() {
-    checkForMissedAlerts();
+//    checkForMissedAlerts();
     refresher.start();
   }
 

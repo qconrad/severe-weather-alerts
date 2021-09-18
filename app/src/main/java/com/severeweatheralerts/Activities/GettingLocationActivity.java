@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.locationsDao;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -97,7 +99,7 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private void setDefaultLocation(android.location.Location location) {
-    LocationsDao.getInstance(this).setName(0, "Current Location");
+    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("Current Location"));
     new ConditionalDefaultLocationSync(this, location.getLatitude(), location.getLongitude()).sync();
     new BackgroundLocation(this).start();
     fetchAlerts();

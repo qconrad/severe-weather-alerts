@@ -132,4 +132,10 @@ public class LocationObjectTests {
     loc.setNotify(false);
     assertFalse(loc.isNotifying());
   }
+
+  @Test
+  public void createLocation_returnsCoordinate() {
+    Location loc = makeLocation();
+    assertNotNull(loc.getCoordinate());
+  }
 }

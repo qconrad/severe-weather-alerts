@@ -10,7 +10,9 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.severeweatheralerts.Adapters.LocationToCoordinateListAdapter;
 import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Location.MockDatabase;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.PostService;
 
@@ -64,7 +66,8 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getLocations() {
-    return new JSONLocationString(dao.getCoordinateList()).getString();
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase());
+    return new JSONLocationString(new LocationToCoordinateListAdapter(locationsDao.getLocations()).getCoordinates()).getString();
   }
 
   private boolean failure(Task<String> task) {

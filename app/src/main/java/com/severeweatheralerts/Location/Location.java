@@ -15,6 +15,7 @@ public class Location {
 
   public Location() {
     alerts = new ArrayList<>();
+    coordinate = new GCSCoordinate(0.0, 0.0);
   }
 
   public Location(String name) {
@@ -26,8 +27,9 @@ public class Location {
     return name;
   }
 
-  public void setName(String name) {
+  public Location setName(String name) {
     this.name = name;
+    return this;
   }
   public ArrayList<Alert> getAlerts() {
     return alerts;
@@ -36,8 +38,9 @@ public class Location {
     alerts.add(alert);
   }
 
-  public void setAlerts(ArrayList<Alert> alertList) {
+  public Location setAlerts(ArrayList<Alert> alertList) {
     this.alerts = alertList;
+    return this;
   }
 
   public ChannelPreferences getChannelPreferences() {
@@ -48,8 +51,9 @@ public class Location {
     this.channelPreferences = channelPreferences;
   }
 
-  public void setCoordinate(GCSCoordinate coordinate) {
+  public Location setCoordinate(GCSCoordinate coordinate) {
     this.coordinate = coordinate;
+    return this;
   }
 
   public GCSCoordinate getCoordinate() {

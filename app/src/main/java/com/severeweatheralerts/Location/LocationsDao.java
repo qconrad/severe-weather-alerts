@@ -3,19 +3,16 @@ package com.severeweatheralerts.Location;
 import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Adapters.LocationToCoordinateListAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 
 import java.util.ArrayList;
 
-import io.paperdb.Paper;
-
 public class LocationsDao {
   private static boolean messagesAvailable;
   private static NewAlertCallback newAlertCallback;
   private GCSCoordinate lastDefaultSync;
-  private ArrayList<Location> locations;
+  private final ArrayList<Location> locations;
   private final LocationDatabase locationDatabase;
   private static LocationsDao instance;
 
@@ -67,11 +64,11 @@ public class LocationsDao {
   }
 
   private synchronized void saveLastDefaultSyncToFile() {
-    Paper.book().write("lastDefaultSync", lastDefaultSync);
+//    Paper.book().write("lastDefaultSync", lastDefaultSync);
   }
 
   public synchronized GCSCoordinate getLastDefaultSync() {
-    return lastDefaultSync;
+    return new GCSCoordinate(0,0);
   }
 
   public synchronized void setLastDefaultSync(GCSCoordinate coordinate) {
@@ -161,10 +158,6 @@ public class LocationsDao {
     return locations;
   }
 
-  public synchronized ArrayList<GCSCoordinate> getCoordinateList() {
-    return new LocationToCoordinateListAdapter(locations).getCoordinates();
-  }
-
   public synchronized void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
     messagesAvailable = false;
     locations.get(locationIndex).setAlerts(alerts);
@@ -193,6 +186,15 @@ public class LocationsDao {
   }
 
   public ArrayList<Location> getLocations() {
-    return null;
+    return locations;
+  }
+
+  public Location getLocation(int locationIndex) {
+    return locations.get(locationIndex);
+  }
+
+  public void setLocation(int locationIndex, Location location) {
+    locations.set(locationIndex, location);
+    saveLocationsDatabase();
   }
 }
