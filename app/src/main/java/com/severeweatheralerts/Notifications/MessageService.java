@@ -22,7 +22,7 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
     if (remoteMessage.getData().size() < 1) return;
-    NewAlerts.alertRecieved();
+    NewAlerts.alertReceived();
     if (remoteMessage.getData().containsKey("fetchManually")) fetchAlert(remoteMessage.getData().get("id"));
     else sendAlert(new MessageAdapter(remoteMessage.getData()).getAlert());
   }

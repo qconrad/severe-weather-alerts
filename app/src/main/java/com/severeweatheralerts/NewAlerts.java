@@ -10,7 +10,7 @@ public class NewAlerts {
     return hasNewAlerts;
   }
 
-  public static void alertRecieved() {
+  public static void alertReceived() {
     if (newAlertCallback != null) newAlertCallback.newAlerts();
     hasNewAlerts = true;
   }
