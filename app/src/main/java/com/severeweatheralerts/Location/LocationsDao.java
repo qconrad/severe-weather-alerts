@@ -1,17 +1,12 @@
 package com.severeweatheralerts.Location;
 
-import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 
 import java.util.ArrayList;
 
 public class LocationsDao {
-  private static boolean messagesAvailable;
-  private static NewAlertCallback newAlertCallback;
-  private GCSCoordinate lastDefaultSync;
   private final ArrayList<Location> locations;
   private final LocationDatabase locationDatabase;
-  private static LocationsDao instance;
 
   public LocationsDao(LocationDatabase locationDatabase) {
     locations = locationDatabase.get();
@@ -21,10 +16,6 @@ public class LocationsDao {
       saveLocationsDatabase();
     }
   }
-
-//  public static boolean hasInstance() {
-//    return instance != null;
-//  }
 
   private synchronized void saveLocationsDatabase() {
     locationDatabase.set(locations);
