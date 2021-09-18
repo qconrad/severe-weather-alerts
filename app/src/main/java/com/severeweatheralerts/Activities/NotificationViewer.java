@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDBs.getLocationsDao;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,14 +24,15 @@ public class NotificationViewer extends AlertViewerActivity {
   protected void getAlertFromExtras(Bundle bundle) {
     al = new BundleAlertAdapter(bundle).getAlert();
     locationIndex = 0;
+    location = getLocationsDao(this).getLocation(locationIndex);
     fetchAlerts();
   }
 
   private void fetchAlerts() {
-    new FromLocationPointPopulater(locationsDao.getLocation(locationIndex).getCoordinate(), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(location.getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.getLocation(locationIndex).setAlerts(alerts);
+        location.setAlerts(alerts);
         alertsFetched = true;
         fillMissingData(new AlertFinder(alerts).findAlertByID(al.getNwsId()));
       }

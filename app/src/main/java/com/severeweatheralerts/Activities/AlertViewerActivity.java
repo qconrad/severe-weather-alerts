@@ -31,7 +31,6 @@ import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.ViewInflaters.Graphic;
 import com.severeweatheralerts.Location.Location;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.Refreshing.IntervalRun;
@@ -47,11 +46,10 @@ import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
-  private Location location;
+  protected Location location;
   protected Alert al;
   private boolean isActive;
   protected int locationIndex;
-  protected LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
