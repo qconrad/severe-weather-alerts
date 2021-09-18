@@ -24,7 +24,7 @@ public class BundledLocation {
     getLocationsDao(context).setDefaultLocation(getLocationsDao(context).getDefaultLocation()
             .setName(extras.getString("name"))
             .setCoordinate(new GCSCoordinate(extras.getDouble("lat"), extras.getDouble("lon"))));
-    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("usefixed", true).putBoolean("first_run", false).apply();
+    PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("usefixed", true).apply();
     new ConditionalDefaultLocationSync(context, extras.getDouble("lat"), extras.getDouble("lon")).sync();
   }
 }
