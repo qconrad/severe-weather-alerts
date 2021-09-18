@@ -86,7 +86,7 @@ public class AlertListActivity extends AppCompatActivity {
     populateRecyclerViews();
     setStatus(getStatus());
     updateLocationTime();
-//    keepEverythingUpToDate(locationsDao, alerts);
+    keepEverythingUpToDate(locationsDao, alerts);
     setupBilling();
   }
 

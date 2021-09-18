@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Permissions.LocationPermissionRequest;
@@ -23,10 +24,15 @@ public class FirstRunActivity extends AppCompatActivity {
 
   private void startAppWithLocation() {
     startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+    setUseFixed(false);
   }
 
   private void startAppWithFixed() {
     startActivity(new Intent(FirstRunActivity.this, GettingLatestDataActivity.class));
+  }
+
+  private void setUseFixed(boolean useFixed) {
+    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("usefixed", useFixed).apply();
   }
 
   public void customSetClick(View view) {
