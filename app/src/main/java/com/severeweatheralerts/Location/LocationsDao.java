@@ -16,6 +16,7 @@ public class LocationsDao {
   private static NewAlertCallback newAlertCallback;
   private GCSCoordinate lastDefaultSync;
   private ArrayList<Location> locations;
+  private final LocationDatabase locationDatabase;
   private static LocationsDao instance;
 
   public static void messageReceived() {
@@ -31,10 +32,16 @@ public class LocationsDao {
     LocationsDao.newAlertCallback = newAlertCallback;
   }
 
-  private LocationsDao(Context context) {
-    Paper.init(context);
-    getLocationsFromFile();
-    getLastDefaultSyncFromFile();
+  public LocationsDao(LocationDatabase locationDatabase) {
+    locations = locationDatabase.get();
+    this.locationDatabase = locationDatabase;
+    if (locations.size() <= 0) {
+      locations.add(new Location());
+      saveLocationsDatabase();
+    }
+//    Paper.init(locationDatabase);
+//    getLocationsFromFile();
+//    getLastDefaultSyncFromFile();
   }
 
   public static boolean hasInstance() {
@@ -42,20 +49,21 @@ public class LocationsDao {
   }
 
   public static LocationsDao getInstance(Context context) {
-    if (instance == null) instance = new LocationsDao(context);
+//    if (instance == null) instance = new LocationsDao(context);
     return instance;
   }
 
   private synchronized void getLocationsFromFile() {
-    locations = Paper.book().read("locations", new ArrayList<>());
+//    locations = Paper.book().read("locations", new ArrayList<>());
   }
 
   private synchronized void getLastDefaultSyncFromFile() {
-    lastDefaultSync = Paper.book().read("lastDefaultSync", new GCSCoordinate(0.0, 0.0));
+//    lastDefaultSync = Paper.book().read("lastDefaultSync", new GCSCoordinate(0.0, 0.0));
   }
 
-  private synchronized void saveLocationsToFile() {
-    Paper.book().write("locations", locations);
+  private synchronized void saveLocationsDatabase() {
+    locationDatabase.set(locations);
+//    Paper.book().write("locations", locations);
   }
 
   private synchronized void saveLastDefaultSyncToFile() {
@@ -80,49 +88,49 @@ public class LocationsDao {
     location.setName(name);
     location.setCoordinate(new GCSCoordinate(latitude, longitude));
     locations.add(location);
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void setDefaultLocation(String name, double latitude, double longitude) {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setName(name);
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void setDefaultLocationCoordinate(double latitude, double longitude) {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void setName(int locationIndex, String name) {
     if (locationIndex < 0 || locationIndex >= locations.size()) return;
     locations.get(locationIndex).setName(name);
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void setCoordinate(int locationIndex, double latitude, double longitude) {
     if (locationIndex < 0 || locationIndex >= locations.size()) return;
     locations.get(locationIndex).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void deleteLocation(int locationIndex) {
     if (locationIndex < 0 || locationIndex >= locations.size()) return;
     locations.remove(locationIndex);
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void updateDefaultLocation(double latitude, double longitude) {
     if (locations.size() < 1) locations.add(new Location());
     locations.get(0).setCoordinate(new GCSCoordinate(latitude, longitude));
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized void setChannelPreferences(int locationIndex, ChannelPreferences channelPreferences) {
     locations.get(locationIndex).setChannelPreferences(channelPreferences);
-    saveLocationsToFile();
+    saveLocationsDatabase();
   }
 
   public synchronized ArrayList<Alert> getAlerts(int locationIndex) {
@@ -149,7 +157,7 @@ public class LocationsDao {
     return locations.get(locationIndex).getName();
   }
 
-  public synchronized ArrayList<Location> getLocations() {
+  public synchronized ArrayList<Location> getExtraLocations() {
     return locations;
   }
 
@@ -160,5 +168,31 @@ public class LocationsDao {
   public synchronized void setAlerts(int locationIndex, ArrayList<Alert> alerts) {
     messagesAvailable = false;
     locations.get(locationIndex).setAlerts(alerts);
+  }
+
+  public boolean hasExtraLocations() {
+    return locations.size() > 1;
+  }
+
+  public Location getDefaultLocation() {
+    return locations.get(0);
+  }
+
+  public void addExtraLocation(Location location) {
+    locations.add(location);
+    saveLocationsDatabase();
+  }
+
+  public void setDefaultLocation(Location location) {
+    locations.set(0, location);
+    saveLocationsDatabase();
+  }
+
+  public int extraLocationCount() {
+    return locations.size() - 1;
+  }
+
+  public ArrayList<Location> getLocations() {
+    return null;
   }
 }

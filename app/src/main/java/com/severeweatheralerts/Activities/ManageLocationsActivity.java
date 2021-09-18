@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,7 +34,7 @@ public class ManageLocationsActivity extends AppCompatActivity {
   }
 
   private void populateLocations() {
-    ArrayList<Location> locations = dao.getLocations();
+    ArrayList<Location> locations = dao.getExtraLocations();
     LinearLayout locationStack = findViewById(R.id.location_stack);
     locationStack.removeAllViews();
     if (noExtras(locations)) return;

@@ -15,7 +15,6 @@ public class Location {
 
   public Location() {
     alerts = new ArrayList<>();
-    channelPreferences = new ChannelPreferences();
   }
 
   public Location(String name) {

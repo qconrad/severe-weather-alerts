@@ -3,6 +3,7 @@ package com.severeweatheralerts;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
@@ -99,9 +100,9 @@ public class LocationObjectTests {
   }
 
   @Test
-  public void channelPreferencesReturned() {
+  public void channelPreferencesNull() {
     Location loc = new Location();
-    assertEquals(Channel.EXTREME, loc.getChannelPreferences().getChannel("Tornado Warning", Alert.Type.POST));
+    assertNull(loc.getChannelPreferences());
   }
 
   @Test

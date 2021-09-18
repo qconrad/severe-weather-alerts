@@ -39,8 +39,8 @@ public class EditLocationActivity extends AppCompatActivity {
   private void setNotifyMethod() {
     RadioButton useDefault = findViewById(R.id.use_default);
     RadioButton setCustom = findViewById(R.id.set_custom);
-    useDefault.setChecked(dao.getLocations().get(locationIndex).getChannelPreferences() == null);
-    setCustom.setChecked(dao.getLocations().get(locationIndex).getChannelPreferences() != null);
+    useDefault.setChecked(dao.getExtraLocations().get(locationIndex).getChannelPreferences() == null);
+    setCustom.setChecked(dao.getExtraLocations().get(locationIndex).getChannelPreferences() != null);
     useDefault.setEnabled(dao.isNotifying(locationIndex));
     setCustom.setEnabled(dao.isNotifying(locationIndex));
   }
