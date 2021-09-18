@@ -133,6 +133,14 @@ public class LocationsDao {
     return locations.get(locationIndex).getCoordinate();
   }
 
+  public synchronized boolean isNotifying(int locationIndex) {
+    return locations.get(locationIndex).isNotifying();
+  }
+
+  public synchronized void setNotify(int locationIndex, boolean notificationsEnabled) {
+    locations.get(locationIndex).setNotify(notificationsEnabled);
+  }
+
   public synchronized ChannelPreferences getChannelPreferences(int locationIndex) {
     return locations.get(locationIndex).getChannelPreferences();
   }

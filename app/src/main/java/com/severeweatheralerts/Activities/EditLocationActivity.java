@@ -5,11 +5,13 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
@@ -25,6 +27,22 @@ public class EditLocationActivity extends AppCompatActivity {
     dao = LocationsDao.getInstance(this);
     locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
     setNameText();
+    setNotifySwitch();
+    setNotifyMethod();
+  }
+
+  private void setNotifySwitch() {
+    SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
+    notifySwitch.setChecked(dao.isNotifying(locationIndex));
+  }
+
+  private void setNotifyMethod() {
+    RadioButton useDefault = findViewById(R.id.use_default);
+    RadioButton setCustom = findViewById(R.id.set_custom);
+    useDefault.setChecked(dao.getLocations().get(locationIndex).getChannelPreferences() == null);
+    setCustom.setChecked(dao.getLocations().get(locationIndex).getChannelPreferences() != null);
+    useDefault.setEnabled(dao.isNotifying(locationIndex));
+    setCustom.setEnabled(dao.isNotifying(locationIndex));
   }
 
   private void setNameText() {
@@ -64,5 +82,11 @@ public class EditLocationActivity extends AppCompatActivity {
   private void deleteLocation() {
     dao.deleteLocation(locationIndex);
     finish();
+  }
+
+  public void notifyToggle(View view) {
+    SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
+    dao.setNotify(locationIndex, notifySwitch.isChecked());
+    setNotifyMethod();
   }
 }

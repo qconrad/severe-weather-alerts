@@ -40,6 +40,8 @@
         android:gravity="center"/>
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/notify_switch"
+        android:onClick="notifyToggle"
         android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,11 +55,13 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/use_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Use default location"/>
 
         <RadioButton
+            android:id="@+id/set_custom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set custom"/>
