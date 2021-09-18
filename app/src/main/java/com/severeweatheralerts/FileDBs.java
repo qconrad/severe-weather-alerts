@@ -4,13 +4,13 @@ import android.content.Context;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Location.MockDatabase;
+import com.severeweatheralerts.Location.PaperLocationDatabase;
 
 public class FileDBs {
   private static LocationsDao locationsDao;
 
   public static LocationsDao getLocationsDao(Context context) {
-    if (!hasLocationsDaoInstance()) locationsDao = new LocationsDao(new MockDatabase());
+    if (!hasLocationsDaoInstance()) locationsDao = new LocationsDao(new PaperLocationDatabase(context));
     return locationsDao;
   }
 
