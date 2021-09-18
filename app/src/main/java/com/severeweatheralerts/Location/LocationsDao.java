@@ -23,7 +23,7 @@ public class LocationsDao {
     saveLocationsDatabase();
   }
 
-  private synchronized void saveLocationsDatabase() {
+  protected synchronized void saveLocationsDatabase() {
     locationDatabase.set(locations);
   }
 
@@ -59,6 +59,11 @@ public class LocationsDao {
 
   public void setLocation(int locationIndex, Location location) {
     locations.set(locationIndex, location);
+    saveLocationsDatabase();
+  }
+
+  public void deleteLocation(int locationIndex) {
+    locations.remove(locationIndex);
     saveLocationsDatabase();
   }
 }

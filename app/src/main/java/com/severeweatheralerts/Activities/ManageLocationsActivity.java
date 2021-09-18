@@ -40,13 +40,17 @@ public class ManageLocationsActivity extends AppCompatActivity {
     ArrayList<Location> locations = dao.getLocations();
     LinearLayout locationStack = findViewById(R.id.location_stack);
     locationStack.removeAllViews();
-    if (noExtras(locations)) return;
-    findViewById(R.id.no_locations_text).setVisibility(View.GONE);
-    addLocationsToLayout(locationStack, locations);
+    if (dao.hasExtraLocations()) hideMessageAndDisplayLocations(locations, locationStack);
+    else setNoExtraLocationsMessage(View.VISIBLE);
   }
 
-  private boolean noExtras(ArrayList<Location> locations) {
-    return locations.size() <= 1;
+  private void setNoExtraLocationsMessage(int visibility) {
+    findViewById(R.id.no_locations_text).setVisibility(visibility);
+  }
+
+  private void hideMessageAndDisplayLocations(ArrayList<Location> locations, LinearLayout locationStack) {
+    setNoExtraLocationsMessage(View.GONE);
+    addLocationsToLayout(locationStack, locations);
   }
 
   private void addLocationsToLayout(LinearLayout locationStack, ArrayList<Location> locations) {

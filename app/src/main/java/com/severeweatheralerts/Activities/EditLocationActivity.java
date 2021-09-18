@@ -21,12 +21,13 @@ import com.severeweatheralerts.R;
 
 public class EditLocationActivity extends AppCompatActivity {
   private Location location;
+  private int locationIndex;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_location);
-    int locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
+    locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
     location = getLocationsDao(this).getLocation(locationIndex);
     setNameText();
     setNotifySwitch();
@@ -82,7 +83,7 @@ public class EditLocationActivity extends AppCompatActivity {
   }
 
   private void deleteLocation() {
-//    dao.deleteLocation(locationIndex);
+    getLocationsDao(this).deleteLocation(locationIndex);
     finish();
   }
 

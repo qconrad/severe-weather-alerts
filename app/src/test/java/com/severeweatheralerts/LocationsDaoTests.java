@@ -127,4 +127,15 @@ public class LocationsDaoTests {
     LocationsDao locationsDao = new LocationsDao(new MockDatabase());
     assertNotNull(locationsDao.getDefaultLocation().getChannelPreferences());
   }
+
+  @Test
+  public void deleteLocation() {
+    ArrayList<Location> locations = new ArrayList<>();
+    locations.add(new Location());
+    locations.add(new Location());
+    MockDatabase mockDatabase = new MockDatabase(locations);
+    LocationsDao locationsDao = new LocationsDao(mockDatabase);
+    locationsDao.deleteLocation(1);
+    assertEquals(1, mockDatabase.get().size());
+  }
 }
