@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.Location;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.R;
 
 public class EditLocationActivity extends AppCompatActivity {
@@ -29,17 +31,22 @@ public class EditLocationActivity extends AppCompatActivity {
     setContentView(R.layout.activity_edit_location);
     locationIndex = getIntent().getExtras().getInt("locationIndex", 0);
     location = getLocationsDao(this).getLocation(locationIndex);
-    setNameText();
-    setNotifySwitch();
-    setNotifyMethod();
+    setUI();
   }
 
-  private void setNotifySwitch() {
+  private void setUI() {
+    setNameTextbox();
+    setNotifySwitchClickability();
+    setNotifyMethodClickability();
+    setEditCustomClickability();
+  }
+
+  private void setNotifySwitchClickability() {
     SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
     notifySwitch.setChecked(location.isNotifying());
   }
 
-  private void setNotifyMethod() {
+  private void setNotifyMethodClickability() {
     RadioButton useDefault = findViewById(R.id.use_default);
     RadioButton setCustom = findViewById(R.id.set_custom);
     useDefault.setChecked(location.getChannelPreferences() == null);
@@ -48,7 +55,12 @@ public class EditLocationActivity extends AppCompatActivity {
     setCustom.setEnabled(location.isNotifying());
   }
 
-  private void setNameText() {
+  private void setEditCustomClickability() {
+    Button editCustom = findViewById(R.id.edit_custom_btn);
+    editCustom.setEnabled(location.isNotifying() && location.getChannelPreferences() != null);
+  }
+
+  private void setNameTextbox() {
     TextView locationNameTextView = findViewById(R.id.edit_location_name);
     locationNameTextView.setText(location.getName());
   }
@@ -71,7 +83,7 @@ public class EditLocationActivity extends AppCompatActivity {
               Intent data = result.getData();
               location.setName(data.getStringExtra("name"));
               location.setCoordinate(new GCSCoordinate(data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0)));
-              setNameText();
+              setNameTextbox();
             }
           });
 
@@ -96,6 +108,17 @@ public class EditLocationActivity extends AppCompatActivity {
   public void notifyToggle(View view) {
     SwitchCompat notifySwitch = findViewById(R.id.notify_switch);
     location.setNotify(notifySwitch.isChecked());
-    setNotifyMethod();
+    setNotifyMethodClickability();
+    setEditCustomClickability();
+  }
+
+  public void useCustomPreferences(View view) {
+    location.setChannelPreferences(new ChannelPreferences());
+    setEditCustomClickability();
+  }
+
+  public void useDefaultPreferences(View view) {
+    location.setChannelPreferences(null);
+    setEditCustomClickability();
   }
 }

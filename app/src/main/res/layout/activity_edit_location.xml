@@ -56,12 +56,14 @@
 
         <RadioButton
             android:id="@+id/use_default"
+            android:onClick="useDefaultPreferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Use default location"/>
 
         <RadioButton
             android:id="@+id/set_custom"
+            android:onClick="useCustomPreferences"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set custom"/>
@@ -69,6 +71,7 @@
     </RadioGroup>
 
     <Button
+        android:id="@+id/edit_custom_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit custom notification preferences"/>
