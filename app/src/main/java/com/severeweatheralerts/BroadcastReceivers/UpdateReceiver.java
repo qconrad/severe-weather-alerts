@@ -14,6 +14,7 @@ import com.severeweatheralerts.Location.BackgroundLocation;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Permissions.PermissionManager;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 public class UpdateReceiver extends BroadcastReceiver {
   @Override
@@ -45,10 +46,10 @@ public class UpdateReceiver extends BroadcastReceiver {
 
     SharedPreferences.Editor editor = preferences.edit();
     editor.clear();
-//    if (LocationsDao.getInstance(context).hasLocations()) {
-//      editor.putBoolean("first_run", false);
-//      new UserSyncWorkScheduler(context).oneTimeSync();
-//    }
+    if (!FileDBs.locationsDao.getDefaultLocation().coordinateSet()) {
+      editor.putBoolean("first_run", false);
+      new UserSyncWorkScheduler(context).oneTimeSync();
+    }
     editor.apply();
   }
 

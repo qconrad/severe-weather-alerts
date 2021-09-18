@@ -1,14 +1,13 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.UserSync.JSONLocationString;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
 
 public class JSONLocationStringTests {
   @Test

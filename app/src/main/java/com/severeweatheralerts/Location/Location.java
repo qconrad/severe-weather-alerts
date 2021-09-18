@@ -15,7 +15,6 @@ public class Location {
 
   public Location() {
     alerts = new ArrayList<>();
-    coordinate = new GCSCoordinate(0.0, 0.0);
   }
 
   public Location(String name) {
@@ -69,7 +68,7 @@ public class Location {
     this.notificationsEnabled = notificationsEnabled;
   }
 
-  public boolean notSet() {
-    return false;
+  public boolean coordinateSet() {
+    return coordinate != null;
   }
 }

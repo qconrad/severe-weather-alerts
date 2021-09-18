@@ -47,6 +47,7 @@ public class MessageService extends FirebaseMessagingService {
   @Override
   public void onNewToken(@NonNull String s) {
     super.onNewToken(s);
+    if (!FileDBs.locationsDao.getDefaultLocation().coordinateSet()) return;
     new UserSyncWorkScheduler(this).oneTimeSync();
   }
 }

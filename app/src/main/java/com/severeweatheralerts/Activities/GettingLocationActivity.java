@@ -40,13 +40,13 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void checkIfLocationsServicesAreEnabled(LocationManager lm) {
     if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-//      if (LocationsDao.getInstance(this).hasLocations()) {
-//        LocationsDao.getInstance(this).setName(0, "Last Known Location");
-//        fetchAlerts();
-//      } else {
-//        LocationsDao.getInstance(this).setName(0, "No Location");
-//        displayError("Location services disabled");
-//      }
+      if (!locationsDao.getDefaultLocation().coordinateSet()) {
+        locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("Last Known Location"));
+        fetchAlerts();
+      } else {
+        locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("No Location"));
+        displayError("Location services disabled");
+      }
     }
   }
 

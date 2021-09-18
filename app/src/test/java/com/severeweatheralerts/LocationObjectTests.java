@@ -136,6 +136,19 @@ public class LocationObjectTests {
   @Test
   public void createLocation_returnsCoordinate() {
     Location loc = makeLocation();
-    assertNotNull(loc.getCoordinate());
+    assertNull(loc.getCoordinate());
+  }
+
+  @Test
+  public void createLocation_coordinateNotSet() {
+    Location loc = makeLocation();
+    assertFalse(loc.coordinateSet());
+  }
+
+  @Test
+  public void createLocation_coordinateSet() {
+    Location loc = makeLocation();
+    loc.setCoordinate(new GCSCoordinate(2,2));
+    assertTrue(loc.coordinateSet());
   }
 }
