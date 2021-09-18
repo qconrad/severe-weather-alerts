@@ -15,10 +15,11 @@ public class FileDBs {
   }
 
   public static GCSCoordinate getLastDefaultSync(Context context) {
-    return new GCSCoordinate(0.0, 0.0);
+    return PaperDB.getInstance(context).read("lastDefaultSync", new GCSCoordinate(0.0, 0.0));
   }
 
   public static void setLastDefaultSync(Context context, GCSCoordinate coordinate) {
+    PaperDB.getInstance(context).write("lastDefaultSync", coordinate);
   }
 
   public static boolean hasLocationsDaoInstance() {
