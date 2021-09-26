@@ -10,6 +10,7 @@ import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
+import com.severeweatheralerts.NewAlerts;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class NotificationViewer extends AlertViewerActivity {
       @Override
       public void complete(ArrayList<Alert> alerts) {
         location.setAlerts(alerts);
+        NewAlerts.acknowledged();
         alertsFetched = true;
         fillMissingData(new AlertFinder(alerts).findAlertByID(al.getNwsId()));
       }

@@ -13,6 +13,7 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
+import com.severeweatheralerts.NewAlerts;
 import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class GettingLatestDataActivity extends AppCompatActivity {
       @Override
       public void complete(ArrayList<Alert> alerts) {
         location.setAlerts(alerts);
+        NewAlerts.acknowledged();
         displayAlerts(locationIndex);
       }
 
