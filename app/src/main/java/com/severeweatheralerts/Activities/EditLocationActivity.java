@@ -24,6 +24,7 @@ import com.severeweatheralerts.R;
 public class EditLocationActivity extends AppCompatActivity {
   private Location location;
   private int locationIndex;
+  private boolean deleted;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class EditLocationActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    getLocationsDao(this).setLocation(locationIndex, location);
+    if (!deleted) getLocationsDao(this).setLocation(locationIndex, location);
   }
 
   @Override
@@ -102,6 +103,7 @@ public class EditLocationActivity extends AppCompatActivity {
 
   private void deleteLocation() {
     getLocationsDao(this).deleteLocation(locationIndex);
+    deleted = true;
     finish();
   }
 
