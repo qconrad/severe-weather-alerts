@@ -94,8 +94,8 @@ public class EditLocationActivity extends AppCompatActivity {
 
   public void deleteClick(View view) {
     AlertDialog alertDialog = new AlertDialog.Builder(EditLocationActivity.this).create();
-    alertDialog.setTitle("Delete Confirmation");
-    alertDialog.setMessage("Are you sure you want to permanently delete this location and all its preferences? This cannot be undone.");
+    alertDialog.setTitle(getString(R.string.location_delete_confirmation_title));
+    alertDialog.setMessage(getString(R.string.location_delete_confirmation));
     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> deleteLocation());
     alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", (dialog, which) -> dialog.dismiss());
     alertDialog.show();
