@@ -120,7 +120,11 @@ public class AlertPropertyParser {
   }
 
   private String getSenderCode() throws JSONException {
-    return getParameters().getJSONArray("PIL").getString(0).substring(0, 3);
+    if (getParameters().has("PIL"))
+      return getParameters().getJSONArray("PIL").getString(0).substring(0, 3);
+    else
+      return getParameters().getJSONArray("WMOidentifier").getString(0).substring(8, 11);
+
   }
 
   private JSONObject getParameters() throws JSONException {
