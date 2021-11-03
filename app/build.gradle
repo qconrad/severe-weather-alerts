@@ -8,8 +8,8 @@ android {
         applicationId "com.severeweatheralerts"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 59
-        versionName '2.06'
+        versionCode 60
+        versionName '2.07'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
