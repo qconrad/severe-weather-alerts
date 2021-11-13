@@ -1,19 +1,19 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import android.os.Bundle;
 
+import com.severeweatheralerts.Adapters.BundleAlertAdapter;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
-import com.severeweatheralerts.Adapters.BundleAlertAdapter;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class BundleAlertAdapterTests {
   @Test
@@ -382,5 +382,21 @@ public class BundleAlertAdapterTests {
     bundle.putInt("velocity", 23);
     BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
     assertEquals(23, bundleAlertAdapter.getAlert().getMotionVector().getVelocity());
+  }
+
+  @Test
+  public void bundleAlertAdapter_locationIndex() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("locationIndex", 1);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(1, bundleAlertAdapter.getLocationIndex());
+  }
+
+  @Test
+  public void bundleAlertAdapter_differentLocationIndex() {
+    Bundle bundle = new Bundle();
+    bundle.putInt("locationIndex", 2);
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    assertEquals(2, bundleAlertAdapter.getLocationIndex());
   }
 }

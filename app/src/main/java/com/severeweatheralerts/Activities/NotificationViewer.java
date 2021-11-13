@@ -23,8 +23,9 @@ public class NotificationViewer extends AlertViewerActivity {
 
   @Override
   protected void getAlertFromExtras(Bundle bundle) {
-    al = new BundleAlertAdapter(bundle).getAlert();
-    locationIndex = 0;
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    al = bundleAlertAdapter.getAlert();
+    locationIndex = bundleAlertAdapter.getLocationIndex();
     location = getLocationsDao(this).getLocation(locationIndex);
     fetchAlerts();
   }
