@@ -1,5 +1,9 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
@@ -9,10 +13,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class MessageAdapterTests {
   @Test
@@ -354,5 +354,21 @@ public class MessageAdapterTests {
     mockAlertMessage.put("motionDescription", "2021-05-27T21:44:00-00:00...storm...274DEG...38KT...36.21,-98.11 35.9,-98.78");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals(274, messageAdapter.getAlert().getMotionVector().getHeading());
+  }
+
+  @Test
+  public void getLocationIndex_LocationIndexGiven_LocationIndexReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("locationIndex", "1");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(1, messageAdapter.getLocationIndex());
+  }
+
+  @Test
+  public void getLocationIndex_DifferentLocationIndexGiven_LocationIndexReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("locationIndex", "2");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(2, messageAdapter.getLocationIndex());
   }
 }
