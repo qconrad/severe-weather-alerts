@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Notifications;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +28,8 @@ public class NotificationSender {
 
   public void send() {
     NotificationContentGenerator notificationContent = new NotificationContentGenerator(alert);
+    if (notDefaultLocation())
+      addLocationNameToContent(notificationContent);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
             .setSmallIcon(alert.getIcon())
             .setAutoCancel(true)
@@ -40,6 +44,18 @@ public class NotificationSender {
 
     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
     notificationManager.notify(alert.getName().hashCode(), builder.build());
+  }
+
+  private void addLocationNameToContent(NotificationContentGenerator notificationContent) {
+    notificationContent.setLocationName(getLocationName());
+  }
+
+  private String getLocationName() {
+    return getLocationsDao(context).getLocation(locationIndex).getName();
+  }
+
+  private boolean notDefaultLocation() {
+    return locationIndex != 0;
   }
 
   private PendingIntent getPendingIntent() {

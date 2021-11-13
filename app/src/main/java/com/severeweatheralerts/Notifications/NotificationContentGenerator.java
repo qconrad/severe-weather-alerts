@@ -9,6 +9,7 @@ public class NotificationContentGenerator {
   private final String smallHeadline;
   private final String description;
   private final String instruction;
+  private String locationName;
 
   public NotificationContentGenerator(Alert alert) {
     name = alert.getName();
@@ -34,13 +35,19 @@ public class NotificationContentGenerator {
     return null;
   }
 
-  private boolean has(String largeHeadline) {
-    return largeHeadline != null;
+  private boolean has(String string) {
+    return string != null;
   }
 
   public String getTitleText() {
-    if (type == Alert.Type.UPDATE) return name + " Update";
-    if (type == Alert.Type.CANCEL) return name + " Cancellation";
-    return name;
+    String titleText = name;
+    if (type == Alert.Type.UPDATE) titleText += " Update";
+    if (type == Alert.Type.CANCEL) titleText += " Cancellation";
+    if (has(locationName)) titleText += " for " + locationName;
+    return titleText;
+  }
+
+  public void setLocationName(String locationName) {
+    this.locationName = locationName;
   }
 }

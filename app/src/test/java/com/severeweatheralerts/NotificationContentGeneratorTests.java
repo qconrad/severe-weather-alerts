@@ -1,5 +1,8 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
@@ -7,9 +10,6 @@ import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Notifications.NotificationContentGenerator;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 public class NotificationContentGeneratorTests {
   @Test
@@ -132,5 +132,25 @@ public class NotificationContentGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
     assertEquals("Tornado Watch Cancellation", notificationContentGenerator.getTitleText());
+  }
+
+  @Test
+  public void getTitleText_LocationNameProvided_TitleHasLocationName() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setName("Tornado Warning");
+    tornadoWarning.setType(Alert.Type.POST);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    notificationContentGenerator.setLocationName("New York");
+    assertEquals("Tornado Warning for New York", notificationContentGenerator.getTitleText());
+  }
+
+  @Test
+  public void getTitleText_DifferentLocationNameProvided_TitleHasLocationName() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    tornadoWarning.setName("Tornado Warning");
+    tornadoWarning.setType(Alert.Type.POST);
+    NotificationContentGenerator notificationContentGenerator = new NotificationContentGenerator(tornadoWarning);
+    notificationContentGenerator.setLocationName("Mom's House");
+    assertEquals("Tornado Warning for Mom's House", notificationContentGenerator.getTitleText());
   }
 }
