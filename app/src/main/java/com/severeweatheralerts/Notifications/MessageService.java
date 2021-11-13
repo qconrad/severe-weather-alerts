@@ -48,12 +48,12 @@ public class MessageService extends FirebaseMessagingService {
   }
 
   private void sendAlert(Alert alert, int locationIndex) {
-    sendNotification(alert, getChannel(alert, locationIndex));
+    sendNotification(alert, getChannel(alert, locationIndex), locationIndex);
   }
 
-  private void sendNotification(Alert alert, Channel channel) {
+  private void sendNotification(Alert alert, Channel channel, int locationIndex) {
     if (channel == Channel.NONE) return;
-    new NotificationSender(this, alert, getChannelString(channel)).send();
+    new NotificationSender(this, alert, getChannelString(channel), locationIndex).send();
   }
 
   private Channel getChannel(Alert alert, int locationIndex) {

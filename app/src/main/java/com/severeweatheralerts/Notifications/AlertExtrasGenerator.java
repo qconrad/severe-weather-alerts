@@ -8,10 +8,12 @@ public class AlertExtrasGenerator {
 
   private final Intent resultIntent;
   private final Alert alert;
+  private final int locationIndex;
 
-  public AlertExtrasGenerator(Alert alert, Intent resultIntent) {
+  public AlertExtrasGenerator(Alert alert, Intent resultIntent, int locationIndex) {
     this.resultIntent = resultIntent;
     this.alert = alert;
+    this.locationIndex = locationIndex;
   }
 
   public Intent addExtras() {
@@ -28,7 +30,8 @@ public class AlertExtrasGenerator {
             .putExtra("zones", alert.getZones())
             .putExtra("polygons", getPolygonString())
             .putExtra("sender", alert.getSender())
-            .putExtra("senderCode", alert.getSenderCode());
+            .putExtra("senderCode", alert.getSenderCode())
+            .putExtra("locationIndex", locationIndex);
     if (alert.hasMotionVector()) resultIntent.putExtra("heading", alert.getMotionVector().getHeading()).putExtra("velocity", alert.getMotionVector().getVelocity());
     if (alert.getExpectedUpdateTime() != null) intent.putExtra("expectedUpdate", alert.getExpectedUpdateTime().getTime());
     return intent;
