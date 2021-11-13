@@ -17,6 +17,7 @@ import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
@@ -82,5 +83,11 @@ public class ManageLocationsActivity extends AppCompatActivity {
   public void addExtraLocation(View view) {
     Intent intent = new Intent(ManageLocationsActivity.this, LocationPickerActivity.class);
     locationSelectorResult.launch(intent);
+  }
+
+  @Override
+  protected void onPause() {
+    new UserSyncWorkScheduler(this).oneTimeSync();
+    super.onPause();
   }
 }
