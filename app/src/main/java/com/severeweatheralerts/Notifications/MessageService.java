@@ -23,27 +23,41 @@ public class MessageService extends FirebaseMessagingService {
   public void onMessageReceived(RemoteMessage remoteMessage) {
     if (remoteMessage.getData().size() < 1) return;
     NewAlerts.alertReceived();
-    if (remoteMessage.getData().containsKey("fetchManually")) fetchAlert(remoteMessage.getData().get("id"));
-    else sendAlert(new MessageAdapter(remoteMessage.getData()).getAlert());
+    MessageAdapter message = new MessageAdapter(remoteMessage.getData());
+    if (notificationsDisabled(message.getLocationIndex())) return;
+    if (message.fetchManually()) fetchAlert(message.getFetchManuallyID(), message.getLocationIndex());
+    else sendAlert(message.getAlert(), message.getLocationIndex());
   }
 
-  private void fetchAlert(String id) {
+  private boolean notificationsDisabled(int locationIndex) {
+    return getLocationsDao(this).getLocation(locationIndex).isNotifying();
+  }
+
+  private void fetchAlert(String id, int locationIndex) {
     LocationsDao locationsDao = getLocationsDao(this);
-    new FromLocationPointPopulater(locationsDao.getDefaultLocation().getCoordinate(), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(locationsDao.getLocation(locationIndex).getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
         locationsDao.getDefaultLocation().setAlerts(alerts);
         Alert alert = new AlertFinder(alerts).findAlertByID(id);
-        if (alert != null) sendAlert(alert);
+        if (alert != null) sendAlert(alert, locationIndex);
       }
       @Override
-      public void error(String message) { }
+      public void error(String message) {}
     });
   }
 
-  private void sendAlert(Alert alert) {
-    Channel channel = getLocationsDao(this).getLocation(0).getChannelPreferences().getChannel(alert.getName(), alert.getType());
-    if (channel != Channel.NONE) new NotificationSender(this, alert, getChannelString(channel)).send();
+  private void sendAlert(Alert alert, int locationIndex) {
+    sendNotification(alert, getChannel(alert, locationIndex));
+  }
+
+  private void sendNotification(Alert alert, Channel channel) {
+    if (channel == Channel.NONE) return;
+    new NotificationSender(this, alert, getChannelString(channel)).send();
+  }
+
+  private Channel getChannel(Alert alert, int locationIndex) {
+    return getLocationsDao(this).getLocation(locationIndex).getChannelPreferences().getChannel(alert.getName(), alert.getType());
   }
 
   @Override
