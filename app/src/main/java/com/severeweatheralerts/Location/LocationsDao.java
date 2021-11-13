@@ -66,4 +66,10 @@ public class LocationsDao {
     locations.remove(locationIndex);
     saveLocationsDatabase();
   }
+
+  public ChannelPreferences getChannelPreferences(int locationIndex) {
+    ChannelPreferences channelPreferences = getLocation(locationIndex).getChannelPreferences();
+    if (channelPreferences == null) return getDefaultLocation().getChannelPreferences();
+    return channelPreferences;
+  }
 }

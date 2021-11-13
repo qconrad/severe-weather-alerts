@@ -14,6 +14,7 @@ import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPo
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
 import com.severeweatheralerts.NewAlerts;
 import com.severeweatheralerts.Preferences.Channel;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class MessageService extends FirebaseMessagingService {
   }
 
   private boolean notificationsDisabled(int locationIndex) {
-    return getLocationsDao(this).getLocation(locationIndex).isNotifying();
+    return !getLocationsDao(this).getLocation(locationIndex).isNotifying();
   }
 
   private void fetchAlert(String id, int locationIndex) {
@@ -57,7 +58,11 @@ public class MessageService extends FirebaseMessagingService {
   }
 
   private Channel getChannel(Alert alert, int locationIndex) {
-    return getLocationsDao(this).getLocation(locationIndex).getChannelPreferences().getChannel(alert.getName(), alert.getType());
+    return getChannelPreferences(locationIndex).getChannel(alert.getName(), alert.getType());
+  }
+
+  private ChannelPreferences getChannelPreferences(int locationIndex) {
+    return getLocationsDao(this).getChannelPreferences(locationIndex);
   }
 
   @Override
