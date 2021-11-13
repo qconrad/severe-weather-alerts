@@ -1,8 +1,10 @@
 package com.severeweatheralerts;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
@@ -370,5 +372,36 @@ public class MessageAdapterTests {
     mockAlertMessage.put("locationIndex", "2");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals(2, messageAdapter.getLocationIndex());
+  }
+
+  @Test
+  public void getFetchManually_FetchManuallyNotGiven_FalseReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertFalse(messageAdapter.fetchManually());
+  }
+
+  @Test
+  public void getFetchManually_FetchManuallyGiven_TrueReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("fetchManually", "true");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertTrue(messageAdapter.fetchManually());
+  }
+
+  @Test
+  public void getFetchManuallyID_FetchManuallyIDGiven_FetchManuallyIDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid", messageAdapter.getFetchManuallyID());
+  }
+
+  @Test
+  public void getFetchManuallyID_DifferentFetchManuallyIDGiven_FetchManuallyIDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid:2");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2", messageAdapter.getFetchManuallyID());
   }
 }

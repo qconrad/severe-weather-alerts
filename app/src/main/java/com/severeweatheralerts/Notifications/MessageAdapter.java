@@ -77,4 +77,12 @@ public class MessageAdapter {
   public int getLocationIndex() {
     return Integer.parseInt(Objects.requireNonNull(message.get("locationIndex")));
   }
+
+  public boolean fetchManually() {
+    return message.containsKey("fetchManually");
+  }
+
+  public String getFetchManuallyID() {
+    return message.get("id");
+  }
 }
