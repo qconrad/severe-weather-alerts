@@ -75,7 +75,7 @@ public class AlertViewerActivity extends AppCompatActivity {
     WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alert_viewer), (v, windowInsets) -> {
       Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-      findViewById(R.id.alert_viewer).setPadding(insets.left, insets.top, insets.right, insets.bottom);
+      v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
       return WindowInsetsCompat.CONSUMED;
     });
   }
