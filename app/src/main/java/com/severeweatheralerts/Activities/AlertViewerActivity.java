@@ -20,6 +20,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +60,6 @@ public class AlertViewerActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_viewer);
 
-    makeStatusBarTransparent();
     getAlertFromExtras(getIntent().getExtras());
     if (!validAlert()) return;
     populateUIWithAlertData();
@@ -64,6 +67,18 @@ public class AlertViewerActivity extends AppCompatActivity {
     isActive = al.activeAt(new Date());
     refresher.add(new IntervalRun(5000, this::refresh));
     refresher.add(new IntervalRun(60000, this::populateReferences));
+
+    makeStatusBarTransparent();
+    setContentInsets();
+  }
+
+  private void setContentInsets() {
+    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alert_viewer), (v, windowInsets) -> {
+      Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+      return WindowInsetsCompat.CONSUMED;
+    });
   }
 
   private void refresh() {
@@ -235,11 +250,11 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   private void setBackgroundColor() {
     int alertColor = al.getColorAt(new Date());
-    View titleCard = findViewById(R.id.alert_viewer);
+    View alertViewerLayout = findViewById(R.id.alert_viewer);
     int topGradientStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.5f);
     int bottomGradientStep = ColorBrightnessChanger.changeBrightness(alertColor, 0.1f);
     GradientDrawable gd = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {topGradientStep, bottomGradientStep});
-    titleCard.setBackground(gd);
+    alertViewerLayout.setBackground(gd);
   }
 
   private void setTitleCardColor() {

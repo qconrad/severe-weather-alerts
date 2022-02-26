@@ -1,9 +1,15 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.severeweatheralerts.Adapters.UnadaptedAlert;
 import com.severeweatheralerts.JSONParsing.AlertListParser;
@@ -12,8 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
 public class JsonParserTests {
@@ -362,5 +366,13 @@ public class JsonParserTests {
     AlertListParser parser = new AlertListParser(eventMotion);
     ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
     assertEquals("2021-05-22T04:24:00-00:00...storm...220DEG...49KT...39.89,-102.05", parsed.get(0).getMotionDescription());
+  }
+
+  String noPIL = "{\"@context\":[\"https://geojson.org/geojson-ld/geojson-context.jsonld\",{\"@version\":\"1.1\",\"wx\":\"https://api.weather.gov/ontology#\",\"@vocab\":\"https://api.weather.gov/ontology#\"}],\"type\":\"FeatureCollection\",\"features\":[{\"id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b9e8dae4814a9f6d19c82d7bb9e78ddf95b8ed.002.1\",\"type\":\"Feature\",\"geometry\":null,\"properties\":{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2b9e8dae4814a9f6d19c82d7bb9e78ddf95b8ed.002.1\",\"@type\":\"wx:Alert\",\"id\":\"urn:oid:2.49.0.1.840.0.f2b9e8dae4814a9f6d19c82d7bb9e78ddf95b8ed.002.1\",\"areaDesc\":\"Northern Middlesex; Northern New London; Southern New London; Eastern Passaic; Western Bergen; Rockland; Northern Westchester\",\"geocode\":{\"SAME\":[\"009007\",\"009011\",\"034031\",\"034003\",\"036087\",\"036119\"],\"UGC\":[\"CTZ007\",\"CTZ008\",\"CTZ012\",\"NJZ004\",\"NJZ103\",\"NYZ069\",\"NYZ070\"]},\"affectedZones\":[\"https://api.weather.gov/zones/forecast/CTZ007\",\"https://api.weather.gov/zones/forecast/CTZ008\",\"https://api.weather.gov/zones/forecast/CTZ012\",\"https://api.weather.gov/zones/forecast/NJZ004\",\"https://api.weather.gov/zones/forecast/NJZ103\",\"https://api.weather.gov/zones/forecast/NYZ069\",\"https://api.weather.gov/zones/forecast/NYZ070\"],\"references\":[{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.60982544a6fc15220595c438a8aaae63a2c6bf71.002.2\",\"identifier\":\"urn:oid:2.49.0.1.840.0.60982544a6fc15220595c438a8aaae63a2c6bf71.002.2\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T03:58:00-04:00\"},{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.60982544a6fc15220595c438a8aaae63a2c6bf71.001.2\",\"identifier\":\"urn:oid:2.49.0.1.840.0.60982544a6fc15220595c438a8aaae63a2c6bf71.001.2\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T03:58:00-04:00\"},{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e24fed4b4bceb3c4132c7c5db2402f9b02eb7253.002.2\",\"identifier\":\"urn:oid:2.49.0.1.840.0.e24fed4b4bceb3c4132c7c5db2402f9b02eb7253.002.2\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T08:28:00-04:00\"},{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e24fed4b4bceb3c4132c7c5db2402f9b02eb7253.004.1\",\"identifier\":\"urn:oid:2.49.0.1.840.0.e24fed4b4bceb3c4132c7c5db2402f9b02eb7253.004.1\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T08:28:00-04:00\"},{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2a1f37ce7c326c5eada266a4f6aa972d4164947.002.2\",\"identifier\":\"urn:oid:2.49.0.1.840.0.f2a1f37ce7c326c5eada266a4f6aa972d4164947.002.2\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T09:38:00-04:00\"},{\"@id\":\"https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.f2a1f37ce7c326c5eada266a4f6aa972d4164947.003.1\",\"identifier\":\"urn:oid:2.49.0.1.840.0.f2a1f37ce7c326c5eada266a4f6aa972d4164947.003.1\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"sent\":\"2021-11-03T09:38:00-04:00\"}],\"sent\":\"2021-11-03T15:23:00-04:00\",\"effective\":\"2021-11-03T15:23:00-04:00\",\"onset\":\"2021-11-04T00:00:00-04:00\",\"expires\":\"2021-11-04T05:00:00-04:00\",\"ends\":\"2021-11-04T09:00:00-04:00\",\"status\":\"Actual\",\"messageType\":\"Update\",\"category\":\"Met\",\"severity\":\"Moderate\",\"certainty\":\"Likely\",\"urgency\":\"Expected\",\"event\":\"Freeze Warning\",\"sender\":\"w-nws.webmaster@noaa.gov\",\"senderName\":\"NWS Upton NY\",\"headline\":\"Freeze Warning issued November 3 at 3:23PM EDT until November 4 at 9:00AM EDT by NWS Upton NY\",\"description\":\"* WHAT...Sub-freezing temperatures as low as 30 expected.\\n\\n* WHERE...In New Jersey, Eastern Passaic and Western Bergen\\nCounties. In Connecticut, Northern New London, Southern New\\nLondon and Northern Middlesex Counties. In New York, Northern\\nWestchester and Rockland Counties.\\n\\n* WHEN...From midnight tonight to 9 AM EDT Thursday.\\n\\n* IMPACTS...Frost and freeze conditions will kill crops, other\\nsensitive vegetation and possibly damage unprotected outdoor\\nplumbing.\",\"instruction\":\"Take steps now to protect tender plants from the cold. To prevent\\nfreezing and possible bursting of outdoor water pipes they should\\nbe wrapped, drained, or allowed to drip slowly. Those that have\\nin-ground sprinkler systems should drain them and cover above-\\nground pipes to protect them from freezing.\",\"response\":\"Execute\",\"parameters\":{\"AWIPSidentifier\":[\"NPWOKX\"],\"WMOidentifier\":[\"WWUS71 KOKX 031923\"],\"NWSheadline\":[\"FREEZE WARNING NOW IN EFFECT FROM MIDNIGHT TONIGHT TO 9 AM EDT THURSDAY\"],\"BLOCKCHANNEL\":[\"EAS\",\"NWEM\",\"CMAS\"],\"VTEC\":[\"/O.EXT.KOKX.FZ.W.0006.211104T0400Z-211104T1300Z/\"],\"eventEndingTime\":[\"2021-11-04T13:00:00+00:00\"]}}}]}";
+  @Test
+  public void parseAlerts_NoPILInParameters_SenderCodeIsCorrect() {
+    AlertListParser parser = new AlertListParser(noPIL);
+    ArrayList<UnadaptedAlert> parsed = parser.getParsedAlerts();
+    assertEquals("OKX", parsed.get(0).getSenderCode());
   }
 }

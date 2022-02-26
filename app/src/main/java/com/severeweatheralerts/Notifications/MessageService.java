@@ -19,6 +19,8 @@ import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
+import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelString;
+
 public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
