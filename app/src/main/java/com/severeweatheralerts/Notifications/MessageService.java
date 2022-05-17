@@ -19,14 +19,13 @@ import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
-import static com.severeweatheralerts.Preferences.ChannelIdString.getChannelString;
-
 public class MessageService extends FirebaseMessagingService {
   @Override
   public void onMessageReceived(RemoteMessage remoteMessage) {
     if (remoteMessage.getData().size() < 1) return;
-    NewAlerts.alertReceived();
     MessageAdapter message = new MessageAdapter(remoteMessage.getData());
+    if (message.getLocationIndex() >= getLocationsDao(this).getLocations().size()) return;
+    NewAlerts.alertReceived();
     if (notificationsDisabled(message.getLocationIndex())) return;
     if (message.fetchManually()) fetchAlert(message.getFetchManuallyID(), message.getLocationIndex());
     else sendAlert(message.getAlert(), message.getLocationIndex());
