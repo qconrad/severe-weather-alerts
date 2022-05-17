@@ -62,6 +62,7 @@ public class NotificationSender {
     Intent viewerIntent = new Intent(context, NotificationViewer.class);
     viewerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     new AlertExtrasGenerator(alert, viewerIntent, locationIndex).addExtras();
-    return PendingIntent.getActivity(context, alert.getName().hashCode(), viewerIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
+    int id = new NotificationIdGenerator(alert, locationIndex).generateId().hashCode();
+    return PendingIntent.getActivity(context, id, viewerIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
   }
 }
