@@ -28,6 +28,7 @@ public class NotificationSender {
 
   public void send() {
     NotificationContentGenerator notificationContent = new NotificationContentGenerator(alert);
+    int notifyID = new NotificationIdGenerator(alert, locationIndex).generateId().hashCode();
     if (notDefaultLocation())
       addLocationNameToContent(notificationContent);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel)
@@ -43,7 +44,7 @@ public class NotificationSender {
                     .bigText(notificationContent.getLongText()));
 
     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-    notificationManager.notify(alert.getName().hashCode(), builder.build());
+    notificationManager.notify(notifyID, builder.build());
   }
 
   private void addLocationNameToContent(NotificationContentGenerator notificationContent) {
@@ -62,7 +63,6 @@ public class NotificationSender {
     Intent viewerIntent = new Intent(context, NotificationViewer.class);
     viewerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     new AlertExtrasGenerator(alert, viewerIntent, locationIndex).addExtras();
-    int id = new NotificationIdGenerator(alert, locationIndex).generateId().hashCode();
-    return PendingIntent.getActivity(context, id, viewerIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
+    return PendingIntent.getActivity(context, 0, viewerIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
   }
 }
