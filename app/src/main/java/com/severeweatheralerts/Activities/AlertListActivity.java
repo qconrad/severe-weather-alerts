@@ -167,7 +167,8 @@ public class AlertListActivity extends AppCompatActivity {
   private void promptNewData(String text) {
     Snackbar.make(findViewById(android.R.id.content), text,
             Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
-            startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
+            startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)
+              .putExtra("locationIndex", locationIndex)))
             .show();
   }
 

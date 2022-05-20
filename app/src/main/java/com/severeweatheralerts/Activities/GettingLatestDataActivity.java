@@ -58,16 +58,14 @@ public class GettingLatestDataActivity extends AppCompatActivity {
   }
 
   private void displayAlerts(int locationIndex) {
-    Intent intent = new Intent(GettingLatestDataActivity.this, AlertListActivity.class);;
-    intent.putExtra("locationIndex", locationIndex);
-    startActivity(intent);
+    startActivity(new Intent(GettingLatestDataActivity.this, AlertListActivity.class)
+            .putExtra(("locationIndex"), locationIndex));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void displayError(String message) {
-    Intent intent = new Intent(GettingLatestDataActivity.this, ErrorActivity.class);
-    intent.putExtra("errorMessage", message);
-    startActivity(intent);
+    startActivity(new Intent(GettingLatestDataActivity.this, ErrorActivity.class)
+            .putExtra("errorMessage", message));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 

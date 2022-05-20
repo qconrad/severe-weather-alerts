@@ -52,13 +52,10 @@ public class NotificationViewer extends AlertViewerActivity {
 
   @Override
   public void onBackPressed() {
-    Intent intent;
     if (alertsFetched) {
-      intent = new Intent(NotificationViewer.this, AlertListActivity.class);
+      startActivity(new Intent(NotificationViewer.this, AlertListActivity.class).putExtra("locationIndex", locationIndex));
     } else {
-      intent = new Intent(NotificationViewer.this, GettingLatestDataActivity.class);
+      startActivity(new Intent(NotificationViewer.this, GettingLatestDataActivity.class).putExtra("locationIndex", locationIndex));
     }
-    intent.putExtra("locationIndex", locationIndex);
-    startActivity(intent);
   }
 }
