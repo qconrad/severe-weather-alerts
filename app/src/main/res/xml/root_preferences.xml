@@ -45,7 +45,7 @@
             app:title="Advanced Rules"
             app:enabled="false"
             app:summary="Upgrade to pro to get access to this feature"
-            app:key="manageextra"/>
+            app:key="advancedrules"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Misc">

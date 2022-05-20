@@ -70,11 +70,25 @@ public class SettingsActivity extends AppCompatActivity {
       createdRestoreDismissedListener();
       createdProListener();
       createdManageExtraLocationsListener();
+      createAdvancedRulesListener();
     }
 
     private void createdManageExtraLocationsListener() {
       boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
-      Preference manageExtra = findPreference("manageextra");
+      Preference advancedRules = findPreference("manageextra");
+      if (advancedRules != null && isPro) {
+        advancedRules.setEnabled(true);
+        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
+        advancedRules.setOnPreferenceClickListener(preference -> {
+          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
+          return true;
+        });
+      }
+    }
+
+    private void createAdvancedRulesListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference manageExtra = findPreference("advancedrules");
       if (manageExtra != null && isPro) {
         manageExtra.setEnabled(true);
         manageExtra.setSummary("Add, remove, or change extra locations");
