@@ -68,27 +68,40 @@ public class SettingsActivity extends AppCompatActivity {
       createSeverityPreferencesListener();
       createdFeedbackListener();
       createdRestoreDismissedListener();
-      createdProListener();
-      createdManageExtraLocationsListener();
+      createUpgradeProListener();
+      createManageProListener();
       createAdvancedRulesListener();
+      createManageExtraListener();
     }
 
-    private void createdManageExtraLocationsListener() {
+    private void createManageProListener() {
       boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
-      Preference advancedRules = findPreference("manageextra");
-      if (advancedRules != null && isPro) {
-        advancedRules.setEnabled(true);
-        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
-        advancedRules.setOnPreferenceClickListener(preference -> {
-          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
-          return true;
-        });
+      Preference managePro = findPreference("managepro");
+      if (managePro != null && isPro) {
+        managePro.setVisible(true);
+//        managePro.setOnPreferenceClickListener(preference -> {
+//          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
+//          return true;
+//        });
       }
     }
 
     private void createAdvancedRulesListener() {
       boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
-      Preference manageExtra = findPreference("advancedrules");
+      Preference advancedRules = findPreference("advancedrules");
+      if (advancedRules != null && isPro) {
+        advancedRules.setEnabled(true);
+        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
+//        advancedRules.setOnPreferenceClickListener(preference -> {
+//          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
+//          return true;
+//        });
+      }
+    }
+
+    private void createManageExtraListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference manageExtra = findPreference("manageextra");
       if (manageExtra != null && isPro) {
         manageExtra.setEnabled(true);
         manageExtra.setSummary("Add, remove, or change extra locations");
@@ -225,10 +238,12 @@ public class SettingsActivity extends AppCompatActivity {
       }
     }
 
-    private void createdProListener() {
-      Preference pro = findPreference("pro");
-      if (pro != null) {
-        pro.setOnPreferenceClickListener(preference -> {
+    private void createUpgradeProListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference upgradePro = findPreference("upgradepro");
+      if (upgradePro != null && !isPro) {
+        upgradePro.setVisible(true);
+        upgradePro.setOnPreferenceClickListener(preference -> {
           startActivity(new Intent(getActivity(), ProActivity.class));
           return true;
         });

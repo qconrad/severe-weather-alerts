@@ -34,8 +34,14 @@
     <PreferenceCategory app:title="Pro Version">
         <Preference
             app:title="Upgrade To Pro"
-            app:key="pro"
+            app:key="upgradepro"
+            app:isPreferenceVisible="false"
             app:summary="Unlock new features in the app"/>
+        <Preference
+            app:title="Manage Subscription"
+            app:key="managepro"
+            app:isPreferenceVisible="false"
+            app:summary="Upgrade or cancel pro subscription"/>
         <Preference
             app:title="Manage Extra Locations"
             app:enabled="false"
