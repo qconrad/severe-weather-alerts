@@ -35,12 +35,14 @@
                 <action android:name="com.google.android.gms.location.sample.locationupdatespendingintent.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadcastReceivers.BootReceiver">
+        <receiver android:name=".BroadcastReceivers.BootReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadcastReceivers.UpdateReceiver">
+        <receiver android:name=".BroadcastReceivers.UpdateReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
@@ -49,7 +51,8 @@
         <activity android:name=".Activities.FirstRunActivity" />
         <activity android:name=".Activities.LocationPickerActivity" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
-        <activity android:name=".Activities.DefaultActivity">
+        <activity android:name=".Activities.DefaultActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,7 +67,8 @@
         <activity android:name=".Activities.AlertListActivity" />
         <activity
             android:name=".Activities.AlertViewerActivity"
-            android:parentActivityName=".Activities.AlertListActivity">
+            android:parentActivityName=".Activities.AlertListActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="alertviewer" />
 
