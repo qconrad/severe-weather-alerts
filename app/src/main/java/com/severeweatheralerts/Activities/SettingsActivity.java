@@ -132,7 +132,7 @@ public class SettingsActivity extends AppCompatActivity {
                   .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
                     Channel selectedChannel = Channel.values()[channelIndex];
                     if (selectedChannel != Channel.NONE)
-                    new NotificationSender(getContext(), getTestAlert(selectedChannel), ChannelIdString.getChannelString(selectedChannel), 0).send();
+                      new NotificationSender(getContext(), getTestAlert(selectedChannel), ChannelIdString.getChannelString(selectedChannel), 0).send();
                   }).create().show();
           return true;
         });

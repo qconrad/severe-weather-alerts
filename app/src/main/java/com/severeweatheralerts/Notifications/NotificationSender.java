@@ -38,7 +38,7 @@ public class NotificationSender {
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setContentTitle(notificationContent.getTitleText())
             .setContentText(notificationContent.getShortText())
-            .setContentIntent(getPendingIntent())
+            .setContentIntent(getPendingIntent(notifyID))
             .setColor(alert.getColor())
             .setStyle(new NotificationCompat.BigTextStyle()
                     .bigText(notificationContent.getLongText()));
@@ -59,10 +59,14 @@ public class NotificationSender {
     return locationIndex != 0;
   }
 
-  private PendingIntent getPendingIntent() {
+  private PendingIntent getPendingIntent(int notifyID) {
     Intent viewerIntent = new Intent(context, NotificationViewer.class);
     viewerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
     new AlertExtrasGenerator(alert, viewerIntent, locationIndex).addExtras();
-    return PendingIntent.getActivity(context, 0, viewerIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
+    int flags = PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+      flags = flags | PendingIntent.FLAG_IMMUTABLE;
+    }
+    return PendingIntent.getActivity(context, notifyID, viewerIntent, flags);
   }
 }

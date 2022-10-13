@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -100,8 +99,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void makeStatusBarTransparent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
   }
 
   private void setContentInsets() {
@@ -123,7 +121,7 @@ public class AlertListActivity extends AppCompatActivity {
       }
 
       @Override
-      public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+      public void onBillingSetupFinished(BillingResult billingResult) {
         billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, (billingResult2, list) -> handlePurchases(billingResult2, list));
       }
     });
@@ -299,12 +297,12 @@ public class AlertListActivity extends AppCompatActivity {
   private ItemTouchHelper.SimpleCallback getItemTouchHelper(AlertRecyclerViewAdapter alertRecyclerViewAdapter) {
     return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
       @Override
-      public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+      public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         return false;
       }
 
       @Override
-      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+      public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         String id = inactiveAlerts.get(viewHolder.getAbsoluteAdapterPosition()).getNwsId();
         inactiveAlerts.remove(viewHolder.getAbsoluteAdapterPosition());
         alertRecyclerViewAdapter.notifyDataSetChanged();

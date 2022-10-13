@@ -31,6 +31,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.severeweatheralerts'
 }
 
 apply plugin: 'com.android.application'
