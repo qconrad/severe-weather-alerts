@@ -178,4 +178,43 @@ public class LocationsDaoTests {
     locationsDao.addExtraLocation(location);
     assertEquals(Channel.EXTREME, locationsDao.getChannelPreferences(1).getChannel("Tornado Warning", Alert.Type.POST));
   }
+
+  @Test
+  public void deleteExtraLocations_oneExtraLocationAdded_hasNoExtraLocations() {
+    ArrayList<Location> locations = new ArrayList<>();
+    Location location = new Location();
+    locations.add(location);
+    Location location2 = new Location();
+    locations.add(location2);
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations));
+    locationsDao.deleteExtraLocations();
+    assertFalse(locationsDao.hasExtraLocations());
+  }
+
+  @Test
+  public void deleteExtraLocations_twoExtraLocationsAdded_hasNoExtraLocations() {
+    ArrayList<Location> locations = new ArrayList<>();
+    Location location = new Location();
+    locations.add(location);
+    Location location2 = new Location();
+    locations.add(location2);
+    Location location3 = new Location();
+    locations.add(location3);
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations));
+    locationsDao.deleteExtraLocations();
+    assertFalse(locationsDao.hasExtraLocations());
+  }
+
+  @Test
+  public void deleteExtraLocations_removedFromDatabase() {
+    ArrayList<Location> locations = new ArrayList<>();
+    MockDatabase mockDatabase = new MockDatabase(locations);;
+    Location location = new Location();
+    locations.add(location);
+    Location location2 = new Location();
+    locations.add(location2);
+    LocationsDao locationsDao = new LocationsDao(mockDatabase);
+    locationsDao.deleteExtraLocations();
+    assertEquals(1, mockDatabase.get().size());
+  }
 }

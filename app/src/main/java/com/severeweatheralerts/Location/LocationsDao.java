@@ -72,4 +72,11 @@ public class LocationsDao {
     if (channelPreferences == null) return getDefaultLocation().getChannelPreferences();
     return channelPreferences;
   }
+
+  public void deleteExtraLocations() {
+    while (locations.size() > 1) {
+      locations.remove(locations.size()-1);
+    }
+    saveLocationsDatabase();
+  }
 }
