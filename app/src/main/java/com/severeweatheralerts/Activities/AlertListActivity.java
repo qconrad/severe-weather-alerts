@@ -58,6 +58,7 @@ import com.severeweatheralerts.Refreshing.Refresher;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.Status.TextListFade;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -373,7 +374,15 @@ public class AlertListActivity extends AppCompatActivity {
     isPro = false;
     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
       for (Purchase purchase : list) handlePurchase(purchase);
+    revokePrivilegesIfNecessary();
     PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("is_pro", isPro).apply();
+  }
+
+  private void revokePrivilegesIfNecessary() {
+    if (!isPro && locationsDao.hasExtraLocations()) {
+      locationsDao.deleteExtraLocations();
+      new UserSyncWorkScheduler(this).oneTimeSync();
+    }
   }
 
   boolean isPro;
