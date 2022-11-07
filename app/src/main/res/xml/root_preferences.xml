@@ -47,11 +47,11 @@
             app:enabled="false"
             app:summary="Upgrade to pro to get access to this feature"
             app:key="manageextra"/>
-        <Preference
-            app:title="Advanced Rules"
-            app:enabled="false"
-            app:summary="Upgrade to pro to get access to this feature"
-            app:key="advancedrules"/>
+<!--        <Preference-->
+<!--            app:title="Advanced Rules"-->
+<!--            app:enabled="false"-->
+<!--            app:summary="Upgrade to pro to get access to this feature"-->
+<!--            app:key="advancedrules"/>-->
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Misc">

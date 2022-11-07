@@ -462,9 +462,9 @@ public class AlertListActivity extends AppCompatActivity {
     else {
       AlertDialog alertDialog = new AlertDialog.Builder(AlertListActivity.this).create();
       alertDialog.setTitle("Upgrade to switch locations");
-      alertDialog.setMessage("You can monitor unlimited locations and more by upgrading to pro.");
+      alertDialog.setMessage("You can add and monitor multiple locations after upgrading to pro.");
       alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
-      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "See Pricing", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Upgrade", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
       alertDialog.show();
     }
   }

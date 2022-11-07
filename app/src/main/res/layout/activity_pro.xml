@@ -1,76 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="10dp"
     tools:context=".Activities.ProActivity">
 
     <LinearLayout
+        android:layout_marginHorizontal="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="yearlyClick"
-            android:text="Start Yearly"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Upgrade to Pro"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:onClick="monthlyClick"
-            android:text="Start Monthly"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="This app does not display ads and respects user’s privacy. As a result we depend solely on user support for backend costs and funding future development. Your support is highly appreciated!" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:onClick="yearlyClick"
+                android:text="Start Yearly"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:onClick="monthlyClick"
+                android:text="Start Monthly"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Multiple Location Monitoring"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="After upgrading to pro, you’ll unlock the ability to add and monitor extra locations, without any additional battery or data usage. You can switch between them anytime by clicking the pin icon in the top left." />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:contentDescription="Screenshot showing locations in a list."
+            android:scaleType="fitCenter"
+            android:layout_marginVertical="20dp"
+            android:src="@drawable/pro_1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Adding an extra location is as simple as giving it a name and position. However, you’re free to set custom behavior for every location you add." />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Screenshot showing a sample location called vacation home. The settings include setting a position and name, deleting a location, and setting the notification properties."
+            android:scaleType="fitCenter"
+            android:src="@drawable/pro_2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="In this example, only Tornado Warnings notify for our vacation home, all without affecting preferences for our current location." />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Screenshot showing the notification preferences for the vacation home."
+            android:scaleType="fitCenter"
+            android:src="@drawable/pro_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="You’ll get access to these features immediately after upgrading" />
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Unlimited Location Monitoring"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Monitor an unlimited number of locations with no additional battery or data usage. You can set custom notifications preferences for each location or use yours."/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Time Graphics"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Many alerts are already augmented with map graphics to help show where the heaviest impacts are likely to occur, but they say nothing about the timing. With time graphics, you can pinpoint timing of hazards to your exact location with hourly charts."/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Support The App"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This app doesn't show ads and it respects your privacy so we depend exclusively on user support for development and backend costs."/>
-
-</LinearLayout>
+</ScrollView>

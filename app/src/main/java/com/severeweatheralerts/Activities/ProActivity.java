@@ -1,6 +1,5 @@
 package com.severeweatheralerts.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -40,7 +39,7 @@ public class ProActivity extends AppCompatActivity {
               .setType(BillingClient.SkuType.SUBS)
               .build();
       billingClient.querySkuDetailsAsync(params, (billingResult, list) -> {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list.size() > 0) {
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null && list.size() > 0) {
           BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
                   .setSkuDetails(list.get(0))
                   .build();

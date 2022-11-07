@@ -16,7 +16,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import com.severeweatheralerts.AdvancedRules.RuleListActivity;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.TestAlerts.ExtremePriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
@@ -71,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
       createdRestoreDismissedListener();
       createUpgradeProListener();
       createManageProListener();
-      createAdvancedRulesListener();
+//      createAdvancedRulesListener();
       createManageExtraListener();
     }
 
@@ -86,20 +85,20 @@ public class SettingsActivity extends AppCompatActivity {
 //        });
       }
     }
-
-    private void createAdvancedRulesListener() {
-      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
-      Preference advancedRules = findPreference("advancedrules");
-      if (advancedRules != null && isPro) {
-        advancedRules.setEnabled(true);
-        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
-        advancedRules.setOnPreferenceClickListener(preference -> {
-          startActivity(new Intent(getActivity(), RuleListActivity.class));
-          return true;
-        });
-      }
-    }
-
+//
+//    private void createAdvancedRulesListener() {
+//      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+//      Preference advancedRules = findPreference("advancedrules");
+//      if (advancedRules != null && isPro) {
+//        advancedRules.setEnabled(true);
+//        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
+//        advancedRules.setOnPreferenceClickListener(preference -> {
+//          startActivity(new Intent(getActivity(), RuleListActivity.class));
+//          return true;
+//        });
+//      }
+//    }
+//
     private void createManageExtraListener() {
       boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
       Preference manageExtra = findPreference("manageextra");
