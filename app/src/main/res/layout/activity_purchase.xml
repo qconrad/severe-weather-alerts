@@ -39,14 +39,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="If you want to the app for now now, you can click the button below. Extra locations can always be added later in the settings (gear icon in top right)."
+        android:text="If you want return to the main screen for now, you can click the button below. Extra locations can always be added later in the settings (gear icon in top right)."
         android:textSize="14sp"
         android:layout_marginBottom="8dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="returnToMain"
-        android:text="Return to app" />
+        android:onClick="returnToMainButton"
+        android:text="Return to main Screen" />
 
 </LinearLayout>

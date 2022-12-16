@@ -17,14 +17,18 @@ public class PurchaseActivity extends AppCompatActivity {
 
   @Override
   public void onBackPressed() {
-    startActivity(new Intent(this, AlertListActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    returnToMainScreen();
   }
 
   public void goToExtra(View view) {
     startActivity(new Intent(this, ManageLocationsActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
   }
 
-  public void returnToMain(View view) {
-    finish();
+  public void returnToMainButton(View view) {
+    returnToMainScreen();
+  }
+
+  public void returnToMainScreen() {
+    startActivity(new Intent(this, GettingLatestDataActivity.class));
   }
 }
