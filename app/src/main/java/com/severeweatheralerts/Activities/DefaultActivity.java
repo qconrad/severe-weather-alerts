@@ -1,13 +1,14 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
-
-import static com.severeweatheralerts.Notifications.Channels.createNotificationChannels;
 
 public class DefaultActivity extends AppCompatActivity {
   private SharedPreferences sharedPref;
@@ -16,13 +17,17 @@ public class DefaultActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     createNotificationChannels(this);
-    if (isFirstRun()) startActivity(new Intent(DefaultActivity.this, FirstRunActivity.class));
-    else if (isUsingFixedLocation()) startActivity(new Intent(DefaultActivity.this, GettingLatestDataActivity.class));
-    else startActivity(new Intent(DefaultActivity.this, GettingLocationActivity.class));
+    if (getLocationsDao(this).getDefaultLocation().coordinateSet()) startApp();
+    else showFirstRun();
   }
 
-  private boolean isFirstRun() {
-    return sharedPref.getBoolean("first_run", true);
+  private void showFirstRun() {
+    startActivity(new Intent(DefaultActivity.this, FirstRunActivity.class));
+  }
+
+  private void startApp() {
+    if (isUsingFixedLocation()) startActivity(new Intent(DefaultActivity.this, GettingLatestDataActivity.class));
+    else startActivity(new Intent(DefaultActivity.this, GettingLocationActivity.class));
   }
 
   private boolean isUsingFixedLocation() {

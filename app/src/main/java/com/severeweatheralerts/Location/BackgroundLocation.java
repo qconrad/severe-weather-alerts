@@ -1,10 +1,13 @@
 package com.severeweatheralerts.Location;
 
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+
 import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 
@@ -12,8 +15,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.severeweatheralerts.BroadcastReceivers.LocationReceiver;
 import com.severeweatheralerts.Constants;
-
-import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class BackgroundLocation {
   private final Context context;
@@ -43,7 +44,11 @@ public class BackgroundLocation {
   }
 
   private PendingIntent getPendingIntent() {
-    return PendingIntent.getBroadcast(context, 0, getIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
+    int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      flags = flags | PendingIntent.FLAG_IMMUTABLE;
+    }
+    return PendingIntent.getBroadcast(context, 0, getIntent(), flags);
   }
 
   private Intent getIntent() {

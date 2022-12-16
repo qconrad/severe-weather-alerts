@@ -23,13 +23,16 @@ public class FirstRunActivity extends AppCompatActivity {
   }
 
   private void startAppWithLocation() {
-    updateFirstRun();
     startActivity(new Intent(FirstRunActivity.this, GettingLocationActivity.class));
+    setUseFixed(false);
   }
 
   private void startAppWithFixed() {
-    updateFirstRun();
     startActivity(new Intent(FirstRunActivity.this, GettingLatestDataActivity.class));
+  }
+
+  private void setUseFixed(boolean useFixed) {
+    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("usefixed", useFixed).apply();
   }
 
   public void customSetClick(View view) {
@@ -39,10 +42,6 @@ public class FirstRunActivity extends AppCompatActivity {
   public void thisDeviceClick(View view) {
     if (PermissionManager.hasLocationPermissions(this)) startAppWithLocation();
     else startActivityForResult(new Intent(FirstRunActivity.this, LocationPermissionRequest.class), 0);
-  }
-
-  private void updateFirstRun() {
-    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("first_run", false).apply();
   }
 
   @Override

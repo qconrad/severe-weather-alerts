@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,9 +10,10 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
+import com.severeweatheralerts.NewAlerts;
 import com.severeweatheralerts.R;
 
 import java.util.ArrayList;
@@ -20,12 +23,16 @@ public class GettingLatestDataActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
-    if (LocationsDao.getInstance(this).hasLocations()) fetchAlertData();
+
+    int locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    Location location = getLocationsDao(this).getLocation(locationIndex);
+
+    if (getLocationsDao(this).getLocations().size() > 0) fetchAlertData(location, locationIndex);
     else startActivity(new Intent(GettingLatestDataActivity.this, FirstRunActivity.class));
   }
 
-  private void fetchAlertData() {
-    getAlerts();
+  private void fetchAlertData(Location location, int locationIndex) {
+    getAlerts(location, locationIndex);
     setProgressbarColor();
   }
 
@@ -34,13 +41,13 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     pb.getIndeterminateDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
   }
 
-  private void getAlerts() {
-    LocationsDao locationsDao = LocationsDao.getInstance(this);
-    new FromLocationPointPopulater(locationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
+  private void getAlerts(Location location, int locationIndex) {
+    new FromLocationPointPopulater(location.getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.setAlerts(0, alerts);
-        displayAlerts();
+        location.setAlerts(alerts);
+        NewAlerts.acknowledged();
+        displayAlerts(locationIndex);
       }
 
       @Override
@@ -50,15 +57,15 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     });
   }
 
-  private void displayAlerts() {
-    startActivity(new Intent(GettingLatestDataActivity.this, AlertListActivity.class));
+  private void displayAlerts(int locationIndex) {
+    startActivity(new Intent(GettingLatestDataActivity.this, AlertListActivity.class)
+            .putExtra(("locationIndex"), locationIndex));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 
   private void displayError(String message) {
-    Intent intent = new Intent(GettingLatestDataActivity.this, ErrorActivity.class);
-    intent.putExtra("errorMessage", message);
-    startActivity(intent);
+    startActivity(new Intent(GettingLatestDataActivity.this, ErrorActivity.class)
+            .putExtra("errorMessage", message));
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   }
 

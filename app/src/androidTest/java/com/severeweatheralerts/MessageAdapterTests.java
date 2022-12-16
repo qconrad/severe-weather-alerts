@@ -1,5 +1,11 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
@@ -9,10 +15,6 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 public class MessageAdapterTests {
   @Test
@@ -354,5 +356,52 @@ public class MessageAdapterTests {
     mockAlertMessage.put("motionDescription", "2021-05-27T21:44:00-00:00...storm...274DEG...38KT...36.21,-98.11 35.9,-98.78");
     MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
     assertEquals(274, messageAdapter.getAlert().getMotionVector().getHeading());
+  }
+
+  @Test
+  public void getLocationIndex_LocationIndexGiven_LocationIndexReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("locationIndex", "1");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(1, messageAdapter.getLocationIndex());
+  }
+
+  @Test
+  public void getLocationIndex_DifferentLocationIndexGiven_LocationIndexReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("locationIndex", "2");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals(2, messageAdapter.getLocationIndex());
+  }
+
+  @Test
+  public void getFetchManually_FetchManuallyNotGiven_FalseReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertFalse(messageAdapter.fetchManually());
+  }
+
+  @Test
+  public void getFetchManually_FetchManuallyGiven_TrueReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("fetchManually", "true");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertTrue(messageAdapter.fetchManually());
+  }
+
+  @Test
+  public void getFetchManuallyID_FetchManuallyIDGiven_FetchManuallyIDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid", messageAdapter.getFetchManuallyID());
+  }
+
+  @Test
+  public void getFetchManuallyID_DifferentFetchManuallyIDGiven_FetchManuallyIDReturned() {
+    Map<String, String> mockAlertMessage = new HashMap<>();
+    mockAlertMessage.put("id", "https://api.weather.gov/alerts/urn:oid:2");
+    MessageAdapter messageAdapter = new MessageAdapter(mockAlertMessage);
+    assertEquals("https://api.weather.gov/alerts/urn:oid:2", messageAdapter.getFetchManuallyID());
   }
 }

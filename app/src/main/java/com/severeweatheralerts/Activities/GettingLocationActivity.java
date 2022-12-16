@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,10 +24,12 @@ import com.severeweatheralerts.R;
 import java.util.Date;
 
 public class GettingLocationActivity extends AppCompatActivity {
+  private LocationsDao locationsDao;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_loading);
+    locationsDao = getLocationsDao(this);
     if (!PermissionManager.hasCoarseLocation(this))
       startActivity(new Intent(GettingLocationActivity.this, FirstRunActivity.class));
     else {
@@ -39,11 +43,11 @@ public class GettingLocationActivity extends AppCompatActivity {
 
   private void checkIfLocationsServicesAreEnabled(LocationManager lm) {
     if (!lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-      if (LocationsDao.getInstance(this).hasLocations()) {
-        LocationsDao.getInstance(this).setName(0, "Last Known Location");
+      if (!locationsDao.getDefaultLocation().coordinateSet()) {
+        locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("Last Known Location"));
         fetchAlerts();
       } else {
-        LocationsDao.getInstance(this).setName(0, "No Location");
+        locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("No Location"));
         displayError("Location services disabled");
       }
     }
@@ -97,7 +101,7 @@ public class GettingLocationActivity extends AppCompatActivity {
   }
 
   private void setDefaultLocation(android.location.Location location) {
-    LocationsDao.getInstance(this).setName(0, "Current Location");
+    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setName("Current Location"));
     new ConditionalDefaultLocationSync(this, location.getLatitude(), location.getLongitude()).sync();
     new BackgroundLocation(this).start();
     fetchAlerts();

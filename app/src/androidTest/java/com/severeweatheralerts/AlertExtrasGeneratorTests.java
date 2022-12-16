@@ -1,5 +1,8 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import android.content.Intent;
 
 import com.severeweatheralerts.Alerts.Alert;
@@ -14,9 +17,6 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 public class AlertExtrasGeneratorTests {
   @Test
   public void returnsIntent() {
@@ -26,7 +26,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setStartTime(new Date(3000));
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(Intent.class, alertBundleAdapter.addExtras().getClass());
   }
 
@@ -39,7 +39,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Tornado Warning", alertBundleAdapter.addExtras().getExtras().getString("name"));
   }
 
@@ -52,7 +52,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWatch.setEndTime(new Date(2000));
     tornadoWatch.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWatch, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWatch, resultIntent, 0);
     assertEquals("Tornado Watch", alertBundleAdapter.addExtras().getExtras().getString("name"));
   }
 
@@ -65,7 +65,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(resultIntent.hashCode(), alertBundleAdapter.addExtras().hashCode());
   }
 
@@ -77,7 +77,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(3000L, alertBundleAdapter.addExtras().getExtras().getLong("sent"));
   }
 
@@ -89,7 +89,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(4000L, alertBundleAdapter.addExtras().getExtras().getLong("sent"));
   }
 
@@ -101,7 +101,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(3000L, alertBundleAdapter.addExtras().getExtras().getLong("start"));
   }
 
@@ -113,7 +113,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(3001L, alertBundleAdapter.addExtras().getExtras().getLong("start"));
   }
 
@@ -125,7 +125,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.POST);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(2000L, alertBundleAdapter.addExtras().getExtras().getLong("ends"));
   }
 
@@ -138,7 +138,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setSenderCode("lot");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("lot", alertBundleAdapter.addExtras().getExtras().getString("senderCode"));
   }
 
@@ -150,7 +150,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.UPDATE);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("UPDATE", alertBundleAdapter.addExtras().getExtras().getString("type"));
   }
 
@@ -162,7 +162,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.CANCEL);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("CANCEL", alertBundleAdapter.addExtras().getExtras().getString("type"));
   }
 
@@ -175,7 +175,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setDescription("Test");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Test", alertBundleAdapter.addExtras().getExtras().getString("description"));
   }
 
@@ -188,7 +188,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setDescription("Different Test");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Different Test", alertBundleAdapter.addExtras().getExtras().getString("description"));
   }
 
@@ -201,7 +201,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setLargeHeadline("Large Headline");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Large Headline", alertBundleAdapter.addExtras().getExtras().getString("largeHeadline"));
   }
 
@@ -214,7 +214,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setLargeHeadline("Different Large Headline");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Different Large Headline", alertBundleAdapter.addExtras().getExtras().getString("largeHeadline"));
   }
 
@@ -227,7 +227,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setSmallHeadline("Small Headline");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Small Headline", alertBundleAdapter.addExtras().getExtras().getString("smallHeadline"));
   }
 
@@ -240,7 +240,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setSmallHeadline("Different Small Headline");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Different Small Headline", alertBundleAdapter.addExtras().getExtras().getString("smallHeadline"));
   }
 
@@ -253,7 +253,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setInstruction("Instruction");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Instruction", alertBundleAdapter.addExtras().getExtras().getString("instruction"));
   }
 
@@ -266,7 +266,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setInstruction("Different Instruction");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("Different Instruction", alertBundleAdapter.addExtras().getExtras().getString("instruction"));
   }
 
@@ -279,7 +279,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setSender("NWS Chicago IL");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("NWS Chicago IL", alertBundleAdapter.addExtras().getExtras().getString("sender"));
   }
 
@@ -292,7 +292,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setSender("NWS Lincoln IL");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("NWS Lincoln IL", alertBundleAdapter.addExtras().getExtras().getString("sender"));
   }
 
@@ -306,7 +306,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.addZoneLink("link1");
     tornadoWarning.addZoneLink("link2");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("link1", alertBundleAdapter.addExtras().getExtras().getStringArrayList("zones").get(0));
   }
 
@@ -318,7 +318,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setEndTime(new Date(2000));
     tornadoWarning.setType(Alert.Type.CANCEL);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertNull(alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -333,7 +333,7 @@ public class AlertExtrasGeneratorTests {
     polygon.addCoordinate(new MercatorCoordinate(25, 25));
     tornadoWarning.addPolygon(polygon);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("[[[25.0, 25.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -348,7 +348,7 @@ public class AlertExtrasGeneratorTests {
     polygon.addCoordinate(new MercatorCoordinate(24, 25));
     tornadoWarning.addPolygon(polygon);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("[[[24.0, 25.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -363,7 +363,7 @@ public class AlertExtrasGeneratorTests {
     polygon.addCoordinate(new MercatorCoordinate(24, 24));
     tornadoWarning.addPolygon(polygon);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("[[[24.0, 24.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -379,7 +379,7 @@ public class AlertExtrasGeneratorTests {
     polygon.addCoordinate(new MercatorCoordinate(20, 21));
     tornadoWarning.addPolygon(polygon);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("[[[24.0, 24.0],[20.0, 21.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -398,7 +398,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.addPolygon(polygon);
     tornadoWarning.addPolygon(polygon2);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("[[[24.0, 24.0],[20.0, 21.0]],[[15.0, 15.0]]]", alertBundleAdapter.addExtras().getExtras().getString("polygons"));
   }
 
@@ -411,7 +411,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setExpectedUpdateTime(new Date(15000));
     tornadoWarning.setType(Alert.Type.CANCEL);
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(15000L, alertBundleAdapter.addExtras().getExtras().getLong("expectedUpdate"));
   }
 
@@ -425,7 +425,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setNwsId("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", alertBundleAdapter.addExtras().getExtras().getString("id"));
   }
 
@@ -439,7 +439,7 @@ public class AlertExtrasGeneratorTests {
     tornadoWarning.setType(Alert.Type.CANCEL);
     tornadoWarning.setNwsId("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1");
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals("https://api.weather.gov/alerts/urn:oid:3.49.0.1.840.0.3b06d078d97bf9ac03614f6e184c7ea3061d1e38.001.1", alertBundleAdapter.addExtras().getExtras().getString("id"));
   }
 
@@ -448,7 +448,7 @@ public class AlertExtrasGeneratorTests {
     TornadoWarning tornadoWarning = new TornadoWarning();
     tornadoWarning.setMotionVector(new MotionVector(20, 20));
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(20, alertBundleAdapter.addExtras().getExtras().getInt("heading"));
   }
 
@@ -457,7 +457,7 @@ public class AlertExtrasGeneratorTests {
     TornadoWarning tornadoWarning = new TornadoWarning();
     tornadoWarning.setMotionVector(new MotionVector(21, 20));
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(21, alertBundleAdapter.addExtras().getExtras().getInt("heading"));
   }
 
@@ -466,7 +466,7 @@ public class AlertExtrasGeneratorTests {
     TornadoWarning tornadoWarning = new TornadoWarning();
     tornadoWarning.setMotionVector(new MotionVector(21, 20));
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(20, alertBundleAdapter.addExtras().getExtras().getInt("velocity"));
   }
 
@@ -475,7 +475,23 @@ public class AlertExtrasGeneratorTests {
     TornadoWarning tornadoWarning = new TornadoWarning();
     tornadoWarning.setMotionVector(new MotionVector(21, 21));
     Intent resultIntent = new Intent();
-    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent);;
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 0);
     assertEquals(21, alertBundleAdapter.addExtras().getExtras().getInt("velocity"));
+  }
+
+  @Test
+  public void locationIndex() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 1);
+    assertEquals(1, alertBundleAdapter.addExtras().getExtras().getInt("locationIndex"));
+  }
+
+  @Test
+  public void differentLocationIndex() {
+    TornadoWarning tornadoWarning = new TornadoWarning();
+    Intent resultIntent = new Intent();
+    AlertExtrasGenerator alertBundleAdapter = new AlertExtrasGenerator(tornadoWarning, resultIntent, 2);
+    assertEquals(2, alertBundleAdapter.addExtras().getExtras().getInt("locationIndex"));
   }
 }

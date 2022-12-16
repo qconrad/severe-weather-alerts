@@ -1,19 +1,18 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+
 import com.severeweatheralerts.Adapters.GCSCoordinate;
-import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.UserSync.JSONLocationString;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-
 public class JSONLocationStringTests {
   @Test
   public void getString_NoLocationProvided_EmptyArray() {
-    JSONLocationString jsonSettingsGenerator = new JSONLocationString(new ArrayList<GCSCoordinate>());
+    JSONLocationString jsonSettingsGenerator = new JSONLocationString(new ArrayList<>());
     assertEquals("[[]]", jsonSettingsGenerator.getString());
   }
 

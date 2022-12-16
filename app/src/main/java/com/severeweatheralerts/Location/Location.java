@@ -11,10 +11,10 @@ public class Location {
   private GCSCoordinate coordinate;
   private transient ArrayList<Alert> alerts;
   private ChannelPreferences channelPreferences;
+  private boolean notificationsEnabled = true;
 
   public Location() {
     alerts = new ArrayList<>();
-    channelPreferences = new ChannelPreferences();
   }
 
   public Location(String name) {
@@ -26,8 +26,9 @@ public class Location {
     return name;
   }
 
-  public void setName(String name) {
+  public Location setName(String name) {
     this.name = name;
+    return this;
   }
   public ArrayList<Alert> getAlerts() {
     return alerts;
@@ -36,23 +37,38 @@ public class Location {
     alerts.add(alert);
   }
 
-  public void setAlerts(ArrayList<Alert> alertList) {
+  public Location setAlerts(ArrayList<Alert> alertList) {
     this.alerts = alertList;
+    return this;
   }
 
   public ChannelPreferences getChannelPreferences() {
     return channelPreferences;
   }
 
-  public void setChannelPreferences(ChannelPreferences channelPreferences) {
+  public Location setChannelPreferences(ChannelPreferences channelPreferences) {
     this.channelPreferences = channelPreferences;
+    return this;
   }
 
-  public void setCoordinate(GCSCoordinate coordinate) {
+  public Location setCoordinate(GCSCoordinate coordinate) {
     this.coordinate = coordinate;
+    return this;
   }
 
   public GCSCoordinate getCoordinate() {
     return coordinate;
+  }
+
+  public boolean isNotifying() {
+    return notificationsEnabled;
+  }
+
+  public void setNotify(boolean notificationsEnabled) {
+    this.notificationsEnabled = notificationsEnabled;
+  }
+
+  public boolean coordinateSet() {
+    return coordinate != null;
   }
 }

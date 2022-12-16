@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -20,11 +22,10 @@ import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.LowPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
 import com.severeweatheralerts.Feedback.FeedbackActivity;
-import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Location.BackgroundLocation;
-import com.severeweatheralerts.Location.LocationsDao;
-import com.severeweatheralerts.Permissions.LocationPermissionRequest;
+import com.severeweatheralerts.Location.BundledLocation;
 import com.severeweatheralerts.Notifications.NotificationSender;
+import com.severeweatheralerts.Permissions.LocationPermissionRequest;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
@@ -53,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
       setPreferencesFromResource(R.xml.root_preferences, rootKey);
       if (findPreference("usefixed").isEnabled())
-        findPreference("fixedloc").setSummary(LocationsDao.getInstance(getContext()).getName(0));
+        findPreference("fixedloc").setSummary(getLocationsDao(getContext()).getDefaultLocation().getName());
       createClickListeners();
     }
 
@@ -67,6 +68,50 @@ public class SettingsActivity extends AppCompatActivity {
       createSeverityPreferencesListener();
       createdFeedbackListener();
       createdRestoreDismissedListener();
+      createUpgradeProListener();
+      createManageProListener();
+//      createAdvancedRulesListener();
+      createManageExtraListener();
+    }
+
+    private void createManageProListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference managePro = findPreference("managepro");
+      if (managePro != null && isPro) {
+        managePro.setVisible(true);
+        managePro.setOnPreferenceClickListener(preference -> {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("https://play.google.com/store/account/subscriptions"));
+          startActivity(intent);
+          return true;
+        });
+      }
+    }
+//
+//    private void createAdvancedRulesListener() {
+//      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+//      Preference advancedRules = findPreference("advancedrules");
+//      if (advancedRules != null && isPro) {
+//        advancedRules.setEnabled(true);
+//        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
+//        advancedRules.setOnPreferenceClickListener(preference -> {
+//          startActivity(new Intent(getActivity(), RuleListActivity.class));
+//          return true;
+//        });
+//      }
+//    }
+//
+    private void createManageExtraListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference manageExtra = findPreference("manageextra");
+      if (manageExtra != null && isPro) {
+        manageExtra.setEnabled(true);
+        manageExtra.setSummary("Add, remove, or change extra locations");
+        manageExtra.setOnPreferenceClickListener(preference -> {
+          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
+          return true;
+        });
+      }
     }
 
     private void createAttributionListener() {
@@ -88,7 +133,7 @@ public class SettingsActivity extends AppCompatActivity {
                   .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
                     Channel selectedChannel = Channel.values()[channelIndex];
                     if (selectedChannel != Channel.NONE)
-                    new NotificationSender(getContext(), getTestAlert(selectedChannel), ChannelIdString.getChannelString(selectedChannel)).send();
+                      new NotificationSender(getContext(), getTestAlert(selectedChannel), ChannelIdString.getChannelString(selectedChannel), 0).send();
                   }).create().show();
           return true;
         });
@@ -190,6 +235,18 @@ public class SettingsActivity extends AppCompatActivity {
         privacy.setOnPreferenceClickListener(preference -> {
           Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getActivity().getString(R.string.privacy_policy_link)));
           startActivity(browserIntent);
+          return true;
+        });
+      }
+    }
+
+    private void createUpgradeProListener() {
+      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
+      Preference upgradePro = findPreference("upgradepro");
+      if (upgradePro != null && !isPro) {
+        upgradePro.setVisible(true);
+        upgradePro.setOnPreferenceClickListener(preference -> {
+          startActivity(new Intent(getActivity(), ProActivity.class));
           return true;
         });
       }

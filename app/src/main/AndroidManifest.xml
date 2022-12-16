@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.severeweatheralerts">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Permissions.LocationPermissionRequest"/>
+        <activity
+            android:name=".AdvancedRules.RuleListActivity"
+            android:exported="false" />
+        <activity android:name=".Activities.EditLocationActivity" />
+        <activity android:name=".Activities.ManageLocationsActivity" />
+        <activity android:name=".Activities.PurchaseActivity" />
+        <activity android:name=".Activities.ProActivity" />
+        <activity android:name=".Permissions.LocationPermissionRequest" />
         <activity android:name=".Feedback.FeedbackActivity" />
         <activity android:name=".Activities.AttributionActivity" />
         <activity android:name=".Activities.ErrorActivity" />
@@ -27,12 +34,14 @@
                 <action android:name="com.google.android.gms.location.sample.locationupdatespendingintent.LocationUpdatesBroadcastReceiver.ACTION_PROCESS_UPDATES" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadcastReceivers.BootReceiver">
+        <receiver android:name=".BroadcastReceivers.BootReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BroadcastReceivers.UpdateReceiver">
+        <receiver android:name=".BroadcastReceivers.UpdateReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
@@ -41,7 +50,8 @@
         <activity android:name=".Activities.FirstRunActivity" />
         <activity android:name=".Activities.LocationPickerActivity" />
         <activity android:name=".Activities.ChannelPreferencesActivity" />
-        <activity android:name=".Activities.DefaultActivity">
+        <activity android:name=".Activities.DefaultActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,7 +66,8 @@
         <activity android:name=".Activities.AlertListActivity" />
         <activity
             android:name=".Activities.AlertViewerActivity"
-            android:parentActivityName=".Activities.AlertListActivity">
+            android:parentActivityName=".Activities.AlertListActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="alertviewer" />
 

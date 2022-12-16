@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -14,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelPreferences;
 import com.severeweatheralerts.Preferences.RippleEdit;
@@ -22,9 +23,9 @@ import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Preference.PreferenceAdapter;
 
 public class ChannelPreferencesActivity extends AppCompatActivity {
+  private int locationIndex;
   private ChannelPreferences channelPreferences;
   private PreferenceAdapter preferenceAdapter;
-  private LocationsDao locationsDao;
   private SharedPreferences sharedPref;
   private SwitchCompat rippleSwitch;
 
@@ -33,8 +34,8 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_channel_picker);
     checkIfDeviceSupportsChannels();
-    locationsDao = LocationsDao.getInstance(this);
-    channelPreferences = locationsDao.getChannelPreferences(0);
+    locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    channelPreferences = getLocationsDao(this).getLocation(locationIndex).getChannelPreferences();
     sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());;
     rippleSwitch = findViewById(R.id.ripple_switch);
     rippleSwitch.setChecked(sharedPref.getBoolean("ripple_edit", true));
@@ -54,14 +55,13 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
     preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
-    preferenceAdapter.setClickListener((type, index) -> {
-      new AlertDialog.Builder(this)
-              .setTitle("Select a channel")
-              .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
-                if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
-                else alertEdit(type, index, channelIndex);
-              }).create().show();
-    });
+    preferenceAdapter.setClickListener((type, index) ->
+            new AlertDialog.Builder(this)
+            .setTitle("Select a channel")
+            .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
+              if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
+              else alertEdit(type, index, channelIndex);
+            }).create().show());
     view.setAdapter(preferenceAdapter);
   }
 
@@ -83,7 +83,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    locationsDao.setChannelPreferences(0, channelPreferences);
+    getLocationsDao(this).setLocation(locationIndex, getLocationsDao(this).getLocation(locationIndex).setChannelPreferences(channelPreferences));
     sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
   }
 

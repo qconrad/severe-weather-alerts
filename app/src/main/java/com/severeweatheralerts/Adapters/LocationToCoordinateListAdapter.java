@@ -14,7 +14,7 @@ public class LocationToCoordinateListAdapter {
   public ArrayList<GCSCoordinate> getCoordinates() {
     ArrayList<GCSCoordinate> coordinates = new ArrayList<>();
     for (int i = 0; i < locations.size(); i++)
-      coordinates.add(locations.get(0).getCoordinate());
+      if (locations.get(i).coordinateSet()) coordinates.add(locations.get(i).getCoordinate());
     return coordinates;
   }
 }

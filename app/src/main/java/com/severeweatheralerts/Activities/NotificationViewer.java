@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,6 +10,7 @@ import com.severeweatheralerts.AlertListTools.AlertFinder;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Networking.LocationPopulaters.FromLocationPointPopulater;
 import com.severeweatheralerts.Networking.LocationPopulaters.PopulateCallback;
+import com.severeweatheralerts.NewAlerts;
 
 import java.util.ArrayList;
 
@@ -20,16 +23,19 @@ public class NotificationViewer extends AlertViewerActivity {
 
   @Override
   protected void getAlertFromExtras(Bundle bundle) {
-    al = new BundleAlertAdapter(bundle).getAlert();
-    locationIndex = 0;
+    BundleAlertAdapter bundleAlertAdapter = new BundleAlertAdapter(bundle);
+    al = bundleAlertAdapter.getAlert();
+    locationIndex = bundleAlertAdapter.getLocationIndex();
+    location = getLocationsDao(this).getLocation(locationIndex);
     fetchAlerts();
   }
 
   private void fetchAlerts() {
-    new FromLocationPointPopulater(locationsDao.getCoordinate(0), this).populate(new PopulateCallback() {
+    new FromLocationPointPopulater(location.getCoordinate(), this).populate(new PopulateCallback() {
       @Override
       public void complete(ArrayList<Alert> alerts) {
-        locationsDao.setAlerts(0, alerts);
+        location.setAlerts(alerts);
+        NewAlerts.acknowledged();
         alertsFetched = true;
         fillMissingData(new AlertFinder(alerts).findAlertByID(al.getNwsId()));
       }
@@ -46,7 +52,10 @@ public class NotificationViewer extends AlertViewerActivity {
 
   @Override
   public void onBackPressed() {
-    if (alertsFetched) startActivity(new Intent(NotificationViewer.this, AlertListActivity.class));
-    else startActivity(new Intent(NotificationViewer.this, GettingLatestDataActivity.class));
+    if (alertsFetched) {
+      startActivity(new Intent(NotificationViewer.this, AlertListActivity.class).putExtra("locationIndex", locationIndex));
+    } else {
+      startActivity(new Intent(NotificationViewer.this, GettingLatestDataActivity.class).putExtra("locationIndex", locationIndex));
+    }
   }
 }

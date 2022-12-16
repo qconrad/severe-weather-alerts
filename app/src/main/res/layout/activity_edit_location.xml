@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="15dp"
+    android:orientation="vertical"
+    tools:context=".Activities.EditLocationActivity">
+
+    <TextView
+        android:id="@+id/edit_location_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:textSize="20sp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="Location Name"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="setPositionName"
+        android:text="Set position and name"/>
+
+    <Button
+        android:onClick="deleteClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete this location"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#FFF"
+        android:textStyle="bold"
+        android:text="Notification Preferences"
+        android:gravity="center"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/notify_switch"
+        android:onClick="notifyToggle"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Send notifications for this location "/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/use_default"
+            android:onClick="useDefaultPreferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Use default location"/>
+
+        <RadioButton
+            android:id="@+id/set_custom"
+            android:onClick="useCustomPreferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set custom"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/edit_custom_btn"
+        android:onClick="editCustomClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit custom notification preferences"/>
+
+
+
+</LinearLayout>

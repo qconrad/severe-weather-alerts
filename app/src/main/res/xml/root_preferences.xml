@@ -31,6 +31,29 @@
             app:summary="Send a fake alert for testing the different notification channels"/>
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Pro Version">
+        <Preference
+            app:title="Upgrade To Pro"
+            app:key="upgradepro"
+            app:isPreferenceVisible="false"
+            app:summary="Unlock new features in the app"/>
+        <Preference
+            app:title="Manage Subscription"
+            app:key="managepro"
+            app:isPreferenceVisible="false"
+            app:summary="Upgrade or cancel pro subscription"/>
+        <Preference
+            app:title="Manage Extra Locations"
+            app:enabled="false"
+            app:summary="Upgrade to pro to get access to this feature"
+            app:key="manageextra"/>
+<!--        <Preference-->
+<!--            app:title="Advanced Rules"-->
+<!--            app:enabled="false"-->
+<!--            app:summary="Upgrade to pro to get access to this feature"-->
+<!--            app:key="advancedrules"/>-->
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="Misc">
         <Preference app:key="feedback" app:title="Provide Feedback" app:summary="Your feedback is always appreciated and is used to improve the app"  />
         <Preference app:key="restoreDismissed" app:title="Restore Dismissed Alerts" app:summary="Restore alerts that have been recently swiped/dismissed. Old alerts will still disappear after a while." />

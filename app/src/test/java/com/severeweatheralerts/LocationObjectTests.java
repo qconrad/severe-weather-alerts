@@ -1,5 +1,11 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
@@ -10,9 +16,6 @@ import com.severeweatheralerts.Preferences.ChannelPreferences;
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class LocationObjectTests {
   private Location makeLocation() {
@@ -97,9 +100,9 @@ public class LocationObjectTests {
   }
 
   @Test
-  public void channelPreferencesReturned() {
+  public void channelPreferencesNull() {
     Location loc = new Location();
-    assertEquals(Channel.EXTREME, loc.getChannelPreferences().getChannel("Tornado Warning", Alert.Type.POST));
+    assertNull(loc.getChannelPreferences());
   }
 
   @Test
@@ -115,5 +118,37 @@ public class LocationObjectTests {
   public void nameConstructorUsed_AlertsNotNull() {
     Location loc = new Location("Name");
     assertNotNull(loc.getAlerts());
+  }
+
+  @Test
+  public void notificationsEnabledByDefault() {
+    Location loc = new Location("Name");
+    assertTrue(loc.isNotifying());
+  }
+
+  @Test
+  public void disableNotifications_isNotifyingFalse() {
+    Location loc = new Location("Name");
+    loc.setNotify(false);
+    assertFalse(loc.isNotifying());
+  }
+
+  @Test
+  public void createLocation_returnsCoordinate() {
+    Location loc = makeLocation();
+    assertNull(loc.getCoordinate());
+  }
+
+  @Test
+  public void createLocation_coordinateNotSet() {
+    Location loc = makeLocation();
+    assertFalse(loc.coordinateSet());
+  }
+
+  @Test
+  public void createLocation_coordinateSet() {
+    Location loc = makeLocation();
+    loc.setCoordinate(new GCSCoordinate(2,2));
+    assertTrue(loc.coordinateSet());
   }
 }

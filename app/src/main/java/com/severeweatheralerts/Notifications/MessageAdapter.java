@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class MessageAdapter {
   private final Map<String, String> message;
@@ -71,5 +72,17 @@ public class MessageAdapter {
       }
     }
     return alert;
+  }
+
+  public int getLocationIndex() {
+    return Integer.parseInt(Objects.requireNonNull(message.get("locationIndex")));
+  }
+
+  public boolean fetchManually() {
+    return message.containsKey("fetchManually");
+  }
+
+  public String getFetchManuallyID() {
+    return message.get("id");
   }
 }

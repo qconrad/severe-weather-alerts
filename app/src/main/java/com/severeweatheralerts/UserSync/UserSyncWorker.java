@@ -1,5 +1,7 @@
 package com.severeweatheralerts.UserSync;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -10,18 +12,16 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Adapters.LocationToCoordinateListAdapter;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.PostService;
 
 public class UserSyncWorker extends Worker {
-  private final LocationsDao dao;
   private final Context context;
 
   public UserSyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
     super(context, workerParams);
     this.context = context;
-    this.dao = LocationsDao.getInstance(context);
   }
 
   @NonNull
@@ -64,7 +64,7 @@ public class UserSyncWorker extends Worker {
   }
 
   private String getLocations() {
-    return new JSONLocationString(dao.getCoordinateList()).getString();
+    return new JSONLocationString(new LocationToCoordinateListAdapter(getLocationsDao(context).getLocations()).getCoordinates()).getString();
   }
 
   private boolean failure(Task<String> task) {

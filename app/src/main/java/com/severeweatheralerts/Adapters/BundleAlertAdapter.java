@@ -59,4 +59,8 @@ public class BundleAlertAdapter {
       }
     }
   }
+
+  public int getLocationIndex() {
+    return bundle.getInt("locationIndex");
+  }
 }

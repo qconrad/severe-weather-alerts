@@ -1,6 +1,11 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+import static com.severeweatheralerts.NewAlerts.hasNewAlerts;
+import static com.severeweatheralerts.NewAlerts.onNewAlerts;
+
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -12,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +30,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.Purchase;
 import com.google.android.material.snackbar.Snackbar;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
@@ -32,7 +43,9 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
+import com.severeweatheralerts.BillingClientSetup;
 import com.severeweatheralerts.Constants;
+import com.severeweatheralerts.FileDB;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
 import com.severeweatheralerts.Location.LastKnownLocation;
 import com.severeweatheralerts.Location.LocationChange;
@@ -46,30 +59,36 @@ import com.severeweatheralerts.Refreshing.Refresher;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.Status.TextListFade;
+import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AlertListActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
+  int locationIndex = 0;
   private ArrayList<Alert> activeAlerts;
   private ArrayList<Alert> inactiveAlerts;
   private IntervalRun subtextFade;
   private GCSCoordinate lastLocation;
   private Date lastLocationTime = null;
   private Set<String> dismissedIds;
+  private BillingClient billingClient;
+  private LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     fetchDataIfCleared();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alertlist);
-    LocationsDao locationsDao = LocationsDao.getInstance(this);
-    lastLocation = locationsDao.getCoordinate(0);
-    setLocationName(locationsDao.getName(0));
-    ArrayList<Alert> alerts = locationsDao.getAlerts(0);
+    locationIndex = getIntent().getIntExtra("locationIndex", 0);
+    locationsDao = getLocationsDao(this);
+    lastLocation = locationsDao.getLocation(locationIndex).getCoordinate();
+    setLocationName(locationsDao.getLocation(locationIndex).getName());
+    ArrayList<Alert> alerts = locationsDao.getLocation(locationIndex).getAlerts();
     dismissedIds = new HashSet<>(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getStringSet("dismissedIds", new HashSet<>()));
     sortAndFilterAlerts(alerts);
     populateRecyclerViews();
@@ -78,11 +97,11 @@ public class AlertListActivity extends AppCompatActivity {
     keepEverythingUpToDate(locationsDao, alerts);
     makeStatusBarTransparent();
     setContentInsets();
+    setupBilling();
   }
 
   private void makeStatusBarTransparent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-      getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
   }
 
   private void setContentInsets() {
@@ -94,14 +113,30 @@ public class AlertListActivity extends AppCompatActivity {
     });
   }
 
+  private void setupBilling() {
+    billingClient = BillingClientSetup.getInstance(this, this::handlePurchases);
+    billingClient.startConnection(new BillingClientStateListener() {
+      @Override
+      public void onBillingServiceDisconnected() {
+        // TODO: retry connection
+        Toast.makeText(AlertListActivity.this, "Billing service disconnected", Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onBillingSetupFinished(BillingResult billingResult) {
+        billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, (billingResult2, list) -> handlePurchases(billingResult2, list));
+      }
+    });
+  }
+
   private void keepEverythingUpToDate(LocationsDao locationsDao, ArrayList<Alert> alerts) {
-    LocationsDao.onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
+    onNewAlerts(() -> promptNewData(getString(R.string.new_data_available)));
     if (usingDevicesLocation()) monitorForLocationChanges(locationsDao);
     monitorForExpiration(alerts);
   }
 
   private boolean usingDevicesLocation() {
-    return !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("usefixed", false);
+    return locationIndex == 0 && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean("usefixed", false);
   }
 
   private void monitorForLocationChanges(LocationsDao locationsDao) {
@@ -115,7 +150,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void saveAndPromptRefresh(LocationsDao locationsDao, Location newLoc) {
-    locationsDao.setDefaultLocationCoordinate(newLoc.getLatitude(), newLoc.getLongitude());
+    locationsDao.setDefaultLocation(locationsDao.getDefaultLocation().setCoordinate(new GCSCoordinate(newLoc.getLatitude(), newLoc.getLongitude())));
     promptLocationChange(getString(R.string.location_change), newLoc);
   }
 
@@ -132,7 +167,8 @@ public class AlertListActivity extends AppCompatActivity {
   private void promptNewData(String text) {
     Snackbar.make(findViewById(android.R.id.content), text,
             Snackbar.LENGTH_INDEFINITE).setAction("Refresh", view ->
-            startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)))
+            startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class)
+              .putExtra("locationIndex", locationIndex)))
             .show();
   }
 
@@ -152,10 +188,9 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void fetchDataIfCleared() {
-    if (!LocationsDao.hasInstance()) {
-      startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
-      finish();
-    }
+    if (FileDB.hasLocationsDaoInstance()) return;
+    startActivity(new Intent(AlertListActivity.this, GettingLatestDataActivity.class));
+    finish();
   }
 
   protected Status getStatus() {
@@ -221,7 +256,7 @@ public class AlertListActivity extends AppCompatActivity {
   private void displayFullAlert(Alert alert, RecyclerView.ViewHolder holder) {
     new NotificationCancel(this, alert).cancel();
     Intent alertIntent = new Intent(AlertListActivity.this, AlertViewerActivity.class);
-    alertIntent.putExtra("locIndex", 0);
+    alertIntent.putExtra("locIndex", locationIndex);
     AlertCardHolder ach = (AlertCardHolder) holder;
     Pair<View,String> pair1 = Pair.create(ach.card, "zoom");
     ActivityOptions aO = null;
@@ -264,12 +299,12 @@ public class AlertListActivity extends AppCompatActivity {
   private ItemTouchHelper.SimpleCallback getItemTouchHelper(AlertRecyclerViewAdapter alertRecyclerViewAdapter) {
     return new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
       @Override
-      public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+      public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
         return false;
       }
 
       @Override
-      public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+      public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         String id = inactiveAlerts.get(viewHolder.getAbsoluteAdapterPosition()).getNwsId();
         inactiveAlerts.remove(viewHolder.getAbsoluteAdapterPosition());
         alertRecyclerViewAdapter.notifyDataSetChanged();
@@ -326,8 +361,45 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
+    checkPurchases();
     if (stopped) resume();
     else firstStart();
+  }
+
+  private void checkPurchases() {
+    if (billingClient.isReady())
+      billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, this::handlePurchases);
+  }
+
+  private void handlePurchases(BillingResult billingResult, List<Purchase> list) {
+    isPro = false;
+    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
+      for (Purchase purchase : list) handlePurchase(purchase);
+    revokePrivilegesIfNecessary();
+    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("is_pro", isPro).apply();
+  }
+
+  private void revokePrivilegesIfNecessary() {
+    if (!isPro && locationsDao.hasExtraLocations()) {
+      locationsDao.deleteExtraLocations();
+      new UserSyncWorkScheduler(this).oneTimeSync();
+    }
+  }
+
+  boolean isPro;
+  private void handlePurchase(Purchase purchase) {
+    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+      isPro = true;
+      if (!purchase.isAcknowledged()) {
+        AcknowledgePurchaseParams acknowledgePurchaseParams =
+                AcknowledgePurchaseParams.newBuilder()
+                        .setPurchaseToken(purchase.getPurchaseToken())
+                        .build();
+        billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
+          startActivity(new Intent(AlertListActivity.this, PurchaseActivity.class));
+        });
+      }
+    }
   }
 
   private void resume() {
@@ -341,8 +413,7 @@ public class AlertListActivity extends AppCompatActivity {
   }
 
   private void checkForMissedAlerts() {
-    if (LocationsDao.getInstance(this).messagesAvailable())
-      promptNewData(getString(R.string.new_data_available));
+    if (hasNewAlerts()) promptNewData(getString(R.string.new_data_available));
   }
 
   private void checkIfLocationIsReasonablyUpToDate() {
@@ -362,5 +433,40 @@ public class AlertListActivity extends AppCompatActivity {
 
   private void resumeSubtext() {
     if (subtextFade != null) subtextFade.startNextInterval();
+  }
+
+  public void switchLocationClick(View view) {
+    boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
+    if (isPro) {
+      ArrayList<com.severeweatheralerts.Location.Location> locations = locationsDao.getLocations();
+      ArrayList<String> listItems = new ArrayList<>();
+      for (int i = 0; i < locations.size(); i++) {
+        if (i == locationIndex) continue;
+        listItems.add(locations.get(i).getName());
+      }
+      listItems.add("Add/Manage Locations");
+      final CharSequence[] items = listItems.toArray(new CharSequence[0]);
+      new AlertDialog.Builder(this)
+              .setTitle("Select a location")
+              .setItems(items, (dialogInterface, index) -> {
+                if (index == locations.size() - 1)
+                  startActivity(new Intent(AlertListActivity.this, ManageLocationsActivity.class));
+                else {
+                  Intent intent = new Intent(AlertListActivity.this, GettingLatestDataActivity.class);
+                  int locIndex = index;
+                  if (locIndex >= locationIndex) locIndex++;
+                  intent.putExtra("locationIndex", locIndex);
+                  startActivity(intent);
+                }
+              }).create().show();
+    }
+    else {
+      AlertDialog alertDialog = new AlertDialog.Builder(AlertListActivity.this).create();
+      alertDialog.setTitle("Upgrade to switch locations");
+      alertDialog.setMessage("You can add and monitor multiple locations after upgrading to pro.");
+      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
+      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Upgrade", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
+      alertDialog.show();
+    }
   }
 }

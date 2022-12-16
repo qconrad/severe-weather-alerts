@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Activities;
 
+import static com.severeweatheralerts.FileDB.getLocationsDao;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -32,7 +34,7 @@ import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.Types.GraphicType;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.ViewInflaters.Graphic;
-import com.severeweatheralerts.Location.LocationsDao;
+import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.R;
 import com.severeweatheralerts.RecyclerViews.Reference.ReferenceRecyclerViewAdapter;
 import com.severeweatheralerts.Refreshing.IntervalRun;
@@ -48,16 +50,15 @@ import java.util.TimeZone;
 
 public class AlertViewerActivity extends AppCompatActivity {
   private final Refresher refresher = new Refresher();
+  protected Location location;
   protected Alert al;
   private boolean isActive;
   protected int locationIndex;
-  protected LocationsDao locationsDao;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_alert_viewer);
-    locationsDao = LocationsDao.getInstance(this);
 
     getAlertFromExtras(getIntent().getExtras());
     if (!validAlert()) return;
@@ -107,12 +108,13 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void getAlertFromExtras(Bundle bundle) {
     locationIndex = bundle.getInt("locIndex");
+    location = getLocationsDao(this).getLocation(locationIndex);
     String alertIndex = bundle.getString("alertID");
-    al = new AlertFinder(getAlerts(locationIndex)).findAlertByID(alertIndex);
+    al = new AlertFinder(getAlerts()).findAlertByID(alertIndex);
   }
 
-  private ArrayList<Alert> getAlerts(int locationIndex) {
-    return locationsDao.getAlerts(locationIndex);
+  private ArrayList<Alert> getAlerts() {
+    return location.getAlerts();
   }
 
   private void populateUIWithAlertData() {
@@ -142,7 +144,7 @@ public class AlertViewerActivity extends AppCompatActivity {
   protected void generateAndDisplayGraphic(GraphicType type) {
     View graphicView = createGraphicView();
     displayGraphicTitleAndProgressBar(type, graphicView);
-    GraphicGenerator generator = type.getGenerator(this, al, locationsDao.getCoordinate(locationIndex));
+    GraphicGenerator generator = type.getGenerator(this, al, location.getCoordinate());
     generateGraphic(generator, graphicView);
     startUpdates(type, generator, graphicView);
   }
@@ -235,7 +237,7 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void displayReference(Alert reference) {
     Intent alertIntent = new Intent(this, ReferenceViewerActivity.class);
-    alertIntent.putExtra("locIndex", 0);
+    alertIntent.putExtra("locIndex", locationIndex);
     alertIntent.putExtra("alertID", reference.getNwsId());
     startActivity(alertIntent);
     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
