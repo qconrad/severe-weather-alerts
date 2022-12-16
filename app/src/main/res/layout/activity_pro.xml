@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="This app does not display ads and respects user’s privacy. As a result we depend solely on user support for backend costs and funding future development. Your support is highly appreciated!" />
+            android:text="This app is ad-free and respects your privacy. Your support is crucial for funding the backend costs and future development of the app. Thank you for considering a pro subscription!" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -122,29 +122,6 @@
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
-
-<!--            <Button-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:onClick="yearlyClick"-->
-<!--                android:text="Start Yearly"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <Button-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:onClick="monthlyClick"-->
-<!--                android:text="Start Monthly"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--        </LinearLayout>-->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -197,8 +174,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#fff"
             android:gravity="center"
-            android:text="You’ll get access to these features immediately after upgrading" />
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:text="Upgrade to Pro Now" />
 
         <LinearLayout
             android:layout_width="match_parent"

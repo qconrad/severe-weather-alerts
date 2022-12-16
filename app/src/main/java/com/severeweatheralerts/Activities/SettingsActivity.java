@@ -79,10 +79,12 @@ public class SettingsActivity extends AppCompatActivity {
       Preference managePro = findPreference("managepro");
       if (managePro != null && isPro) {
         managePro.setVisible(true);
-//        managePro.setOnPreferenceClickListener(preference -> {
-//          startActivity(new Intent(getActivity(), ManageLocationsActivity.class));
-//          return true;
-//        });
+        managePro.setOnPreferenceClickListener(preference -> {
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("https://play.google.com/store/account/subscriptions"));
+          startActivity(intent);
+          return true;
+        });
       }
     }
 //
