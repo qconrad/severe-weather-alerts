@@ -127,8 +127,8 @@ public abstract class GraphicGenerator {
   }
 
   public void getForecast(String gridDataURL, String parameter) {
-      StringFetchService fetchService = new StringFetchService(context, gridDataURL);
-      fetchService.setUserAgent(Constants.USER_AGENT);
+    StringFetchService fetchService = new StringFetchService(context, gridDataURL);
+    fetchService.setUserAgent(Constants.USER_AGENT);
     fetchService.request(new RequestCallback() {
       @Override
       public void success(Object response) {

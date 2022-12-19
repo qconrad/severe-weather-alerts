@@ -3,6 +3,7 @@ package com.severeweatheralerts.Graphics.Tools.Bitmaps;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
@@ -76,10 +77,21 @@ public class ZoneDrawer {
 
   protected Paint getZonePaint() {
     Paint paint = new Paint();
-    paint.setColor(color);
-    paint.setStrokeWidth(5);
-    paint.setShadowLayer(5, 0, 0, Color.BLACK);
+
+    // Stroke
     paint.setStyle(Paint.Style.STROKE);
+    paint.setStrokeWidth(5);
+
+    // Set color and shadow
+    paint.setColor(color);
+    paint.setShadowLayer(5, 0, 0, Color.BLACK);
+
+    // Rounded corners
+    paint.setDither(true);
+    paint.setStrokeJoin(Paint.Join.ROUND);
+    paint.setStrokeCap(Paint.Cap.ROUND);
+    paint.setPathEffect(new CornerPathEffect(15) );
+
     return paint;
   }
 }
