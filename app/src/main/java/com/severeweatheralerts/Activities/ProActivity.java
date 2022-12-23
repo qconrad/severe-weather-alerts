@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.SubscriptionManager;
+import com.severeweatheralerts.Billing.SubscriptionManager;
 
 public class ProActivity extends AppCompatActivity {
   private SubscriptionManager subscriptionManager;

@@ -1,4 +1,4 @@
-package com.severeweatheralerts;
+package com.severeweatheralerts.Billing;
 
 import static com.severeweatheralerts.FileDB.getLocationsDao;
 
@@ -15,13 +15,15 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
+import com.google.common.collect.ImmutableList;
 import com.severeweatheralerts.Activities.PurchaseActivity;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SubscriptionManager {
@@ -54,20 +56,25 @@ public class SubscriptionManager {
       @Override
       public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-          billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, (queryPurchasesResult, list) -> handlePurchases(queryPurchasesResult, list));
+           billingClient.queryPurchasesAsync(getQueryPurchaseParams(), (queryPurchasesResult, list) -> handlePurchases(queryPurchasesResult, list)
+         );
         } else {
           Toast.makeText(context, billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
         }
       }
     });
   }
-
   public void checkPurchases() {
     if (!billingClient.isReady())
       return;
 
-    billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, this::handlePurchases);
+    billingClient.queryPurchasesAsync(getQueryPurchaseParams(), this::handlePurchases);
   }
+
+  private QueryPurchasesParams getQueryPurchaseParams() {
+    return QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.SUBS).build();
+  }
+
 
   private void handlePurchases(BillingResult billingResult, List<Purchase> purchases) {
     // Check if billing client return success
@@ -127,17 +134,43 @@ public class SubscriptionManager {
       return;
     }
 
-    SkuDetailsParams params = SkuDetailsParams.newBuilder()
-            .setSkusList(Arrays.asList(sku))
-            .setType(BillingClient.SkuType.SUBS)
+    billingClient.queryProductDetailsAsync(getQueryProductDetailsParams(sku), this::launchBillingFlow);
+  }
+
+  private void launchBillingFlow(BillingResult billingResult, List<ProductDetails> list) {
+    if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+      Toast.makeText(context, "Error getting available products", Toast.LENGTH_SHORT).show();
+      return;
+    }
+
+    BillingResult launchBillingFlowResult = billingClient.launchBillingFlow((Activity) context, getBillingFlowParams(list));
+    if (launchBillingFlowResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+      Toast.makeText(context, "Error launching billing flow", Toast.LENGTH_SHORT).show();
+    }
+  }
+
+  private BillingFlowParams getBillingFlowParams(List<ProductDetails> list) {
+    return BillingFlowParams.newBuilder()
+            .setProductDetailsParamsList(getProductDetailsParams(list))
             .build();
-    billingClient.querySkuDetailsAsync(params, (billingResult, list) -> {
-      if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null && list.size() > 0) {
-        BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(list.get(0))
-                .build();
-        billingClient.launchBillingFlow((Activity) context, billingFlowParams);
-      }
-    });
+  }
+
+  private ImmutableList<BillingFlowParams.ProductDetailsParams> getProductDetailsParams(List<ProductDetails> list) {
+    return ImmutableList.of(
+            BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(list.get(0))
+                    .build()
+    );
+  }
+
+  private QueryProductDetailsParams getQueryProductDetailsParams(String sku) {
+    return QueryProductDetailsParams.newBuilder()
+            .setProductList(
+                    ImmutableList.of(
+                            QueryProductDetailsParams.Product.newBuilder()
+                                    .setProductId(sku)
+                                    .setProductType(BillingClient.ProductType.SUBS)
+                                    .build()))
+            .build();
   }
 }

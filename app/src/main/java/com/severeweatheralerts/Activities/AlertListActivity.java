@@ -36,7 +36,7 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.SubscriptionManager;
+import com.severeweatheralerts.Billing.SubscriptionManager;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.FileDB;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
