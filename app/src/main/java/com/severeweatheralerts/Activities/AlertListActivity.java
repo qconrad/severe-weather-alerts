@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -29,11 +28,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.billingclient.api.AcknowledgePurchaseParams;
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.Purchase;
 import com.google.android.material.snackbar.Snackbar;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ActiveFilter;
@@ -42,7 +36,7 @@ import com.severeweatheralerts.AlertListTools.AlertFilters.InactiveFilter;
 import com.severeweatheralerts.AlertListTools.AlertFilters.ReplacementFilter;
 import com.severeweatheralerts.AlertListTools.SeveritySorter;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.BillingClientSetup;
+import com.severeweatheralerts.SubscriptionManager;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.FileDB;
 import com.severeweatheralerts.Location.ConditionalDefaultLocationSync;
@@ -58,12 +52,10 @@ import com.severeweatheralerts.Refreshing.Refresher;
 import com.severeweatheralerts.Status.Status;
 import com.severeweatheralerts.Status.StatusPicker;
 import com.severeweatheralerts.Status.TextListFade;
-import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AlertListActivity extends AppCompatActivity {
@@ -75,7 +67,7 @@ public class AlertListActivity extends AppCompatActivity {
   private GCSCoordinate lastLocation;
   private Date lastLocationTime = null;
   private Set<String> dismissedIds;
-  private BillingClient billingClient;
+  private SubscriptionManager subscriptionManager;
   private LocationsDao locationsDao;
 
   @Override
@@ -96,7 +88,9 @@ public class AlertListActivity extends AppCompatActivity {
     keepEverythingUpToDate(locationsDao, alerts);
     makeStatusBarTransparent();
     setContentInsets();
-    setupBilling();
+
+    subscriptionManager = new SubscriptionManager(this);
+    subscriptionManager.startBillingConnection();
   }
 
   private void makeStatusBarTransparent() {
@@ -109,22 +103,6 @@ public class AlertListActivity extends AppCompatActivity {
       Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
       v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
       return WindowInsetsCompat.CONSUMED;
-    });
-  }
-
-  private void setupBilling() {
-    billingClient = BillingClientSetup.getInstance(this, this::handlePurchases);
-    billingClient.startConnection(new BillingClientStateListener() {
-      @Override
-      public void onBillingServiceDisconnected() {
-        // TODO: retry connection
-        Toast.makeText(AlertListActivity.this, "Billing service disconnected", Toast.LENGTH_SHORT).show();
-      }
-
-      @Override
-      public void onBillingSetupFinished(BillingResult billingResult) {
-        billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, (billingResult2, list) -> handlePurchases(billingResult2, list));
-      }
     });
   }
 
@@ -360,45 +338,9 @@ public class AlertListActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     resumeSubtext();
-    checkPurchases();
+    subscriptionManager.checkPurchases();
     if (stopped) resume();
     else firstStart();
-  }
-
-  private void checkPurchases() {
-    if (billingClient.isReady())
-      billingClient.queryPurchasesAsync(BillingClient.SkuType.SUBS, this::handlePurchases);
-  }
-
-  private void handlePurchases(BillingResult billingResult, List<Purchase> list) {
-    isPro = false;
-    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
-      for (Purchase purchase : list) handlePurchase(purchase);
-    revokePrivilegesIfNecessary();
-    PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("is_pro", isPro).apply();
-  }
-
-  private void revokePrivilegesIfNecessary() {
-    if (!isPro && locationsDao.hasExtraLocations()) {
-      locationsDao.deleteExtraLocations();
-      new UserSyncWorkScheduler(this).oneTimeSync();
-    }
-  }
-
-  boolean isPro;
-  private void handlePurchase(Purchase purchase) {
-    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-      isPro = true;
-      if (!purchase.isAcknowledged()) {
-        AcknowledgePurchaseParams acknowledgePurchaseParams =
-                AcknowledgePurchaseParams.newBuilder()
-                        .setPurchaseToken(purchase.getPurchaseToken())
-                        .build();
-        billingClient.acknowledgePurchase(acknowledgePurchaseParams, billingResult -> {
-          startActivity(new Intent(AlertListActivity.this, PurchaseActivity.class));
-        });
-      }
-    }
   }
 
   private void resume() {
