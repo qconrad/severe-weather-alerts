@@ -64,6 +64,7 @@ public class SubscriptionManager {
       }
     });
   }
+
   public void checkPurchases() {
     if (!billingClient.isReady())
       return;
@@ -159,8 +160,14 @@ public class SubscriptionManager {
     return ImmutableList.of(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                     .setProductDetails(list.get(0))
+                    .setOfferToken(getOfferToken(list.get(0)))
                     .build()
     );
+  }
+
+  private String getOfferToken(ProductDetails productDetails) {
+    List<ProductDetails.SubscriptionOfferDetails> subscriptionOfferDetails = productDetails.getSubscriptionOfferDetails();
+    return subscriptionOfferDetails.get(0).getOfferToken();
   }
 
   private QueryProductDetailsParams getQueryProductDetailsParams(String sku) {
