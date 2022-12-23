@@ -1,20 +1,71 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.MotionVector;
-import com.severeweatheralerts.Alerts.NWS.*;
+import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWarning;
+import com.severeweatheralerts.Alerts.NWS.ExcessiveHeatWatch;
+import com.severeweatheralerts.Alerts.NWS.ExtremeWindWarning;
+import com.severeweatheralerts.Alerts.NWS.FlashFloodWarning;
+import com.severeweatheralerts.Alerts.NWS.FlashFloodWatch;
+import com.severeweatheralerts.Alerts.NWS.FloodAdvisory;
+import com.severeweatheralerts.Alerts.NWS.FloodWarning;
+import com.severeweatheralerts.Alerts.NWS.FloodWatch;
+import com.severeweatheralerts.Alerts.NWS.FreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.FreezeWatch;
+import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
+import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
+import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
+import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
+import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
+import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
+import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
+import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
+import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
+import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
+import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
+import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
+import com.severeweatheralerts.Alerts.NWS.SpecialWeatherStatement;
+import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
+import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWarning;
+import com.severeweatheralerts.Alerts.NWS.TropicalStormWatch;
+import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
+import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
+import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWarning;
+import com.severeweatheralerts.Alerts.NWS.WinterStormWatch;
+import com.severeweatheralerts.Alerts.NWS.WinterWeatherAdvisory;
 import com.severeweatheralerts.Alerts.TestAlerts.HighPriorityTest;
 import com.severeweatheralerts.Alerts.TestAlerts.MediumPriorityTest;
-import com.severeweatheralerts.Graphics.Types.*;
+import com.severeweatheralerts.Graphics.Types.AlertArea;
+import com.severeweatheralerts.Graphics.Types.HeatIndex;
+import com.severeweatheralerts.Graphics.Types.HurricaneFloodingThreat;
+import com.severeweatheralerts.Graphics.Types.HurricaneTornadoThreat;
+import com.severeweatheralerts.Graphics.Types.HurricaneWindThreat;
+import com.severeweatheralerts.Graphics.Types.LocalRadar;
+import com.severeweatheralerts.Graphics.Types.Lows;
+import com.severeweatheralerts.Graphics.Types.OneHourPrecipitation;
+import com.severeweatheralerts.Graphics.Types.ProbabilityHurricaneWinds;
+import com.severeweatheralerts.Graphics.Types.ProbabilityTropicalWinds;
+import com.severeweatheralerts.Graphics.Types.RadarRainfall;
+import com.severeweatheralerts.Graphics.Types.Rainfall;
+import com.severeweatheralerts.Graphics.Types.RegionalRadar;
+import com.severeweatheralerts.Graphics.Types.SPCOutlook;
+import com.severeweatheralerts.Graphics.Types.Snowfall;
+import com.severeweatheralerts.Graphics.Types.StormSurgeThreat;
+import com.severeweatheralerts.Graphics.Types.TypeFactory;
+import com.severeweatheralerts.Graphics.Types.WindChill;
+import com.severeweatheralerts.Graphics.Types.WindGusts;
 
 import org.junit.Test;
 
 import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class GraphicTypeFactoryTests {
   @Test
@@ -27,6 +78,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_WinterWeatherAdvisoryGiven_ReturnsSnowfall() {
     WinterWeatherAdvisory winterAlert = new WinterWeatherAdvisory();
+    winterAlert.setDescription("WHAT... 2 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(winterAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
   }
@@ -41,6 +93,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsWinterStormWarning_ReturnsSnowfall() {
     WinterStormWarning winterAlert = new WinterStormWarning();
+    winterAlert.setDescription("WHAT... 2 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(winterAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
   }
@@ -48,6 +101,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsLakeEffectSnowWarning_ReturnsSnowfall() {
     LakeEffectSnowWarning lakeEffectSnowWarning = new LakeEffectSnowWarning();
+    lakeEffectSnowWarning.setDescription("WHAT... 5 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(lakeEffectSnowWarning, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
   }
@@ -141,6 +195,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_WinterStormWatch_ReturnsSnowfall() {
     WinterStormWatch winterStormWatch = new WinterStormWatch();
+    winterStormWatch.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet. Winds gusting as high as 45 mph.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWatch, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
   }
@@ -498,5 +553,21 @@ public class GraphicTypeFactoryTests {
     ExtremeWindWarning extremeWindWarning = new ExtremeWindWarning();
     TypeFactory graphicFactory = new TypeFactory(extremeWindWarning, new Date(0));
     assertEquals(LocalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_WinterStormWatchWithNoSnowAmountsMentioned_NoExpectedSnowfall() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setDescription("* WHAT... Blowing and drifting snow.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
+    assertEquals(0, graphicFactory.getTypes().size());
+  }
+
+  @Test
+  public void getType_SnowfallAmountMentioned_ExpectedSnowfall() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setDescription("* WHAT... Total accumulations of 3 to 5 inches.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
+    assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

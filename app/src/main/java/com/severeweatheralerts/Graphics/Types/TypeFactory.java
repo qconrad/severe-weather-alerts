@@ -61,7 +61,8 @@ public class TypeFactory {
     else if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch) {
       if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
         types.add(new RegionalRadar(400));
-      types.add(new Snowfall());
+      if (descriptionContains("feet") || descriptionContains("inches"))
+        types.add(new Snowfall());
       if (descriptionContains("Wind")) types.add(new WindGusts());
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
