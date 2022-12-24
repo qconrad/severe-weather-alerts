@@ -151,6 +151,13 @@
             android:gravity="center"
             android:text="Adding an extra location is as simple as giving it a name and position. However, you’re free to set custom behavior for every location you add." />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Note: Currently, only locations in the US can be added due to the data being sourced from the National Weather Service." />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
