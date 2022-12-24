@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/location_name_et"
+        android:maxLength="20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/location_name"
@@ -35,34 +36,16 @@
         tools:layout_editor_absoluteX="-4dp" />
 
     <TextView
-        android:id="@+id/location_text"
+        android:id="@+id/no_results_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="18sp"
         android:gravity="center"
+        android:visibility="invisible"
+        android:text="@string/no_locations_geocde_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_search_button" />
-
-    <ProgressBar
-        android:id="@+id/location_search_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/use_location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_search_button" />
-
-    <Button
-        android:id="@+id/clear_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clear_button_text"
-        android:visibility="invisible"
-        android:onClick="clearClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_text" />
 
     <Button
         android:id="@+id/use_location"
