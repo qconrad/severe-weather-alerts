@@ -4,7 +4,7 @@
 
         <SwitchPreferenceCompat
             app:key="usefixed"
-            app:summary="If disabled, your device's location will be used. The app will not use any background battery or data if a fixed location is set."
+            app:summary="Manually set location will be used, app will not change location or use data/battery in the background"
             app:title="Use Fixed Location" />
 
         <Preference
@@ -16,7 +16,7 @@
         <Preference
             app:title="Notification Preferences"
             app:key="severepref"
-            app:summary="Map alerts to notification channels"/>
+            app:summary="Map alert types (e.g. Winter Storm Warning, Flood Warning) to notification channels (low, medium, high, extreme) for customized delivery"/>
 
     </PreferenceCategory>
 
@@ -24,11 +24,11 @@
         <Preference
             app:title="Open Notification Channels"
             app:key="channels"
-            app:summary="Change the behavior of how notifications appear and sound"/>
+            app:summary="View and modify the behavior of how notifications appear and sound on your device"/>
         <Preference
             app:title="Test Alert"
             app:key="testalert"
-            app:summary="Send a fake alert for testing the different notification channels"/>
+            app:summary="Send a test notification to verify your notification preferences"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Pro Version">
@@ -55,8 +55,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Misc">
-        <Preference app:key="feedback" app:title="Provide Feedback" app:summary="Your feedback is always appreciated and is used to improve the app"  />
-        <Preference app:key="restoreDismissed" app:title="Restore Dismissed Alerts" app:summary="Restore alerts that have been recently swiped/dismissed. Old alerts will still disappear after a while." />
+        <Preference app:key="feedback" app:title="Provide Feedback" app:summary="Share your thoughts and experiences to help improve the app"  />
+        <Preference app:key="restoreDismissed" app:title="Restore Dismissed Alerts" app:summary="Bring back any alerts that you've recently swiped away. Older alerts will still be deleted after a certain amount of time" />
         <Preference app:key="privacy" app:title="Privacy Policy" />
         <Preference app:key="attrib" app:title="Attributions" />
     </PreferenceCategory>

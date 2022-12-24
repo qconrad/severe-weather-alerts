@@ -403,8 +403,8 @@ public class AlertListActivity extends AppCompatActivity {
     }
     else {
       AlertDialog alertDialog = new AlertDialog.Builder(AlertListActivity.this).create();
-      alertDialog.setTitle("Upgrade to switch locations");
-      alertDialog.setMessage("You can add and monitor multiple locations after upgrading to pro.");
+      alertDialog.setTitle("Upgrade to pro to switch locations");
+      alertDialog.setMessage("Add and monitor multiple locations with a pro subscription.");
       alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
       alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Upgrade", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
       alertDialog.show();
