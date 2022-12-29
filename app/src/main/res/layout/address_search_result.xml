@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/address_search_result"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/address_unselected"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/address_result_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/location_icon"
+        android:src="@drawable/location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address_result_text"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/address_result_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address_result_coordinate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XX.XXXXXX, XX.XXXXXX"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/address_result_icon"
+        app:layout_constraintTop_toBottomOf="@+id/address_result_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

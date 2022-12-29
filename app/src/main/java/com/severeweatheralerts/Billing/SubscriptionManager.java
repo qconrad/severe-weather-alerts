@@ -56,10 +56,7 @@ public class SubscriptionManager {
       @Override
       public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-           billingClient.queryPurchasesAsync(getQueryPurchaseParams(), (queryPurchasesResult, list) -> handlePurchases(queryPurchasesResult, list)
-         );
-        } else {
-          Toast.makeText(context, billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+           billingClient.queryPurchasesAsync(getQueryPurchaseParams(), (queryPurchasesResult, list) -> handlePurchases(queryPurchasesResult, list));
         }
       }
     });

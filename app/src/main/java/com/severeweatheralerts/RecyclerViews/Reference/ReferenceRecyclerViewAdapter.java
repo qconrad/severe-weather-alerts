@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.RecyclerViews.CardClickListener;
+import com.severeweatheralerts.RecyclerViews.AlertCardClickListener;
 import com.severeweatheralerts.TextGeneraters.Reference;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class ReferenceRecyclerViewAdapter extends RecyclerView.Adapter<ReferenceCardHolder> {
   private final ArrayList<Alert> referenceList;
-  private CardClickListener clickListener;
+  private AlertCardClickListener clickListener;
 
   public ReferenceRecyclerViewAdapter(ArrayList<Alert> referenceList) {
     this.referenceList = referenceList;
@@ -30,7 +30,7 @@ public class ReferenceRecyclerViewAdapter extends RecyclerView.Adapter<Reference
     return new ReferenceCardHolder(referenceView);
   }
 
-  public void setClickListener(CardClickListener clickListener) {
+  public void setClickListener(AlertCardClickListener clickListener) {
     this.clickListener = clickListener;
   }
 

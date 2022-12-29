@@ -20,21 +20,15 @@
     <string name="graphic_subtext_placeholder">Graphic Subtext</string>
     <string name="graphic_content_description">graphic</string>
     <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
     <string name="location_fetch_text">Getting Location</string>
     <string name="recent_alerts">Recent Alerts</string>
     <string name="active_alerts">Active Alerts</string>
     <string name="location_name">Give this location a name</string>
-    <string name="location_text_entry">Enter address, town, or zipcode</string>
+    <string name="location_text_entry">Enter address, town, zipcode, or coordinate</string>
     <string name="location_search">Search</string>
     <string name="use_location_button">Use This Location</string>
     <string name="location_cancel_button">Cancel</string>
@@ -69,5 +63,6 @@
     <string name="send_feedback_button_text">Send your feedback</string>
     <string name="location_delete_confirmation">Are you sure you want to permanently delete this location and all its preferences? This cannot be undone.</string>
     <string name="location_delete_confirmation_title">Delete Confirmation</string>
-    <string name="no_locations_geocde_error">Sorry, we couldn\'t find any results for your search. This could be because the search term is too broad or there are no matching addresses in our database. Please try using a more specific search term or double-checking your spelling and city/ZIP code.</string>
+    <string name="no_locations_geocode_error">Sorry, there aren\'t any results for your search. This could be because the search term is too broad or there are no matching addresses. Please try using a more specific search term or double-checking your spelling and city/ZIP code.</string>
+    <string name="location_icon">location icon</string>
 </resources>

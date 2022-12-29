@@ -1,24 +1,24 @@
 package com.severeweatheralerts.RecyclerViews.Alert;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.R;
-import com.severeweatheralerts.RecyclerViews.CardClickListener;
+import com.severeweatheralerts.RecyclerViews.AlertCardClickListener;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class AlertRecyclerViewAdapter extends RecyclerView.Adapter<AlertCardHolder> {
   private final ArrayList<Alert> alertItemList;
-  private CardClickListener clickListener;
+  private AlertCardClickListener clickListener;
 
-  public void setClickListener(CardClickListener clickListener) {
+  public void setClickListener(AlertCardClickListener clickListener) {
     this.clickListener = clickListener;
   }
 
