@@ -4,6 +4,7 @@ import static com.severeweatheralerts.FileDB.getLocationsDao;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,13 +12,12 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -68,15 +68,21 @@ public class AlertViewerActivity extends AppCompatActivity {
     refresher.add(new IntervalRun(5000, this::refresh));
     refresher.add(new IntervalRun(60000, this::populateReferences));
 
-    makeStatusBarTransparent();
-    setContentInsets();
+    displayEdgeToEdge();
+  }
+
+  private void displayEdgeToEdge() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      makeStatusBarTransparent();
+      setContentInsets();
+    }
   }
 
   private void setContentInsets() {
     WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
     ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alert_viewer), (v, windowInsets) -> {
-      Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-      v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+      Insets systemInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemInsets.left, systemInsets.top, systemInsets.right, systemInsets.bottom);
       return WindowInsetsCompat.CONSUMED;
     });
   }
@@ -301,11 +307,10 @@ public class AlertViewerActivity extends AppCompatActivity {
     return al != null;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void makeStatusBarTransparent() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      Window w = getWindow();
-      w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-    }
+    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    getWindow().setStatusBarColor(Color.TRANSPARENT);
   }
 
   private void setTitle() {

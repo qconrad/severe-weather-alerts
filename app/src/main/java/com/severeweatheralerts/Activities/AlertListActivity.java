@@ -14,10 +14,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -86,22 +86,28 @@ public class AlertListActivity extends AppCompatActivity {
     setStatus(getStatus());
     updateLocationTime();
     keepEverythingUpToDate(locationsDao, alerts);
-    makeStatusBarTransparent();
-    setContentInsets();
-
+    displayEdgeToEdge();
     subscriptionManager = new SubscriptionManager(this);
     subscriptionManager.startBillingConnection();
   }
 
+  private void displayEdgeToEdge() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      makeStatusBarTransparent();
+      setContentInsets();
+    }
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void makeStatusBarTransparent() {
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    getWindow().setStatusBarColor(Color.TRANSPARENT);
   }
 
   private void setContentInsets() {
-    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alert_list_view), (v, windowInsets) -> {
-      Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-      v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
+    ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.alert_list_view), (v, insets) -> {
+      Insets systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+      v.setPadding(systemInsets.left, systemInsets.top, systemInsets.right, systemInsets.bottom);
       return WindowInsetsCompat.CONSUMED;
     });
   }

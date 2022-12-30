@@ -111,10 +111,15 @@ public class LocationPickerActivity extends AppCompatActivity {
 
   public void useLocation(View view) {
     Intent intent = new Intent()
-            .putExtra("name", selectedAddress.getLocality())
+            .putExtra("name", getAddressName(selectedAddress))
             .putExtra("lat", selectedAddress.getLatitude())
             .putExtra("lon", selectedAddress.getLongitude());
     setResult(Activity.RESULT_OK, intent);
     finish();
+  }
+
+  public String getAddressName(Address address) {
+    if (address.getLocality() != null) return address.getLocality();
+    else return address.getFeatureName();
   }
 }
