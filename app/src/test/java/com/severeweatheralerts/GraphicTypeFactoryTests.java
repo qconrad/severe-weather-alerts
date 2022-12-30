@@ -19,13 +19,10 @@ import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
-import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
-import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
-import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
@@ -34,7 +31,6 @@ import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.TropicalStormWarning;
 import com.severeweatheralerts.Alerts.NWS.TropicalStormWatch;
-import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
 import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
@@ -61,7 +57,6 @@ import com.severeweatheralerts.Graphics.Types.Snowfall;
 import com.severeweatheralerts.Graphics.Types.StormSurgeThreat;
 import com.severeweatheralerts.Graphics.Types.TypeFactory;
 import com.severeweatheralerts.Graphics.Types.WindChill;
-import com.severeweatheralerts.Graphics.Types.WindGusts;
 
 import org.junit.Test;
 
@@ -107,20 +102,6 @@ public class GraphicTypeFactoryTests {
   }
 
   @Test
-  public void getType_TypeIsWindAdvisory_ReturnsWindGusts() {
-    WindAdvisory windAlert = new WindAdvisory();
-    TypeFactory graphicFactory = new TypeFactory(windAlert, new Date(0));
-    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
-  }
-
-  @Test
-  public void getType_TypeIsHighWindWarning_ReturnsWindGusts() {
-    HighWindWarning windAlert = new HighWindWarning();
-    TypeFactory graphicFactory = new TypeFactory(windAlert, new Date(0));
-    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
-  }
-
-  @Test
   public void getType_TypeIsFloodWatch_ReturnsWindGusts() {
     FloodWatch rainAlert = new FloodWatch();
     TypeFactory graphicFactory = new TypeFactory(rainAlert, new Date(0));
@@ -139,28 +120,6 @@ public class GraphicTypeFactoryTests {
     SevereThunderstormWatch severeThunderstormWatch = new SevereThunderstormWatch();
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWatch, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), SPCOutlook.class);
-  }
-
-  @Test
-  public void getType_HighWindWatch_ReturnsWindGusts() {
-    HighWindWatch highWindWatch = new HighWindWatch();
-    TypeFactory graphicFactory = new TypeFactory(highWindWatch, new Date(0));
-    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
-  }
-
-  @Test
-  public void getType_LakeWindAdvisory_ReturnsWindGusts() {
-    LakeWindAdvisory lakeWindAdvisory = new LakeWindAdvisory();
-    TypeFactory graphicFactory = new TypeFactory(lakeWindAdvisory, new Date(0));
-    assertEquals(graphicFactory.getTypes().get(0).getClass(), WindGusts.class);
-  }
-
-  @Test
-  public void getType_WinterStormWarningWithWind_ReturnsSnowAndWind() {
-    WinterStormWarning winterStormWarning = new WinterStormWarning();
-    winterStormWarning.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet. Winds gusting as high as 45 mph.");
-    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
-    assertEquals(graphicFactory.getTypes().get(1).getClass(), WindGusts.class);
   }
 
   @Test

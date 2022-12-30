@@ -15,13 +15,10 @@ import com.severeweatheralerts.Alerts.NWS.FrostAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWarning;
 import com.severeweatheralerts.Alerts.NWS.HardFreezeWatch;
 import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
-import com.severeweatheralerts.Alerts.NWS.HighWindWarning;
-import com.severeweatheralerts.Alerts.NWS.HighWindWatch;
 import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
-import com.severeweatheralerts.Alerts.NWS.LakeWindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
 import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
@@ -29,7 +26,6 @@ import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
 import com.severeweatheralerts.Alerts.NWS.TropicalStormWarning;
 import com.severeweatheralerts.Alerts.NWS.TropicalStormWatch;
-import com.severeweatheralerts.Alerts.NWS.WindAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillAdvisory;
 import com.severeweatheralerts.Alerts.NWS.WindChillWarning;
 import com.severeweatheralerts.Alerts.NWS.WindChillWatch;
@@ -63,7 +59,6 @@ public class TypeFactory {
         types.add(new RegionalRadar(400));
       if (descriptionContains("feet") || descriptionContains("inches"))
         types.add(new Snowfall());
-      if (descriptionContains("Wind")) types.add(new WindGusts());
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
@@ -82,8 +77,6 @@ public class TypeFactory {
       types.add(new RadarRainfall());
       types.add(new RegionalRadar(400));
     }
-    else if (alert instanceof WindAdvisory || alert instanceof HighWindWarning || alert instanceof HighWindWatch || alert instanceof LakeWindAdvisory)
-      types.add(new WindGusts());
     else if (alert instanceof ExtremeWindWarning)
       types.add(new LocalRadar());
     else if (alert instanceof TornadoWatch || alert instanceof SevereThunderstormWatch) {
