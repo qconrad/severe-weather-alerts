@@ -7,10 +7,14 @@ import java.util.ArrayList;
 public class LocationsDao {
   private final ArrayList<Location> locations;
   private final LocationDatabase locationDatabase;
+  private final LocationDatabase storedLocationDatabase;
+  private ArrayList<Location> storedLocations = new ArrayList<>();
 
-  public LocationsDao(LocationDatabase locationDatabase) {
+  public LocationsDao(LocationDatabase locationDatabase, LocationDatabase storedLocationDatabase) {
     locations = locationDatabase.get();
+    storedLocations = storedLocationDatabase.get();
     this.locationDatabase = locationDatabase;
+    this.storedLocationDatabase = storedLocationDatabase;
     if (noLocations()) createDefaultLocation();
   }
 
@@ -25,6 +29,10 @@ public class LocationsDao {
 
   protected synchronized void saveLocationsDatabase() {
     locationDatabase.set(locations);
+  }
+
+  public synchronized void saveStoredLocationsDatabase() {
+    storedLocationDatabase.set(storedLocations);
   }
 
   public boolean hasExtraLocations() {
@@ -75,8 +83,27 @@ public class LocationsDao {
 
   public void deleteExtraLocations() {
     while (locations.size() > 1) {
-      locations.remove(locations.size()-1);
+      locations.remove(1);
     }
     saveLocationsDatabase();
+  }
+
+  public void storeAwayExtraLocations() {
+    for (int i = 1; i < locations.size(); i++)
+      storedLocations.add(locations.get(i));
+    saveStoredLocationsDatabase();
+    deleteExtraLocations();
+  }
+
+  public void restoreStoredAwayLocations() {
+    if (storedLocations.size() == 0) return;
+    locations.addAll(storedLocations);
+    saveLocationsDatabase();
+    storedLocations.clear();
+    saveStoredLocationsDatabase();
+  }
+
+  public boolean hasStoredAwayLocations() {
+    return storedLocations.size() > 0;
   }
 }

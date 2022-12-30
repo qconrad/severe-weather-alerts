@@ -378,7 +378,6 @@ public class AlertListActivity extends AppCompatActivity {
 
   public void switchLocationClick(View view) {
     boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
-    isPro = true;
     if (isPro) {
       ArrayList<com.severeweatheralerts.Location.Location> locations = locationsDao.getLocations();
       ArrayList<String> listItems = new ArrayList<>();

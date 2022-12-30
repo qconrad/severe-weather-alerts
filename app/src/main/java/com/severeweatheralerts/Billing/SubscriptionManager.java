@@ -86,16 +86,15 @@ public class SubscriptionManager {
 
     // Store pro status and revoke privileges if necessary
     PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean("is_pro", isPro).apply();
-    revokePrivilegesIfNecessary();
+    updateLocationsIfNecessary();
   }
 
-  /* Removes extra locations and syncs to backend
-     TODO: It is quite rude to delete locations. A user could be switching plans or decide to
-           resubscribe later. In the future, their locations should be preserved should they
-           become pro again for any reason. */
-  private void revokePrivilegesIfNecessary() {
+  private void updateLocationsIfNecessary() {
     if (!isPro && locationsDao.hasExtraLocations()) {
-      locationsDao.deleteExtraLocations();
+      locationsDao.storeAwayExtraLocations();
+      new UserSyncWorkScheduler(context).oneTimeSync();
+    } else if (isPro && locationsDao.hasStoredAwayLocations()) {
+      locationsDao.restoreStoredAwayLocations();
       new UserSyncWorkScheduler(context).oneTimeSync();
     }
   }

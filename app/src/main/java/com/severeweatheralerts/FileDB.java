@@ -10,7 +10,7 @@ public class FileDB {
   private static LocationsDao locationsDao;
 
   public static LocationsDao getLocationsDao(Context context) {
-    if (!hasLocationsDaoInstance()) locationsDao = new LocationsDao(new PaperLocationDatabase(context));
+    if (!hasLocationsDaoInstance()) locationsDao = new LocationsDao(new PaperLocationDatabase(context, "locations"), new PaperLocationDatabase(context, "storedLocations"));
     return locationsDao;
   }
 
