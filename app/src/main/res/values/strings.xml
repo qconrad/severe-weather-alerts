@@ -51,7 +51,7 @@
     <string name="post">Post</string>
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
-    <string name="no_channel_disclaimer">It looks like your using an older version of android which does not support notification channels. Alerts will still work but low, medium, high, and extreme alerts will all use your default notification sound and appear the same way. You can still disable the notification using the none channel.</string>
+    <string name="no_channel_disclaimer">It looks like you\'re using an older version of Android which doesn\'t support notification channels. This means that while alerts will still work, they will all use your default notification sound and appear in the same way, regardless of their severity (low, medium, high, or extreme). However, you can still disable the notification using the \'none\' channel. We recommend upgrading to a newer version of Android to take advantage of notification channels and have more control over your alert notifications."</string>
     <string name="channels_not_supported">Notification Channels Not Supported</string>
     <string name="check_internet">Check your internet connection</string>
     <string name="new_data_available">New data is available</string>
@@ -65,4 +65,5 @@
     <string name="location_delete_confirmation_title">Delete Confirmation</string>
     <string name="no_locations_geocode_error">Sorry, there aren\'t any results for your search. This could be because the search term is too broad or there are no matching addresses. Please try using a more specific search term or double-checking your spelling and city/ZIP code.</string>
     <string name="location_icon">location icon</string>
+    <string name="edit_activity_location_name">Location Name</string>
 </resources>

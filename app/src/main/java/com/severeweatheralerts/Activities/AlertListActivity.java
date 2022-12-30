@@ -378,6 +378,7 @@ public class AlertListActivity extends AppCompatActivity {
 
   public void switchLocationClick(View view) {
     boolean isPro = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("is_pro", false);
+    isPro = true;
     if (isPro) {
       ArrayList<com.severeweatheralerts.Location.Location> locations = locationsDao.getLocations();
       ArrayList<String> listItems = new ArrayList<>();
@@ -402,12 +403,12 @@ public class AlertListActivity extends AppCompatActivity {
               }).create().show();
     }
     else {
-      AlertDialog alertDialog = new AlertDialog.Builder(AlertListActivity.this).create();
-      alertDialog.setTitle("Upgrade to pro to switch locations");
-      alertDialog.setMessage("Add and monitor multiple locations with a pro subscription.");
-      alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
-      alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Upgrade", (dialog, which) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)));
-      alertDialog.show();
+      new AlertDialog.Builder(this)
+              .setTitle("Upgrade to pro for location switching")
+              .setMessage("Add and monitor multiple locations with a pro subscription.")
+              .setPositiveButton("Upgrade", (dialogInterface, i) -> startActivity(new Intent(AlertListActivity.this, ProActivity.class)))
+              .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
+              .show();
     }
   }
 }

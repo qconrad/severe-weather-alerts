@@ -1,10 +1,14 @@
 package com.severeweatheralerts.Preferences;
 
-import java.util.HashMap;
+import static com.severeweatheralerts.Alerts.Alert.Type;
+import static com.severeweatheralerts.Alerts.Alert.Type.CANCEL;
+import static com.severeweatheralerts.Alerts.Alert.Type.UPDATE;
+import static com.severeweatheralerts.Preferences.Channel.EXTREME;
+import static com.severeweatheralerts.Preferences.Channel.HIGH;
+import static com.severeweatheralerts.Preferences.Channel.LOW;
+import static com.severeweatheralerts.Preferences.Channel.MEDIUM;
 
-import static com.severeweatheralerts.Alerts.Alert.*;
-import static com.severeweatheralerts.Alerts.Alert.Type.*;
-import static com.severeweatheralerts.Preferences.Channel.*;
+import java.util.HashMap;
 
 public class ChannelPreferences {
   final Channel DEFAULT_UNKNOWN = MEDIUM;
@@ -14,6 +18,13 @@ public class ChannelPreferences {
 
   public ChannelPreferences() {
     populateDefaults();
+  }
+
+  public ChannelPreferences(ChannelPreferences channelPreferences) {
+    populateDefaults();
+    for (String key : channelPreferences.userMap.keySet()) {
+      userMap.put(key, channelPreferences.userMap.get(key));
+    }
   }
 
   public Channel getChannel(String alertName, Type type) {

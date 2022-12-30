@@ -16,4 +16,5 @@ public class Constants {
   public static final int APP_OPEN_LAST_KNOWN_LOCATION_CHECK_INTERVAL = 2 * 60 * 1000;
   public static final double LOCATION_CHANGE_MARGIN = 0.001;
   public static final long COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME = 5 * 60 * 60 * 1000;
+  public static final int MAX_LOCATION_NAME_LENGTH = 20;
 }

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,8 @@ import com.severeweatheralerts.Permissions.LocationPermissionRequest;
 import com.severeweatheralerts.Permissions.PermissionManager;
 import com.severeweatheralerts.Preferences.Channel;
 import com.severeweatheralerts.Preferences.ChannelIdString;
+import com.severeweatheralerts.Preferences.ChannelPreferences;
+import com.severeweatheralerts.Preferences.ChannelPreferencesDataHolder;
 import com.severeweatheralerts.R;
 
 import java.util.HashSet;
@@ -87,20 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
       }
     }
-//
-//    private void createAdvancedRulesListener() {
-//      boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
-//      Preference advancedRules = findPreference("advancedrules");
-//      if (advancedRules != null && isPro) {
-//        advancedRules.setEnabled(true);
-//        advancedRules.setSummary("Customize the behavior of the app by defining criteria for different actions");
-//        advancedRules.setOnPreferenceClickListener(preference -> {
-//          startActivity(new Intent(getActivity(), RuleListActivity.class));
-//          return true;
-//        });
-//      }
-//    }
-//
+
     private void createManageExtraListener() {
       boolean isPro = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("is_pro", false);
       Preference manageExtra = findPreference("manageextra");
@@ -257,8 +248,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showSeverityPreferences() {
-      startActivity(new Intent(getActivity(), ChannelPreferencesActivity.class));
+      Intent intent = new Intent(getActivity(), ChannelPreferencesActivity.class);
+      if (getLocationsDao(getContext()).getDefaultLocation().getChannelPreferences() == null){
+        intent.putExtra("useDefault", true);
+      }
+      else {
+        intent.putExtra("useDefault", false);
+        ChannelPreferences channelPreferences = new ChannelPreferences(getLocationsDao(getContext()).getDefaultLocation().getChannelPreferences());
+        ChannelPreferencesDataHolder.getInstance().setChannelPreferences(channelPreferences);
+      }
+      channelPreferencesResultLauncher.launch(intent);
     }
+
+   ActivityResultLauncher<Intent> channelPreferencesResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+     if (result == null || result.getResultCode() != Activity.RESULT_OK) return;
+     getLocationsDao(getContext()).getDefaultLocation().setChannelPreferences(ChannelPreferencesDataHolder.getInstance().getChannelPreferences());
+    });
 
     private void showNotificationChannels() {
       Intent intent = new Intent();
