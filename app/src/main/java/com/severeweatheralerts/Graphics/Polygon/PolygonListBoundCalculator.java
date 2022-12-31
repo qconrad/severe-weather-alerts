@@ -15,7 +15,8 @@ public class PolygonListBoundCalculator {
   }
 
   public Bounds getBounds() {
-    for (Polygon polygon : polygons) addPolygonToBoundCalculation(polygon);
+    ArrayList<Polygon> polygonsCopy = new ArrayList<>(polygons);
+    for (Polygon polygon : polygonsCopy) addPolygonToBoundCalculation(polygon);
     return bounds;
   }
 

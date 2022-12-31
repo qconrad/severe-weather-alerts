@@ -37,9 +37,10 @@ public class ZoneDrawer {
     return bitmap;
   }
 
-  private void drawPolygons() {
-    for (Polygon polygon : polygons) drawPolygon(polygon);
-  }
+   private void drawPolygons() {
+     ArrayList<Polygon> polygonsCopy = new ArrayList<>(polygons);
+     for (Polygon polygon : polygonsCopy) drawPolygon(polygon);
+   }
 
   private void drawPolygon(Polygon polygon) {
     Path path = new Path();
