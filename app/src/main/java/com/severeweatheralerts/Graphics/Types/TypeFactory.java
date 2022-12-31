@@ -55,9 +55,9 @@ public class TypeFactory {
       return types;
     }
     else if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch) {
-      if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
+      if (alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
         types.add(new RegionalRadar(400));
-      if (descriptionContains("feet") || descriptionContains("inches"))
+      if ((descriptionContains("feet") || descriptionContains("inches")) && alert.endsBefore(new Date(date.getTime() + Constants.SNOWFALL_AMOUNT_TIME_RANGE)))
         types.add(new Snowfall());
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
@@ -67,9 +67,9 @@ public class TypeFactory {
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch) {
-      if (descriptionContains(" inch"))
+      if (descriptionContains(" inch") && alert.endsBefore(new Date(date.getTime() + Constants.RAINFALL_AMOUNT_TIME_RANGE)))
         types.add(new Rainfall());
-      if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME))) {
+      if (alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME))) {
         types.add(new RegionalRadar(300));
       }
     }

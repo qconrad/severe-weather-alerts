@@ -1,5 +1,9 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
@@ -9,17 +13,13 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 public class AlertTests {
   @Test
   public void CreateAlertObject_CurrentTimeIsBeforeStart_IsInFuture() {
     DefaultAlert al = new DefaultAlert();
     al.setStartTime(new Date(1577838600000L)); // 01/01/2020 12:30 AM
     Date mockCurrentTime = new Date(1577836800000L); // 01/01/2020 12:00 AM
-    assertTrue(al.startsBefore(mockCurrentTime));
+    assertFalse(al.startsBefore(mockCurrentTime));
   }
 
   @Test
@@ -27,7 +27,7 @@ public class AlertTests {
     DefaultAlert al = new DefaultAlert();
     al.setStartTime(new Date(1577838600000L)); // 01/01/2020 12:30 AM
     Date mockTime = new Date(1577839500000L); // 01/01/2020 12:45 AM
-    assertFalse(al.startsBefore(mockTime));
+    assertTrue(al.startsBefore(mockTime));
   }
 
   @Test
@@ -100,12 +100,19 @@ public class AlertTests {
   }
 
   @Test
-  public void test() {
+  public void discontinuedAlertIsNotActive() {
     DefaultAlert da = new DefaultAlert();
     da.setEndTime(new Date(10));
     da.setType(Alert.Type.POST);
     da.activeAt(new Date(0));
     da.setDiscontinuedAt(new Date(0));
     assertFalse(da.activeAt(new Date(1)));
+  }
+
+  @Test
+  public void activeAt_endTimeIsInFuture_IsActive() {
+    DefaultAlert da = new DefaultAlert();
+    da.setEndTime(new Date(10));
+    assertTrue(da.activeAt(new Date(0)));
   }
 }

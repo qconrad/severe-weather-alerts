@@ -4,8 +4,6 @@ public class Constants {
   public static final String FEEDBACK_URL = "https://us-central1-severe-weather-alerts.cloudfunctions.net/feedback";
   public static final String USER_AGENT = "(Severe Weather Alerts Android Client, https://github.com/qconrad/severe-weather-alerts)";
   public static final double DEFAULT_GRAPHIC_MARGIN = 0.25;
-  public static final int SNOWFALL_AMOUNT_DECIMAL_PLACES = 1;
-  public static final int RAINFALL_AMOUNT_DECIMAL_PLACES = 2;
   public static final int STATUS_SUBTEXT_TRANSITION_TIME = 5000;
   public static final int LOCATION_COMPUTE_INTERVAL = 30 * 60 * 1000;
   public static final int FASTEST_LOCATION_INTERVAL = 10 * 60 * 1000;
@@ -17,4 +15,6 @@ public class Constants {
   public static final double LOCATION_CHANGE_MARGIN = 0.001;
   public static final long COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME = 5 * 60 * 60 * 1000;
   public static final int MAX_LOCATION_NAME_LENGTH = 20;
+  public static final long SNOWFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
+  public static final long RAINFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
 }

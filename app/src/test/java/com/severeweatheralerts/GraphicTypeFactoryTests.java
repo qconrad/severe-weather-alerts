@@ -73,6 +73,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_WinterWeatherAdvisoryGiven_ReturnsSnowfall() {
     WinterWeatherAdvisory winterAlert = new WinterWeatherAdvisory();
+    winterAlert.setEndTime(new Date(1000));
     winterAlert.setDescription("WHAT... 2 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(winterAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
@@ -81,6 +82,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsFlashFloodWatch_ReturnsRainfall() {
     FlashFloodWatch rainAlert = new FlashFloodWatch();
+    rainAlert.setEndTime(new Date(1000));
     rainAlert.setDescription("The heavy rains will see 1 to 2 inches with locally higher amounts and then will see another 1 to 2 inches with the heavy rainfall associated with Tropical Storm Elsa");
     TypeFactory graphicFactory = new TypeFactory(rainAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Rainfall.class);
@@ -89,6 +91,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsWinterStormWarning_ReturnsSnowfall() {
     WinterStormWarning winterAlert = new WinterStormWarning();
+    winterAlert.setEndTime(new Date(1000));
     winterAlert.setDescription("WHAT... 2 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(winterAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
@@ -97,6 +100,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsLakeEffectSnowWarning_ReturnsSnowfall() {
     LakeEffectSnowWarning lakeEffectSnowWarning = new LakeEffectSnowWarning();
+    lakeEffectSnowWarning.setEndTime(new Date(1000));
     lakeEffectSnowWarning.setDescription("WHAT... 5 feet of snow");
     TypeFactory graphicFactory = new TypeFactory(lakeEffectSnowWarning, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Snowfall.class);
@@ -105,6 +109,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsFloodWatch_ReturnsWindGusts() {
     FloodWatch rainAlert = new FloodWatch();
+    rainAlert.setEndTime(new Date(1000));
     rainAlert.setDescription("The heavy rains will see 1 to 2 inches with locally higher amounts and then will see another 1 to 2 inches with the heavy rainfall associated with Tropical Storm Elsa");
     TypeFactory graphicFactory = new TypeFactory(rainAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Rainfall.class);
@@ -156,6 +161,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_WinterStormWatch_ReturnsSnowfall() {
     WinterStormWatch winterStormWatch = new WinterStormWatch();
+    winterStormWatch.setEndTime(new Date(1000));
     winterStormWatch.setDescription("WHAT...Heavy snow expected. Total snow accumulations of 1 to 2 feet. Winds gusting as high as 45 mph.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWatch, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
@@ -228,6 +234,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_FlashFloodWatchWithThunderstormsMentioned_ExpectedRainfall() {
     FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
+    flashFloodWatch.setEndTime(new Date(1000));
     flashFloodWatch.setDescription("The National Weather Service in Springfield has issued a\\n\\n* Flash Flood Watch for portions of central Missouri, east\\ncentral Missouri, south central Missouri, and southwest\\nMissouri, including the following areas, in central Missouri,\\nPulaski. In east central Missouri, Phelps. In south central\\nMissouri, Dent, Howell, Oregon, Shannon, and Texas. In\\nsouthwest Missouri, Barry, Christian, Douglas, Greene,\\nLaclede, Lawrence, McDonald, Newton, Ozark, Stone, Taney,\\nWebster, and Wright.\\n\\n* From midnight CDT tonight through Thursday morning\\n\\n* Excessive rainfall amounts ranging from 1.5 to 4 inches. The\\nhighest amounts are expected to occur along and south of the\\nInterstate 44 corridor. Training thunderstorms containing high\\nrainfall rates will be possible, leading to rapid onset\\nflooding.\\n\\n* Rapid onset flooding could lead to numerous impassable roadways.\\nLow lying areas along flashy streams could also experience\\nflooding. Flashy urban flooding will also be possible.");
     TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
     assertEquals(Rainfall.class, graphicFactory.getTypes().get(0).getClass());
@@ -527,6 +534,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_SnowfallAmountMentioned_ExpectedSnowfall() {
     WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setEndTime(new Date(1000));
     winterStormWarning.setDescription("* WHAT... Total accumulations of 3 to 5 inches.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
@@ -536,6 +544,26 @@ public class GraphicTypeFactoryTests {
   public void getType_FlashFloodWatchWithNoRainfallAmountsMentioned_NoExpectedRainfall() {
     FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
     flashFloodWatch.setDescription("* WHAT... Heavy rain may produce flash flooding.");
+    TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Don't show expected snowfall until the end time is within 72 hours (don't have data for longer than that)
+  @Test
+  public void getType_WinterStormWarningBeyond72Hours_NoExpectedSnowfall() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setDescription("* WHAT... Total snow accumulations of 3 to 5 inches.");
+    winterStormWarning.setEndTime(new Date(72 * 60 * 60 * 1000));
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Don't show expected rain until the end time is within 72 hours (don't have data for longer than that)
+  @Test
+  public void getType_FlashFloodWatchBeyond72Hours_NoExpectedRainfall() {
+    FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
+    flashFloodWatch.setDescription("* WHAT... Heavy rain may produce flash flooding.");
+    flashFloodWatch.setEndTime(new Date(72 * 60 * 60 * 1000));
     TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
     assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
   }

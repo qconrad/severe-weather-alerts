@@ -72,10 +72,10 @@ public class AlertTime implements TimeGenerator {
   }
 
   private boolean isNotActiveYet() {
-    return alert.startsBefore(date);
+    return alert.startsAfter(date);
   }
 
   private boolean isActive() {
-    return alert.endsBefore(date);
+    return alert.activeAt(date);
   }
 }

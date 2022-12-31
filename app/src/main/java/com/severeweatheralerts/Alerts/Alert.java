@@ -58,7 +58,7 @@ public abstract class Alert implements Comparable<Alert> {
 
   public boolean activeAt(Date date) {
     if (isCancel() || isReplaced() || isDiscontinued()) return false;
-    else return endsBefore(date);
+    else return endsAfter(date);
   }
 
   private boolean isDiscontinued() {
@@ -163,10 +163,18 @@ public abstract class Alert implements Comparable<Alert> {
   }
 
   public boolean startsBefore(Date date) {
-    return date.getTime() < startTime.getTime();
+    return startTime.before(date);
+  }
+
+  public boolean startsAfter(Date date) {
+    return startTime.after(date);
   }
 
   public boolean endsBefore(Date date) {
-    return date.getTime() < endTime.getTime();
+    return endTime.before(date);
+  }
+
+  public boolean endsAfter(Date date) {
+    return endTime.after(date);
   }
 }
