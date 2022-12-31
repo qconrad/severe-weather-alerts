@@ -22,7 +22,8 @@
             android:text="@string/welcome"
             android:layout_marginBottom="25dp"
             android:textColor="#FFF"
-            android:textSize="50sp"
+            android:textAlignment="center"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <TextView
@@ -31,17 +32,49 @@
             android:text="@string/where_should_alerts_be_for"
             android:textSize="15sp" />
 
-        <Button
-            android:onClick="thisDeviceClick"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Option 1"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:textSize="20sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="thisDeviceClick"
             android:text="@string/this_device_s_location" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:textAlignment="center"
+            android:text="Receive alerts based on your current location, as determined by your device's GPS. (Recommended)"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Option 2"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:textSize="20sp"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="customSetClick"
             android:text="@string/custom_set_location" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:textAlignment="center"
+            android:text="Choose a specific location to receive alerts for, regardless of your current location. This option saves battery and data but alerts will not update as your device moves."/>
 
     </LinearLayout>
 

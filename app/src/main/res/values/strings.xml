@@ -36,8 +36,8 @@
     <string name="use_current_location_button">Use Current Location</string>
     <string name="this_device_s_location">Device Location</string>
     <string name="custom_set_location">Fixed Location</string>
-    <string name="where_should_alerts_be_for">Where should alerts be for?</string>
-    <string name="welcome">Welcome!</string>
+    <string name="where_should_alerts_be_for">Where do you want to receive alerts from?</string>
+    <string name="welcome">Welcome to\nSevere Weather Alerts!</string>
     <string name="location_disclaimer">This app will collect your device\'s approximate location to send alert notifications, even when the app is closed.</string>
     <string name="disclaimer_title">Background Location Access</string>
     <string name="privacy_policy_link">https://github.com/qconrad/severe-weather-alerts/blob/main/privacy.md</string>
