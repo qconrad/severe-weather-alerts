@@ -1,5 +1,10 @@
 package com.severeweatheralerts;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Alerts.DefaultAlert;
 import com.severeweatheralerts.Alerts.NWS.DustStormWarning;
@@ -12,18 +17,12 @@ import com.severeweatheralerts.Alerts.NWS.SnowSquallWarning;
 import com.severeweatheralerts.Alerts.NWS.SpecialMarineWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWarning;
 import com.severeweatheralerts.Alerts.NWS.TornadoWatch;
-import com.severeweatheralerts.Graphics.Polygon.Polygon;
 import com.severeweatheralerts.TextGeneraters.NextUpdate;
 
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.TimeZone;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class NextUpdateTextGeneratorTests {
   @Test
@@ -32,14 +31,14 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(0));
     alert.setExpectedUpdateTime(new Date(0));
-    assertTrue(nextUpdateTextGenerator.hasText());
+    assertTrue(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
   public void generateText_DoesNotHaveExpectedUpdateTime_NoText() {
     DefaultAlert alert = new DefaultAlert();
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -75,7 +74,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(162000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -84,7 +83,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(162000000L));
-    assertEquals("Next update expected by 3 PM", nextUpdateTextGenerator.getText(new Date(163000000L)));
+    assertEquals("Next update expected by 3 PM", nextUpdateTextGenerator.getText(new Date(160000000L)));
   }
 
   @Test
@@ -93,7 +92,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -102,7 +101,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -111,7 +110,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -120,7 +119,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -129,7 +128,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setEndTime(new Date(164000000L));
     alert.setExpectedUpdateTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -138,7 +137,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(162000000L));
     alert.setEndTime(new Date(164000000L));
-    assertTrue(nextUpdateTextGenerator.hasText());
+    assertTrue(nextUpdateTextGenerator.hasText(new Date(160000000L)));
   }
 
   @Test
@@ -147,7 +146,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(164000000L));
     alert.setEndTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -156,7 +155,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(164000000L));
     alert.setEndTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -165,7 +164,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(164000000L));
     alert.setEndTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -174,7 +173,7 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(164000000L));
     alert.setEndTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
   }
 
   @Test
@@ -183,6 +182,35 @@ public class NextUpdateTextGeneratorTests {
     NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
     alert.setExpectedUpdateTime(new Date(164000000L));
     alert.setEndTime(new Date(164000000L));
-    assertFalse(nextUpdateTextGenerator.hasText());
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
+  }
+
+  // hasText() returns false when date has passed expected update time
+  @Test
+  public void generateText_ExpectedUpdateTimeHasPassed_DoesNotHaveText() {
+    DefaultAlert alert = new DefaultAlert();
+    NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
+    alert.setExpectedUpdateTime(new Date(162000000L));
+    alert.setEndTime(new Date(164000000L));
+    assertFalse(nextUpdateTextGenerator.hasText(new Date(163000000L)));
+  }
+
+  // setTime24HourFormat(true), next update text is in 24 hour format
+  @Test
+  public void generateText_24HourFormat_HasText() {
+    DefaultAlert alert = new DefaultAlert();
+    NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
+    nextUpdateTextGenerator.setTime24HourFormat(true);
+    alert.setExpectedUpdateTime(new Date(162000000L));
+    alert.setEndTime(new Date(164000000L));
+    assertEquals("Next update expected by 15:00", nextUpdateTextGenerator.getText(new Date(160000000L)));
+  }
+
+  // setTime24HourFormat() returns the object so that it can be chained
+  @Test
+  public void generateText_setTime24HourFormat_Chained() {
+    DefaultAlert alert = new DefaultAlert();
+    NextUpdate nextUpdateTextGenerator = new NextUpdate(alert, TimeZone.getTimeZone("CST"));
+    assertEquals(nextUpdateTextGenerator, nextUpdateTextGenerator.setTime24HourFormat(true));
   }
 }

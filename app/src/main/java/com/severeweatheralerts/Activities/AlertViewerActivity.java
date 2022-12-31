@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -361,8 +362,9 @@ public class AlertViewerActivity extends AppCompatActivity {
 
   protected void setNextUpdate() {
     TextView nextUpdate = findViewById(R.id.next_update);
-    NextUpdate nextUpdateGen = new NextUpdate(al, TimeZone.getDefault());
-    if (nextUpdateGen.hasText()) {
+    boolean deviceUses24HourTime = DateFormat.is24HourFormat(this);
+    NextUpdate nextUpdateGen = new NextUpdate(al, TimeZone.getDefault()).setTime24HourFormat(deviceUses24HourTime);
+    if (nextUpdateGen.hasText(new Date(163000000L))) {
       nextUpdate.setVisibility(View.VISIBLE);
       nextUpdate.setText(nextUpdateGen.getText(new Date()));
     }

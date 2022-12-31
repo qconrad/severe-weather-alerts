@@ -19,21 +19,39 @@ import java.util.TimeZone;
 public class NextUpdate {
   private final Alert alert;
   private final TimeZone timeZone;
+  private boolean is24Hour;
 
   public NextUpdate(Alert alert, TimeZone timeZone) {
     this.alert = alert;
     this.timeZone = timeZone;
   }
 
-  public boolean hasText() {
-    if (isCancel() || alertDoesNotProvideNextUpdate()) return false;
-    return alert.getExpectedUpdateTime() != null;
+  public NextUpdate setTime24HourFormat(boolean is24Hour) {
+    this.is24Hour = is24Hour;
+    return this;
+  }
+
+  /** Returns true if alert:
+   * 1. Has an expected update time (not null)
+   * 2. The expected update time is after the current time
+   * 3. The alert is not a cancellation
+   * 4. The alert type makes sense to have a next update (not short term/polygon alerts)
+   */
+  public boolean hasText(Date date) {
+    return alert.getExpectedUpdateTime() != null &&
+                 !isCancel() &&
+                 !alertDoesNotProvideNextUpdate() &&
+                 (alert.isLikelyLastUpdate() ||
+                 date.before(alert.getExpectedUpdateTime()));
   }
 
   public String getText(Date time) {
-    if (hasText()) {
+    if (hasText(time)) {
       if (alert.isLikelyLastUpdate()) return "Likely to be the last update";
-      return "Next update expected by " + new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime(), timeZone).getFormattedString();
+      return "Next update expected by " +
+              new AbsoluteTimeFormatter(time, alert.getExpectedUpdateTime(), timeZone)
+              .setTimeFormat24Hour(is24Hour)
+              .getFormattedString();
     }
     return null;
   }

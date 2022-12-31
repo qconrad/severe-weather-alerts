@@ -76,7 +76,7 @@ public class SnowfallGenerator extends GraphicGenerator {
       } else if (snowfallAmountInches <= .75) {
         return "Light snow is expected with remaining accumulations of " + rangeForecast;
       } else {
-        return "Snowfall is expected to continue with remaining accumulations of " + rangeForecast;
+        return "Snow is expected to continue with remaining accumulations of " + rangeForecast;
       }
     } else {
       if (snowfallAmountInches <= 0) {
@@ -86,7 +86,7 @@ public class SnowfallGenerator extends GraphicGenerator {
       } else if (snowfallAmountInches <= 0.25) {
         return "Only a small amount of snow is expected, with a light dusting likely.";
       } else {
-        return "Total snowfall accumulations of " + rangeForecast;
+        return "Total snow accumulations of " + rangeForecast;
       }
     }
   }
