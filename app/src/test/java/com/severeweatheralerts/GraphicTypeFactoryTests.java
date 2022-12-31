@@ -81,6 +81,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsFlashFloodWatch_ReturnsRainfall() {
     FlashFloodWatch rainAlert = new FlashFloodWatch();
+    rainAlert.setDescription("The heavy rains will see 1 to 2 inches with locally higher amounts and then will see another 1 to 2 inches with the heavy rainfall associated with Tropical Storm Elsa");
     TypeFactory graphicFactory = new TypeFactory(rainAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Rainfall.class);
   }
@@ -104,6 +105,7 @@ public class GraphicTypeFactoryTests {
   @Test
   public void getType_TypeIsFloodWatch_ReturnsWindGusts() {
     FloodWatch rainAlert = new FloodWatch();
+    rainAlert.setDescription("The heavy rains will see 1 to 2 inches with locally higher amounts and then will see another 1 to 2 inches with the heavy rainfall associated with Tropical Storm Elsa");
     TypeFactory graphicFactory = new TypeFactory(rainAlert, new Date(0));
     assertEquals(graphicFactory.getTypes().get(0).getClass(), Rainfall.class);
   }
@@ -348,16 +350,16 @@ public class GraphicTypeFactoryTests {
     severeThunderstormWarning.setSentTime(new Date(0));
     severeThunderstormWarning.setStartTime(new Date(3));
     TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(5));
-    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(1).getClass());
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(0).getClass());
   }
 
   @Test
   public void getType_FlashFloodWatchStartingIn6Hours_RegionalRadar() {
-    FlashFloodWatch severeThunderstormWarning = new FlashFloodWatch();
-    severeThunderstormWarning.setType(Alert.Type.POST);
-    severeThunderstormWarning.setSentTime(new Date(0));
-    severeThunderstormWarning.setStartTime(new Date(6 * 60 * 60 * 1000));
-    TypeFactory graphicFactory = new TypeFactory(severeThunderstormWarning, new Date(0));
+    FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
+    flashFloodWatch.setType(Alert.Type.POST);
+    flashFloodWatch.setSentTime(new Date(0));
+    flashFloodWatch.setStartTime(new Date(6 * 60 * 60 * 1000));
+    TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
     assertEquals(1, graphicFactory.getTypes().size());
   }
 
@@ -519,7 +521,7 @@ public class GraphicTypeFactoryTests {
     WinterStormWarning winterStormWarning = new WinterStormWarning();
     winterStormWarning.setDescription("* WHAT... Blowing and drifting snow.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
-    assertEquals(0, graphicFactory.getTypes().size());
+    assertEquals(1, graphicFactory.getTypes().size());
   }
 
   @Test
@@ -528,5 +530,13 @@ public class GraphicTypeFactoryTests {
     winterStormWarning.setDescription("* WHAT... Total accumulations of 3 to 5 inches.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  @Test
+  public void getType_FlashFloodWatchWithNoRainfallAmountsMentioned_NoExpectedRainfall() {
+    FlashFloodWatch flashFloodWatch = new FlashFloodWatch();
+    flashFloodWatch.setDescription("* WHAT... Heavy rain may produce flash flooding.");
+    TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

@@ -67,7 +67,8 @@ public class TypeFactory {
     else if (alert instanceof FrostAdvisory || alert instanceof FreezeWatch || alert instanceof FreezeWarning || alert instanceof HardFreezeWatch || alert instanceof HardFreezeWarning)
       types.add(new Lows());
     else if (alert instanceof FlashFloodWatch || alert instanceof FloodWatch) {
-      types.add(new Rainfall());
+      if (descriptionContains(" inch"))
+        types.add(new Rainfall());
       if (!alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME))) {
         types.add(new RegionalRadar(300));
       }
@@ -105,8 +106,7 @@ public class TypeFactory {
       if (torrentialRainfall()) types.add(new RadarRainfall());
       types.add(new RegionalRadar(250));
     }
-    else
-      types.add(new AlertArea());
+    if (types.size() == 0) types.add(new AlertArea());
     return types;
   }
 
