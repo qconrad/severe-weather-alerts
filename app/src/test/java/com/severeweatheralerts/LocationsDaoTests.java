@@ -359,4 +359,24 @@ public class LocationsDaoTests {
     LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations), storedDatabase);
     assertTrue(locationsDao.hasStoredAwayLocations());
   }
+
+  // getLocation on out of bounds index, returns default location
+  @Test
+  public void getLocationOutOfBounds_returnsDefaultLocation() {
+    ArrayList<Location> locations = new ArrayList<>();
+    Location location = new Location();
+    locations.add(location);
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations), new MockDatabase(new ArrayList<>()));
+    assertEquals(location, locationsDao.getLocation(1));
+  }
+
+  // getLocation on value less than 0, returns default location
+  @Test
+  public void getLocationNegativeIndex_returnsDefaultLocation() {
+    ArrayList<Location> locations = new ArrayList<>();
+    Location location = new Location();
+    locations.add(location);
+    LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations), new MockDatabase(new ArrayList<>()));
+    assertEquals(location, locationsDao.getLocation(-1));
+  }
 }

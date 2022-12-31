@@ -27,7 +27,7 @@ public class GettingLatestDataActivity extends AppCompatActivity {
     int locationIndex = getIntent().getIntExtra("locationIndex", 0);
     Location location = getLocationsDao(this).getLocation(locationIndex);
 
-    if (getLocationsDao(this).getLocations().size() > 0) fetchAlertData(location, locationIndex);
+    if (location.coordinateSet()) fetchAlertData(location, locationIndex);
     else startActivity(new Intent(GettingLatestDataActivity.this, FirstRunActivity.class));
   }
 

@@ -62,6 +62,7 @@ public class LocationsDao {
   }
 
   public Location getLocation(int locationIndex) {
+    if (locationIndex < 0 || locationIndex > locations.size() - 1) return getDefaultLocation();
     return locations.get(locationIndex);
   }
 
