@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Graphics.Generators;
 
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
+
 import android.content.Context;
 import android.graphics.Color;
 
@@ -14,16 +16,12 @@ import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
-import com.severeweatheralerts.Graphics.Tools.Rounder;
+import com.severeweatheralerts.Graphics.Tools.RangeGenerator;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
-import com.severeweatheralerts.TextUtils.Plurality;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.severeweatheralerts.Constants.SNOWFALL_AMOUNT_DECIMAL_PLACES;
-import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
 
 public class SnowfallGenerator extends GraphicGenerator {
   boolean subTextSet = false;
@@ -56,10 +54,41 @@ public class SnowfallGenerator extends GraphicGenerator {
 
   @Override
   protected void forecast(Parameter gridData) {
-    double snowfallAmount = new Rounder(mmToIn(getSnowfall(gridData)), SNOWFALL_AMOUNT_DECIMAL_PLACES).getRounded();
-    setSubtext(snowfallAmount + new Plurality(snowfallAmount, " inch", " inches").getText());
+    double snowfallAmountInches = mmToIn(getSnowfall(gridData));
+    setSubtext(getForecastSubtext(alert, snowfallAmountInches));
     subTextSet = true;
     fetchFinish();
+  }
+
+  private String getForecastSubtext(Alert alert, double snowfallAmountInches) {
+    Date currentTime = new Date();
+    boolean eventStarted = currentTime.after(alert.getStartTime());
+    RangeGenerator rangeGenerator = new RangeGenerator(alert, snowfallAmountInches);
+    String rangeForecast = rangeGenerator.getRange();
+
+    if (eventStarted) {
+      if (snowfallAmountInches <= 0) {
+        return "No more snow is expected";
+      } else if (snowfallAmountInches <= 0.1) {
+        return "Snow is expected to stop soon";
+      } else if (snowfallAmountInches <= 0.25) {
+        return "Light snow is expected to stop soon";
+      } else if (snowfallAmountInches <= .75) {
+        return "Light snow is expected with remaining accumulations of " + rangeForecast;
+      } else {
+        return "Snowfall is expected to continue with remaining accumulations of " + rangeForecast;
+      }
+    } else {
+      if (snowfallAmountInches <= 0) {
+        return "No snow is expected";
+      } else if (snowfallAmountInches <= 0.1) {
+        return "Only a trace of snow is expected";
+      } else if (snowfallAmountInches <= 0.25) {
+        return "Only a small amount of snow is expected, with a light dusting likely.";
+      } else {
+        return "Total snowfall accumulations of " + rangeForecast;
+      }
+    }
   }
 
   @Override

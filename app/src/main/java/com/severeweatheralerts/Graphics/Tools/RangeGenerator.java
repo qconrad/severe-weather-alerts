@@ -11,19 +11,27 @@ public class RangeGenerator {
   private final Alert alert;
   private final double predictionAmount;
   private double fallbackMargin = 1;
+  private enum Unit { INCHES, FEET }
 
   /** Overrides the default fallback margin of 1 */
   public void setFallbackMargin(double fallbackMargin) {
     this.fallbackMargin = fallbackMargin;
   }
 
-  private enum Unit { INCHES, FEET }
-
   public RangeGenerator(Alert alert, double predictionAmount) {
     this.alert = alert;
     this.predictionAmount = predictionAmount;
   }
 
+  /** Gets a text range given the confidence level of the alert and provided prediction amount
+   *  Possible formats:
+   *  3 to 6 inches
+   *  up to 3 inches
+   *  up to 1 inch
+   *  1 to 3 feet
+   *  up to 1 foot
+   *  little to none
+   **/
   public String getRange() {
     if (predictionAmount < 0.1)
       return "little to none";

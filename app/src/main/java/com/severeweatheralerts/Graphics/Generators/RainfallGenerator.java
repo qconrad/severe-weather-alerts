@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Graphics.Generators;
 
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
+
 import android.content.Context;
 import android.graphics.Color;
 
@@ -8,22 +10,18 @@ import com.severeweatheralerts.Alerts.Alert;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
+import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
-import com.severeweatheralerts.Graphics.Layer;
-import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
-import com.severeweatheralerts.Graphics.Polygon.Polygon;
-import com.severeweatheralerts.Graphics.Tools.Rounder;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
+import com.severeweatheralerts.Graphics.Layer;
+import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Tools.RangeGenerator;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
-import com.severeweatheralerts.TextUtils.Plurality;
 
 import java.util.ArrayList;
 import java.util.Date;
-
-import static com.severeweatheralerts.Constants.RAINFALL_AMOUNT_DECIMAL_PLACES;
-import static com.severeweatheralerts.Graphics.Tools.UnitConverter.mmToIn;
 
 public class RainfallGenerator extends GraphicGenerator {
   private ArrayList<Polygon> polygons;
@@ -61,10 +59,45 @@ public class RainfallGenerator extends GraphicGenerator {
 
   @Override
   protected void forecast(Parameter forecast) {
-    double rainfallAmount = new Rounder(mmToIn(getRainfall(forecast)), RAINFALL_AMOUNT_DECIMAL_PLACES).getRounded();
-    setSubtext(rainfallAmount + new Plurality(rainfallAmount, " inch", " inches").getText());
+    double rainfallAmountInches = mmToIn(getRainfall(forecast));
+   setSubtext(getForecastSubtext(alert, rainfallAmountInches));
+//    setSubtext(rainfallAmountInches + new Plurality(rainfallAmountInches, " inch", " inches").getText());
     subTextSet = true;
     fetchFinish();
+  }
+
+  private String getForecastSubtext(Alert alert, double rainfallAmountInches) {
+    Date currentTime = new Date();
+    boolean eventStarted = currentTime.after(alert.getStartTime());
+    RangeGenerator rangeGenerator = new RangeGenerator(alert, rainfallAmountInches);
+    rangeGenerator.setFallbackMargin(0.5);
+    String rangeForecast = rangeGenerator.getRange();
+
+    if (eventStarted) {
+      if (rainfallAmountInches <= 0) {
+        return "No more rain is expected";
+      } else if (rainfallAmountInches <= 0.1) {
+        return "Rain is expected to stop soon";
+      } else if (rainfallAmountInches <= 0.5) {
+        return "Light rain is expected, with additional amounts of " + rangeForecast;
+      } else if (rainfallAmountInches <= 1) {
+        return "Moderate rain is expected, with additional amounts of " + rangeForecast;
+      } else {
+        return "Heavy rain is expected, with additional amounts of " + rangeForecast;
+      }
+    } else {
+      if (rainfallAmountInches <= 0) {
+        return "No rainfall expected with this event";
+      } else if (rainfallAmountInches <= 0.1) {
+        return "Only a trace of rain is expected";
+      } else if (rainfallAmountInches <= 0.5) {
+        return "Light rain is expected, with total amounts of " + rangeForecast;
+      } else if (rainfallAmountInches <= 1) {
+        return "Moderate rain is expected, with total amounts of " + rangeForecast;
+      } else {
+        return "Heavy rain is expected, with total amounts of " + rangeForecast;
+      }
+    }
   }
 
   private void fetchFinish() {
