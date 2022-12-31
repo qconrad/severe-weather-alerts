@@ -33,6 +33,7 @@ public class EditLocationActivity extends AppCompatActivity {
   private RadioButton useDefault;
   private RadioButton setCustom;
   private SwitchCompat notifySwitch;
+  private boolean changesMade = false;
 
   private String locationName;
   ChannelPreferences channelPreferences;
@@ -85,11 +86,12 @@ public class EditLocationActivity extends AppCompatActivity {
 
   @Override
   public void onBackPressed() {
-    setResult(Activity.RESULT_OK, new Intent());
-    finish();
+    if (changesMade) showSaveConfirmation();
+    else super.onBackPressed();
   }
 
   public void renameClick() {
+    changesMade = true;
     showRenamePopup();
   }
 
@@ -127,16 +129,19 @@ public class EditLocationActivity extends AppCompatActivity {
   }
 
   public void notifyToggle(View view) {
+    changesMade = true;
     notifySwitch = findViewById(R.id.notify_switch);
     setNotifyMethodEnabled(notifySwitch.isChecked());
     setEditCustomEnabled(notifySwitch.isChecked() && setCustom.isChecked());
   }
 
   public void useCustomPreferences(View view) {
+    changesMade = true;
     setEditCustomEnabled(true);
   }
 
   public void useDefaultPreferences(View view) {
+    changesMade = true;
     showCustomPreferenceDeletionConfirmation();
     setEditCustomEnabled(false);
   }
@@ -155,8 +160,17 @@ public class EditLocationActivity extends AppCompatActivity {
     setEditCustomEnabled(true);
     dialog.dismiss();
   }
+  
+  private void showSaveConfirmation() {
+    new AlertDialog.Builder(this)
+      .setTitle("Save changes?")
+      .setPositiveButton("Yes", (dialog, which) -> saveClick(null))
+      .setNegativeButton("No", (dialog, which) -> finish())
+      .show();
+  }
 
   public void editCustomClick(View view) {
+    changesMade = true;
     Intent intent = new Intent(this, ChannelPreferencesActivity.class);
 
      if (channelPreferences != null) { // Cached but not yet saved preferences

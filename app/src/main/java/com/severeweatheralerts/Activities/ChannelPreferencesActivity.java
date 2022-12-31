@@ -26,6 +26,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   private PreferenceAdapter preferenceAdapter;
   private SharedPreferences sharedPref;
   private SwitchCompat rippleSwitch;
+  private boolean changesMade = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +60,15 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
     RecyclerView view = findViewById(R.id.preference_stack);
     view.setLayoutManager(new LinearLayoutManager(this));
     preferenceAdapter = new PreferenceAdapter(alerts, channelPreferences);
-    preferenceAdapter.setClickListener((type, index) ->
-            new AlertDialog.Builder(this)
-            .setTitle("Select a channel")
-            .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
-              if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
-              else alertEdit(type, index, channelIndex);
-            }).create().show());
+    preferenceAdapter.setClickListener((type, index) -> {
+      changesMade = true;
+      new AlertDialog.Builder(this)
+              .setTitle("Select a channel")
+              .setItems(R.array.channels, (dialogInterface, channelIndex) -> {
+                if (rippleSwitch.isChecked()) rippleEdit(type, index, channelIndex);
+                else alertEdit(type, index, channelIndex);
+              }).create().show();
+    });
     view.setAdapter(preferenceAdapter);
   }
 
@@ -80,6 +83,7 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   }
 
   public void restoreDefaults(View view) {
+    changesMade = true;
     channelPreferences.resetToDefaults();
     preferenceAdapter.notifyDataSetChanged();
   }
@@ -88,6 +92,18 @@ public class ChannelPreferencesActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     sharedPref.edit().putBoolean("ripple_edit", rippleSwitch.isChecked()).apply();
+  }
+
+  // if leaving the activity without saving, ask the user if they want to save
+  @Override
+  public void onBackPressed() {
+    if (changesMade) {
+      new AlertDialog.Builder(this)
+              .setTitle("Save changes?")
+              .setPositiveButton("Yes", (dialogInterface, i) -> savePreferences(null))
+              .setNegativeButton("No", (dialogInterface, i) -> finish())
+              .create().show();
+    } else super.onBackPressed();
   }
 
   public void savePreferences(View view) {
