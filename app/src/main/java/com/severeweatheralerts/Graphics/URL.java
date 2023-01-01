@@ -1,7 +1,5 @@
 package com.severeweatheralerts.Graphics;
 
-import android.graphics.Bitmap;
-
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
 
 import java.util.Locale;
@@ -19,20 +17,20 @@ public class URL {
     return getParameter(bounds, region, date, "totalsnowamt.points");
   }
 
+  public String getTotalIce(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "totaliceaccum");
+  }
+
+  public String getTotalIcePoints(Bounds bounds, String region, String date) {
+    return getParameter(bounds, region, date, "totaliceaccum.points");
+  }
+
   public String getTotalRain(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "totalqpf");
   }
 
   public String getTotalRainPoints(Bounds bounds, String region, String date) {
     return getParameter(bounds, region, date, "totalqpf.points");
-  }
-
-  public String getWindGusts(Bounds bounds, String region, String date) {
-    return getParameter(bounds, region, date, "windgust");
-  }
-
-  public String getWindGustsPoints(Bounds bounds, String region, String date) {
-    return getParameter(bounds, region, date, "windgust.points.english");
   }
 
   public String getSpcOutlook(Bounds bounds, String region, String date) {

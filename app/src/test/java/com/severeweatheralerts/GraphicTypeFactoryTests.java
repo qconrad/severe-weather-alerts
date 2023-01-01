@@ -44,6 +44,7 @@ import com.severeweatheralerts.Graphics.Types.HeatIndex;
 import com.severeweatheralerts.Graphics.Types.HurricaneFloodingThreat;
 import com.severeweatheralerts.Graphics.Types.HurricaneTornadoThreat;
 import com.severeweatheralerts.Graphics.Types.HurricaneWindThreat;
+import com.severeweatheralerts.Graphics.Types.IceAccumulation;
 import com.severeweatheralerts.Graphics.Types.LocalRadar;
 import com.severeweatheralerts.Graphics.Types.Lows;
 import com.severeweatheralerts.Graphics.Types.OneHourPrecipitation;
@@ -565,6 +566,26 @@ public class GraphicTypeFactoryTests {
     flashFloodWatch.setDescription("* WHAT... Heavy rain may produce flash flooding.");
     flashFloodWatch.setEndTime(new Date(72 * 60 * 60 * 1000));
     TypeFactory graphicFactory = new TypeFactory(flashFloodWatch, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Winter Storm Warning mentions ice accumulations
+  @Test
+  public void getType_WinterStormWarningWithIceAccumulations_IceAccumulations() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setEndTime(new Date(1000));
+    winterStormWarning.setDescription("Total snow accumulations of 1 to 3 inches and ice accumulations of up to  three tenths of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
+    assertEquals(IceAccumulation.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  // Ice beyond 72 hours, don't show ice accumulation
+  @Test
+  public void getType_WinterStormWarningWithIceAccumulationsBeyond72Hours_NoIceAccumulations() {
+    WinterStormWarning winterStormWarning = new WinterStormWarning();
+    winterStormWarning.setEndTime(new Date(72 * 60 * 60 * 1000));
+    winterStormWarning.setDescription("Total snow accumulations of 1 to 3 inches and ice accumulations of up to  three tenths of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
     assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
   }
 }

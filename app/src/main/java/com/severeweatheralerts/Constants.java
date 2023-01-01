@@ -17,4 +17,5 @@ public class Constants {
   public static final int MAX_LOCATION_NAME_LENGTH = 20;
   public static final long SNOWFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
   public static final long RAINFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
+  public static final long ICE_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
 }

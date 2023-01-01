@@ -59,6 +59,8 @@ public class TypeFactory {
         types.add(new RegionalRadar(400));
       if ((descriptionContains("feet") || descriptionContains("inches")) && alert.endsBefore(new Date(date.getTime() + Constants.SNOWFALL_AMOUNT_TIME_RANGE)))
         types.add(new Snowfall());
+      if (descriptionContains("ice") && alert.endsBefore(new Date(date.getTime() + Constants.ICE_AMOUNT_TIME_RANGE)))
+        types.add(new IceAccumulation());
     }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
