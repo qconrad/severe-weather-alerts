@@ -12,10 +12,10 @@ import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
-import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Tools.InterpolatedParameterTrim;
 import com.severeweatheralerts.Graphics.Tools.RangeGenerator;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
@@ -117,10 +117,10 @@ public class RainfallGenerator extends GraphicGenerator {
   }
 
   private double getRainfall(Parameter gridData) {
-    return new SumCalculator(new ParameterTrim(gridData)
+    return new SumCalculator(new InterpolatedParameterTrim(gridData)
               .trimLeft(new Date())
               .trimRight(alert.getEndTime())
-              .getTrimmed())
+              .trim())
               .getSum();
   }
 }

@@ -87,7 +87,7 @@ public class WindChillGenerator extends GraphicGenerator {
     return new Minimum(new ParameterTrim(gridData)
             .trimLeft(new Date())
             .trimRight(alert.getEndTime())
-            .getTrimmed())
+            .trim())
             .get();
   }
 }

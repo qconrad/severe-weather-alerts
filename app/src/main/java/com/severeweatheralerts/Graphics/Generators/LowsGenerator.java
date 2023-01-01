@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Graphics.Generators;
 
+import static com.severeweatheralerts.Graphics.Tools.UnitConverter.cToF;
+
 import android.content.Context;
 import android.graphics.Color;
 
@@ -19,8 +21,6 @@ import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 
 import java.util.ArrayList;
-
-import static com.severeweatheralerts.Graphics.Tools.UnitConverter.cToF;
 
 public class LowsGenerator extends GraphicGenerator {
   private boolean subTextSet;
@@ -82,6 +82,6 @@ public class LowsGenerator extends GraphicGenerator {
   private ForecastTime getLow(Parameter gridData) {
     return new Minimum(new ParameterTrim(gridData)
               .trimRight(alert.getEndTime())
-              .getTrimmed()).get();
+              .trim()).get();
   }
 }

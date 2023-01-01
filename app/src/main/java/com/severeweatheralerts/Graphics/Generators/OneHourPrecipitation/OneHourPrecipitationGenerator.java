@@ -1,5 +1,7 @@
 package com.severeweatheralerts.Graphics.Generators.OneHourPrecipitation;
 
+import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringToDate;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,34 +10,32 @@ import android.graphics.Point;
 import com.android.volley.VolleyError;
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Alerts.Alert;
-import com.severeweatheralerts.Graphics.Tools.ColorMap;
 import com.severeweatheralerts.Constants;
 import com.severeweatheralerts.Graphics.Bounds.AspectRatioEqualizer;
 import com.severeweatheralerts.Graphics.Bounds.BoundCalculator;
 import com.severeweatheralerts.Graphics.Bounds.Bounds;
-import com.severeweatheralerts.Graphics.Tools.DiagonalOffset;
 import com.severeweatheralerts.Graphics.Generators.GraphicCompleteListener;
 import com.severeweatheralerts.Graphics.Generators.GraphicGenerator;
 import com.severeweatheralerts.Graphics.GridData.ForecastTime;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
+import com.severeweatheralerts.Graphics.GridData.ParameterSmooth;
 import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.Layer;
-import com.severeweatheralerts.Graphics.ViewInflaters.OneHourPrecipitationGraphic;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinate;
 import com.severeweatheralerts.Graphics.Polygon.MercatorCoordinateToPointAdapter;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Tools.ColorMap;
+import com.severeweatheralerts.Graphics.Tools.DiagonalOffset;
 import com.severeweatheralerts.Graphics.URL;
+import com.severeweatheralerts.Graphics.ViewInflaters.OneHourPrecipitationGraphic;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
 import com.severeweatheralerts.Networking.FetchServices.RequestCallback;
 import com.severeweatheralerts.Networking.FetchServices.StringFetchService;
-import com.severeweatheralerts.Graphics.GridData.ParameterSmooth;
 import com.severeweatheralerts.TextUtils.RegExMatcher;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
-
-import static com.severeweatheralerts.TextUtils.DateTimeConverter.convertStringToDate;
 
 public class OneHourPrecipitationGenerator extends GraphicGenerator {
   private final int heading;
@@ -154,7 +154,7 @@ public class OneHourPrecipitationGenerator extends GraphicGenerator {
   }
 
   private ArrayList<ForecastTime> trimAndSmooth(ArrayList<ForecastTime> forecast) {
-    forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).getTrimmed().getForecastTimes();
+    forecast = new ParameterTrim(getSmoothed(new Parameter(forecast))).trimLeft(new Date()).trimRight(new Date(new Date().getTime() + 60 * 60 * 1000)).trim().getForecastTimes();
     return forecast;
   }
 

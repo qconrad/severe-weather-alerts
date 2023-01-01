@@ -5,43 +5,43 @@ import java.util.Date;
 
 public class ParameterTrim {
   ArrayList<ForecastTime> times = new ArrayList<>();
-  private Parameter parameter;
-  private Date rightTrim;
-  private Date leftTrim;
+  protected Parameter parameter;
+  protected Date rightTrimDate;
+  protected Date leftTrimDate;
 
   public ParameterTrim(Parameter parameter) {
     this.parameter = parameter;
   }
 
-  public Parameter getTrimmed() {
-    trim();
+  public Parameter trim() {
+    preformTrim();
     return parameter;
   }
 
   public ParameterTrim trimLeft(Date date) {
-    leftTrim = date;
+    leftTrimDate = date;
     return this;
   }
 
   public ParameterTrim trimRight(Date date) {
-    rightTrim = date;
+    rightTrimDate = date;
     return this;
   }
 
-  private void trim() {
+  private void preformTrim() {
     for (ForecastTime time : parameter.getForecastTimes()) checkTime(time);
     parameter = new Parameter(times);
   }
 
   private void checkTime(ForecastTime time) {
-    if (withinLeftTrim(time, leftTrim) && withinRightTrim(time, rightTrim)) times.add(time);
+    if (withinLeftTrim(time, leftTrimDate) && withinRightTrim(time, rightTrimDate)) times.add(time);
   }
 
   private boolean withinRightTrim(ForecastTime time, Date right) {
-    return rightTrim == null || time.getDate().getTime() <= right.getTime();
+    return rightTrimDate == null || time.getDate().getTime() <= right.getTime();
   }
 
   private boolean withinLeftTrim(ForecastTime time, Date left) {
-    return leftTrim == null || time.getDate().getTime() >= left.getTime();
+    return leftTrimDate == null || time.getDate().getTime() >= left.getTime();
   }
 }

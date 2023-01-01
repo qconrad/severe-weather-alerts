@@ -12,10 +12,10 @@ import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
-import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Tools.InterpolatedParameterTrim;
 import com.severeweatheralerts.Graphics.Tools.RangeGenerator;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
@@ -63,8 +63,7 @@ public class SnowfallGenerator extends GraphicGenerator {
   private String getForecastSubtext(Alert alert, double snowfallAmountInches) {
     Date currentTime = new Date();
     boolean eventStarted = currentTime.after(alert.getStartTime());
-    RangeGenerator rangeGenerator = new RangeGenerator(alert, snowfallAmountInches);
-    String rangeForecast = rangeGenerator.getRange();
+    String rangeForecast = new RangeGenerator(alert, snowfallAmountInches).getRange();
 
     if (eventStarted) {
       if (snowfallAmountInches <= 0) {
@@ -114,10 +113,10 @@ public class SnowfallGenerator extends GraphicGenerator {
   }
 
   private double getSnowfall(Parameter forecast) {
-    return new SumCalculator(new ParameterTrim(forecast)
+    return new SumCalculator(new InterpolatedParameterTrim(forecast)
               .trimLeft(new Date())
               .trimRight(alert.getEndTime())
-              .getTrimmed())
+              .trim())
               .getSum();
   }
 }

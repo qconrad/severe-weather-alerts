@@ -12,10 +12,10 @@ import com.severeweatheralerts.Graphics.Bounds.Bounds;
 import com.severeweatheralerts.Graphics.GridData.MapTime;
 import com.severeweatheralerts.Graphics.GridData.NextMapTimeFromDate;
 import com.severeweatheralerts.Graphics.GridData.Parameter;
-import com.severeweatheralerts.Graphics.GridData.ParameterTrim;
 import com.severeweatheralerts.Graphics.GridData.SumCalculator;
 import com.severeweatheralerts.Graphics.Layer;
 import com.severeweatheralerts.Graphics.Polygon.Polygon;
+import com.severeweatheralerts.Graphics.Tools.InterpolatedParameterTrim;
 import com.severeweatheralerts.Graphics.Tools.Rounder;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.JSONParsing.PointInfoParser;
@@ -55,7 +55,7 @@ public class IceAccumulationGenerator extends GraphicGenerator {
 
   @Override
   protected void forecast(Parameter gridData) {
-    double iceAccumulationInches = new Rounder(mmToIn(getIceAccumulation(gridData)), 1).getRounded();
+    double iceAccumulationInches = mmToIn(getIceAccumulation(gridData));
     setSubtext(getForecastSubtext(alert, iceAccumulationInches));
     subTextSet = true;
     fetchFinish();
@@ -64,6 +64,7 @@ public class IceAccumulationGenerator extends GraphicGenerator {
   private String getForecastSubtext(Alert alert, double iceAccumulation) {
     Date currentTime = new Date();
     boolean eventStarted = currentTime.after(alert.getStartTime());
+    double iceAccumulationRounded = new Rounder(iceAccumulation, 1).getRounded();
 
     if (eventStarted) {
       if (iceAccumulation <= 0) {
@@ -71,7 +72,7 @@ public class IceAccumulationGenerator extends GraphicGenerator {
       } else if (iceAccumulation <= 0.1) {
         return "Remaining ice accumulations of a light glaze";
       } else {
-        return "Remaining ice accumulations of " + new Plurality(iceAccumulation, "inch", " inches").getText();
+        return "Remaining ice accumulations of " + new Plurality(iceAccumulationRounded, "inch", " inches").getText();
       }
     } else {
       if (iceAccumulation <= 0) {
@@ -79,13 +80,13 @@ public class IceAccumulationGenerator extends GraphicGenerator {
       } else if (iceAccumulation <= 0.1) {
         return "A thin glaze of ice is expected";
       } else if (iceAccumulation <= 0.5) {
-        return "Icy conditions on roads and sidewalks are expected. Total ice accumulations of around " + iceAccumulation + new Plurality(iceAccumulation, " inch", " inches").getText();
+        return "Icy conditions on roads and sidewalks are expected. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       } else if (iceAccumulation <= 1) {
-        return "Dangerous travel conditions with icy roads and sidewalks. Total ice accumulations of around " + iceAccumulation + new Plurality(iceAccumulation, " inch", " inches").getText();
+        return "Dangerous travel conditions with icy roads and sidewalks. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       } else if (iceAccumulation <= 2) {
-        return "Widespread travel disruptions and power outages due to weight of ice on trees and power lines. Total ice accumulations of around " + iceAccumulation + new Plurality(iceAccumulation, " inch", " inches").getText();
+        return "Widespread travel disruptions and power outages due to weight of ice on trees and power lines. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       } else {
-        return "Widespread and severe disruptions to travel and power, as well as a significant risk of structural damage due to the weight of the ice. Total ice accumulations of around " + iceAccumulation + new Plurality(iceAccumulation, " inch", " inches").getText();
+        return "Widespread and severe disruptions to travel and power, as well as a significant risk of structural damage due to the weight of the ice. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       }
     }
   }
@@ -113,10 +114,10 @@ public class IceAccumulationGenerator extends GraphicGenerator {
   }
 
   private double getIceAccumulation(Parameter forecast) {
-    return new SumCalculator(new ParameterTrim(forecast)
+    return new SumCalculator(new InterpolatedParameterTrim(forecast)
               .trimLeft(new Date())
               .trimRight(alert.getEndTime())
-              .getTrimmed())
+              .trim())
               .getSum();
   }
 }

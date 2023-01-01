@@ -87,7 +87,7 @@ public class HeatIndexGenerator extends GraphicGenerator {
     return new Maximum(new ParameterTrim(gridData)
             .trimLeft(new Date())
             .trimRight(alert.getEndTime())
-            .getTrimmed())
+            .trim())
             .get();
   }
 }
