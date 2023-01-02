@@ -633,4 +633,26 @@ public class GraphicTypeFactoryTests {
     TypeFactory graphicFactory = new TypeFactory(iceStormWarning, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(1).getClass());
   }
+
+  // Winter weather advisory with freezing drizzle, show ice accumulation
+  @Test
+  public void getType_WinterWeatherAdvisoryWithFreezingDrizzle_IceAccumulation() {
+    WinterWeatherAdvisory winterWeatherAdvisory = new WinterWeatherAdvisory();
+    winterWeatherAdvisory.setStartTime(new Date(0));
+    winterWeatherAdvisory.setEndTime(new Date(1000));
+    winterWeatherAdvisory.setDescription("WHAT...Freezing drizzle possible.");
+    TypeFactory graphicFactory = new TypeFactory(winterWeatherAdvisory, new Date(0));
+    assertEquals(IceAccumulation.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  // Winter weather advisory with freezing rain, show ice accumulation
+  @Test
+  public void getType_WinterWeatherAdvisoryWithFreezingRain_IceAccumulation() {
+    WinterWeatherAdvisory winterWeatherAdvisory = new WinterWeatherAdvisory();
+    winterWeatherAdvisory.setStartTime(new Date(0));
+    winterWeatherAdvisory.setEndTime(new Date(1000));
+    winterWeatherAdvisory.setDescription("WHAT...Freezing rain possible.");
+    TypeFactory graphicFactory = new TypeFactory(winterWeatherAdvisory, new Date(0));
+    assertEquals(IceAccumulation.class, graphicFactory.getTypes().get(1).getClass());
+  }
 }
