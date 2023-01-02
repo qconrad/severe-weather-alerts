@@ -201,4 +201,13 @@ public class RangeGeneratorTests {
     rangeGenerator.setFallbackMargin(2);
     assertEquals("4 to 8 inches", rangeGenerator.getRange());
   }
+
+  // Don't show feet unless upper bound is above 2 feet
+  @Test
+  public void getRange_AlertAndPredictionAmount_PredictionRange21() {
+    Alert alert = new DefaultAlert();
+    alert.setDescription("WHAT...Heavy snow expected above 6000 feet. Total snow accumulation of 6 to 12 inches. Winds gusting as high as 50 mph.");
+    RangeGenerator rangeGenerator = new RangeGenerator(alert, 15);
+    assertEquals("12 to 18 inches", rangeGenerator.getRange());
+  }
 }

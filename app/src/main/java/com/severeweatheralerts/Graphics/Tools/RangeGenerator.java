@@ -61,7 +61,7 @@ public class RangeGenerator {
    * 2. Lower bound greater than a foot
    */
   private boolean shouldUseFeet(int lowerBound, int upperBound) {
-    return (shouldUseUpToFormat(lowerBound) && upperBound >= 12) || lowerBound >= 12;
+    return (shouldUseUpToFormat(lowerBound) && upperBound >= 12) || (lowerBound >= 12 && upperBound >= 24);
   }
 
   /** Converts inches to feet */

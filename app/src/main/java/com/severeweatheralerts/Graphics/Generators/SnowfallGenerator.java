@@ -101,7 +101,7 @@ public class SnowfallGenerator extends GraphicGenerator {
   }
 
   private void generateLayers() {
-    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
+    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN, Constants.MINIMUM_SNOWFALL_GRAPHIC_SIZE);
     ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
     layers.add(new Layer(new URL().getTotalSnow(bounds, getRegion(), dateString)));

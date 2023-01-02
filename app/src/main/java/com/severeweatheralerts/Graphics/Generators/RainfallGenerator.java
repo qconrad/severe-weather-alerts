@@ -105,7 +105,7 @@ public class RainfallGenerator extends GraphicGenerator {
   }
 
   private void generateLayers() {
-    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
+    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN, Constants.MINIMUM_RAINFALL_GRAPHIC_SIZE);
     ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
     layers.add(new Layer(new URL().getTotalRain(bounds, getRegion(), dateString)));

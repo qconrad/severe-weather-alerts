@@ -18,6 +18,7 @@ import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
+import com.severeweatheralerts.Alerts.NWS.IceStormWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
@@ -54,14 +55,20 @@ public class TypeFactory {
       types.add(new AlertArea());
       return types;
     }
-    else if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch) {
+    else if (alert instanceof WinterWeatherAdvisory || alert instanceof WinterStormWarning || alert instanceof LakeEffectSnowWarning || alert instanceof WinterStormWatch || alert instanceof IceStormWarning) {
       if (alert.startsBefore(new Date(date.getTime() + Constants.COMPOSITE_RADAR_SHOW_BEFORE_EVENT_TIME)))
         types.add(new RegionalRadar(400));
-      if ((descriptionContains("feet") || descriptionContains("inches")) && alert.endsBefore(new Date(date.getTime() + Constants.SNOWFALL_AMOUNT_TIME_RANGE)))
+      if (descriptionContains("snow") && (descriptionContains("feet") || descriptionContains("inches")) && alert.endsBefore(new Date(date.getTime() + Constants.SNOWFALL_AMOUNT_TIME_RANGE)))
         types.add(new Snowfall());
       if (descriptionContains("ice") && alert.endsBefore(new Date(date.getTime() + Constants.ICE_AMOUNT_TIME_RANGE)))
         types.add(new IceAccumulation());
     }
+//    else if (alert instanceof IceStormWarning) {
+//      if (descriptionContains("snow") && alert.endsBefore(new Date(date.getTime() + Constants.SNOWFALL_AMOUNT_TIME_RANGE)))
+//        types.add(new Snowfall());
+//      if (alert.endsBefore(new Date(date.getTime() + Constants.ICE_AMOUNT_TIME_RANGE)))
+//        types.add(new IceAccumulation());
+//    }
     else if (alert instanceof WindChillAdvisory || alert instanceof WindChillWatch || alert instanceof WindChillWarning)
       types.add(new WindChill());
     else if (alert instanceof ExcessiveHeatWatch || alert instanceof ExcessiveHeatWarning || alert instanceof HeatAdvisory)
@@ -113,7 +120,7 @@ public class TypeFactory {
   }
 
   private boolean torrentialRainfall() {
-    return instructionContains("Torrential rainfall") || descriptionContains("Torrential rainfall");
+    return instructionContains("torrential rainfall") || descriptionContains("torrential rainfall");
   }
 
   private boolean thunderstorms() {
@@ -121,10 +128,10 @@ public class TypeFactory {
   }
 
   private boolean descriptionContains(String text) {
-    return alert.getDescription() != null && alert.getDescription().contains(text);
+    return alert.getDescription() != null && alert.getDescription().toLowerCase().contains(text);
   }
 
   private boolean instructionContains(String text) {
-    return alert.getInstruction() != null && alert.getInstruction().contains(text);
+    return alert.getInstruction() != null && alert.getInstruction().toLowerCase().contains(text);
   }
 }

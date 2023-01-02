@@ -70,23 +70,21 @@ public class IceAccumulationGenerator extends GraphicGenerator {
       if (iceAccumulation <= 0) {
         return "No more ice is expected";
       } else if (iceAccumulation <= 0.1) {
-        return "Remaining ice accumulations of a light glaze";
+        return "Remaining ice accumulations of a light glaze.";
       } else {
-        return "Remaining ice accumulations of " + new Plurality(iceAccumulationRounded, "inch", " inches").getText();
+        return "Remaining ice accumulations of " + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       }
     } else {
       if (iceAccumulation <= 0) {
         return "No ice is expected";
       } else if (iceAccumulation <= 0.1) {
-        return "A thin glaze of ice is expected";
+        return "A glaze of ice is expected. Roads and sidewalks may be icy.";
       } else if (iceAccumulation <= 0.5) {
-        return "Icy conditions on roads and sidewalks are expected. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
+        return "Roads and sidewalks will become icy and there may be some tree damage and power outages. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       } else if (iceAccumulation <= 1) {
-        return "Dangerous travel conditions with icy roads and sidewalks. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
-      } else if (iceAccumulation <= 2) {
-        return "Widespread travel disruptions and power outages due to weight of ice on trees and power lines. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
+        return "Widespread tree damage and power outages possible. Travel will be dangerous and walking outdoors may be difficult. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       } else {
-        return "Widespread and severe disruptions to travel and power, as well as a significant risk of structural damage due to the weight of the ice. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
+        return "Widespread impacts, including dangerous travel conditions, power outages, and significant tree damage. Walking outdoors wil be difficult. Total ice accumulations of around " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       }
     }
   }
@@ -102,7 +100,7 @@ public class IceAccumulationGenerator extends GraphicGenerator {
   }
 
   private void generateLayers() {
-    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN);
+    Bounds bounds = getBounds(polygons, Constants.DEFAULT_GRAPHIC_MARGIN, Constants.MINIMUM_ICE_GRAPHIC_SIZE);
     ArrayList<Layer> layers = new ArrayList<>();
     String dateString = new NextMapTimeFromDate(mapTimes, alert.getEndTime()).getMapTime().getString();
     layers.add(new Layer(new URL().getTotalIce(bounds, getRegion(), dateString)));

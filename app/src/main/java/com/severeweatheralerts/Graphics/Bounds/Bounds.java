@@ -24,4 +24,12 @@ public class Bounds {
   public double getRight() { return right; }
   public double getBottom() { return bottom; }
   public double getLeft() { return left; }
+
+  public double getWidth() {
+    return right - left;
+  }
+
+  public double getHeight() {
+    return top - bottom;
+  }
 }

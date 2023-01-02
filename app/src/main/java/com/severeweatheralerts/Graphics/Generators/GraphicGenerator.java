@@ -24,6 +24,7 @@ import com.severeweatheralerts.Graphics.Polygon.PolygonListBoundCalculator;
 import com.severeweatheralerts.Graphics.Tools.Bitmaps.BitmapCombiner;
 import com.severeweatheralerts.Graphics.Tools.Bitmaps.LocationDrawer;
 import com.severeweatheralerts.Graphics.Tools.Bitmaps.ZoneDrawer;
+import com.severeweatheralerts.Graphics.Tools.BoundMinimum;
 import com.severeweatheralerts.Graphics.URL;
 import com.severeweatheralerts.Graphics.ViewInflaters.ImageGraphic;
 import com.severeweatheralerts.JSONParsing.GeometryParser;
@@ -197,6 +198,10 @@ public abstract class GraphicGenerator {
     bounds = new AspectRatioEqualizer(bounds).equalize();
     bounds = new BoundMargin(bounds, marginPercentage).getBounds();
     return bounds;
+  }
+
+  protected Bounds getBounds(ArrayList<Polygon> polygons, double marginPercentage, double minSize) {
+    return new BoundMinimum(getBounds(polygons, marginPercentage), minSize).getBounds();
   }
 
   private void parseZones(ArrayList<String> response) {

@@ -18,4 +18,7 @@ public class Constants {
   public static final long SNOWFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
   public static final long RAINFALL_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
   public static final long ICE_AMOUNT_TIME_RANGE = 72 * 60 * 60 * 1000;
+  public static final double MINIMUM_SNOWFALL_GRAPHIC_SIZE = 500000;
+  public static final double MINIMUM_RAINFALL_GRAPHIC_SIZE = 500000;
+  public static final double MINIMUM_ICE_GRAPHIC_SIZE = 500000;
 }

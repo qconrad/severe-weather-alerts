@@ -22,6 +22,7 @@ import com.severeweatheralerts.Alerts.NWS.HeatAdvisory;
 import com.severeweatheralerts.Alerts.NWS.HurricaneLocalStatement;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWarning;
 import com.severeweatheralerts.Alerts.NWS.HurricaneWatch;
+import com.severeweatheralerts.Alerts.NWS.IceStormWarning;
 import com.severeweatheralerts.Alerts.NWS.LakeEffectSnowWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWarning;
 import com.severeweatheralerts.Alerts.NWS.SevereThunderstormWatch;
@@ -536,7 +537,7 @@ public class GraphicTypeFactoryTests {
   public void getType_SnowfallAmountMentioned_ExpectedSnowfall() {
     WinterStormWarning winterStormWarning = new WinterStormWarning();
     winterStormWarning.setEndTime(new Date(1000));
-    winterStormWarning.setDescription("* WHAT... Total accumulations of 3 to 5 inches.");
+    winterStormWarning.setDescription("* WHAT... Total snow accumulations of 3 to 5 inches.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
     assertEquals(Snowfall.class, graphicFactory.getTypes().get(0).getClass());
   }
@@ -587,5 +588,49 @@ public class GraphicTypeFactoryTests {
     winterStormWarning.setDescription("Total snow accumulations of 1 to 3 inches and ice accumulations of up to  three tenths of an inch possible.");
     TypeFactory graphicFactory = new TypeFactory(winterStormWarning, new Date(0));
     assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Ice storm warning within 72 hours, show ice accumulation
+  @Test
+  public void getType_IceStormWarningWithIceAccumulations_IceAccumulations() {
+    IceStormWarning iceStormWarning = new IceStormWarning();
+    iceStormWarning.setStartTime(new Date(0));
+    iceStormWarning.setEndTime(new Date(1000));
+    iceStormWarning.setDescription("Ice accumulations of up to one tenth of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(iceStormWarning, new Date(0));
+    assertEquals(IceAccumulation.class, graphicFactory.getTypes().get(1).getClass());
+  }
+
+  // Ice storm warning beyond 72 hours, don't show ice accumulation
+  @Test
+  public void getType_IceStormWarningWithIceAccumulationsBeyond72Hours_NoIceAccumulations() {
+    IceStormWarning iceStormWarning = new IceStormWarning();
+    iceStormWarning.setStartTime(new Date(60 * 60 * 60 * 1000));
+    iceStormWarning.setEndTime(new Date(72 * 60 * 60 * 1000));
+    iceStormWarning.setDescription("Ice accumulations of up to one tenth of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(iceStormWarning, new Date(0));
+    assertEquals(AlertArea.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Ice storm 4 hours away, show regional radar
+  @Test
+  public void getType_IceStormWarningWithin5Hours_RegionalRadar() {
+    IceStormWarning iceStormWarning = new IceStormWarning();
+    iceStormWarning.setStartTime(new Date(4 * 60 * 60 * 1000));
+    iceStormWarning.setEndTime(new Date(10 * 60 * 60 * 1000));
+    iceStormWarning.setDescription("Ice accumulations of up to one tenth of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(iceStormWarning, new Date(0));
+    assertEquals(RegionalRadar.class, graphicFactory.getTypes().get(0).getClass());
+  }
+
+  // Ice storm warning with snow accumulations, show snowfall
+  @Test
+  public void getType_IceStormWarningWithSnowAccumulations_Snowfall() {
+    IceStormWarning iceStormWarning = new IceStormWarning();
+    iceStormWarning.setStartTime(new Date(0));
+    iceStormWarning.setEndTime(new Date(1000));
+    iceStormWarning.setDescription("Total snow accumulations of 1 to 3 inches possible and ice accumulations of up to one tenth of an inch possible.");
+    TypeFactory graphicFactory = new TypeFactory(iceStormWarning, new Date(0));
+    assertEquals(Snowfall.class, graphicFactory.getTypes().get(1).getClass());
   }
 }
