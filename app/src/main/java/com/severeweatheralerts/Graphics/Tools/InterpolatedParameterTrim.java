@@ -31,11 +31,11 @@ public class InterpolatedParameterTrim extends ParameterTrim {
     ArrayList<ForecastTime> trimmedTimes = new ArrayList<>();
     for (int i = 0; i < parameter.getCount(); i++) {
       ForecastTime time = parameter.get(i);
-      if (leftInterpolate(i, time)) {
-        trimmedTimes.add(new ForecastTime(leftTrimDate, interpolate(leftTrimDate, time, getNext(i))));
+      if (shouldInterpolateLeft(i, time)) {
+        trimmedTimes.add(new ForecastTime(leftTrimDate, interpolateLeft(leftTrimDate, time, getNext(i))));
       } else if (rightInterpolate(i, time)) {
         trimmedTimes.add(time);
-        trimmedTimes.add(new ForecastTime(rightTrimDate, interpolate(rightTrimDate, time, getNext(i))));
+        trimmedTimes.add(new ForecastTime(rightTrimDate, interpolateRight(rightTrimDate, time, getNext(i))));
         break;
       } else if (inBetweenBothTrims(time)) {
         trimmedTimes.add(time);
@@ -56,7 +56,7 @@ public class InterpolatedParameterTrim extends ParameterTrim {
     return i + 1 < parameter.getCount();
   }
 
-  private boolean leftInterpolate(int i, ForecastTime time) {
+  private boolean shouldInterpolateLeft(int i, ForecastTime time) {
     return leftTrimDate != null && leftTrimDate.after(time.getDate()) && hasNext(i) && leftTrimDate.before(getNext(i).getDate());
   }
 
@@ -73,10 +73,17 @@ public class InterpolatedParameterTrim extends ParameterTrim {
     return leftTrimDate == null;
   }
 
-  private double interpolate(Date date, ForecastTime firstTime, ForecastTime secondTime) {
-    double timeDifference = secondTime.getDate().getTime() - firstTime.getDate().getTime();
-    double valueDifference = secondTime.getValue() - firstTime.getValue();
-    double timeRatio = (date.getTime() - firstTime.getDate().getTime()) / timeDifference;
-    return firstTime.getValue() + valueDifference * timeRatio;
+  // Subtracts the values between firstTime and date and returns value of date to secondTime
+  private double interpolateLeft(Date date, ForecastTime firstTime, ForecastTime secondTime) {
+    return firstTime.getValue() - (firstTime.getValue() * getPercent(date, firstTime, secondTime));
+  }
+
+  // Subtracts off the values after date and returns value of firstTime to date
+  private double interpolateRight(Date date, ForecastTime firstTime, ForecastTime secondTime) {
+    return secondTime.getValue() * getPercent(date, firstTime, secondTime);
+  }
+
+  private double getPercent(Date date, ForecastTime firstTime, ForecastTime secondTime) {
+    return (date.getTime() - firstTime.getDate().getTime()) / (double) (secondTime.getDate().getTime() - firstTime.getDate().getTime());
   }
 }

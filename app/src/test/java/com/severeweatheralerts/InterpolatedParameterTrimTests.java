@@ -14,9 +14,10 @@ import java.util.Date;
 public class InterpolatedParameterTrimTests {
   // Similar to the ParameterTrim class, but instead of trimming the parameter to the nearest
   // forecast time, interpolates the edges of the trim, adding a new forecast time at the trim edge
+  // The interpolated value is not ht in-between value between two forecast times, but rather
+  // decreases a value to 0 over the time period between the two forecast times
   // This is useful for computing total accumulations for a given time period
-  // For finding the maximum/minimum value in a given time period, it would make more sense to
-  // use the ParameterTrim class
+  // Use ParameterTrim to trim to the nearest forecast time
 
   // Left trim time is before first forecast time, original list is returned
   @Test
@@ -65,7 +66,7 @@ public class InterpolatedParameterTrimTests {
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(15));
-    assertEquals(5.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(0.0, interpolatedParameterTrim.trim().get(0).getValue());
   }
 
   // Interpolated between different values
@@ -77,7 +78,7 @@ public class InterpolatedParameterTrimTests {
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(15));
-    assertEquals(15.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(5.0, interpolatedParameterTrim.trim().get(0).getValue());
   }
 
   // Different dates
@@ -89,7 +90,7 @@ public class InterpolatedParameterTrimTests {
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(25));
-    assertEquals(15.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(5.0, interpolatedParameterTrim.trim().get(0).getValue());
   }
 
   // Time is between second and third forecast time, first two forecast times are removed
@@ -103,7 +104,7 @@ public class InterpolatedParameterTrimTests {
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(25));
-    assertEquals(15.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(5.0, interpolatedParameterTrim.trim().get(0).getValue());
   }
 
   // left trim time is after last forecast time, all forecast times are removed
@@ -123,12 +124,12 @@ public class InterpolatedParameterTrimTests {
   @Test
   public void leftTrimBetweenForecastTimes_FirstTwoForecastTimesRemoved_NewForecastTimeAdded_75Percent() {
     ArrayList<ForecastTime> forecastTimes = new ArrayList<>();
-    forecastTimes.add(new ForecastTime(new Date(0), 0));
+    forecastTimes.add(new ForecastTime(new Date(0), 10));
     forecastTimes.add(new ForecastTime(new Date(10), 10));
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(7));
-    assertEquals(7.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(3.0, interpolatedParameterTrim.trim().get(0).getValue());
   }
 
   // Trim left returns itself for chaining
@@ -139,7 +140,7 @@ public class InterpolatedParameterTrimTests {
     forecastTimes.add(new ForecastTime(new Date(10), 10));
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
-    assertEquals(interpolatedParameterTrim, interpolatedParameterTrim.trimLeft(new Date(7)));
+    assertEquals(interpolatedParameterTrim, interpolatedParameterTrim.trimLeft(new Date(0)));
   }
 
   // Trim right between forecast times
@@ -152,7 +153,7 @@ public class InterpolatedParameterTrimTests {
     Parameter parameter = new Parameter(forecastTimes);
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimRight(new Date(25));
-    assertEquals(15.0, interpolatedParameterTrim.trim().get(2).getValue());
+    assertEquals(10.0, interpolatedParameterTrim.trim().get(2).getValue());
   }
 
   // Left and right trim
@@ -168,7 +169,7 @@ public class InterpolatedParameterTrimTests {
     InterpolatedParameterTrim interpolatedParameterTrim = new InterpolatedParameterTrim(parameter);
     interpolatedParameterTrim.trimLeft(new Date(25));
     interpolatedParameterTrim.trimRight(new Date(45));
-    assertEquals(15.0, interpolatedParameterTrim.trim().get(0).getValue());
-    assertEquals(35.0, interpolatedParameterTrim.trim().get(3).getValue());
+    assertEquals(5.0, interpolatedParameterTrim.trim().get(0).getValue());
+    assertEquals(20.0, interpolatedParameterTrim.trim().get(3).getValue());
   }
 }
