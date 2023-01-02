@@ -3,6 +3,7 @@ package com.severeweatheralerts.UserSync;
 import static com.severeweatheralerts.FileDB.getLocationsDao;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -45,13 +46,20 @@ public class UserSyncWorker extends Worker {
   }
 
   private void postToken(Task<String> task) {
+    String syncData = getSyncData(task);
+    Log.d("UserSync", "Attempting to sync: " + syncData);
+
     if (failure(task)) return;
-    new PostService(context, getURL(), getSyncData(task)).request(new RequestCallback() {
+    new PostService(context, getURL(), syncData).request(new RequestCallback() {
       @Override
-      public void success(Object response) { }
+      public void success(Object response) {
+        Log.d("UserSync", "Sync successful");
+      }
 
       @Override
-      public void error(VolleyError error) { }
+      public void error(VolleyError error) {
+        Log.d("UserSync", "Sync failed");
+      }
     });
   }
 
