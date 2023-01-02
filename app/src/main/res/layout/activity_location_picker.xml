@@ -36,6 +36,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_search_button" />
 
+    <TextView
+        android:id="@+id/select_a_result_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        android:text="Select a location:"
+        android:textColor="#FFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/address_search_results_rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/search_edit_text" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/address_search_results_rv"
         android:layout_width="match_parent"

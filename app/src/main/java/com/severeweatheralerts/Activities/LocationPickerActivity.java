@@ -27,6 +27,7 @@ public class LocationPickerActivity extends AppCompatActivity {
   LocationResultAdapter locationResultAdapter;
   RecyclerView locationResultRecyclerView;
   TextView noResultsTextView;
+  TextView selectResultTextView;
   EditText searchEditText;
   Geocoder geocoder;
 
@@ -37,6 +38,7 @@ public class LocationPickerActivity extends AppCompatActivity {
     initializeSearchResultsRecyclerView();
     noResultsTextView = findViewById(R.id.no_results_text);
     searchEditText = findViewById(R.id.search_edit_text);
+    selectResultTextView = findViewById(R.id.select_a_result_text);
     geocoder = new Geocoder(this);
   }
 
@@ -79,7 +81,7 @@ public class LocationPickerActivity extends AppCompatActivity {
       return;
     }
 
-    setNoResultsVisible(addressList.size() == 0);
+    setNoResults(addressList.size() == 0);
     locationResultRecyclerView.getAdapter().notifyDataSetChanged();
   }
 
@@ -100,9 +102,15 @@ public class LocationPickerActivity extends AppCompatActivity {
     findViewById(R.id.use_location).setEnabled(useLocation);
   }
 
-  private void setNoResultsVisible(boolean visible) {
-    if (visible) noResultsTextView.setVisibility(View.VISIBLE);
-    else noResultsTextView.setVisibility(View.INVISIBLE);
+  private void setNoResults(boolean isNoResults) {
+    if (isNoResults) {
+      noResultsTextView.setVisibility(View.VISIBLE);
+      selectResultTextView.setVisibility(View.GONE);
+    }
+    else {
+      noResultsTextView.setVisibility(View.INVISIBLE);
+      selectResultTextView.setVisibility(View.VISIBLE);
+    }
   }
 
   public void cancel(View view) {
