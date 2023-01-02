@@ -6,13 +6,13 @@ import java.util.ArrayList;
 
 public class LocationsDao {
   private final ArrayList<Location> locations;
+  private final ArrayList<Location> storedLocations;
   private final LocationDatabase locationDatabase;
   private final LocationDatabase storedLocationDatabase;
-  private ArrayList<Location> storedLocations = new ArrayList<>();
 
   public LocationsDao(LocationDatabase locationDatabase, LocationDatabase storedLocationDatabase) {
-    locations = locationDatabase.get();
-    storedLocations = storedLocationDatabase.get();
+    locations = new ArrayList<>(locationDatabase.get());
+    storedLocations = new ArrayList<>(storedLocationDatabase.get());
     this.locationDatabase = locationDatabase;
     this.storedLocationDatabase = storedLocationDatabase;
     if (noLocations()) createDefaultLocation();
@@ -106,5 +106,10 @@ public class LocationsDao {
 
   public boolean hasStoredAwayLocations() {
     return storedLocations.size() > 0;
+  }
+
+  public void setChannelPreferences(int index, ChannelPreferences channelPreferences) {
+    getLocation(index).setChannelPreferences(channelPreferences);
+    saveLocationsDatabase();
   }
 }

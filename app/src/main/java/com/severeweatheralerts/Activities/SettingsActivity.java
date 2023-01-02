@@ -262,7 +262,7 @@ public class SettingsActivity extends AppCompatActivity {
 
    ActivityResultLauncher<Intent> channelPreferencesResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
      if (result == null || result.getResultCode() != Activity.RESULT_OK) return;
-     getLocationsDao(getContext()).getDefaultLocation().setChannelPreferences(ChannelPreferencesDataHolder.getInstance().getChannelPreferences());
+     getLocationsDao(getContext()).setChannelPreferences(0, ChannelPreferencesDataHolder.getInstance().getChannelPreferences());
     });
 
     private void showNotificationChannels() {

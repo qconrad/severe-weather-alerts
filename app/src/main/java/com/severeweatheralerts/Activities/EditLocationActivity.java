@@ -220,10 +220,10 @@ public class EditLocationActivity extends AppCompatActivity {
     location.setName(locationName);
     location.setNotify(notifySwitch.isChecked());
     if (notifySwitch.isChecked() && setCustom.isChecked()) {
-      location.setChannelPreferences(ChannelPreferencesDataHolder.getInstance().getChannelPreferences());
+      getLocationsDao(this).setChannelPreferences(locationIndex, ChannelPreferencesDataHolder.getInstance().getChannelPreferences());
       return;
     }
-    location.setChannelPreferences(null);
+    getLocationsDao(this).setChannelPreferences(locationIndex, null);
   }
 
   public void cancelClick(View view) {

@@ -379,4 +379,19 @@ public class LocationsDaoTests {
     LocationsDao locationsDao = new LocationsDao(new MockDatabase(locations), new MockDatabase(new ArrayList<>()));
     assertEquals(location, locationsDao.getLocation(-1));
   }
+
+  // setChannelPreferences, sets channel preferences in database
+  @Test
+  public void setChannelPreferences_updatesDatabase() {
+    ArrayList<Location> locations = new ArrayList<>();
+    Location location = new Location();
+    locations.add(location);
+    ChannelPreferences channelPreferences = new ChannelPreferences();
+    MockDatabase mockDatabase = new MockDatabase(locations);
+    LocationsDao locationsDao = new LocationsDao(mockDatabase, new MockDatabase(new ArrayList<>()));
+    mockDatabase.set(new ArrayList<>()); // reset database to make sure it is updated
+    channelPreferences.setChannel("Tornado Warning", Alert.Type.POST, Channel.LOW);
+    locationsDao.setChannelPreferences(0, channelPreferences);
+    assertEquals(Channel.LOW, mockDatabase.get().get(0).getChannelPreferences().getChannel("Tornado Warning", Alert.Type.POST));
+  }
 }

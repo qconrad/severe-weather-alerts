@@ -15,11 +15,11 @@ public class MockDatabase implements LocationDatabase {
 
   @Override
   public ArrayList<Location> get() {
-    return (ArrayList<Location>) locations.clone();
+    return new ArrayList<>(locations);
   }
 
   @Override
   public void set(ArrayList<Location> locations) {
-    this.locations = (ArrayList<Location>) locations.clone();
+    this.locations = new ArrayList<>(locations);
   }
 }
