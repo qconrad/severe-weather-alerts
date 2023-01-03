@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context=".Activities.LocationPickerActivity">
 
     <EditText
@@ -13,6 +14,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/location_text_entry"
         android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -21,8 +24,9 @@
         android:layout_height="wrap_content"
         android:onClick="searchClick"
         android:text="@string/location_search"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
-        tools:layout_editor_absoluteX="-4dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
 
     <TextView
         android:id="@+id/no_results_text"
@@ -60,7 +64,6 @@
         android:id="@+id/use_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_marginEnd="4dp"
         android:enabled="false"
         android:onClick="useLocation"
@@ -72,7 +75,6 @@
         android:id="@+id/cancel_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:onClick="cancel"
         android:text="@string/location_cancel_button"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -72,7 +72,7 @@ public class IceAccumulationGenerator extends GraphicGenerator {
       } else if (iceAccumulation <= 0.1) {
         return "Remaining ice accumulations of a light glaze.";
       } else {
-        return "Remaining ice accumulations of " + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
+        return "Remaining ice accumulations of " + iceAccumulationRounded + new Plurality(iceAccumulationRounded, " inch", " inches").getText();
       }
     } else {
       if (iceAccumulation <= 0) {

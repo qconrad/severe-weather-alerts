@@ -105,7 +105,7 @@ public class SubscriptionManager {
       return;
 
     // If the purchase has the correct state, set the pro subscription and acknowledge the purchase
-    isPro = true;
+    isPro = false;
     if (!purchase.isAcknowledged())
       acknowledgePurchase(purchase);
   }

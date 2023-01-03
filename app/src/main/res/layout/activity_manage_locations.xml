@@ -19,21 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/extra_locations_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
-
-        <LinearLayout
-            android:id="@+id/location_stack"
-            android:paddingVertical="10dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </ScrollView>
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:layout_editor_absoluteX="10dp" />
 
     <TextView
         android:id="@+id/no_locations_text"
@@ -48,17 +42,17 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:onClick="addExtraLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:clickable="true"
+        android:contentDescription="Add extra location"
+        android:focusable="true"
+        android:onClick="addExtraLocation"
         android:src="@android:drawable/ic_input_add"
         android:tint="#FFF"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Add extra location"
-        android:focusable="true" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

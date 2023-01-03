@@ -6,23 +6,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.severeweatheralerts.Adapters.GCSCoordinate;
 import com.severeweatheralerts.Location.Location;
 import com.severeweatheralerts.Location.LocationsDao;
 import com.severeweatheralerts.R;
+import com.severeweatheralerts.RecyclerViews.LocationResult.ExtraLocationAdapter;
 import com.severeweatheralerts.UserSync.UserSyncWorkScheduler;
 
 import java.util.ArrayList;
 
 public class ManageLocationsActivity extends AppCompatActivity {
   LocationsDao dao;
+  ExtraLocationAdapter extraLocationAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,23 @@ public class ManageLocationsActivity extends AppCompatActivity {
     populateLocations();
   }
 
+  private void initializeRecyclerView(ArrayList<Location> locations) {
+    RecyclerView recyclerView = findViewById(R.id.extra_locations_recycler_view);
+    extraLocationAdapter = new ExtraLocationAdapter(locations);
+    extraLocationAdapter.setOnLocationClickListener((locationIndex, holder) -> {
+      Intent intent = new Intent(ManageLocationsActivity.this, EditLocationActivity.class);
+      intent.putExtra("locationIndex", locationIndex + 1);
+      locationEditResult.launch(intent);
+    });
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.setAdapter(extraLocationAdapter);
+  }
+
   private void populateLocations() {
     ArrayList<Location> locations = dao.getLocations();
-    LinearLayout locationStack = findViewById(R.id.location_stack);
-    locationStack.removeAllViews();
-    if (dao.hasExtraLocations()) hideMessageAndDisplayLocations(locations, locationStack);
+    ArrayList<Location> extraLocations = new ArrayList<>(locations.subList(1, locations.size()));
+    initializeRecyclerView(extraLocations);
+    if (dao.hasExtraLocations()) setNoExtraLocationsMessage(View.GONE);
     else setNoExtraLocationsMessage(View.VISIBLE);
   }
 
@@ -49,34 +63,15 @@ public class ManageLocationsActivity extends AppCompatActivity {
     findViewById(R.id.no_locations_text).setVisibility(visibility);
   }
 
-  private void hideMessageAndDisplayLocations(ArrayList<Location> locations, LinearLayout locationStack) {
-    setNoExtraLocationsMessage(View.GONE);
-    addLocationsToLayout(locationStack, locations);
-  }
-
-  private void addLocationsToLayout(LinearLayout locationStack, ArrayList<Location> locations) {
-    for (int i = 1; i < locations.size(); i++)
-      addLocationToStack(locations, locationStack, i);
-  }
-
-  private void addLocationToStack(ArrayList<Location> locations, LinearLayout locationStack, int i) {
-    Button location = new Button(this);
-    Intent intent = new Intent(ManageLocationsActivity.this, EditLocationActivity.class);
-    intent.putExtra("locationIndex", i);
-    location.setOnClickListener(view -> locationEditResult.launch(intent));
-    location.setText(locations.get(i).getName());
-    locationStack.addView(location);
-  }
-
   ActivityResultLauncher<Intent> locationEditResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-          result -> { if (result.getResultCode() == Activity.RESULT_OK) populateLocations(); });
+          result -> { if (result.getResultCode() == Activity.RESULT_OK) extraLocationAdapter.notifyDataSetChanged(); });
 
   ActivityResultLauncher<Intent> locationSelectorResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
           result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
               Intent data = result.getData();
               dao.addExtraLocation(new Location(data.getStringExtra("name")).setCoordinate(new GCSCoordinate(data.getDoubleExtra("lat", 0.0), data.getDoubleExtra("lon", 0.0))));
-              populateLocations();
+              extraLocationAdapter.notifyItemInserted(getLocationsDao(this).extraLocationCount() - 1);
             }
           });
 

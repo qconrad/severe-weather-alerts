@@ -45,11 +45,20 @@ public class LocationResultAdapter extends RecyclerView.Adapter<LocationResultHo
   @Override
   public void onBindViewHolder(@NonNull LocationResultHolder holder, int position) {
     Address address = addresses.get(position);
-    
+
+    // Add spacing in between cards
+    if (position != 0) addTopSpacing(holder, 20);
+
     holder.address.setText(address.getAddressLine(0));
     holder.coordinates.setText(getCoordinates(address));
     holder.card.setOnClickListener(v -> addressClicked(holder, address));
     setBackgroundColor(holder, address);
+  }
+
+  private void addTopSpacing(LocationResultHolder holder, int spacingPixels) {
+    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.card.getLayoutParams();
+    params.topMargin = spacingPixels;
+    holder.card.setLayoutParams(params);
   }
 
   private void addressClicked(LocationResultHolder holder, Address address) {

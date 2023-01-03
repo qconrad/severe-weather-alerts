@@ -149,7 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Adding an extra location is as simple as giving it a name and position. However, you’re free to set custom behavior for every location you add." />
+            android:text="Adding an extra location is as simple as giving it a position. Notifications will inherit your default location settings. However, you’re free to set custom behavior for every location you add." />
 
         <TextView
             android:layout_width="match_parent"

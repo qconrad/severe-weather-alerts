@@ -74,7 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
       createdRestoreDismissedListener();
       createUpgradeProListener();
       createManageProListener();
-//      createAdvancedRulesListener();
       createManageExtraListener();
     }
 
